@@ -2,7 +2,8 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as m from 'mgrs';
 
-const mgrs = m.toPoint ? m : (m as any).default;
+const mgrs =
+  'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
 
 // Layout & Canvas Parameters
 const TRIM_WIDTH_MM = 1200;
@@ -35,7 +36,21 @@ interface Point {
   lat: number;
   name?: string;
   desc?: string;
+  sidc?: string;
 }
+
+// Target SIDC for UAV / Drone icon replacement
+const SIDC_DRONE = '10031000001219000000';
+
+// Read drone SVG icon content
+const droneIconPath = path.resolve(process.cwd(), 'icons/drone.svg');
+const droneIconContent = fs.readFileSync(droneIconPath, 'utf-8');
+
+// Extract base64 image data from drone.svg
+const base64Match = droneIconContent.match(
+  /xlink:href="(data:image\/png;base64,[^"]+)"/,
+);
+const droneDataUri = base64Match ? base64Match[1] : '';
 
 // Window Bounds Filter Function
 function inWindow(lon: number, lat: number): boolean {
@@ -95,7 +110,8 @@ function escapeXml(str: string): string {
 const lbzKmlPath = path.resolve(process.cwd(), 'data/nikitos_лбз/doc.kml');
 const lbzKmlContent = fs.readFileSync(lbzKmlPath, 'utf-8');
 
-const lbzCoordMatches = lbzKmlContent.match(/<coordinates>([\s\S]*?)<\/coordinates>/gi) || [];
+const lbzCoordMatches =
+  lbzKmlContent.match(/<coordinates>([\s\S]*?)<\/coordinates>/gi) || [];
 
 const kmlLines: Point[][] = [];
 
@@ -107,9 +123,9 @@ for (const match of lbzCoordMatches) {
   for (const pStr of pointsStr) {
     const parts = pStr.split(',');
     if (parts.length >= 2) {
-      const lon = parseFloat(parts[0]);
-      const lat = parseFloat(parts[1]);
-      if (!isNaN(lon) && !isNaN(lat)) {
+      const lon = Number.parseFloat(parts[0]);
+      const lat = Number.parseFloat(parts[1]);
+      if (!Number.isNaN(lon) && !Number.isNaN(lat)) {
         const pt = { lon, lat };
         if (inWindow(lon, lat)) {
           currentSegment.push(pt);
@@ -145,52 +161,75 @@ const pathElements = kmlLines
 // ----------------------------------------------------
 // 2. Blue Force Points Parsing (data/nikitos_blue_force/doc.kml)
 // ----------------------------------------------------
-const blueKmlPath = path.resolve(process.cwd(), 'data/nikitos_blue_force/doc.kml');
+const blueKmlPath = path.resolve(
+  process.cwd(),
+  'data/nikitos_blue_force/doc.kml',
+);
 const blueKmlContent = fs.readFileSync(blueKmlPath, 'utf-8');
 
-const bluePlacemarks = blueKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
+const bluePlacemarks =
+  blueKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
 const bluePointMarkers: Point[] = [];
 
 for (const pm of bluePlacemarks) {
   if (/<Point>/i.test(pm)) {
     const nameMatch = pm.match(/<name>(.*?)<\/name>/i);
     const descMatch = pm.match(/<description>(.*?)<\/description>/i);
+    const sidcMatch = pm.match(/<Data name="sidc">\s*<value>(.*?)<\/value>/i);
+
     const name = nameMatch ? nameMatch[1].trim() : '';
     const desc = descMatch ? descMatch[1].trim() : '';
+    const sidc = sidcMatch ? sidcMatch[1].trim() : '';
+
     const coordMatch = pm.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
     if (coordMatch) {
       const parts = coordMatch[1].trim().split(',');
       if (parts.length >= 2) {
-        const lon = parseFloat(parts[0]);
-        const lat = parseFloat(parts[1]);
-        if (!isNaN(lon) && !isNaN(lat) && inWindow(lon, lat)) {
-          bluePointMarkers.push({ lon, lat, name, desc });
+        const lon = Number.parseFloat(parts[0]);
+        const lat = Number.parseFloat(parts[1]);
+        if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
+          bluePointMarkers.push({ lon, lat, name, desc, sidc });
         }
       }
     }
   }
 }
 
-// Generate SVG <circle> & centered <text> elements for Blue Force points
-const blueCircleElements: string[] = [];
+// Generate SVG elements for Blue Force points (Red Dots OR Drone Icons if SIDC matches)
+const bluePointElements: string[] = [];
 const blueTextElements: string[] = [];
+let droneIconCount = 0;
 
 bluePointMarkers.forEach((pt, idx) => {
   const svgPt = geoToSvg(pt);
-  blueCircleElements.push(
-    `    <circle id="blue-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`
-  );
+  const isDrone = pt.sidc === SIDC_DRONE;
 
-  // Text label logic: use name if not just '●' or empty, else fallback to desc
-  let labelText = pt.name && pt.name !== '●' ? pt.name : (pt.desc || '');
+  if (isDrone) {
+    droneIconCount++;
+    const iconSize = 8.0; // mm
+    const xPos = Number((svgPt.x - iconSize / 2).toFixed(3));
+    const yPos = Number((svgPt.y - iconSize / 2).toFixed(3));
+
+    bluePointElements.push(
+      `    <image id="blue-drone-${idx + 1}" x="${xPos}" y="${yPos}" width="${iconSize}" height="${iconSize}" xlink:href="${droneDataUri}" />`,
+    );
+  } else {
+    bluePointElements.push(
+      `    <circle id="blue-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
+    );
+  }
+
+  // Text label logic
+  let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
   if (!labelText || labelText === '●') {
     labelText = `Blue #${idx + 1}`;
   }
   const cleanText = escapeXml(labelText);
 
-  // Positioned directly under point, horizontally centered
+  // Position text below dot or icon
+  const textYOffset = isDrone ? 6.0 : 4.2;
   blueTextElements.push(
-    `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`
+    `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + textYOffset).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
   );
 });
 
@@ -200,14 +239,18 @@ bluePointMarkers.forEach((pt, idx) => {
 const enemyKmlPath = path.resolve(process.cwd(), 'data/nikitos_enemy/doc.kml');
 const enemyKmlContent = fs.readFileSync(enemyKmlPath, 'utf-8');
 
-const enemyPlacemarks = enemyKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
+const enemyPlacemarks =
+  enemyKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
 const enemyPointMarkers: Point[] = [];
 
 for (const pm of enemyPlacemarks) {
   const nameMatch = pm.match(/<name>(.*?)<\/name>/i);
   const descMatch = pm.match(/<description>(.*?)<\/description>/i);
+  const sidcMatch = pm.match(/<Data name="sidc">\s*<value>(.*?)<\/value>/i);
+
   const name = nameMatch ? nameMatch[1].trim() : '';
   const desc = descMatch ? descMatch[1].trim() : '';
+  const sidc = sidcMatch ? sidcMatch[1].trim() : '';
 
   const coordMatch = pm.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
   if (coordMatch) {
@@ -215,38 +258,43 @@ for (const pm of enemyPlacemarks) {
     for (const pStr of rawCoords) {
       const parts = pStr.split(',');
       if (parts.length >= 2) {
-        const lon = parseFloat(parts[0]);
-        const lat = parseFloat(parts[1]);
-        if (!isNaN(lon) && !isNaN(lat) && inWindow(lon, lat)) {
-          enemyPointMarkers.push({ lon, lat, name, desc });
+        const lon = Number.parseFloat(parts[0]);
+        const lat = Number.parseFloat(parts[1]);
+        if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
+          enemyPointMarkers.push({ lon, lat, name, desc, sidc });
         }
       }
     }
   }
 }
 
-// Generate SVG <circle> & centered <text> elements for Enemy points
+// Generate SVG elements for Enemy points
 const enemyCircleElements: string[] = [];
 const enemyTextElements: string[] = [];
 
 enemyPointMarkers.forEach((pt, idx) => {
   const svgPt = geoToSvg(pt);
+
   enemyCircleElements.push(
-    `    <circle id="enemy-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#000000" stroke="#ffffff" stroke-width="0.3" />`
+    `    <circle id="enemy-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#000000" stroke="#ffffff" stroke-width="0.3" />`,
   );
 
-  let labelText = pt.name && pt.name !== '-' ? pt.name : (pt.desc && pt.desc !== '-' ? pt.desc : '');
+  let labelText =
+    pt.name && pt.name !== '-'
+      ? pt.name
+      : pt.desc && pt.desc !== '-'
+        ? pt.desc
+        : '';
   if (!labelText || labelText === '-') {
     labelText = `E-${idx + 1}`;
   }
-  // Truncate if long timestamp text
   if (labelText.startsWith('DTG Start')) {
     labelText = 'DTG';
   }
   const cleanText = escapeXml(labelText);
 
   enemyTextElements.push(
-    `    <text id="enemy-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.5" font-weight="normal" fill="#000000">${cleanText}</text>`
+    `    <text id="enemy-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.5" font-weight="normal" fill="#000000">${cleanText}</text>`,
   );
 });
 
@@ -261,7 +309,7 @@ const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
       <cc:Work xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:format>image/svg+xml</dc:format>
         <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Layout ${TRIM_WIDTH_MM}x${TRIM_HEIGHT_MM}mm with Centered Point Labels</dc:title>
+        <dc:title>Layout ${TRIM_WIDTH_MM}x${TRIM_HEIGHT_MM}mm with SIDC UAV Drone Icons</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -282,9 +330,9 @@ const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 ${pathElements}
   </g>
 
-  <!-- Blue Force Red Dots Layer -->
+  <!-- Blue Force Layer (Red Dots / Drone Icons) -->
   <g id="BlueForceDots">
-${blueCircleElements.join('\n')}
+${bluePointElements.join('\n')}
   </g>
 
   <!-- Blue Force Centered Labels -->
@@ -307,6 +355,7 @@ ${enemyTextElements.join('\n')}
 const outputPath = path.resolve(process.cwd(), 'layout_1200x1460_bleed4.svg');
 fs.writeFileSync(outputPath, svgContent, 'utf-8');
 
-console.log(`SVG successfully generated with centered point descriptions: ${outputPath}`);
-console.log(`- Blue Force points & labels: ${bluePointMarkers.length}`);
+console.log(`SVG successfully generated with SIDC drone icons: ${outputPath}`);
+console.log(`- Blue Force points: ${bluePointMarkers.length}`);
+console.log(`- Drone Icons rendered (SIDC=${SIDC_DRONE}): ${droneIconCount}`);
 console.log(`- Enemy points & labels: ${enemyPointMarkers.length}`);
