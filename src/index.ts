@@ -18,8 +18,6 @@ const CENTER_Y_MM = TOTAL_HEIGHT_MM / 2; // 734 mm
 
 // Pixels at 300 DPI (1 inch = 25.4 mm)
 const MM_TO_PX_300 = DPI / 25.4;
-const TOTAL_WIDTH_PX_300 = Number((TOTAL_WIDTH_MM * MM_TO_PX_300).toFixed(4));
-const TOTAL_HEIGHT_PX_300 = Number((TOTAL_HEIGHT_MM * MM_TO_PX_300).toFixed(4));
 
 // ----------------------------------------------------
 // HARDCODED MGRS Window Bounding Box
@@ -36,6 +34,7 @@ interface Point {
   lon: number;
   lat: number;
   name?: string;
+  desc?: string;
 }
 
 // Window Bounds Filter Function
@@ -78,6 +77,16 @@ function geoToSvg(pt: Point): { x: number; y: number } {
   const x = OFFSET_X + (pt.lon - SHIFT_LON) * COS_LAT * S;
   const y = OFFSET_Y + (SHIFT_LAT - pt.lat) * S;
   return { x: Number(x.toFixed(3)), y: Number(y.toFixed(3)) };
+}
+
+// Helper to escape XML special characters
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
 // ----------------------------------------------------
@@ -134,7 +143,7 @@ const pathElements = kmlLines
   .join('\n');
 
 // ----------------------------------------------------
-// 2. Blue Force Points Parsing (data/nikitos_blue_force/doc.kml) - Filtered to Window
+// 2. Blue Force Points Parsing (data/nikitos_blue_force/doc.kml)
 // ----------------------------------------------------
 const blueKmlPath = path.resolve(process.cwd(), 'data/nikitos_blue_force/doc.kml');
 const blueKmlContent = fs.readFileSync(blueKmlPath, 'utf-8');
@@ -145,7 +154,9 @@ const bluePointMarkers: Point[] = [];
 for (const pm of bluePlacemarks) {
   if (/<Point>/i.test(pm)) {
     const nameMatch = pm.match(/<name>(.*?)<\/name>/i);
-    const name = nameMatch ? nameMatch[1] : 'Point';
+    const descMatch = pm.match(/<description>(.*?)<\/description>/i);
+    const name = nameMatch ? nameMatch[1].trim() : '';
+    const desc = descMatch ? descMatch[1].trim() : '';
     const coordMatch = pm.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
     if (coordMatch) {
       const parts = coordMatch[1].trim().split(',');
@@ -153,53 +164,91 @@ for (const pm of bluePlacemarks) {
         const lon = parseFloat(parts[0]);
         const lat = parseFloat(parts[1]);
         if (!isNaN(lon) && !isNaN(lat) && inWindow(lon, lat)) {
-          bluePointMarkers.push({ lon, lat, name });
+          bluePointMarkers.push({ lon, lat, name, desc });
         }
       }
     }
   }
 }
 
-// Generate SVG <circle> elements for Blue Force <Point> placemarks (Red Dots)
-const blueCircleElements = bluePointMarkers
-  .map((pt, idx) => {
-    const svgPt = geoToSvg(pt);
-    const safeName = pt.name ? pt.name.replace(/["'<>]/g, '') : `Point ${idx + 1}`;
-    return `    <circle id="blue-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3"><title>${safeName} (${pt.lon}, ${pt.lat})</title></circle>`;
-  })
-  .join('\n');
+// Generate SVG <circle> & centered <text> elements for Blue Force points
+const blueCircleElements: string[] = [];
+const blueTextElements: string[] = [];
+
+bluePointMarkers.forEach((pt, idx) => {
+  const svgPt = geoToSvg(pt);
+  blueCircleElements.push(
+    `    <circle id="blue-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`
+  );
+
+  // Text label logic: use name if not just '●' or empty, else fallback to desc
+  let labelText = pt.name && pt.name !== '●' ? pt.name : (pt.desc || '');
+  if (!labelText || labelText === '●') {
+    labelText = `Blue #${idx + 1}`;
+  }
+  const cleanText = escapeXml(labelText);
+
+  // Positioned directly under point, horizontally centered
+  blueTextElements.push(
+    `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`
+  );
+});
 
 // ----------------------------------------------------
-// 3. Enemy Points Parsing (data/nikitos_enemy/doc.kml) - Filtered to Window
+// 3. Enemy Points Parsing (data/nikitos_enemy/doc.kml)
 // ----------------------------------------------------
 const enemyKmlPath = path.resolve(process.cwd(), 'data/nikitos_enemy/doc.kml');
 const enemyKmlContent = fs.readFileSync(enemyKmlPath, 'utf-8');
 
-const enemyCoordMatches = enemyKmlContent.match(/<coordinates>([\s\S]*?)<\/coordinates>/gi) || [];
-const enemyPointsInWindow: Point[] = [];
+const enemyPlacemarks = enemyKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
+const enemyPointMarkers: Point[] = [];
 
-for (const match of enemyCoordMatches) {
-  const rawCoords = match.replace(/<\/?coordinates>/gi, '').trim();
-  const pointsStr = rawCoords.split(/\s+/);
-  for (const pStr of pointsStr) {
-    const parts = pStr.split(',');
-    if (parts.length >= 2) {
-      const lon = parseFloat(parts[0]);
-      const lat = parseFloat(parts[1]);
-      if (!isNaN(lon) && !isNaN(lat) && inWindow(lon, lat)) {
-        enemyPointsInWindow.push({ lon, lat, name: 'Enemy Point' });
+for (const pm of enemyPlacemarks) {
+  const nameMatch = pm.match(/<name>(.*?)<\/name>/i);
+  const descMatch = pm.match(/<description>(.*?)<\/description>/i);
+  const name = nameMatch ? nameMatch[1].trim() : '';
+  const desc = descMatch ? descMatch[1].trim() : '';
+
+  const coordMatch = pm.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
+  if (coordMatch) {
+    const rawCoords = coordMatch[1].trim().split(/\s+/);
+    for (const pStr of rawCoords) {
+      const parts = pStr.split(',');
+      if (parts.length >= 2) {
+        const lon = parseFloat(parts[0]);
+        const lat = parseFloat(parts[1]);
+        if (!isNaN(lon) && !isNaN(lat) && inWindow(lon, lat)) {
+          enemyPointMarkers.push({ lon, lat, name, desc });
+        }
       }
     }
   }
 }
 
-// Generate SVG <circle> elements for Enemy points inside window (Black Dots)
-const enemyCircleElements = enemyPointsInWindow
-  .map((pt, idx) => {
-    const svgPt = geoToSvg(pt);
-    return `    <circle id="enemy-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#000000" stroke="#ffffff" stroke-width="0.3"><title>Enemy Point ${idx + 1} (${pt.lon}, ${pt.lat})</title></circle>`;
-  })
-  .join('\n');
+// Generate SVG <circle> & centered <text> elements for Enemy points
+const enemyCircleElements: string[] = [];
+const enemyTextElements: string[] = [];
+
+enemyPointMarkers.forEach((pt, idx) => {
+  const svgPt = geoToSvg(pt);
+  enemyCircleElements.push(
+    `    <circle id="enemy-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#000000" stroke="#ffffff" stroke-width="0.3" />`
+  );
+
+  let labelText = pt.name && pt.name !== '-' ? pt.name : (pt.desc && pt.desc !== '-' ? pt.desc : '');
+  if (!labelText || labelText === '-') {
+    labelText = `E-${idx + 1}`;
+  }
+  // Truncate if long timestamp text
+  if (labelText.startsWith('DTG Start')) {
+    labelText = 'DTG';
+  }
+  const cleanText = escapeXml(labelText);
+
+  enemyTextElements.push(
+    `    <text id="enemy-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.5" font-weight="normal" fill="#000000">${cleanText}</text>`
+  );
+});
 
 // ----------------------------------------------------
 // 4. Generate Final CorelDRAW SVG Content
@@ -212,7 +261,7 @@ const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
       <cc:Work xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:format>image/svg+xml</dc:format>
         <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Layout ${TRIM_WIDTH_MM}x${TRIM_HEIGHT_MM}mm (MGRS Window ${MGRS_BL} to ${MGRS_TR})</dc:title>
+        <dc:title>Layout ${TRIM_WIDTH_MM}x${TRIM_HEIGHT_MM}mm with Centered Point Labels</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -228,19 +277,29 @@ const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <line id="horizontal-center-line" x1="0" y1="${CENTER_Y_MM}" x2="${TOTAL_WIDTH_MM}" y2="${CENTER_Y_MM}" />
   </g>
 
-  <!-- KML Frontlines Layer (Inside Window) -->
+  <!-- KML Frontlines Layer -->
   <g id="KMLLines">
 ${pathElements}
   </g>
 
-  <!-- Blue Force Red Dots Layer (Inside Window) -->
+  <!-- Blue Force Red Dots Layer -->
   <g id="BlueForceDots">
-${blueCircleElements}
+${blueCircleElements.join('\n')}
   </g>
 
-  <!-- Enemy Black Dots Layer (Inside Window) -->
+  <!-- Blue Force Centered Labels -->
+  <g id="BlueForceLabels">
+${blueTextElements.join('\n')}
+  </g>
+
+  <!-- Enemy Black Dots Layer -->
   <g id="EnemyDots">
-${enemyCircleElements}
+${enemyCircleElements.join('\n')}
+  </g>
+
+  <!-- Enemy Centered Labels -->
+  <g id="EnemyLabels">
+${enemyTextElements.join('\n')}
   </g>
 </svg>
 `;
@@ -248,10 +307,6 @@ ${enemyCircleElements}
 const outputPath = path.resolve(process.cwd(), 'layout_1200x1460_bleed4.svg');
 fs.writeFileSync(outputPath, svgContent, 'utf-8');
 
-console.log(`SVG successfully generated for MGRS Window: ${outputPath}`);
-console.log(`- MGRS Bottom-Left: ${MGRS_BL} (${MIN_LON.toFixed(6)}, ${MIN_LAT.toFixed(6)})`);
-console.log(`- MGRS Top-Right: ${MGRS_TR} (${MAX_LON.toFixed(6)}, ${MAX_LAT.toFixed(6)})`);
-console.log(`- Layout: ${TOTAL_WIDTH_MM} x ${TOTAL_HEIGHT_MM} mm`);
-console.log(`- Frontline segments inside window: ${kmlLines.length}`);
-console.log(`- Blue Force Red Dots inside window: ${bluePointMarkers.length}`);
-console.log(`- Enemy Black Dots inside window: ${enemyPointsInWindow.length}`);
+console.log(`SVG successfully generated with centered point descriptions: ${outputPath}`);
+console.log(`- Blue Force points & labels: ${bluePointMarkers.length}`);
+console.log(`- Enemy points & labels: ${enemyPointMarkers.length}`);
