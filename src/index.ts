@@ -64,20 +64,36 @@ interface Point {
   sidc?: string;
 }
 
-// // Detect ЗПМ objects by name prefix — rendered with drone.svg icon
-// function isZpm(name: string): boolean {
-//   return name.startsWith('ЗПМ ');
-// }
+// Detect ЗПМ objects by name prefix — rendered with Батарея БПЛА.svg icon
+function isZpm(name: string): boolean {
+  return name.startsWith('ЗПМ ');
+}
 
-// Read drone SVG icon content
-const droneIconPath = path.resolve(process.cwd(), 'icons/drone.svg');
-const droneIconContent = fs.readFileSync(droneIconPath, 'utf-8');
-
-// Extract base64 image data from drone.svg
-const base64Match = droneIconContent.match(
-  /xlink:href="(data:image\/png;base64,[^"]+)"/,
+// Read Батарея БПЛА SVG icon and extract its content for a <symbol>
+const zpmIconPath = path.resolve(
+  process.cwd(),
+  'icons/Ракетні війська та артилерія/Батарея БПЛА.svg',
 );
-const droneDataUri = base64Match ? base64Match[1] : '';
+const zpmIconContent = fs.readFileSync(zpmIconPath, 'utf-8');
+const viewBoxMatch = zpmIconContent.match(/viewBox="([^"]+)"/);
+const zpmViewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 100 100';
+const innerSvgMatch = zpmIconContent.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
+const zpmInnerSvg = innerSvgMatch ? innerSvgMatch[1] : '';
+
+const zpmDefsMatch = zpmInnerSvg.match(/<defs>([\s\S]*?)<\/defs>/i);
+const zpmDefs = zpmDefsMatch ? zpmDefsMatch[1] : '';
+const zpmGeometry = zpmInnerSvg.replace(/<defs>[\s\S]*?<\/defs>/i, '');
+
+const zpmSymbolDef = `  <defs>
+    <!-- Hoisted defs from ZPM icon -->
+${zpmDefs}
+    <g id="blue-zpm">
+      <!-- Normalize from viewBox (13492.87 10010.44 1470.46 1221.72) to an 8x8 icon -->
+      <g transform="scale(0.00544047, 0.00654814) translate(-13492.87, -10010.44)">
+        ${zpmGeometry}
+      </g>
+    </g>
+  </defs>`;
 
 // Window Bounds Filter Function
 function inWindow(lon: number, lat: number): boolean {
@@ -231,7 +247,9 @@ bluePointMarkers.forEach((pt, idx) => {
     const yPos = Number((svgPt.y - iconSize / 2).toFixed(3));
 
     bluePointElements.push(
-      `    <image id="blue-drone-${idx + 1}" x="${xPos}" y="${yPos}" width="${iconSize}" height="${iconSize}" xlink:href="${droneDataUri}" />`,
+      `    <g transform="translate(${xPos} ${yPos})">`,
+      `      <use xlink:href="#blue-zpm" />`,
+      `    </g>`,
     );
   } else {
     bluePointElements.push(
@@ -336,6 +354,8 @@ const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
       </cc:Work>
     </rdf:RDF>
   </metadata>
+
+${zpmSymbolDef}
 
   <!-- Background / Canvas -->
   <rect id="background" width="100%" height="100%" fill="#ffffff" />

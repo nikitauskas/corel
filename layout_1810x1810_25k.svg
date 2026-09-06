@@ -11,6 +11,322 @@
     </rdf:RDF>
   </metadata>
 
+  <defs>
+    <!-- Hoisted defs from ZPM icon -->
+
+<style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:bold;src:url("#FontID1") format(svg)}
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:normal;src:url("#FontID0") format(svg)}
+    .str22 {stroke:yellow;stroke-width:141.11;stroke-miterlimit:22.9256}
+    .str3 {stroke:black;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str13 {stroke:#0000E1;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str16 {stroke:white;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str25 {stroke:black;stroke-width:21.17;stroke-miterlimit:22.9256}
+    .str2 {stroke:black;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str18 {stroke:blue;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str28 {stroke:black;stroke-width:105.83;stroke-miterlimit:22.9256}
+    .str14 {stroke:black;stroke-width:14.11;stroke-miterlimit:22.9256}
+    .str15 {stroke:black;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str27 {stroke:blue;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str8 {stroke:black;stroke-width:52.92;stroke-miterlimit:22.9256}
+    .str5 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str11 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str4 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str21 {stroke:blue;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str19 {stroke:lime;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str20 {stroke:#A17702;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str6 {stroke:red;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str23 {stroke:yellow;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str29 {stroke:#171796;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str30 {stroke:white;stroke-width:20;stroke-miterlimit:22.9256}
+    .str1 {stroke:black;stroke-width:20;stroke-miterlimit:22.9256}
+    .str7 {stroke:#0000E1;stroke-width:20;stroke-miterlimit:22.9256}
+    .str17 {stroke:lime;stroke-width:20;stroke-miterlimit:22.9256}
+    .str0 {stroke:black;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str10 {stroke:#0000E1;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str26 {stroke:blue;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str24 {stroke:black;stroke-width:17.64;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str12 {stroke:#0000E1;stroke-width:35.28;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str9 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256;stroke-dasharray:176.400000 35.280000 141.120000 35.280000}
+    .fil1 {fill:none}
+    .fil6 {fill:none;fill-rule:nonzero}
+    .fil2 {fill:black}
+    .fil11 {fill:black}
+    .fil9 {fill:#0000E1}
+    .fil15 {fill:blue}
+    .fil13 {fill:lime}
+    .fil0 {fill:#80E0FF}
+    .fil17 {fill:#AAFFAA}
+    .fil10 {fill:#DE46F2}
+    .fil16 {fill:red}
+    .fil12 {fill:#FF0F0F}
+    .fil5 {fill:#FF8080}
+    .fil18 {fill:yellow}
+    .fil19 {fill:#FFFF80}
+    .fil8 {fill:white}
+    .fil20 {fill:#171796}
+    .fil3 {fill:black;fill-rule:nonzero}
+    .fil4 {fill:#0000E1;fill-rule:nonzero}
+    .fil14 {fill:blue;fill-rule:nonzero}
+    .fil7 {fill:red;fill-rule:nonzero}
+    .fnt173 {font-weight:normal;font-size:159.94px;font-family:'Arial'}
+    .fnt2 {font-weight:normal;font-size:176.39px;font-family:'Arial'}
+    .fnt126 {font-weight:bold;font-size:176.39px;font-family:'Arial'}
+    .fnt127 {font-weight:bold;font-size:195.92px;font-family:'Arial'}
+    .fnt180 {font-weight:bold;font-size:211.66px;font-family:'Arial'}
+    .fnt1 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt145 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt149 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt151 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt28 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt34 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt67 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt70 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt73 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt81 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt104 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt108 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt115 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt137 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt139 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt143 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt7 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt154 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt162 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt165 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt172 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt181 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt185 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt189 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt25 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt36 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt39 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt9 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt52 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt55 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt57 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt59 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt74 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt76 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt11 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt78 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt82 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt84 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt86 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt88 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt91 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt93 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt95 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt103 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt124 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt132 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt4 {font-weight:normal;font-size:246.94px;font-family:'Arial'}
+    .fnt106 {font-weight:bold;font-size:246.94px;font-family:'Arial'}
+    .fnt0 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt146 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt148 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt152 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt155 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt158 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt160 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt163 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt166 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt169 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt24 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt183 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt187 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt26 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt32 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt8 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt41 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt43 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt45 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt47 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt49 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt53 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt58 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt60 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt10 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt62 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt66 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt69 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt72 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt75 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt77 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt80 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt83 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt85 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt12 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt90 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt94 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt99 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt101 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt110 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt117 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt119 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt121 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt123 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt128 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt130 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt134 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt136 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt140 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt142 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt147 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt150 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt153 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt157 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt168 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt171 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt179 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt184 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt188 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt31 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt35 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt48 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt51 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt61 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt64 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt79 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt89 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt107 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt111 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt118 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt120 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt122 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt125 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt129 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt131 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt135 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt138 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt141 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt144 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt186 {font-weight:bold;font-size:286.99px;font-family:'Arial'}
+    .fnt3 {font-weight:normal;font-size:287.72px;font-family:'Arial'}
+    .fnt175 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt177 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt14 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt29 {font-weight:bold;font-size:317.5px;font-family:'Arial'}
+    .fnt27 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt30 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt33 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt54 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt56 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt65 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt13 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt92 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt98 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt113 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt156 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt159 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt21 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt161 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt164 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt167 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt170 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt174 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt182 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt42 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt44 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt46 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt50 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt63 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt68 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt71 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt96 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt100 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt102 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt105 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt109 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt112 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt114 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt116 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt133 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt5 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt20 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt22 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt87 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt18 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt176 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt178 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt40 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt6 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt23 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt38 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt16 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt199 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt37 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt97 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt17 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt19 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt15 {font-weight:normal;font-size:493.89px;font-family:'Arial'}
+    .fnt198 {font-weight:bold;font-size:564.44px;font-family:'Arial'}
+    .fnt190 {font-weight:bold;font-size:635px;font-family:'Arial'}
+    .fnt197 {font-weight:bold;font-size:705.56px;font-family:'Arial'}
+    .fnt196 {font-weight:bold;font-size:952.5px;font-family:'Arial'}
+    .fnt191 {font-weight:bold;font-size:1128.72px;font-family:'Arial'}
+    .fnt195 {font-weight:bold;font-size:1658.06px;font-family:'Arial'}
+    .fnt194 {font-weight:bold;font-size:2469.44px;font-family:'Arial'}
+    .fnt193 {font-weight:bold;font-size:2751.67px;font-family:'Arial'}
+    .fnt192 {font-weight:bold;font-size:3527.78px;font-family:'Arial'}
+   ]]>
+  </style>
+<clipPath id="id0">
+       <path d="M15504.77 -6797.46l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id1">
+       <path d="M15504.77 -6416.87l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id2">
+       <path d="M15504.77 -6036.28l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id3">
+       <path d="M15504.77 -5655.68l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id4">
+       <path d="M15504.77 -5275.09l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id5">
+       <path d="M15504.77 -4894.5l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id6">
+       <path d="M15504.77 -4513.9l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id7">
+       <path d="M15504.77 -4133.31l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id8">
+       <path d="M15504.77 -3752.71l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id9">
+       <path d="M15504.77 -3372.12l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id10">
+       <path d="M15504.77 -2991.53l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id11">
+       <path d="M15504.77 -2610.93l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id12">
+       <path d="M15504.77 -2230.34l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+  
+    <g id="blue-zpm">
+      <!-- Normalize from viewBox (13492.87 10010.44 1470.46 1221.72) to an 8x8 icon -->
+      <g transform="scale(0.00544047, 0.00654814) translate(-13492.87, -10010.44)">
+        
+  
+  <g id="Батарея_x0020_БПЛА">
+   <rect class="fil0 str0" x="13542.87" y="10482.16" width="1200" height="700"/>
+   <text x="14113.33" y="10460.44"  class="fil2 fnt8">І</text>
+   <polygon class="fil2 str5" points="14142.27,10868.77 13812.22,10704.77 13812.27,10755.72 13977.58,10857.63 14142.89,10959.55 14308.2,10857.63 14473.51,10755.72 14473.52,10705.09 "/>
+  </g>
+
+      </g>
+    </g>
+  </defs>
+
   <!-- Background / Canvas -->
   <rect id="background" width="100%" height="100%" fill="#ffffff" />
 
@@ -57,80 +373,130 @@
     <circle id="blue-point-26" cx="972.914" cy="1168.037" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-27" cx="981.915" cy="1147.296" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-28" cx="885.37" cy="969.021" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-29" cx="802.246" cy="791.304" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(798.246 787.304)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-30" cx="1307.62" cy="1079.949" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-31" cx="1134.481" cy="953.044" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-32" cx="809.672" cy="944.998" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-33" cx="1329.617" cy="1045.955" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-34" cx="800.019" cy="705.253" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-35" cx="798.931" cy="678.052" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-36" cx="853.915" cy="857.319" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(849.915 853.319)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-37" cx="625.324" cy="842.115" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-38" cx="1286.533" cy="1100.978" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-39" cx="542.517" cy="749.57" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(538.517 745.57)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-40" cx="429.552" cy="514.678" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-41" cx="337.05" cy="460.4" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-42" cx="654.393" cy="484.667" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-43" cx="1004.891" cy="867.157" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-44" cx="889.329" cy="965.902" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-45" cx="653.529" cy="889.963" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(649.529 885.963)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-46" cx="291.028" cy="423.814" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-47" cx="815.043" cy="786.605" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-48" cx="581.451" cy="733.202" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(577.451 729.202)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-49" cx="862" cy="912.933" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-50" cx="831.374" cy="991.59" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-51" cx="377.585" cy="809.798" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-52" cx="973.502" cy="907.19" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(969.502 903.19)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-53" cx="116.454" cy="523.697" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-54" cx="714.189" cy="577.262" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(710.189 573.262)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-55" cx="763.222" cy="910.735" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-56" cx="854.204" cy="939.401" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-57" cx="434.084" cy="530.505" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-58" cx="618.27" cy="973.241" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-59" cx="723.782" cy="991.997" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-60" cx="112.429" cy="518.011" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-61" cx="421.363" cy="621.565" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(417.363 617.565)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-62" cx="862.102" cy="956.896" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-63" cx="749.614" cy="1009.379" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-64" cx="837.503" cy="948.433" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(833.503 944.433)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-65" cx="758.226" cy="1054.376" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-66" cx="1291.311" cy="1109.13" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-67" cx="289.494" cy="730.968" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-68" cx="693.903" cy="616.322" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-69" cx="503.037" cy="505.527" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-70" cx="960.722" cy="891.619" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(689.903 612.322)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(499.037 501.527)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(956.722 887.619)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-71" cx="533.2" cy="874.215" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-72" cx="769.726" cy="662.128" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(765.726 658.128)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-73" cx="859.993" cy="935.026" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-74" cx="640.999" cy="886.512" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-75" cx="1008.867" cy="888.415" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-76" cx="804.607" cy="935.519" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-77" cx="1359.715" cy="1225.002" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-78" cx="856.988" cy="957.934" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(852.988 953.934)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-79" cx="304.915" cy="449.48" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-80" cx="194.179" cy="539.857" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-81" cx="857.868" cy="906.799" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(853.868 902.799)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-82" cx="239.739" cy="441.329" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-83" cx="880.072" cy="848.826" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-84" cx="767.255" cy="621.102" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-85" cx="469.688" cy="632.972" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-86" cx="346.885" cy="175.541" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-87" cx="826.605" cy="949.739" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(876.072 844.826)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(763.255 617.102)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(465.688 628.972)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(342.885 171.541)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(822.605 945.739)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-88" cx="944.115" cy="936.996" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-89" cx="533.391" cy="447.868" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-90" cx="520.587" cy="611.052" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-91" cx="318.313" cy="730.123" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-92" cx="1128.025" cy="1102.478" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-93" cx="853.917" cy="857.358" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(849.917 853.358)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-94" cx="850.67" cy="941.488" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-95" cx="748.431" cy="986.443" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-96" cx="882.254" cy="972.629" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-97" cx="868.45" cy="916.839" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-98" cx="850.393" cy="956.004" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-99" cx="1035.809" cy="1040.169" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-100" cx="839.36" cy="942.367" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(846.393 952.004)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(1031.809 1036.169)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(835.36 938.367)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-101" cx="798.052" cy="1005.498" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-102" cx="767.902" cy="995.5" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(763.902 991.5)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-103" cx="768.46" cy="766.922" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-104" cx="763.834" cy="994.534" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-105" cx="1272.82" cy="1095.599" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
@@ -139,57 +505,87 @@
     <circle id="blue-point-108" cx="1181.445" cy="1041.344" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-109" cx="661.461" cy="987.2" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-110" cx="1195.612" cy="1018.142" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-111" cx="559.931" cy="433.638" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(555.931 429.638)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-112" cx="874.073" cy="793.663" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-113" cx="805.382" cy="925.355" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-114" cx="810.74" cy="943.701" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(806.74 939.701)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-115" cx="820.435" cy="977.153" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-116" cx="874.84" cy="806.609" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(870.84 802.609)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-117" cx="80.955" cy="574.57" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-118" cx="1225.435" cy="1043.969" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-119" cx="1180.264" cy="1033.427" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-120" cx="879.593" cy="967.729" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-121" cx="722.034" cy="573.416" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(718.034 569.416)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-122" cx="113.476" cy="527.432" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-123" cx="745.868" cy="554.427" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-124" cx="550.371" cy="680.333" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-125" cx="343.765" cy="804.94" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-126" cx="714.189" cy="577.262" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-127" cx="757.508" cy="614.073" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(710.189 573.262)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(753.508 610.073)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-128" cx="1247.347" cy="1045.311" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-129" cx="319.726" cy="917.505" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-130" cx="837.811" cy="953.133" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-131" cx="763.992" cy="614.404" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(833.811 949.133)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(759.992 610.404)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-132" cx="317.866" cy="745.567" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-133" cx="335.989" cy="496.613" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-134" cx="1381.171" cy="1347.165" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-135" cx="1180.118" cy="1033.956" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-136" cx="171.331" cy="423.764" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-137" cx="553.782" cy="399.601" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(549.782 395.601)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-138" cx="167.417" cy="655.37" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-139" cx="802.215" cy="955.208" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-140" cx="869.74" cy="948.217" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-141" cx="784.48" cy="651.477" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(780.48 647.477)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-142" cx="277.096" cy="933.832" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-143" cx="852.281" cy="950.317" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(848.281 946.317)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-144" cx="942.621" cy="849.685" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-145" cx="1166.383" cy="1023.366" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-146" cx="1309.888" cy="1079.008" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-147" cx="1308.108" cy="1051.379" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-148" cx="808.536" cy="980.068" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-149" cx="774.612" cy="1011.327" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-150" cx="879.446" cy="951.41" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(770.612 1007.327)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(875.446 947.41)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-151" cx="866.522" cy="944.616" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-152" cx="858.921" cy="976.645" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-153" cx="1181.055" cy="1038.464" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-154" cx="1173.79" cy="993.469" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-155" cx="1236.651" cy="1073.38" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-156" cx="315.582" cy="434.075" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-157" cx="820.319" cy="888.361" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(816.319 884.361)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-158" cx="793.551" cy="991.316" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-159" cx="1310.427" cy="1079.426" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-160" cx="1297.19" cy="1141.074" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-161" cx="732.614" cy="650.076" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(728.614 646.076)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-162" cx="380.99" cy="727.83" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-163" cx="160.753" cy="428.427" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-164" cx="852.67" cy="909.758" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
@@ -197,44 +593,82 @@
     <circle id="blue-point-166" cx="398.459" cy="613.359" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-167" cx="119.314" cy="576.903" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-168" cx="682.922" cy="964.55" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-169" cx="643.97" cy="104.069" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(639.97 100.069)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-170" cx="789.86" cy="710.129" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-171" cx="253.332" cy="434.315" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-172" cx="735.381" cy="935.83" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-173" cx="260.321" cy="461.91" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-174" cx="862.556" cy="915.39" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-175" cx="476.902" cy="429.458" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-176" cx="877.735" cy="958.966" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-177" cx="326.575" cy="714.276" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-178" cx="331.841" cy="245.893" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(472.902 425.458)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(873.735 954.966)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(322.575 710.276)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(327.841 241.893)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-179" cx="851.582" cy="914.382" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-180" cx="173.783" cy="414.561" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-181" cx="860.986" cy="927.412" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(169.783 410.561)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(856.986 923.412)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-182" cx="738.101" cy="642.125" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-183" cx="974.659" cy="911.999" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(970.659 907.999)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-184" cx="771.505" cy="614.5" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-185" cx="524.022" cy="738.132" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(520.022 734.132)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-186" cx="1236.283" cy="1069.36" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-187" cx="864.38" cy="837.73" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-188" cx="786.183" cy="753.927" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(860.38 833.73)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(782.183 749.927)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-189" cx="95.947" cy="661.862" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-190" cx="732.147" cy="799.408" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(728.147 795.408)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-191" cx="306.531" cy="179.651" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-192" cx="837.614" cy="911.135" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-193" cx="962.528" cy="896.57" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(958.528 892.57)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-194" cx="642.484" cy="632.517" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-195" cx="891.332" cy="944.847" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-196" cx="736.376" cy="810.845" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-197" cx="652.857" cy="501.737" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(887.332 940.847)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(732.376 806.845)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(648.857 497.737)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-198" cx="868.997" cy="916.542" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-199" cx="861.192" cy="955.959" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-200" cx="781.696" cy="613.635" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(777.696 609.635)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-201" cx="774.208" cy="1012.14" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-202" cx="768.121" cy="991.762" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-203" cx="854.248" cy="956.971" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(850.248 952.971)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-204" cx="1323.568" cy="1066.02" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-205" cx="256.216" cy="456.724" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-206" cx="756.986" cy="796.929" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(752.986 792.929)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-207" cx="336.007" cy="496.552" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-208" cx="659.704" cy="483.116" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-209" cx="738.177" cy="642.456" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
@@ -245,52 +679,76 @@
     <circle id="blue-point-214" cx="456.758" cy="494.086" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-215" cx="705.634" cy="675.533" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-216" cx="80.955" cy="574.57" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-217" cx="839.948" cy="953.403" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(835.948 949.403)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-218" cx="788.253" cy="758.889" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-219" cx="1207.41" cy="1115.433" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-220" cx="768.786" cy="1150.038" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-221" cx="1242.307" cy="1113.474" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-222" cx="880.889" cy="873.463" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-223" cx="676.142" cy="628.284" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-224" cx="344.741" cy="536.602" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(876.889 869.463)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(672.142 624.284)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(340.741 532.602)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-225" cx="1109.496" cy="1002.039" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-226" cx="794.527" cy="649.279" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-227" cx="765.925" cy="1033.157" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-228" cx="1267.126" cy="1061.514" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-229" cx="760.961" cy="802.947" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(756.961 798.947)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-230" cx="454.101" cy="503.413" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-231" cx="750.116" cy="901.591" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-232" cx="820.507" cy="960.01" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-233" cx="858.902" cy="976.665" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-234" cx="752.147" cy="910.345" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-235" cx="1005.091" cy="868.602" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-236" cx="876.33" cy="820.39" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1001.091 864.602)">
+      <use xlink:href="#blue-zpm" />
+    </g>
+    <g transform="translate(872.33 816.39)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-237" cx="344.386" cy="435.766" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-238" cx="557.461" cy="424.642" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-239" cx="1302.316" cy="1080.745" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-240" cx="868.583" cy="1033.905" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-241" cx="643.745" cy="1042.809" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-242" cx="687.888" cy="980.352" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-243" cx="605.51" cy="467.274" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(601.51 463.274)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-244" cx="1235.973" cy="1066.493" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-245" cx="759.536" cy="1048.489" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(755.536 1044.489)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-246" cx="872.073" cy="991.97" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-247" cx="76.976" cy="574.711" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-248" cx="474.398" cy="590.272" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-249" cx="520.587" cy="611.039" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(516.587 607.039)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-250" cx="774.314" cy="924.655" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-251" cx="878.938" cy="964.974" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-252" cx="769.304" cy="663.279" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-253" cx="1510.117" cy="1200.059" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-254" cx="1205.112" cy="1016.261" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-255" cx="1324.032" cy="1062.982" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-256" cx="757.259" cy="614.487" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(753.259 610.487)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-257" cx="517.832" cy="609.035" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-258" cx="642.036" cy="934.158" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-259" cx="817.926" cy="925.712" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-260" cx="1233.282" cy="1110.692" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-261" cx="802.547" cy="958.769" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-262" cx="792.594" cy="1000.913" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(788.594 996.913)">
+      <use xlink:href="#blue-zpm" />
+    </g>
     <circle id="blue-point-263" cx="862.642" cy="935.78" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
   </g>
 
@@ -324,80 +782,80 @@
     <text id="blue-label-26" x="972.914" y="1172.237" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">2/95_13/95</text>
     <text id="blue-label-27" x="981.915" y="1151.496" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">II</text>
     <text id="blue-label-28" x="885.37" y="973.221" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗЗР Пацифісти</text>
-    <text id="blue-label-29" x="802.246" y="795.504" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Сканія</text>
+    <text id="blue-label-29" x="802.246" y="797.304" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Сканія</text>
     <text id="blue-label-30" x="1307.62" y="1084.149" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Док</text>
     <text id="blue-label-31" x="1134.481" y="957.244" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Барон</text>
     <text id="blue-label-32" x="809.672" y="949.198" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Гольф</text>
     <text id="blue-label-33" x="1329.617" y="1050.155" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">до 30.06</text>
     <text id="blue-label-34" x="800.019" y="709.453" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Тарган</text>
     <text id="blue-label-35" x="798.931" y="682.252" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Літо</text>
-    <text id="blue-label-36" x="853.915" y="861.519" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чедер</text>
+    <text id="blue-label-36" x="853.915" y="863.319" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чедер</text>
     <text id="blue-label-37" x="625.324" y="846.315" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Ріо</text>
     <text id="blue-label-38" x="1286.533" y="1105.178" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">БАТЯ</text>
-    <text id="blue-label-39" x="542.517" y="753.770" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Аякс</text>
+    <text id="blue-label-39" x="542.517" y="755.570" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Аякс</text>
     <text id="blue-label-40" x="429.552" y="518.878" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Кентавр</text>
     <text id="blue-label-41" x="337.05" y="464.600" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Гребля</text>
     <text id="blue-label-42" x="654.393" y="488.867" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Норд</text>
     <text id="blue-label-43" x="1004.891" y="871.357" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Жменя</text>
     <text id="blue-label-44" x="889.329" y="970.102" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гр евак Корінь</text>
-    <text id="blue-label-45" x="653.529" y="894.163" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Мухомор</text>
+    <text id="blue-label-45" x="653.529" y="895.963" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Мухомор</text>
     <text id="blue-label-46" x="291.028" y="428.014" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Аптека</text>
     <text id="blue-label-47" x="815.043" y="790.805" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Прага</text>
-    <text id="blue-label-48" x="581.451" y="737.402" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Марсель</text>
+    <text id="blue-label-48" x="581.451" y="739.202" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Марсель</text>
     <text id="blue-label-49" x="862" y="917.133" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Ліщина</text>
     <text id="blue-label-50" x="831.374" y="995.790" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Хімік</text>
     <text id="blue-label-51" x="377.585" y="813.998" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Незмінний</text>
-    <text id="blue-label-52" x="973.502" y="911.390" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Кемел</text>
+    <text id="blue-label-52" x="973.502" y="913.190" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Кемел</text>
     <text id="blue-label-53" x="116.454" y="527.897" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Йокай</text>
-    <text id="blue-label-54" x="714.189" y="581.462" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Немо</text>
+    <text id="blue-label-54" x="714.189" y="583.262" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Немо</text>
     <text id="blue-label-55" x="763.222" y="914.935" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">-</text>
     <text id="blue-label-56" x="854.204" y="943.601" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр КИЇВСТАР</text>
     <text id="blue-label-57" x="434.084" y="534.705" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Одісей</text>
     <text id="blue-label-58" x="618.27" y="977.441" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Драч</text>
     <text id="blue-label-59" x="723.782" y="996.197" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП ЄН</text>
     <text id="blue-label-60" x="112.429" y="522.211" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Широ</text>
-    <text id="blue-label-61" x="421.363" y="625.765" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Тінь</text>
+    <text id="blue-label-61" x="421.363" y="627.565" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Тінь</text>
     <text id="blue-label-62" x="862.102" y="961.096" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Касім</text>
     <text id="blue-label-63" x="749.614" y="1013.579" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЕБ Лезо</text>
-    <text id="blue-label-64" x="837.503" y="952.633" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Одін</text>
+    <text id="blue-label-64" x="837.503" y="954.433" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Одін</text>
     <text id="blue-label-65" x="758.226" y="1058.576" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Венера</text>
     <text id="blue-label-66" x="1291.311" y="1113.330" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр &quot;Щит&quot;</text>
     <text id="blue-label-67" x="289.494" y="735.168" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Сонечко</text>
-    <text id="blue-label-68" x="693.903" y="620.522" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Лего</text>
-    <text id="blue-label-69" x="503.037" y="509.727" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Крук</text>
-    <text id="blue-label-70" x="960.722" y="895.819" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Маршал</text>
+    <text id="blue-label-68" x="693.903" y="622.322" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Лего</text>
+    <text id="blue-label-69" x="503.037" y="511.527" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Крук</text>
+    <text id="blue-label-70" x="960.722" y="897.619" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Маршал</text>
     <text id="blue-label-71" x="533.2" y="878.415" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Рим</text>
-    <text id="blue-label-72" x="769.726" y="666.328" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чикаго</text>
+    <text id="blue-label-72" x="769.726" y="668.128" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чикаго</text>
     <text id="blue-label-73" x="859.993" y="939.226" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Ака</text>
     <text id="blue-label-74" x="640.999" y="890.712" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Стус</text>
     <text id="blue-label-75" x="1008.867" y="892.615" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Батя</text>
     <text id="blue-label-76" x="804.607" y="939.719" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Бастіон</text>
     <text id="blue-label-77" x="1359.715" y="1229.202" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">до 30.06</text>
-    <text id="blue-label-78" x="856.988" y="962.134" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Балі</text>
+    <text id="blue-label-78" x="856.988" y="963.934" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Балі</text>
     <text id="blue-label-79" x="304.915" y="453.680" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Делі</text>
     <text id="blue-label-80" x="194.179" y="544.057" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гр. РЕтрансл</text>
-    <text id="blue-label-81" x="857.868" y="910.999" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Сулугуні</text>
+    <text id="blue-label-81" x="857.868" y="912.799" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Сулугуні</text>
     <text id="blue-label-82" x="239.739" y="445.529" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ППП Петрович</text>
-    <text id="blue-label-83" x="880.072" y="853.026" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фантом</text>
-    <text id="blue-label-84" x="767.255" y="625.302" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Зевс</text>
-    <text id="blue-label-85" x="469.688" y="637.172" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Маяк</text>
-    <text id="blue-label-86" x="346.885" y="179.741" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Акапулько</text>
-    <text id="blue-label-87" x="826.605" y="953.939" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чикаго</text>
+    <text id="blue-label-83" x="880.072" y="854.826" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фантом</text>
+    <text id="blue-label-84" x="767.255" y="627.102" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Зевс</text>
+    <text id="blue-label-85" x="469.688" y="638.972" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Маяк</text>
+    <text id="blue-label-86" x="346.885" y="181.541" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Акапулько</text>
+    <text id="blue-label-87" x="826.605" y="955.739" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чикаго</text>
     <text id="blue-label-88" x="944.115" y="941.196" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Ямаха</text>
     <text id="blue-label-89" x="533.391" y="452.068" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПРПл &quot;Смарагд&quot;</text>
     <text id="blue-label-90" x="520.587" y="615.252" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Бомбер</text>
     <text id="blue-label-91" x="318.313" y="734.323" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Батумі</text>
     <text id="blue-label-92" x="1128.025" y="1106.678" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РПА</text>
-    <text id="blue-label-93" x="853.917" y="861.558" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бринза</text>
+    <text id="blue-label-93" x="853.917" y="863.358" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бринза</text>
     <text id="blue-label-94" x="850.67" y="945.688" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Угольок</text>
     <text id="blue-label-95" x="748.431" y="990.643" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ ЛІС 2</text>
     <text id="blue-label-96" x="882.254" y="976.829" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Шгр Ізолента</text>
     <text id="blue-label-97" x="868.45" y="921.039" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕР Мурена</text>
-    <text id="blue-label-98" x="850.393" y="960.204" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пандора</text>
-    <text id="blue-label-99" x="1035.809" y="1044.369" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Цунамі</text>
-    <text id="blue-label-100" x="839.36" y="946.567" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Таїті</text>
+    <text id="blue-label-98" x="850.393" y="962.004" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пандора</text>
+    <text id="blue-label-99" x="1035.809" y="1046.169" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Цунамі</text>
+    <text id="blue-label-100" x="839.36" y="948.367" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Таїті</text>
     <text id="blue-label-101" x="798.052" y="1009.698" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">-</text>
-    <text id="blue-label-102" x="767.902" y="999.700" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Студент</text>
+    <text id="blue-label-102" x="767.902" y="1001.500" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Студент</text>
     <text id="blue-label-103" x="768.46" y="771.122" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Сич</text>
     <text id="blue-label-104" x="763.834" y="998.734" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Манго</text>
     <text id="blue-label-105" x="1272.82" y="1099.799" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Вітер</text>
@@ -406,57 +864,57 @@
     <text id="blue-label-108" x="1181.445" y="1045.544" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Серпень</text>
     <text id="blue-label-109" x="661.461" y="991.400" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Пентагон</text>
     <text id="blue-label-110" x="1195.612" y="1022.342" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 299</text>
-    <text id="blue-label-111" x="559.931" y="437.838" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пірат</text>
+    <text id="blue-label-111" x="559.931" y="439.638" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пірат</text>
     <text id="blue-label-112" x="874.073" y="797.863" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗМП Грифон</text>
     <text id="blue-label-113" x="805.382" y="929.555" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Авокадо</text>
-    <text id="blue-label-114" x="810.74" y="947.901" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Детройт</text>
+    <text id="blue-label-114" x="810.74" y="949.701" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Детройт</text>
     <text id="blue-label-115" x="820.435" y="981.353" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Камін</text>
-    <text id="blue-label-116" x="874.84" y="810.809" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фета</text>
+    <text id="blue-label-116" x="874.84" y="812.609" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фета</text>
     <text id="blue-label-117" x="80.955" y="578.770" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Бузок</text>
     <text id="blue-label-118" x="1225.435" y="1048.169" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр &quot;Шторм&quot;</text>
     <text id="blue-label-119" x="1180.264" y="1037.627" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Шима</text>
     <text id="blue-label-120" x="879.593" y="971.929" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Гроза</text>
-    <text id="blue-label-121" x="722.034" y="577.616" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Капітошка</text>
+    <text id="blue-label-121" x="722.034" y="579.416" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Капітошка</text>
     <text id="blue-label-122" x="113.476" y="531.632" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Арахіс</text>
     <text id="blue-label-123" x="745.868" y="558.627" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Вітряк</text>
     <text id="blue-label-124" x="550.371" y="684.533" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Возик</text>
     <text id="blue-label-125" x="343.765" y="809.140" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Манго</text>
-    <text id="blue-label-126" x="714.189" y="581.462" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Немо</text>
-    <text id="blue-label-127" x="757.508" y="618.273" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Вітер</text>
+    <text id="blue-label-126" x="714.189" y="583.262" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Немо</text>
+    <text id="blue-label-127" x="757.508" y="620.073" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Вітер</text>
     <text id="blue-label-128" x="1247.347" y="1049.511" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 300</text>
     <text id="blue-label-129" x="319.726" y="921.705" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Марс</text>
-    <text id="blue-label-130" x="837.811" y="957.333" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Міні</text>
-    <text id="blue-label-131" x="763.992" y="618.604" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Дан</text>
+    <text id="blue-label-130" x="837.811" y="959.133" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Міні</text>
+    <text id="blue-label-131" x="763.992" y="620.404" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Дан</text>
     <text id="blue-label-132" x="317.866" y="749.767" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Піон</text>
     <text id="blue-label-133" x="335.989" y="500.813" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЛС Промінь</text>
     <text id="blue-label-134" x="1381.171" y="1351.365" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">до 10.07</text>
     <text id="blue-label-135" x="1180.118" y="1038.156" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Вересень</text>
     <text id="blue-label-136" x="171.331" y="427.964" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Пасіка</text>
-    <text id="blue-label-137" x="553.782" y="403.801" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бонд</text>
+    <text id="blue-label-137" x="553.782" y="405.601" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бонд</text>
     <text id="blue-label-138" x="167.417" y="659.570" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПРП Алмаз</text>
     <text id="blue-label-139" x="802.215" y="959.408" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Цитадель</text>
     <text id="blue-label-140" x="869.74" y="952.417" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 316</text>
-    <text id="blue-label-141" x="784.48" y="655.677" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чілі</text>
+    <text id="blue-label-141" x="784.48" y="657.477" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Чілі</text>
     <text id="blue-label-142" x="277.096" y="938.032" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Нерв</text>
-    <text id="blue-label-143" x="852.281" y="954.517" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Терра</text>
+    <text id="blue-label-143" x="852.281" y="956.317" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Терра</text>
     <text id="blue-label-144" x="942.621" y="853.885" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Рамзес</text>
     <text id="blue-label-145" x="1166.383" y="1027.566" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Лис</text>
     <text id="blue-label-146" x="1309.888" y="1083.208" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Магелан</text>
     <text id="blue-label-147" x="1308.108" y="1055.579" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Сєрго</text>
     <text id="blue-label-148" x="808.536" y="984.268" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Тбілісі</text>
-    <text id="blue-label-149" x="774.612" y="1015.527" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бостон</text>
-    <text id="blue-label-150" x="879.446" y="955.610" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Голандець</text>
+    <text id="blue-label-149" x="774.612" y="1017.327" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бостон</text>
+    <text id="blue-label-150" x="879.446" y="957.410" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Голандець</text>
     <text id="blue-label-151" x="866.522" y="948.816" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Генерал</text>
     <text id="blue-label-152" x="858.921" y="980.845" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗЗР Спалах</text>
     <text id="blue-label-153" x="1181.055" y="1042.664" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Центавр</text>
     <text id="blue-label-154" x="1173.79" y="997.669" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ГрЕвак Штіль</text>
     <text id="blue-label-155" x="1236.651" y="1077.580" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Уран</text>
     <text id="blue-label-156" x="315.582" y="438.275" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЕБ Гарда</text>
-    <text id="blue-label-157" x="820.319" y="892.561" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Торонто</text>
+    <text id="blue-label-157" x="820.319" y="894.361" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Торонто</text>
     <text id="blue-label-158" x="793.551" y="995.516" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Горизонт</text>
     <text id="blue-label-159" x="1310.427" y="1083.626" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Рибак</text>
     <text id="blue-label-160" x="1297.19" y="1145.274" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Шгр &quot;Березень&quot;</text>
-    <text id="blue-label-161" x="732.614" y="654.276" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Куба</text>
+    <text id="blue-label-161" x="732.614" y="656.076" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Куба</text>
     <text id="blue-label-162" x="380.99" y="732.030" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Стамбул</text>
     <text id="blue-label-163" x="160.753" y="432.627" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР  Черешня</text>
     <text id="blue-label-164" x="852.67" y="913.958" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Пірат</text>
@@ -464,44 +922,44 @@
     <text id="blue-label-166" x="398.459" y="617.559" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Вагон</text>
     <text id="blue-label-167" x="119.314" y="581.103" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПРП Пілігрім</text>
     <text id="blue-label-168" x="682.922" y="968.750" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Сузукі</text>
-    <text id="blue-label-169" x="643.97" y="108.269" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пармезан</text>
+    <text id="blue-label-169" x="643.97" y="110.069" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пармезан</text>
     <text id="blue-label-170" x="789.86" y="714.329" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Жук</text>
     <text id="blue-label-171" x="253.332" y="438.515" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">МВГ Титан</text>
     <text id="blue-label-172" x="735.381" y="940.030" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Єгер</text>
     <text id="blue-label-173" x="260.321" y="466.110" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Регбі</text>
     <text id="blue-label-174" x="862.556" y="919.590" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Млин</text>
-    <text id="blue-label-175" x="476.902" y="433.658" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Екскаватор</text>
-    <text id="blue-label-176" x="877.735" y="963.166" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пегас</text>
-    <text id="blue-label-177" x="326.575" y="718.476" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Боржомі</text>
-    <text id="blue-label-178" x="331.841" y="250.093" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Сапсан</text>
+    <text id="blue-label-175" x="476.902" y="435.458" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Екскаватор</text>
+    <text id="blue-label-176" x="877.735" y="964.966" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пегас</text>
+    <text id="blue-label-177" x="326.575" y="720.276" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Боржомі</text>
+    <text id="blue-label-178" x="331.841" y="251.893" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Сапсан</text>
     <text id="blue-label-179" x="851.582" y="918.582" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Плесо</text>
-    <text id="blue-label-180" x="173.783" y="418.761" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бумер</text>
-    <text id="blue-label-181" x="860.986" y="931.612" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Ріо</text>
+    <text id="blue-label-180" x="173.783" y="420.561" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бумер</text>
+    <text id="blue-label-181" x="860.986" y="933.412" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Ріо</text>
     <text id="blue-label-182" x="738.101" y="646.325" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЕЛЕКТРИК</text>
-    <text id="blue-label-183" x="974.659" y="916.199" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Парламент</text>
+    <text id="blue-label-183" x="974.659" y="917.999" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Парламент</text>
     <text id="blue-label-184" x="771.505" y="618.700" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Мураха</text>
-    <text id="blue-label-185" x="524.022" y="742.332" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Лакі</text>
+    <text id="blue-label-185" x="524.022" y="744.132" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Лакі</text>
     <text id="blue-label-186" x="1236.283" y="1073.560" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр &quot;Альфа&quot;</text>
-    <text id="blue-label-187" x="864.38" y="841.930" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Брі</text>
-    <text id="blue-label-188" x="786.183" y="758.127" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Хонда</text>
+    <text id="blue-label-187" x="864.38" y="843.730" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Брі</text>
+    <text id="blue-label-188" x="786.183" y="759.927" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Хонда</text>
     <text id="blue-label-189" x="95.947" y="666.062" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Калина</text>
-    <text id="blue-label-190" x="732.147" y="803.608" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фрегат</text>
+    <text id="blue-label-190" x="732.147" y="805.408" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фрегат</text>
     <text id="blue-label-191" x="306.531" y="183.851" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ БАНАН</text>
     <text id="blue-label-192" x="837.614" y="915.335" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Ірпінь</text>
-    <text id="blue-label-193" x="962.528" y="900.770" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Топаз</text>
+    <text id="blue-label-193" x="962.528" y="902.570" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Топаз</text>
     <text id="blue-label-194" x="642.484" y="636.717" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гр евак Макаждон</text>
-    <text id="blue-label-195" x="891.332" y="949.047" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Джокер</text>
-    <text id="blue-label-196" x="736.376" y="815.045" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Трал</text>
-    <text id="blue-label-197" x="652.857" y="505.937" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Кент</text>
+    <text id="blue-label-195" x="891.332" y="950.847" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Джокер</text>
+    <text id="blue-label-196" x="736.376" y="816.845" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Трал</text>
+    <text id="blue-label-197" x="652.857" y="507.737" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Кент</text>
     <text id="blue-label-198" x="868.997" y="920.742" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Кедр</text>
     <text id="blue-label-199" x="861.192" y="960.159" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Ракета</text>
-    <text id="blue-label-200" x="781.696" y="617.835" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Самурай</text>
+    <text id="blue-label-200" x="781.696" y="619.635" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Самурай</text>
     <text id="blue-label-201" x="774.208" y="1016.340" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">-</text>
     <text id="blue-label-202" x="768.121" y="995.962" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Кобзар</text>
-    <text id="blue-label-203" x="854.248" y="961.171" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фіджи</text>
+    <text id="blue-label-203" x="854.248" y="962.971" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Фіджи</text>
     <text id="blue-label-204" x="1323.568" y="1070.220" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 227</text>
     <text id="blue-label-205" x="256.216" y="460.924" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Пегас</text>
-    <text id="blue-label-206" x="756.986" y="801.129" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пальто</text>
+    <text id="blue-label-206" x="756.986" y="802.929" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Пальто</text>
     <text id="blue-label-207" x="336.007" y="500.752" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЛС Промінь</text>
     <text id="blue-label-208" x="659.704" y="487.316" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Зорепад</text>
     <text id="blue-label-209" x="738.177" y="646.656" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ДЄД</text>
@@ -512,52 +970,52 @@
     <text id="blue-label-214" x="456.758" y="498.286" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Юнга</text>
     <text id="blue-label-215" x="705.634" y="679.733" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Фелікс</text>
     <text id="blue-label-216" x="80.955" y="578.770" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Ківі</text>
-    <text id="blue-label-217" x="839.948" y="957.603" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Говерла</text>
+    <text id="blue-label-217" x="839.948" y="959.403" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Говерла</text>
     <text id="blue-label-218" x="788.253" y="763.089" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Патрон</text>
     <text id="blue-label-219" x="1207.41" y="1119.633" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Мак</text>
     <text id="blue-label-220" x="768.786" y="1154.238" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Ялина</text>
     <text id="blue-label-221" x="1242.307" y="1117.674" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Зевс</text>
-    <text id="blue-label-222" x="880.889" y="877.663" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Купол</text>
-    <text id="blue-label-223" x="676.142" y="632.484" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Міраж</text>
-    <text id="blue-label-224" x="344.741" y="540.802" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Каре</text>
+    <text id="blue-label-222" x="880.889" y="879.463" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Купол</text>
+    <text id="blue-label-223" x="676.142" y="634.284" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Міраж</text>
+    <text id="blue-label-224" x="344.741" y="542.602" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Каре</text>
     <text id="blue-label-225" x="1109.496" y="1006.239" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РПА</text>
     <text id="blue-label-226" x="794.527" y="653.479" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Бджола</text>
     <text id="blue-label-227" x="765.925" y="1037.357" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Марафон</text>
     <text id="blue-label-228" x="1267.126" y="1065.714" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гуч</text>
-    <text id="blue-label-229" x="760.961" y="807.147" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Плащ</text>
+    <text id="blue-label-229" x="760.961" y="808.947" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Плащ</text>
     <text id="blue-label-230" x="454.101" y="507.613" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Маяк</text>
     <text id="blue-label-231" x="750.116" y="905.791" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Стаєр</text>
     <text id="blue-label-232" x="820.507" y="964.210" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Небо</text>
     <text id="blue-label-233" x="858.902" y="980.865" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Спалах</text>
     <text id="blue-label-234" x="752.147" y="914.545" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Дукаті</text>
-    <text id="blue-label-235" x="1005.091" y="872.802" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Мультік</text>
-    <text id="blue-label-236" x="876.33" y="824.590" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Зеніт</text>
+    <text id="blue-label-235" x="1005.091" y="874.602" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Мультік</text>
+    <text id="blue-label-236" x="876.33" y="826.390" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Зеніт</text>
     <text id="blue-label-237" x="344.386" y="439.966" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Турін</text>
     <text id="blue-label-238" x="557.461" y="428.842" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Персик</text>
     <text id="blue-label-239" x="1302.316" y="1084.945" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Пікачу</text>
     <text id="blue-label-240" x="868.583" y="1038.105" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Бобслей</text>
     <text id="blue-label-241" x="643.745" y="1047.009" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ ЛІС 1</text>
     <text id="blue-label-242" x="687.888" y="984.552" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Корінь</text>
-    <text id="blue-label-243" x="605.51" y="471.474" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Баржа</text>
+    <text id="blue-label-243" x="605.51" y="473.274" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Баржа</text>
     <text id="blue-label-244" x="1235.973" y="1070.693" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Оріон</text>
-    <text id="blue-label-245" x="759.536" y="1052.689" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Храм</text>
+    <text id="blue-label-245" x="759.536" y="1054.489" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Храм</text>
     <text id="blue-label-246" x="872.073" y="996.170" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП</text>
     <text id="blue-label-247" x="76.976" y="578.911" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЛП Кох</text>
     <text id="blue-label-248" x="474.398" y="594.472" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Арчер</text>
-    <text id="blue-label-249" x="520.587" y="615.239" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Скопа</text>
+    <text id="blue-label-249" x="520.587" y="617.039" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Скопа</text>
     <text id="blue-label-250" x="774.314" y="928.855" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Мурашник</text>
     <text id="blue-label-251" x="878.938" y="969.174" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Абрам</text>
     <text id="blue-label-252" x="769.304" y="667.479" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗЗР Лемур</text>
     <text id="blue-label-253" x="1510.117" y="1204.259" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">до 10.07</text>
     <text id="blue-label-254" x="1205.112" y="1020.461" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ГрЕвак Аспірин</text>
     <text id="blue-label-255" x="1324.032" y="1067.182" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 319</text>
-    <text id="blue-label-256" x="757.259" y="618.687" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Дамаск</text>
+    <text id="blue-label-256" x="757.259" y="620.487" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Дамаск</text>
     <text id="blue-label-257" x="517.832" y="613.235" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Поле</text>
     <text id="blue-label-258" x="642.036" y="938.358" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Ман</text>
     <text id="blue-label-259" x="817.926" y="929.912" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗЗР Хілтон</text>
     <text id="blue-label-260" x="1233.282" y="1114.892" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Лєший</text>
     <text id="blue-label-261" x="802.547" y="962.969" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Сталкер</text>
-    <text id="blue-label-262" x="792.594" y="1005.113" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бунгало</text>
+    <text id="blue-label-262" x="792.594" y="1006.913" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗПМ Бунгало</text>
     <text id="blue-label-263" x="862.642" y="939.980" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РТР Садо</text>
   </g>
 
