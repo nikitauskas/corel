@@ -232,12 +232,9 @@ function computeBBox(svgContent: string): BBox {
 }
 
 /**
- * Very rough path-data bbox: tokenize the `d` attribute and pull out every
+ * Better path-data bbox: tokenize the `d` attribute and pull out every
  * pair of consecutive numbers that looks like an absolute coordinate.
- *
- * This ignores relative commands, arcs parameters, etc., but since the
- * CorelDRAW export almost exclusively uses absolute coords it works well
- * enough for setting the viewBox.
+ * Accounts for absolute and relative commands to track current pen position.
  */
 function extractPathBBox(d: string, bbox: BBox): void {
 	// Tokenise: split into commands and numbers
@@ -245,60 +242,107 @@ function extractPathBBox(d: string, bbox: BBox): void {
 	let match: RegExpExecArray | null;
 	let currentCmd = "";
 	const numbers: number[] = [];
+	
+	let currentX = 0;
+	let currentY = 0;
 
 	const flush = () => {
-		if (numbers.length < 2) {
-			numbers.length = 0;
-			return;
-		}
+		if (numbers.length === 0 && currentCmd.toUpperCase() !== "Z") return;
 
 		const isAbsolute = currentCmd === currentCmd.toUpperCase();
+		const cmd = currentCmd.toUpperCase();
 
-		switch (currentCmd.toUpperCase()) {
+		switch (cmd) {
 			case "M":
 			case "L":
-			case "T":
+			case "T": {
 				// pairs of (x, y)
-				if (isAbsolute) {
-					for (let i = 0; i + 1 < numbers.length; i += 2) {
-						expandBBox(bbox, numbers[i], numbers[i + 1]);
+				for (let i = 0; i + 1 < numbers.length; i += 2) {
+					if (isAbsolute) {
+						currentX = numbers[i];
+						currentY = numbers[i + 1];
+					} else {
+						currentX += numbers[i];
+						currentY += numbers[i + 1];
 					}
+					expandBBox(bbox, currentX, currentY);
 				}
 				break;
-			case "C":
+			}
+			case "C": {
 				// triples of (x,y) control/end points
-				if (isAbsolute) {
-					for (let i = 0; i + 1 < numbers.length; i += 2) {
+				for (let i = 0; i + 5 < numbers.length; i += 6) {
+					if (isAbsolute) {
 						expandBBox(bbox, numbers[i], numbers[i + 1]);
+						expandBBox(bbox, numbers[i + 2], numbers[i + 3]);
+						currentX = numbers[i + 4];
+						currentY = numbers[i + 5];
+					} else {
+						expandBBox(bbox, currentX + numbers[i], currentY + numbers[i + 1]);
+						expandBBox(bbox, currentX + numbers[i + 2], currentY + numbers[i + 3]);
+						currentX += numbers[i + 4];
+						currentY += numbers[i + 5];
 					}
+					expandBBox(bbox, currentX, currentY);
 				}
 				break;
+			}
 			case "S":
-			case "Q":
-				if (isAbsolute) {
-					for (let i = 0; i + 1 < numbers.length; i += 2) {
+			case "Q": {
+				// doubles of (x,y) control/end points
+				for (let i = 0; i + 3 < numbers.length; i += 4) {
+					if (isAbsolute) {
 						expandBBox(bbox, numbers[i], numbers[i + 1]);
+						currentX = numbers[i + 2];
+						currentY = numbers[i + 3];
+					} else {
+						expandBBox(bbox, currentX + numbers[i], currentY + numbers[i + 1]);
+						currentX += numbers[i + 2];
+						currentY += numbers[i + 3];
 					}
+					expandBBox(bbox, currentX, currentY);
 				}
 				break;
-			case "H":
-				if (isAbsolute) {
-					for (const n of numbers) expandBBox(bbox, n, bbox.minY);
+			}
+			case "H": {
+				for (const n of numbers) {
+					if (isAbsolute) {
+						currentX = n;
+					} else {
+						currentX += n;
+					}
+					expandBBox(bbox, currentX, currentY);
 				}
 				break;
-			case "V":
-				if (isAbsolute) {
-					for (const n of numbers) expandBBox(bbox, bbox.minX, n);
+			}
+			case "V": {
+				for (const n of numbers) {
+					if (isAbsolute) {
+						currentY = n;
+					} else {
+						currentY += n;
+					}
+					expandBBox(bbox, currentX, currentY);
 				}
 				break;
-			case "A":
+			}
+			case "A": {
 				// arc: rx ry rotation large-arc sweep x y
-				if (isAbsolute && numbers.length >= 7) {
-					for (let i = 0; i + 6 < numbers.length; i += 7) {
-						expandBBox(bbox, numbers[i + 5], numbers[i + 6]);
+				for (let i = 0; i + 6 < numbers.length; i += 7) {
+					if (isAbsolute) {
+						currentX = numbers[i + 5];
+						currentY = numbers[i + 6];
+					} else {
+						currentX += numbers[i + 5];
+						currentY += numbers[i + 6];
 					}
+					expandBBox(bbox, currentX, currentY);
 				}
 				break;
+			}
+			case "Z": {
+				break;
+			}
 		}
 
 		numbers.length = 0;
