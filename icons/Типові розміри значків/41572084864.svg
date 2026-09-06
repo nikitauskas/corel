@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="746" height="800"
+  viewBox="42000 -9022.97 44110.75 47325.97"
+  style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
+  <defs>
+<style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:bold;src:url("#FontID1") format(svg)}
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:normal;src:url("#FontID0") format(svg)}
+    .str22 {stroke:yellow;stroke-width:141.11;stroke-miterlimit:22.9256}
+    .str3 {stroke:black;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str13 {stroke:#0000E1;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str16 {stroke:white;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str25 {stroke:black;stroke-width:21.17;stroke-miterlimit:22.9256}
+    .str2 {stroke:black;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str18 {stroke:blue;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str28 {stroke:black;stroke-width:105.83;stroke-miterlimit:22.9256}
+    .str14 {stroke:black;stroke-width:14.11;stroke-miterlimit:22.9256}
+    .str15 {stroke:black;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str27 {stroke:blue;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str8 {stroke:black;stroke-width:52.92;stroke-miterlimit:22.9256}
+    .str5 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str11 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str4 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str21 {stroke:blue;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str19 {stroke:lime;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str20 {stroke:#A17702;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str6 {stroke:red;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str23 {stroke:yellow;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str29 {stroke:#171796;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str30 {stroke:white;stroke-width:20;stroke-miterlimit:22.9256}
+    .str1 {stroke:black;stroke-width:20;stroke-miterlimit:22.9256}
+    .str7 {stroke:#0000E1;stroke-width:20;stroke-miterlimit:22.9256}
+    .str17 {stroke:lime;stroke-width:20;stroke-miterlimit:22.9256}
+    .str0 {stroke:black;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str10 {stroke:#0000E1;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str26 {stroke:blue;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str24 {stroke:black;stroke-width:17.64;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str12 {stroke:#0000E1;stroke-width:35.28;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str9 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256;stroke-dasharray:176.400000 35.280000 141.120000 35.280000}
+    .fil1 {fill:none}
+    .fil6 {fill:none;fill-rule:nonzero}
+    .fil2 {fill:black}
+    .fil11 {fill:black}
+    .fil9 {fill:#0000E1}
+    .fil15 {fill:blue}
+    .fil13 {fill:lime}
+    .fil0 {fill:#80E0FF}
+    .fil17 {fill:#AAFFAA}
+    .fil10 {fill:#DE46F2}
+    .fil16 {fill:red}
+    .fil12 {fill:#FF0F0F}
+    .fil5 {fill:#FF8080}
+    .fil18 {fill:yellow}
+    .fil19 {fill:#FFFF80}
+    .fil8 {fill:white}
+    .fil20 {fill:#171796}
+    .fil3 {fill:black;fill-rule:nonzero}
+    .fil4 {fill:#0000E1;fill-rule:nonzero}
+    .fil14 {fill:blue;fill-rule:nonzero}
+    .fil7 {fill:red;fill-rule:nonzero}
+    .fnt173 {font-weight:normal;font-size:159.94px;font-family:'Arial'}
+    .fnt2 {font-weight:normal;font-size:176.39px;font-family:'Arial'}
+    .fnt126 {font-weight:bold;font-size:176.39px;font-family:'Arial'}
+    .fnt127 {font-weight:bold;font-size:195.92px;font-family:'Arial'}
+    .fnt180 {font-weight:bold;font-size:211.66px;font-family:'Arial'}
+    .fnt1 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt145 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt149 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt151 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt28 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt34 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt67 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt70 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt73 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt81 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt104 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt108 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt115 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt137 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt139 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt143 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt7 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt154 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt162 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt165 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt172 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt181 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt185 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt189 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt25 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt36 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt39 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt9 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt52 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt55 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt57 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt59 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt74 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt76 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt11 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt78 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt82 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt84 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt86 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt88 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt91 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt93 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt95 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt103 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt124 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt132 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt4 {font-weight:normal;font-size:246.94px;font-family:'Arial'}
+    .fnt106 {font-weight:bold;font-size:246.94px;font-family:'Arial'}
+    .fnt0 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt146 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt148 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt152 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt155 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt158 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt160 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt163 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt166 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt169 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt24 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt183 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt187 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt26 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt32 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt8 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt41 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt43 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt45 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt47 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt49 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt53 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt58 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt60 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt10 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt62 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt66 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt69 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt72 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt75 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt77 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt80 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt83 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt85 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt12 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt90 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt94 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt99 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt101 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt110 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt117 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt119 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt121 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt123 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt128 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt130 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt134 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt136 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt140 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt142 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt147 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt150 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt153 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt157 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt168 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt171 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt179 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt184 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt188 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt31 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt35 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt48 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt51 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt61 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt64 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt79 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt89 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt107 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt111 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt118 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt120 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt122 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt125 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt129 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt131 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt135 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt138 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt141 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt144 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt186 {font-weight:bold;font-size:286.99px;font-family:'Arial'}
+    .fnt3 {font-weight:normal;font-size:287.72px;font-family:'Arial'}
+    .fnt175 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt177 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt14 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt29 {font-weight:bold;font-size:317.5px;font-family:'Arial'}
+    .fnt27 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt30 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt33 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt54 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt56 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt65 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt13 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt92 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt98 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt113 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt156 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt159 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt21 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt161 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt164 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt167 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt170 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt174 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt182 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt42 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt44 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt46 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt50 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt63 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt68 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt71 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt96 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt100 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt102 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt105 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt109 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt112 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt114 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt116 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt133 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt5 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt20 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt22 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt87 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt18 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt176 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt178 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt40 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt6 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt23 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt38 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt16 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt199 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt37 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt97 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt17 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt19 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt15 {font-weight:normal;font-size:493.89px;font-family:'Arial'}
+    .fnt198 {font-weight:bold;font-size:564.44px;font-family:'Arial'}
+    .fnt190 {font-weight:bold;font-size:635px;font-family:'Arial'}
+    .fnt197 {font-weight:bold;font-size:705.56px;font-family:'Arial'}
+    .fnt196 {font-weight:bold;font-size:952.5px;font-family:'Arial'}
+    .fnt191 {font-weight:bold;font-size:1128.72px;font-family:'Arial'}
+    .fnt195 {font-weight:bold;font-size:1658.06px;font-family:'Arial'}
+    .fnt194 {font-weight:bold;font-size:2469.44px;font-family:'Arial'}
+    .fnt193 {font-weight:bold;font-size:2751.67px;font-family:'Arial'}
+    .fnt192 {font-weight:bold;font-size:3527.78px;font-family:'Arial'}
+   ]]>
+  </style>
+<clipPath id="id0">
+       <path d="M15504.77 -6797.46l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id1">
+       <path d="M15504.77 -6416.87l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id2">
+       <path d="M15504.77 -6036.28l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id3">
+       <path d="M15504.77 -5655.68l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id4">
+       <path d="M15504.77 -5275.09l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id5">
+       <path d="M15504.77 -4894.5l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id6">
+       <path d="M15504.77 -4513.9l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id7">
+       <path d="M15504.77 -4133.31l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id8">
+       <path d="M15504.77 -3752.71l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id9">
+       <path d="M15504.77 -3372.12l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id10">
+       <path d="M15504.77 -2991.53l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id11">
+       <path d="M15504.77 -2610.93l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id12">
+       <path d="M15504.77 -2230.34l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+  </defs>
+  <g id="_41572084864">
+   <rect class="fil1 str15" x="76429.91" y="-8972.97" width="9630.84" height="6047.53"/>
+   <g>
+    <rect class="fil1 str0" x="77903.62" y="-7848.84" width="1440" height="900"/>
+    <g>
+     <path class="fil3" d="M77903.75 -6846.12l92.17 -46.09 0 92.18 -92.17 -46.09zm1348.76 10l-1257.8 0 0 -20 1257.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="78252.65" y="-6662.69"  class="fil2 fnt189">1</text>
+    <text x="78488.09" y="-6662.69"  class="fil2 fnt189">,</text>
+    <text x="78664.62" y="-6662.69"  class="fil2 fnt189"> </text>
+    <text x="78370.37" y="-6662.69"  class="fil2 fnt189">4</text>
+    <text x="78546.9" y="-6662.69"  class="fil2 fnt189">4</text>
+    <text x="78723.43" y="-6662.69"  class="fil2 fnt189">мм</text>
+    <g>
+     <path class="fil3" d="M77846.66 -6948.98l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -808.76l0 717.8 -20 0 0 -717.8 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 48095.5 34908.4)">
+     <text x="42050" y="29700"  class="fil2 fnt189">9 </text>
+     <text x="42226.53" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+   </g>
+   <g>
+    <polygon class="fil1 str0" points="78656.32,-6491.32 78981.32,-6166.32 79306.32,-5841.32 78981.32,-5516.32 78656.32,-5191.32 78331.32,-5516.32 78006.32,-5841.32 78331.32,-6166.32 "/>
+    <g>
+     <path class="fil3" d="M78006.46 -5139.4l92.17 -46.09 0 92.18 -92.17 -46.09zm1208.76 10l-1117.8 0 0 -20 1117.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="78316.02" y="-4954.46"  class="fil2 fnt189">13 </text>
+    <text x="78610.27" y="-4954.46"  class="fil2 fnt189">мм</text>
+    <g>
+     <path class="fil3" d="M77948.05 -5191.46l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -1208.76l0 1117.8 -20 0 0 -1117.8 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 48201.5 36576.2)">
+     <text x="42050" y="29700"  class="fil2 fnt189">13 </text>
+     <text x="42344.25" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+   </g>
+   <g>
+    <circle class="fil1 str0" cx="80622.57" cy="-7404.67" r="540"/>
+    <g>
+     <path class="fil3" d="M80033.42 -6864.81l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -988.76l0 897.8 -20 0 0 -897.8 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 50283.6 34973)">
+     <text x="42050" y="29700"  class="fil2 fnt189">10,8 </text>
+     <text x="42520.78" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+    <g>
+     <path class="fil3" d="M80082.71 -6813l92.17 -46.09 0 92.18 -92.17 -46.09zm988.76 10l-897.8 0 0 -20 897.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="80248.57" y="-6617.52"  class="fil2 fnt189">10,8 </text>
+    <text x="80719.35" y="-6617.52"  class="fil2 fnt189">мм</text>
+   </g>
+   <g>
+    <rect class="fil1 str1" x="80074.64" y="-6345.09" width="990" height="990"/>
+    <g>
+     <path class="fil3" d="M80074.78 -5278.39l92.17 -46.09 0 92.18 -92.17 -46.09zm898.76 10l-807.8 0 0 -20 807.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="80239.08" y="-5072.91"  class="fil2 fnt189">9</text>
+    <text x="80415.61" y="-5072.91"  class="fil2 fnt189">9</text>
+    <text x="80592.14" y="-5072.91"  class="fil2 fnt189">мм</text>
+    <text x="80356.8" y="-5072.91"  class="fil2 fnt189">,</text>
+    <text x="80533.33" y="-5072.91"  class="fil2 fnt189"> </text>
+    <g>
+     <path class="fil3" d="M79997.8 -5355.23l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -898.76l0 807.8 -20 0 0 -807.8 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 50229 36515.6)">
+     <text x="42050" y="29700"  class="fil2 fnt189">9</text>
+     <text x="42226.53" y="29700"  class="fil2 fnt189">9</text>
+     <text x="42403.06" y="29700"  class="fil2 fnt189">мм</text>
+     <text x="42167.72" y="29700"  class="fil2 fnt189">,</text>
+     <text x="42344.25" y="29700"  class="fil2 fnt189"> </text>
+    </g>
+   </g>
+   <g>
+    <path class="fil1 str0" d="M82050.25 -6899.87c17.77,-608.02 234.1,-1080.01 495.01,-1080.01 260.81,0 477.1,471.68 494.99,1079.46"/>
+    <g>
+     <path class="fil3" d="M82050.39 -6843.13l92.17 -46.09 0 92.18 -92.17 -46.09zm898.76 10l-807.8 0 0 -20 807.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="82231.25" y="-6607.65"  class="fil2 fnt189">9</text>
+    <text x="82407.78" y="-6607.65"  class="fil2 fnt189">9</text>
+    <text x="82584.31" y="-6607.65"  class="fil2 fnt189">мм</text>
+    <text x="82348.97" y="-6607.65"  class="fil2 fnt189">,</text>
+    <text x="82525.5" y="-6607.65"  class="fil2 fnt189"> </text>
+    <g>
+     <path class="fil3" d="M81968.03 -6922.71l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -966.07l0 875.11 -20 0 0 -875.11 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 52193.9 35034.2)">
+     <text x="42050" y="29700"  class="fil2 fnt189">10,8 </text>
+     <text x="42520.78" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+   </g>
+   <g>
+    <polyline class="fil1 str0" points="83932.03,-6867.23 83932.03,-7550.65 84432.25,-8037.23 84922.02,-7552.77 84922.02,-6867.23 "/>
+    <g>
+     <path class="fil3" d="M83932.16 -6801.82l92.17 -46.09 0 92.18 -92.17 -46.09zm898.76 10l-807.8 0 0 -20 807.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="84125.82" y="-6576.34"  class="fil2 fnt189">9</text>
+    <text x="84302.35" y="-6576.34"  class="fil2 fnt189">9</text>
+    <text x="84478.88" y="-6576.34"  class="fil2 fnt189">мм</text>
+    <text x="84243.54" y="-6576.34"  class="fil2 fnt189">,</text>
+    <text x="84420.07" y="-6576.34"  class="fil2 fnt189"> </text>
+    <g>
+     <path class="fil3" d="M83859.31 -6867.37l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -1078.76l0 987.8 -20 0 0 -987.8 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 54085.1 34951.4)">
+     <text x="42050" y="29700"  class="fil2 fnt189">11,7 </text>
+     <text x="42509.11" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+   </g>
+   <g>
+    <g>
+     <path class="fil1 str0" d="M81169.93 -3788.69c-182.1,0 -329.71,-145.51 -329.71,-325 0,-179.5 147.61,-325 329.71,-325"/>
+     <path class="fil1 str0" d="M81160.51 -4438.69c0,-179.5 147.61,-325 329.71,-325 182.09,0 329.71,145.5 329.71,325"/>
+     <path class="fil1 str0" d="M81819.93 -3788.69c0,179.49 -147.62,325 -329.71,325 -182.1,0 -329.71,-145.51 -329.71,-325"/>
+     <path class="fil1 str0" d="M81810.51 -4438.69c182.09,0 329.71,145.5 329.71,325 0,179.49 -147.62,325 -329.71,325"/>
+    </g>
+    <g>
+     <path class="fil3" d="M80797.31 -3463.83l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -1208.76l0 1117.8 -20 0 0 -1117.8 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 51029.8 38253)">
+     <text x="42050" y="29700"  class="fil2 fnt189">13 </text>
+     <text x="42344.25" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+    <g>
+     <path class="fil3" d="M80840.36 -3423.69l92.17 -46.09 0 92.18 -92.17 -46.09zm1208.76 10l-1117.8 0 0 -20 1117.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="81187.36" y="-3224.6"  class="fil2 fnt189">13 </text>
+    <text x="81481.61" y="-3224.6"  class="fil2 fnt189">мм</text>
+   </g>
+   <text x="76845.19" y="-8348.51"  class="fil2 fnt190">Розмір для 100 000</text>
+   <text x="82791.67" y="-8348.51"  class="fil2 fnt190"> (L=9mm)</text>
+   <g>
+    <path class="fil1 str0" d="M83043.25 -6371.63c-17.77,608.02 -234.1,1080.01 -495.01,1080.01 -260.81,0 -477.1,-471.68 -494.99,-1079.46"/>
+    <g>
+     <path class="fil3" d="M82053.39 -5254.87l92.17 -46.09 0 92.18 -92.17 -46.09zm898.76 10l-807.8 0 0 -20 807.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="82234.25" y="-5019.39"  class="fil2 fnt189">9</text>
+    <text x="82410.78" y="-5019.39"  class="fil2 fnt189">9</text>
+    <text x="82587.31" y="-5019.39"  class="fil2 fnt189">мм</text>
+    <text x="82351.97" y="-5019.39"  class="fil2 fnt189">,</text>
+    <text x="82528.5" y="-5019.39"  class="fil2 fnt189"> </text>
+    <g>
+     <path class="fil3" d="M81971.03 -5334.45l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -966.07l0 875.11 -20 0 0 -875.11 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 52196.9 36622.5)">
+     <text x="42050" y="29700"  class="fil2 fnt189">10,8 </text>
+     <text x="42520.78" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+   </g>
+   <g>
+    <polyline class="fil1 str0" points="84917.92,-6323.89 84917.92,-5640.47 84417.7,-5153.89 83927.93,-5638.35 83927.93,-6323.89 "/>
+    <g>
+     <path class="fil3" d="M83928.07 -5108.48l92.17 -46.09 0 92.18 -92.17 -46.09zm898.76 10l-807.8 0 0 -20 807.8 0 0 20zm90.96 -10l-92.17 46.09 0 -92.18 92.17 46.09z"/>
+    </g>
+    <text x="84121.73" y="-4883"  class="fil2 fnt189">9</text>
+    <text x="84298.26" y="-4883"  class="fil2 fnt189">9</text>
+    <text x="84474.79" y="-4883"  class="fil2 fnt189">мм</text>
+    <text x="84239.45" y="-4883"  class="fil2 fnt189">,</text>
+    <text x="84415.98" y="-4883"  class="fil2 fnt189"> </text>
+    <g>
+     <path class="fil3" d="M83855.22 -5174.03l-46.09 -92.17 92.18 0 -46.09 92.17zm10 -1078.76l0 987.8 -20 0 0 -987.8 20 0zm-10 -90.96l46.09 92.17 -92.18 0 46.09 -92.17z"/>
+    </g>
+    <g transform="matrix(2.64845E-014 -1 1 2.64845E-014 54081 36644.8)">
+     <text x="42050" y="29700"  class="fil2 fnt189">11,7 </text>
+     <text x="42509.11" y="29700"  class="fil2 fnt189">мм</text>
+    </g>
+   </g>
+  </g>
+</svg>

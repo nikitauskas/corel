@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="800" height="154"
+  viewBox="69704.7 1106.85 1300 250"
+  style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
+  <defs>
+<style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:bold;src:url("#FontID1") format(svg)}
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:normal;src:url("#FontID0") format(svg)}
+    .str22 {stroke:yellow;stroke-width:141.11;stroke-miterlimit:22.9256}
+    .str3 {stroke:black;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str13 {stroke:#0000E1;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str16 {stroke:white;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str25 {stroke:black;stroke-width:21.17;stroke-miterlimit:22.9256}
+    .str2 {stroke:black;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str18 {stroke:blue;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str28 {stroke:black;stroke-width:105.83;stroke-miterlimit:22.9256}
+    .str14 {stroke:black;stroke-width:14.11;stroke-miterlimit:22.9256}
+    .str15 {stroke:black;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str27 {stroke:blue;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str8 {stroke:black;stroke-width:52.92;stroke-miterlimit:22.9256}
+    .str5 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str11 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str4 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str21 {stroke:blue;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str19 {stroke:lime;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str20 {stroke:#A17702;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str6 {stroke:red;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str23 {stroke:yellow;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str29 {stroke:#171796;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str30 {stroke:white;stroke-width:20;stroke-miterlimit:22.9256}
+    .str1 {stroke:black;stroke-width:20;stroke-miterlimit:22.9256}
+    .str7 {stroke:#0000E1;stroke-width:20;stroke-miterlimit:22.9256}
+    .str17 {stroke:lime;stroke-width:20;stroke-miterlimit:22.9256}
+    .str0 {stroke:black;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str10 {stroke:#0000E1;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str26 {stroke:blue;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str24 {stroke:black;stroke-width:17.64;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str12 {stroke:#0000E1;stroke-width:35.28;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str9 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256;stroke-dasharray:176.400000 35.280000 141.120000 35.280000}
+    .fil1 {fill:none}
+    .fil6 {fill:none;fill-rule:nonzero}
+    .fil2 {fill:black}
+    .fil11 {fill:black}
+    .fil9 {fill:#0000E1}
+    .fil15 {fill:blue}
+    .fil13 {fill:lime}
+    .fil0 {fill:#80E0FF}
+    .fil17 {fill:#AAFFAA}
+    .fil10 {fill:#DE46F2}
+    .fil16 {fill:red}
+    .fil12 {fill:#FF0F0F}
+    .fil5 {fill:#FF8080}
+    .fil18 {fill:yellow}
+    .fil19 {fill:#FFFF80}
+    .fil8 {fill:white}
+    .fil20 {fill:#171796}
+    .fil3 {fill:black;fill-rule:nonzero}
+    .fil4 {fill:#0000E1;fill-rule:nonzero}
+    .fil14 {fill:blue;fill-rule:nonzero}
+    .fil7 {fill:red;fill-rule:nonzero}
+    .fnt173 {font-weight:normal;font-size:159.94px;font-family:'Arial'}
+    .fnt2 {font-weight:normal;font-size:176.39px;font-family:'Arial'}
+    .fnt126 {font-weight:bold;font-size:176.39px;font-family:'Arial'}
+    .fnt127 {font-weight:bold;font-size:195.92px;font-family:'Arial'}
+    .fnt180 {font-weight:bold;font-size:211.66px;font-family:'Arial'}
+    .fnt1 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt145 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt149 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt151 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt28 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt34 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt67 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt70 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt73 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt81 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt104 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt108 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt115 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt137 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt139 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt143 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt7 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt154 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt162 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt165 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt172 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt181 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt185 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt189 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt25 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt36 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt39 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt9 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt52 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt55 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt57 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt59 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt74 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt76 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt11 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt78 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt82 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt84 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt86 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt88 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt91 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt93 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt95 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt103 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt124 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt132 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt4 {font-weight:normal;font-size:246.94px;font-family:'Arial'}
+    .fnt106 {font-weight:bold;font-size:246.94px;font-family:'Arial'}
+    .fnt0 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt146 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt148 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt152 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt155 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt158 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt160 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt163 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt166 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt169 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt24 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt183 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt187 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt26 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt32 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt8 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt41 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt43 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt45 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt47 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt49 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt53 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt58 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt60 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt10 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt62 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt66 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt69 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt72 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt75 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt77 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt80 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt83 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt85 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt12 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt90 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt94 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt99 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt101 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt110 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt117 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt119 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt121 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt123 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt128 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt130 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt134 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt136 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt140 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt142 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt147 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt150 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt153 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt157 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt168 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt171 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt179 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt184 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt188 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt31 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt35 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt48 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt51 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt61 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt64 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt79 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt89 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt107 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt111 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt118 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt120 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt122 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt125 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt129 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt131 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt135 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt138 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt141 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt144 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt186 {font-weight:bold;font-size:286.99px;font-family:'Arial'}
+    .fnt3 {font-weight:normal;font-size:287.72px;font-family:'Arial'}
+    .fnt175 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt177 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt14 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt29 {font-weight:bold;font-size:317.5px;font-family:'Arial'}
+    .fnt27 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt30 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt33 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt54 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt56 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt65 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt13 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt92 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt98 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt113 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt156 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt159 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt21 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt161 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt164 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt167 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt170 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt174 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt182 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt42 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt44 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt46 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt50 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt63 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt68 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt71 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt96 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt100 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt102 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt105 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt109 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt112 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt114 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt116 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt133 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt5 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt20 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt22 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt87 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt18 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt176 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt178 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt40 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt6 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt23 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt38 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt16 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt199 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt37 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt97 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt17 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt19 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt15 {font-weight:normal;font-size:493.89px;font-family:'Arial'}
+    .fnt198 {font-weight:bold;font-size:564.44px;font-family:'Arial'}
+    .fnt190 {font-weight:bold;font-size:635px;font-family:'Arial'}
+    .fnt197 {font-weight:bold;font-size:705.56px;font-family:'Arial'}
+    .fnt196 {font-weight:bold;font-size:952.5px;font-family:'Arial'}
+    .fnt191 {font-weight:bold;font-size:1128.72px;font-family:'Arial'}
+    .fnt195 {font-weight:bold;font-size:1658.06px;font-family:'Arial'}
+    .fnt194 {font-weight:bold;font-size:2469.44px;font-family:'Arial'}
+    .fnt193 {font-weight:bold;font-size:2751.67px;font-family:'Arial'}
+    .fnt192 {font-weight:bold;font-size:3527.78px;font-family:'Arial'}
+   ]]>
+  </style>
+<clipPath id="id0">
+       <path d="M15504.77 -6797.46l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id1">
+       <path d="M15504.77 -6416.87l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id2">
+       <path d="M15504.77 -6036.28l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id3">
+       <path d="M15504.77 -5655.68l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id4">
+       <path d="M15504.77 -5275.09l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id5">
+       <path d="M15504.77 -4894.5l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id6">
+       <path d="M15504.77 -4513.9l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id7">
+       <path d="M15504.77 -4133.31l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id8">
+       <path d="M15504.77 -3752.71l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id9">
+       <path d="M15504.77 -3372.12l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id10">
+       <path d="M15504.77 -2991.53l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id11">
+       <path d="M15504.77 -2610.93l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id12">
+       <path d="M15504.77 -2230.34l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+  </defs>
+  <g id="Рубіж_x0020_оборони_x0020_не_x0020_зайнятий">
+   <path class="fil1 str4" d="M69754.7 1156.85c82.84,0 150,67.15 150,150 0,82.84 -67.16,150 -150,150 -82.84,0 -150,-67.16 -150,-150 0,-82.85 67.16,-150 150,-150zm-98.05 36.48l196 227.13m5.44 -222.29l-206.74 217.39"/>
+   <path class="fil1 str4" d="M70954.7 1156.85c82.84,0 150,67.15 150,150 0,82.84 -67.16,150 -150,150 -82.84,0 -150,-67.16 -150,-150 0,-82.85 67.16,-150 150,-150zm-98.05 36.48l196 227.13m5.44 -222.29l-206.74 217.39"/>
+   <path class="fil4" d="M69887.06 1306.85l0 17.64 35.28 0 0 -17.64c0,-53.44 32.17,-101.75 81.53,-122.25l16.23 -6.91 -13.82 -32.46 -16.23 6.91c-62.34,25.9 -102.99,87.29 -102.99,154.71zm300 0l0 17.64 35.28 0 0 -17.64c0,-68.77 -40.51,-127.62 -103.17,-154.8l-16.3 -6.75 -13.5 32.6 16.3 6.75c49.41,21.32 81.39,68.07 81.39,122.2z"/>
+   <path class="fil4" d="M70187.06 1306.85l0 17.64 35.28 0 0 -17.64c0,-53.44 32.17,-101.75 81.53,-122.25l16.23 -6.91 -13.82 -32.46 -16.23 6.91c-62.34,25.9 -102.99,87.29 -102.99,154.71zm300 0l0 17.64 35.28 0 0 -17.64c0,-68.77 -40.51,-127.62 -103.17,-154.8l-16.3 -6.75 -13.5 32.6 16.3 6.75c49.41,21.32 81.39,68.07 81.39,122.2z"/>
+   <path class="fil4" d="M70487.06 1306.85l0 17.64 35.28 0 0 -17.64c0,-53.44 32.17,-101.75 81.53,-122.25l16.23 -6.91 -13.82 -32.46 -16.23 6.91c-62.34,25.9 -102.99,87.29 -102.99,154.71zm300 0l0 17.64 35.28 0 0 -17.64c0,-68.77 -40.51,-127.62 -103.17,-154.8l-16.3 -6.75 -13.5 32.6 16.3 6.75c49.41,21.32 81.39,68.07 81.39,122.2z"/>
+  </g>
+</svg>

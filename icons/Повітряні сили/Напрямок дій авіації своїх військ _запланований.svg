@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="800" height="371"
+  viewBox="10479.75 24848.64 3371 1562.920000000002"
+  style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
+  <defs>
+<style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:bold;src:url("#FontID1") format(svg)}
+    @font-face { font-family:"Arial";font-variant:normal;font-weight:normal;src:url("#FontID0") format(svg)}
+    .str22 {stroke:yellow;stroke-width:141.11;stroke-miterlimit:22.9256}
+    .str3 {stroke:black;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str13 {stroke:#0000E1;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str16 {stroke:white;stroke-width:10.58;stroke-miterlimit:22.9256}
+    .str25 {stroke:black;stroke-width:21.17;stroke-miterlimit:22.9256}
+    .str2 {stroke:black;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str18 {stroke:blue;stroke-width:26.46;stroke-miterlimit:22.9256}
+    .str28 {stroke:black;stroke-width:105.83;stroke-miterlimit:22.9256}
+    .str14 {stroke:black;stroke-width:14.11;stroke-miterlimit:22.9256}
+    .str15 {stroke:black;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str27 {stroke:blue;stroke-width:70.56;stroke-miterlimit:22.9256}
+    .str8 {stroke:black;stroke-width:52.92;stroke-miterlimit:22.9256}
+    .str5 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str11 {stroke:black;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str4 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str21 {stroke:blue;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str19 {stroke:lime;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str20 {stroke:#A17702;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str6 {stroke:red;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str23 {stroke:yellow;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str29 {stroke:#171796;stroke-width:35.28;stroke-miterlimit:22.9256}
+    .str30 {stroke:white;stroke-width:20;stroke-miterlimit:22.9256}
+    .str1 {stroke:black;stroke-width:20;stroke-miterlimit:22.9256}
+    .str7 {stroke:#0000E1;stroke-width:20;stroke-miterlimit:22.9256}
+    .str17 {stroke:lime;stroke-width:20;stroke-miterlimit:22.9256}
+    .str0 {stroke:black;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str10 {stroke:#0000E1;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str26 {stroke:blue;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .str24 {stroke:black;stroke-width:17.64;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str12 {stroke:#0000E1;stroke-width:35.28;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str9 {stroke:#0000E1;stroke-width:35.28;stroke-miterlimit:22.9256;stroke-dasharray:176.400000 35.280000 141.120000 35.280000}
+    .fil1 {fill:none}
+    .fil6 {fill:none;fill-rule:nonzero}
+    .fil2 {fill:black}
+    .fil11 {fill:black}
+    .fil9 {fill:#0000E1}
+    .fil15 {fill:blue}
+    .fil13 {fill:lime}
+    .fil0 {fill:#80E0FF}
+    .fil17 {fill:#AAFFAA}
+    .fil10 {fill:#DE46F2}
+    .fil16 {fill:red}
+    .fil12 {fill:#FF0F0F}
+    .fil5 {fill:#FF8080}
+    .fil18 {fill:yellow}
+    .fil19 {fill:#FFFF80}
+    .fil8 {fill:white}
+    .fil20 {fill:#171796}
+    .fil3 {fill:black;fill-rule:nonzero}
+    .fil4 {fill:#0000E1;fill-rule:nonzero}
+    .fil14 {fill:blue;fill-rule:nonzero}
+    .fil7 {fill:red;fill-rule:nonzero}
+    .fnt173 {font-weight:normal;font-size:159.94px;font-family:'Arial'}
+    .fnt2 {font-weight:normal;font-size:176.39px;font-family:'Arial'}
+    .fnt126 {font-weight:bold;font-size:176.39px;font-family:'Arial'}
+    .fnt127 {font-weight:bold;font-size:195.92px;font-family:'Arial'}
+    .fnt180 {font-weight:bold;font-size:211.66px;font-family:'Arial'}
+    .fnt1 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt145 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt149 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt151 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt28 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt34 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt67 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt70 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt73 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt81 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt104 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt108 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt115 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt137 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt139 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt143 {font-weight:normal;font-size:211.67px;font-family:'Arial'}
+    .fnt7 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt154 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt162 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt165 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt172 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt181 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt185 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt189 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt25 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt36 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt39 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt9 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt52 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt55 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt57 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt59 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt74 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt76 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt11 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt78 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt82 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt84 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt86 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt88 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt91 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt93 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt95 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt103 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt124 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt132 {font-weight:bold;font-size:211.67px;font-family:'Arial'}
+    .fnt4 {font-weight:normal;font-size:246.94px;font-family:'Arial'}
+    .fnt106 {font-weight:bold;font-size:246.94px;font-family:'Arial'}
+    .fnt0 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt146 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt148 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt152 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt155 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt158 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt160 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt163 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt166 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt169 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt24 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt183 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt187 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt26 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt32 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt8 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt41 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt43 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt45 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt47 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt49 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt53 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt58 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt60 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt10 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt62 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt66 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt69 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt72 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt75 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt77 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt80 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt83 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt85 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt12 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt90 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt94 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt99 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt101 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt110 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt117 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt119 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt121 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt123 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt128 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt130 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt134 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt136 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt140 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt142 {font-weight:normal;font-size:282.22px;font-family:'Arial'}
+    .fnt147 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt150 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt153 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt157 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt168 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt171 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt179 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt184 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt188 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt31 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt35 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt48 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt51 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt61 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt64 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt79 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt89 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt107 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt111 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt118 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt120 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt122 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt125 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt129 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt131 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt135 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt138 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt141 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt144 {font-weight:bold;font-size:282.22px;font-family:'Arial'}
+    .fnt186 {font-weight:bold;font-size:286.99px;font-family:'Arial'}
+    .fnt3 {font-weight:normal;font-size:287.72px;font-family:'Arial'}
+    .fnt175 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt177 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt14 {font-weight:normal;font-size:317.5px;font-family:'Arial'}
+    .fnt29 {font-weight:bold;font-size:317.5px;font-family:'Arial'}
+    .fnt27 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt30 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt33 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt54 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt56 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt65 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt13 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt92 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt98 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt113 {font-weight:normal;font-size:352.78px;font-family:'Arial'}
+    .fnt156 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt159 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt21 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt161 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt164 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt167 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt170 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt174 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt182 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt42 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt44 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt46 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt50 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt63 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt68 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt71 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt96 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt100 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt102 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt105 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt109 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt112 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt114 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt116 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt133 {font-weight:bold;font-size:352.78px;font-family:'Arial'}
+    .fnt5 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt20 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt22 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt87 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt18 {font-weight:normal;font-size:388.06px;font-family:'Arial'}
+    .fnt176 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt178 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt40 {font-weight:bold;font-size:388.06px;font-family:'Arial'}
+    .fnt6 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt23 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt38 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt16 {font-weight:normal;font-size:423.33px;font-family:'Arial'}
+    .fnt199 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt37 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt97 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt17 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt19 {font-weight:bold;font-size:423.33px;font-family:'Arial'}
+    .fnt15 {font-weight:normal;font-size:493.89px;font-family:'Arial'}
+    .fnt198 {font-weight:bold;font-size:564.44px;font-family:'Arial'}
+    .fnt190 {font-weight:bold;font-size:635px;font-family:'Arial'}
+    .fnt197 {font-weight:bold;font-size:705.56px;font-family:'Arial'}
+    .fnt196 {font-weight:bold;font-size:952.5px;font-family:'Arial'}
+    .fnt191 {font-weight:bold;font-size:1128.72px;font-family:'Arial'}
+    .fnt195 {font-weight:bold;font-size:1658.06px;font-family:'Arial'}
+    .fnt194 {font-weight:bold;font-size:2469.44px;font-family:'Arial'}
+    .fnt193 {font-weight:bold;font-size:2751.67px;font-family:'Arial'}
+    .fnt192 {font-weight:bold;font-size:3527.78px;font-family:'Arial'}
+   ]]>
+  </style>
+<clipPath id="id0">
+       <path d="M15504.77 -6797.46l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id1">
+       <path d="M15504.77 -6416.87l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id2">
+       <path d="M15504.77 -6036.28l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id3">
+       <path d="M15504.77 -5655.68l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id4">
+       <path d="M15504.77 -5275.09l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id5">
+       <path d="M15504.77 -4894.5l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id6">
+       <path d="M15504.77 -4513.9l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id7">
+       <path d="M15504.77 -4133.31l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id8">
+       <path d="M15504.77 -3752.71l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id9">
+       <path d="M15504.77 -3372.12l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id10">
+       <path d="M15504.77 -2991.53l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+<clipPath id="id11">
+       <path d="M15504.77 -2610.93l2057.13 0 0 380.59 -2057.13 0 0 -380.59z"/>
+      </clipPath>
+<clipPath id="id12">
+       <path d="M15504.77 -2230.34l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
+      </clipPath>
+  </defs>
+  <g id="Напрямок_x0020_дій_x0020_авіації_x0020_своїх_x0020_військ_x0020__x0028_запланований_x0029_">
+   <path class="fil4" d="M13800.75 24898.64l-35.28 0 0 -110.71 35.28 0 0 110.71zm0 -642.15l0 -110.71 -35.28 0 0 110.71 35.28 0zm0 -155l-35.28 0 0 -110.71 0 -28.75 25.63 13.02 145.29 73.82 -15.98 31.46 -119.66 -60.8 0 81.96zm177.78 8.36l15.98 -31.46 290.58 147.63 -15.98 31.46 -290.58 -147.63zm348.7 177.15l15.98 -31.46 290.58 147.62 -15.98 31.46 -290.58 -147.62zm348.7 177.14l15.98 -31.46 145.28 73.8 30.96 15.73 -30.96 15.73 -145.29 73.82 -15.98 -31.46 114.33 -58.09 -114.32 -58.07zm-58.13 145.68l15.98 31.46 -290.58 147.63 -15.98 -31.46 290.58 -147.63zm-348.7 177.15l15.98 31.46 -290.58 147.62 -15.98 -31.46 290.58 -147.62zm-348.7 177.14l15.98 31.46 -145.28 73.8 -25.63 13.02 0 -28.75 0 -110.71 35.28 0 0 81.96 119.65 -60.78z"/>
+   <path class="fil4" d="M10794.29 25490.48l-10.9 19.1 -11.71 20.88 -11.6 21.13 -11.51 21.38 -11.42 21.61 -11.33 21.86 -11.24 22.11 31.52 15.86 11.1 -21.87 11.21 -21.6 11.28 -21.37 11.39 -21.12 11.46 -20.87 11.55 -20.64 10.9 -19.1 -30.7 -17.36zm3003.2 -712.77l-2.06 -2.79 -2.21 -2.79 -2.35 -2.79 -2.48 -2.79 -2.64 -2.83 -2.8 -2.86 -2.92 -2.85 -3.07 -2.9 -3.24 -2.94 -3.37 -2.95 -3.5 -2.97 -3.66 -3.02 -3.81 -3.06 -3.95 -3.08 -4.11 -3.13 -4.24 -3.14 -4.37 -3.17 -4.54 -3.22 -4.68 -3.24 -4.82 -3.28 -4.96 -3.3 -5.1 -3.33 -5.25 -3.36 -5.37 -3.39 -5.52 -3.41 -5.67 -3.44 -5.8 -3.47 -5.94 -3.48 -6.07 -3.51 -6.21 -3.53 -6.34 -3.56 -6.48 -3.57 -3.11 -1.69 -16.76 31.04 2.95 1.61 6.26 3.45 6.14 3.44 6.01 3.41 5.85 3.39 5.72 3.36 5.58 3.33 5.43 3.3 5.28 3.27 5.15 3.23 4.99 3.2 4.84 3.17 4.7 3.12 4.54 3.08 4.38 3.04 4.22 3 4.09 2.97 3.92 2.9 3.75 2.85 3.61 2.82 3.43 2.74 3.26 2.7 3.12 2.65 2.93 2.57 2.76 2.5 2.59 2.44 2.44 2.39 2.22 2.26 2.06 2.21 1.9 2.13 1.69 2.01 1.51 1.91 1.32 1.79 28.76 -20.44zm-201 -133.65l-0.7 -0.34 -7.76 -3.7 -7.88 -3.72 -8.02 -3.72 -8.13 -3.73 -8.27 -3.73 -8.38 -3.72 -8.48 -3.73 -8.62 -3.74 -8.73 -3.73 -8.85 -3.73 -8.96 -3.72 -9.06 -3.72 -9.19 -3.73 -9.32 -3.71 -9.4 -3.7 -9.53 -3.69 -9.63 -3.68 -9.73 -3.68 -9.86 -3.66 -9.94 -3.64 -10.06 -3.64 -10.17 -3.61 -10.27 -3.59 -10.37 -3.58 -10.46 -3.56 -10.57 -3.53 -10.67 -3.52 -10.77 -3.49 -10.87 -3.47 -10.96 -3.44 -11.06 -3.42 -11.16 -3.38 -9.41 -2.81 -10.02 33.82 9.27 2.77 11 3.34 10.88 3.36 10.82 3.4 10.71 3.41 10.61 3.45 10.51 3.46 10.41 3.49 10.32 3.5 10.21 3.52 10.11 3.55 10.01 3.55 9.9 3.58 9.8 3.58 9.68 3.6 9.59 3.62 9.49 3.62 9.35 3.63 9.26 3.64 9.14 3.65 9.03 3.65 8.92 3.66 8.8 3.66 8.69 3.67 8.57 3.65 8.44 3.66 8.34 3.67 8.22 3.66 8.07 3.65 7.97 3.65 7.84 3.64 7.72 3.64 7.6 3.62 0.7 0.34 15.28 -31.8zm-380.15 -137.88l-6.3 -1.68 -11.87 -3.12 -11.95 -3.08 -12.05 -3.04 -12.12 -3 -12.21 -2.95 -12.29 -2.92 -12.37 -2.86 -12.44 -2.81 -12.53 -2.78 -12.61 -2.72 -12.67 -2.68 -12.76 -2.62 -12.82 -2.57 -12.92 -2.52 -12.97 -2.46 -13.05 -2.41 -13.12 -2.34 -13.18 -2.3 -13.26 -2.23 -13.32 -2.17 -13.39 -2.11 -13.45 -2.05 -13.52 -1.98 -13.58 -1.91 -13.65 -1.86 -3.92 -0.51 -4.44 35 3.72 0.49 13.45 1.82 13.4 1.89 13.32 1.96 13.27 2.01 13.21 2.09 13.14 2.13 13.06 2.21 13.02 2.26 12.94 2.32 12.87 2.37 12.79 2.42 12.72 2.48 12.66 2.55 12.58 2.58 12.51 2.64 12.43 2.68 12.35 2.74 12.3 2.79 12.19 2.82 12.11 2.86 12.05 2.93 11.96 2.94 11.87 3 11.79 3.04 11.71 3.08 6.3 1.68 9.04 -34.1zm-397.29 -73.54l-12.23 -1.24 -14.05 -1.35 -14.11 -1.27 -14.15 -1.2 -14.21 -1.12 -14.27 -1.03 -14.3 -0.95 -14.37 -0.88 -14.42 -0.79 -14.46 -0.69 -14.49 -0.63 -14.55 -0.52 -14.6 -0.44 -14.64 -0.36 -14.68 -0.25 -14.72 -0.17 -14.75 -0.07 -14.8 0.02 -14.84 0.12 -14.87 0.21 -14.91 0.32 -14.95 0.41 -14.97 0.51 -4.38 0.19 1.56 35.24 4.14 -0.17 14.75 -0.51 14.71 -0.41 14.67 -0.3 14.65 -0.21 14.6 -0.12 14.58 -0.02 14.53 0.07 14.5 0.17 14.46 0.25 14.4 0.34 14.38 0.44 14.33 0.52 14.29 0.61 14.26 0.69 14.18 0.77 14.15 0.86 14.12 0.95 14.05 1.01 13.99 1.1 13.97 1.18 13.91 1.25 13.85 1.33 12.23 1.24 3.46 -35.1zm-404.04 -7.49l-3.67 0.25 -15.16 1.13 -15.2 1.26 -15.21 1.37 -15.23 1.47 -15.27 1.58 -15.29 1.71 -15.3 1.82 -15.32 1.93 -15.35 2.05 -15.38 2.17 -15.38 2.3 -15.4 2.41 -15.41 2.54 -15.43 2.66 -15.45 2.78 -15.46 2.92 -15.46 3.05 -15.48 3.16 -15.48 3.3 -15.5 3.43 -15.5 3.56 -7.1 1.7 8.32 34.28 6.82 -1.62 15.22 -3.5 15.22 -3.37 15.22 -3.24 15.2 -3.12 15.2 -2.99 15.18 -2.86 15.17 -2.74 15.17 -2.6 15.15 -2.5 15.14 -2.37 15.12 -2.26 15.1 -2.13 15.09 -2.03 15.06 -1.89 15.06 -1.8 15.03 -1.67 15.01 -1.56 14.99 -1.45 14.97 -1.35 14.92 -1.22 14.92 -1.13 3.67 -0.25 -2.52 -35.18zm-398.83 67.31l-5.09 1.39 -15.53 4.38 -15.53 4.54 -15.52 4.66 -15.53 4.81 -15.51 4.96 -15.51 5.11 -15.52 5.25 -15.49 5.4 -15.51 5.54 -15.48 5.7 -15.48 5.85 -15.47 6 -15.45 6.16 -15.45 6.32 -15.42 6.47 -15.42 6.63 -15.41 6.79 -15.38 6.95 -15.36 7.12 -15.35 7.26 -1.74 0.85 15.56 31.66 1.44 -0.69 15.05 -7.14 15.08 -6.98 15.08 -6.81 15.11 -6.67 15.12 -6.49 15.14 -6.35 15.15 -6.2 15.17 -6.04 15.17 -5.9 15.18 -5.73 15.2 -5.6 15.21 -5.44 15.21 -5.3 15.22 -5.15 15.23 -5.01 15.23 -4.86 15.23 -4.73 15.24 -4.58 15.25 -4.44 15.23 -4.3 5.09 -1.39 -9.44 -34zm-376.51 148.55l-14.32 7.61 -15.2 8.27 -15.18 8.44 -15.17 8.63 -15.13 8.79 -15.1 8.98 -15.06 9.14 -15.05 9.32 -15 9.51 -14.97 9.68 -14.94 9.87 -14.9 10.04 -14.86 10.22 -14.83 10.41 -14.79 10.6 -14.74 10.79 -14.71 10.97 -14.66 11.17 -14.31 11.11 21.78 27.76 14.03 -10.91 14.4 -10.95 14.43 -10.77 14.48 -10.59 14.51 -10.4 14.55 -10.21 14.58 -10.04 14.62 -9.86 14.66 -9.67 14.69 -9.5 14.72 -9.33 14.75 -9.14 14.78 -8.98 14.82 -8.8 14.83 -8.63 14.87 -8.45 14.9 -8.28 14.92 -8.13 14.32 -7.61 -16.72 -31.06zm-335.39 226.19l-5.87 4.94 -14.4 12.32 -14.34 12.52 -14.28 12.71 -14.23 12.92 -14.2 13.12 -14.12 13.32 -14.08 13.51 -14.02 13.73 -13.97 13.94 -13.91 14.14 -13.84 14.35 -13.78 14.56 -13.74 14.76 -13.66 14.98 -13.6 15.19 -13.53 15.41 -9.63 11.16 26.82 22.92 9.41 -10.92 13.33 -15.15 13.38 -14.95 13.44 -14.74 13.5 -14.52 13.56 -14.32 13.62 -14.11 13.67 -13.9 13.73 -13.7 13.78 -13.49 13.84 -13.29 13.88 -13.1 13.94 -12.88 13.99 -12.7 14.04 -12.49 14.08 -12.3 14.14 -12.1 5.87 -4.94 -22.82 -26.9zm-282.38 289.36l-0.68 0.83 -13.2 16.5 -13.14 16.7 -13.06 16.94 -12.98 17.16 -12.92 17.37 -12.84 17.61 -12.77 17.84 -12.68 18.05 -12.61 18.29 -12.54 18.52 -12.45 18.76 -12.37 18.97 -12.29 19.22 -12.21 19.44 -12.13 19.69 -2.44 4.04 30.28 18.12 2.28 -3.78 11.97 -19.43 12.05 -19.2 12.13 -18.96 12.21 -18.73 12.27 -18.5 12.36 -18.26 12.45 -18.03 12.5 -17.81 12.59 -17.58 12.66 -17.35 12.72 -17.13 12.8 -16.9 12.86 -16.68 12.94 -16.46 13 -16.24 0.68 -0.83 -27.44 -22.18z"/>
+   <path class="fil4" d="M11983.57 25711.73l-1.99 4.49 -8.61 19.67 -8.58 19.9 -8.58 20.13 -8.55 20.36 -8.53 20.58 -8.52 20.82 -8.5 21.06 -8.48 21.29 32.8 12.98 8.42 -21.15 8.44 -20.9 8.46 -20.66 8.47 -20.44 8.49 -20.2 8.5 -19.97 8.52 -19.74 8.53 -19.51 1.99 -4.49 -32.28 -14.22zm1782.98 -1461.32l-2.48 6.62 -2.54 6.5 -2.6 6.36 -2.66 6.24 -2.71 6.12 -2.78 6 -2.82 5.89 -2.88 5.76 -2.94 5.63 -3 5.55 -3.06 5.43 -3.1 5.31 -3.15 5.2 -3.22 5.1 -3.27 5 -3.31 4.88 -3.38 4.78 -3.43 4.7 -3.47 4.58 -3.55 4.5 -3.59 4.41 -3.63 4.29 -3.69 4.22 -3.76 4.13 -3.79 4.04 -3.86 3.95 -3.9 3.88 -3.96 3.79 -1.89 1.75 23.74 26.1 2.33 -2.17 4.4 -4.21 4.34 -4.3 4.28 -4.39 4.23 -4.5 4.16 -4.59 4.11 -4.68 4.05 -4.79 3.97 -4.89 3.91 -4.96 3.87 -5.1 3.79 -5.18 3.72 -5.28 3.67 -5.4 3.59 -5.5 3.54 -5.6 3.47 -5.72 3.4 -5.81 3.32 -5.93 3.28 -6.03 3.2 -6.15 3.14 -6.28 3.06 -6.37 3 -6.48 2.93 -6.62 2.86 -6.72 2.8 -6.86 2.72 -6.96 2.66 -7.08 -33.12 -12.16zm-147.64 185.84c-43.62,25.99 -89.6,42.41 -138.3,56.07 -66.75,18.3 -135.24,30.62 -203.13,43.95l6.82 34.62c58.18,-11.5 116.56,-22.18 174.18,-36.32 62.56,-15.69 122.52,-34.66 178.27,-67.88l-17.84 -30.44zm-412.98 114.64l-7.06 1.52 -7.66 1.67 -7.68 1.7 -7.71 1.73 -7.75 1.77 -7.78 1.8 -7.8 1.83 -7.84 1.87 -7.87 1.92 -7.9 1.94 -7.93 2 -7.95 2.04 -7.98 2.08 -8.01 2.12 -8.04 2.17 -8.07 2.23 -8.09 2.27 -8.13 2.33 -8.14 2.38 -8.16 2.43 -8.2 2.49 -8.22 2.54 -8.25 2.61 -8.27 2.67 -8.29 2.72 -8.32 2.79 -8.34 2.86 -8.37 2.91 -8.38 2.99 -8.41 3.06 -8.43 3.13 -8.44 3.2 -8.47 3.28 -8.49 3.34 -8.52 3.43 -8.52 3.49 -8.56 3.58 -8.58 3.67 -8.58 3.75 -8.61 3.82 -8.62 3.91 -8.64 4 -5.88 2.77 15.18 31.86 5.64 -2.67 8.4 -3.88 8.38 -3.81 8.37 -3.72 8.36 -3.65 8.32 -3.55 8.32 -3.48 8.3 -3.41 8.28 -3.33 8.27 -3.26 8.25 -3.18 8.24 -3.12 8.21 -3.05 8.19 -2.98 8.16 -2.91 8.15 -2.85 8.14 -2.78 8.12 -2.73 8.09 -2.66 8.07 -2.61 8.05 -2.53 8.04 -2.5 8 -2.43 8 -2.37 7.98 -2.34 7.93 -2.27 7.93 -2.23 7.89 -2.17 7.88 -2.13 7.85 -2.08 7.84 -2.04 7.81 -2 7.79 -1.96 7.76 -1.92 7.73 -1.88 7.7 -1.83 7.7 -1.81 7.66 -1.78 7.63 -1.73 7.61 -1.71 7.58 -1.68 7.56 -1.65 7.06 -1.52 -7.48 -34.48zm-414.69 146.35l-6.86 3.78 -8.79 4.93 -8.81 5.04 -8.82 5.14 -8.83 5.25 -8.85 5.35 -8.85 5.46 -8.87 5.57 -8.88 5.68 -8.89 5.79 -8.89 5.9 -8.91 6.01 -8.93 6.14 -8.92 6.25 -8.94 6.37 -8.94 6.48 -8.96 6.61 -8.96 6.75 -8.97 6.86 -8.96 6.97 -8.98 7.1 -8.99 7.25 -8.99 7.36 -9 7.5 -9 7.63 -9.01 7.77 -9.01 7.89 -9.02 8.04 -9.02 8.17 -9.02 8.32 -9.03 8.45 -9.03 8.6 -9.03 8.73 -0.94 0.92 24.84 25.06 0.74 -0.72 8.83 -8.55 8.81 -8.4 8.81 -8.25 8.82 -8.12 8.8 -7.97 8.8 -7.84 8.79 -7.71 8.79 -7.57 8.78 -7.45 8.76 -7.3 8.77 -7.18 8.75 -7.05 8.76 -6.92 8.74 -6.81 8.73 -6.68 8.72 -6.55 8.72 -6.43 8.7 -6.32 8.7 -6.19 8.68 -6.09 8.67 -5.96 8.67 -5.85 8.65 -5.74 8.65 -5.63 8.62 -5.52 8.63 -5.41 8.61 -5.32 8.59 -5.19 8.59 -5.11 8.56 -4.98 8.57 -4.9 8.55 -4.81 6.86 -3.78 -17.16 -30.82zm-345.2 272.55l-1.97 2.11 -9.04 9.78 -9.04 9.94 -9.04 10.1 -9.03 10.25 -9.04 10.4 -9.02 10.57 -9.04 10.72 -9.03 10.9 -9.02 11.06 -9.02 11.22 -9.02 11.39 -9.02 11.55 -9.01 11.73 -9 11.89 -9.01 12.07 -9 12.25 -9 12.43 -8.98 12.6 -8.97 12.76 -8.98 12.96 -8.97 13.13 -8.97 13.32 -8.96 13.51 -8.94 13.69 -5.13 7.95 29.72 19.02 5.01 -7.77 8.82 -13.49 8.82 -13.31 8.83 -13.12 8.83 -12.93 8.84 -12.76 8.85 -12.58 8.84 -12.4 8.84 -12.21 8.86 -12.05 8.85 -11.87 8.86 -11.69 8.85 -11.53 8.86 -11.35 8.86 -11.19 8.86 -11.02 8.86 -10.86 8.85 -10.68 8.86 -10.52 8.86 -10.37 8.86 -10.2 8.85 -10.05 8.86 -9.88 8.84 -9.74 8.86 -9.56 1.97 -2.11 -25.82 -24.06zm-261.99 352.33l-0.76 1.25 -8.9 14.83 -8.88 15.03 -8.87 15.21 -8.88 15.41 -8.85 15.62 -8.85 15.81 -8.84 16.03 -8.82 16.22 -8.82 16.42 -8.79 16.63 -8.8 16.84 -8.78 17.05 -8.76 17.27 -8.75 17.46 -8.74 17.69 -8.73 17.9 -8.71 18.12 -8.69 18.34 -8.68 18.55 -2.51 5.44 32.06 14.72 2.45 -5.3 8.6 -18.39 8.61 -18.16 8.63 -17.94 8.65 -17.74 8.64 -17.51 8.67 -17.3 8.68 -17.09 8.68 -16.87 8.7 -16.66 8.71 -16.45 8.72 -16.26 8.72 -16.04 8.74 -15.83 8.75 -15.63 8.75 -15.44 8.76 -15.23 8.77 -15.03 8.78 -14.83 8.78 -14.65 0.76 -1.25 -30.2 -18.24z"/>
+   <text x="10529.75" y="25946.28"  class="fil2 fnt66">12 </text>
+   <text x="10922.08" y="25946.28"  class="fil2 fnt66">Су-24М</text>
+   <text x="10529.75" y="26261.56"  class="fil2 fnt66">24 Міг-29</text>
+  </g>
+</svg>
