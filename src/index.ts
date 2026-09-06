@@ -6,30 +6,53 @@ const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
 
 // Layout & Canvas Parameters
-const TRIM_WIDTH_MM = 1200;
-const TRIM_HEIGHT_MM = 1460;
-const BLEED_MM = 4.0;
+// Physical map sheet: 1810 mm × 1810 mm at scale 1:25,000
+// SVG canvas matches the physical map size exactly (no bleed/trim distinction here)
+const MAP_SHEET_MM = 1810;       // physical map dimension (square)
+const MAP_SCALE    = 25_000;     // 1:25000
+const BLEED_MM = 0.0;            // no bleed for this format
 const DPI = 300;
 
-const TOTAL_WIDTH_MM = TRIM_WIDTH_MM + 2 * BLEED_MM; // 1208 mm
-const TOTAL_HEIGHT_MM = TRIM_HEIGHT_MM + 2 * BLEED_MM; // 1468 mm
+const TOTAL_WIDTH_MM  = MAP_SHEET_MM;
+const TOTAL_HEIGHT_MM = MAP_SHEET_MM;
 
-const CENTER_X_MM = TOTAL_WIDTH_MM / 2; // 604 mm
-const CENTER_Y_MM = TOTAL_HEIGHT_MM / 2; // 734 mm
+const CENTER_X_MM = TOTAL_WIDTH_MM  / 2; // 905 mm
+const CENTER_Y_MM = TOTAL_HEIGHT_MM / 2; // 905 mm
 
 // Pixels at 300 DPI (1 inch = 25.4 mm)
 const MM_TO_PX_300 = DPI / 25.4;
 
 // ----------------------------------------------------
-// HARDCODED MGRS Window Bounding Box
-// Bottom-Left: 37U DQ 00357 81654
-// Top-Right:   37U DQ 09562 88842
+// MGRS Window — derived from Top-Left corner + map size
+//
+// Top-Left MGRS: 37U BP 97080 43769
+// Ground coverage = MAP_SHEET_MM * MAP_SCALE (mm → m)
+//   = 1810 mm × 25 000 = 45 250 000 mm = 45 250 m = 45.25 km
 // ----------------------------------------------------
-export const MGRS_BL = '37UDQ0035781654';
-export const MGRS_TR = '37UDQ0956288842';
+export const MGRS_TL = '37UBP9708043769';
 
-const [MIN_LON, MIN_LAT] = mgrs.toPoint(MGRS_BL);
-const [MAX_LON, MAX_LAT] = mgrs.toPoint(MGRS_TR);
+const [TL_LON, TL_LAT] = mgrs.toPoint(MGRS_TL);
+
+// Ground size covered by the map sheet, in metres
+const GROUND_SIZE_M = (MAP_SHEET_MM * MAP_SCALE) / 1000;
+
+// Degree spans (using TL latitude for cos correction)
+const TL_LAT_RAD   = (TL_LAT * Math.PI) / 180;
+const M_PER_DEG_LAT = 111_320;
+const M_PER_DEG_LON = 111_320 * Math.cos(TL_LAT_RAD);
+
+const SPAN_DEG_LON = GROUND_SIZE_M / M_PER_DEG_LON; // ~0.610°
+const SPAN_DEG_LAT = GROUND_SIZE_M / M_PER_DEG_LAT; // ~0.406°
+
+// Derived bounding box (TL = top-left, BR = bottom-right)
+const MIN_LON = TL_LON;
+const MAX_LAT = TL_LAT;
+const MAX_LON = TL_LON + SPAN_DEG_LON;
+const MIN_LAT = TL_LAT - SPAN_DEG_LAT;
+
+console.log(`Map window:  TL (${TL_LON.toFixed(6)}, ${TL_LAT.toFixed(6)})`);
+console.log(`             BR (${MAX_LON.toFixed(6)}, ${MIN_LAT.toFixed(6)})`);
+console.log(`Ground size: ${GROUND_SIZE_M / 1000} km × ${GROUND_SIZE_M / 1000} km`);
 
 interface Point {
   lon: number;
@@ -57,35 +80,26 @@ function inWindow(lon: number, lat: number): boolean {
   return lon >= MIN_LON && lon <= MAX_LON && lat >= MIN_LAT && lat <= MAX_LAT;
 }
 
-// Center of the hardcoded window
+// Center of the window
 const centerLon = (MIN_LON + MAX_LON) / 2;
 const centerLat = (MIN_LAT + MAX_LAT) / 2;
 
-// HARDCODED reference shift to top-left start position of the window
-const SHIFT_LON = MIN_LON; // Bottom-Left longitude
-const SHIFT_LAT = MAX_LAT; // Top-Right latitude
+// Top-left corner as the SVG origin reference
+const SHIFT_LON = MIN_LON; // TL longitude
+const SHIFT_LAT = MAX_LAT; // TL latitude
 
-// Aspect correction factor for latitude (~49.51° N)
+// Aspect correction at center latitude
 const LAT_RAD = (centerLat * Math.PI) / 180;
 const COS_LAT = Math.cos(LAT_RAD);
 
-// Determine scale factor S (mm per degree) to map the window onto the 1208x1468 layout
-const DRAW_WIDTH_TARGET = 1050; // mm drawing area width
-const DRAW_HEIGHT_TARGET = 1300; // mm drawing area height
+// Scale: map the window exactly onto the physical sheet dimensions
+// S is mm per degree such that SPAN_DEG_LON * COS_LAT * S == TOTAL_WIDTH_MM
+// and SPAN_DEG_LAT * S == TOTAL_HEIGHT_MM  (both should be equal for a square map)
+const S = TOTAL_WIDTH_MM / (SPAN_DEG_LON * COS_LAT); // mm / degree
 
-const spanLonMm = (MAX_LON - MIN_LON) * COS_LAT;
-const spanLatMm = MAX_LAT - MIN_LAT;
-
-const scaleX = DRAW_WIDTH_TARGET / spanLonMm;
-const scaleY = DRAW_HEIGHT_TARGET / spanLatMm;
-const S = Math.min(scaleX, scaleY); // Uniform scale (~13,500 mm/degree)
-
-// Compute common X/Y offsets from SHIFT_LON, SHIFT_LAT so center of window lands on (CENTER_X_MM, CENTER_Y_MM)
-const centerRelativeX = (centerLon - SHIFT_LON) * COS_LAT * S;
-const centerRelativeY = (SHIFT_LAT - centerLat) * S;
-
-const OFFSET_X = CENTER_X_MM - centerRelativeX;
-const OFFSET_Y = CENTER_Y_MM - centerRelativeY;
+// Offset so that TL maps to SVG (0, 0)
+const OFFSET_X = 0; // TL is at x=0
+const OFFSET_Y = 0; // TL is at y=0
 
 // Transform (lon, lat) -> (svgX, svgY) in mm
 function geoToSvg(pt: Point): { x: number; y: number } {
@@ -105,10 +119,11 @@ function escapeXml(str: string): string {
 }
 
 // ----------------------------------------------------
-// 1. KML Lines Parsing (data/nikitos_лбз/doc.kml) - Filtered to Window
+// 1. KML Lines Parsing (myrne/лбз/doc.kml) - Filtered to Window
+//    Optional: skipped if file does not exist
 // ----------------------------------------------------
-const lbzKmlPath = path.resolve(process.cwd(), 'data/nikitos_лбз/doc.kml');
-const lbzKmlContent = fs.readFileSync(lbzKmlPath, 'utf-8');
+const lbzKmlPath = path.resolve(process.cwd(), 'myrne/лбз/doc.kml');
+const lbzKmlContent = fs.existsSync(lbzKmlPath) ? fs.readFileSync(lbzKmlPath, 'utf-8') : '';
 
 const lbzCoordMatches =
   lbzKmlContent.match(/<coordinates>([\s\S]*?)<\/coordinates>/gi) || [];
@@ -159,13 +174,10 @@ const pathElements = kmlLines
   .join('\n');
 
 // ----------------------------------------------------
-// 2. Blue Force Points Parsing (data/nikitos_blue_force/doc.kml)
+// 2. Blue Force Points Parsing (myrne/blue_force/doc.kml)
 // ----------------------------------------------------
-const blueKmlPath = path.resolve(
-  process.cwd(),
-  'data/nikitos_blue_force/doc.kml',
-);
-const blueKmlContent = fs.readFileSync(blueKmlPath, 'utf-8');
+const blueKmlPath = path.resolve(process.cwd(), 'myrne/blue_force/doc.kml');
+const blueKmlContent = fs.existsSync(blueKmlPath) ? fs.readFileSync(blueKmlPath, 'utf-8') : '';
 
 const bluePlacemarks =
   blueKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
@@ -234,10 +246,11 @@ bluePointMarkers.forEach((pt, idx) => {
 });
 
 // ----------------------------------------------------
-// 3. Enemy Points Parsing (data/nikitos_enemy/doc.kml)
+// 3. Enemy Points Parsing (myrne/enemy/doc.kml)
+//    Optional: skipped if file does not exist
 // ----------------------------------------------------
-const enemyKmlPath = path.resolve(process.cwd(), 'data/nikitos_enemy/doc.kml');
-const enemyKmlContent = fs.readFileSync(enemyKmlPath, 'utf-8');
+const enemyKmlPath = path.resolve(process.cwd(), 'myrne/enemy/doc.kml');
+const enemyKmlContent = fs.existsSync(enemyKmlPath) ? fs.readFileSync(enemyKmlPath, 'utf-8') : '';
 
 const enemyPlacemarks =
   enemyKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
@@ -309,7 +322,7 @@ const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
       <cc:Work xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
         <dc:format>image/svg+xml</dc:format>
         <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Layout ${TRIM_WIDTH_MM}x${TRIM_HEIGHT_MM}mm with SIDC UAV Drone Icons</dc:title>
+        <dc:title>1:25000 Map 1810×1810mm — TL MGRS ${MGRS_TL} — SIDC UAV Drone Icons</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -352,7 +365,7 @@ ${enemyTextElements.join('\n')}
 </svg>
 `;
 
-const outputPath = path.resolve(process.cwd(), 'layout_1200x1460_bleed4.svg');
+const outputPath = path.resolve(process.cwd(), 'layout_1810x1810_25k.svg');
 fs.writeFileSync(outputPath, svgContent, 'utf-8');
 
 console.log(`SVG successfully generated with SIDC drone icons: ${outputPath}`);
