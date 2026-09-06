@@ -1,3 +1,4 @@
 node_modules/
 dist/
 .DS_Store
+sample/big_sample_map.cdr
