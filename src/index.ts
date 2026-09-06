@@ -8,15 +8,15 @@ const mgrs =
 // Layout & Canvas Parameters
 // Physical map sheet: 1810 mm × 1810 mm at scale 1:25,000
 // SVG canvas matches the physical map size exactly (no bleed/trim distinction here)
-const MAP_SHEET_MM = 1810;       // physical map dimension (square)
-const MAP_SCALE    = 25_000;     // 1:25000
-const BLEED_MM = 0.0;            // no bleed for this format
+const MAP_SHEET_MM = 1810; // physical map dimension (square)
+const MAP_SCALE = 25_000; // 1:25000
+const BLEED_MM = 0.0; // no bleed for this format
 const DPI = 300;
 
-const TOTAL_WIDTH_MM  = MAP_SHEET_MM;
+const TOTAL_WIDTH_MM = MAP_SHEET_MM;
 const TOTAL_HEIGHT_MM = MAP_SHEET_MM;
 
-const CENTER_X_MM = TOTAL_WIDTH_MM  / 2; // 905 mm
+const CENTER_X_MM = TOTAL_WIDTH_MM / 2; // 905 mm
 const CENTER_Y_MM = TOTAL_HEIGHT_MM / 2; // 905 mm
 
 // Pixels at 300 DPI (1 inch = 25.4 mm)
@@ -37,7 +37,7 @@ const [TL_LON, TL_LAT] = mgrs.toPoint(MGRS_TL);
 const GROUND_SIZE_M = (MAP_SHEET_MM * MAP_SCALE) / 1000;
 
 // Degree spans (using TL latitude for cos correction)
-const TL_LAT_RAD   = (TL_LAT * Math.PI) / 180;
+const TL_LAT_RAD = (TL_LAT * Math.PI) / 180;
 const M_PER_DEG_LAT = 111_320;
 const M_PER_DEG_LON = 111_320 * Math.cos(TL_LAT_RAD);
 
@@ -52,7 +52,9 @@ const MIN_LAT = TL_LAT - SPAN_DEG_LAT;
 
 console.log(`Map window:  TL (${TL_LON.toFixed(6)}, ${TL_LAT.toFixed(6)})`);
 console.log(`             BR (${MAX_LON.toFixed(6)}, ${MIN_LAT.toFixed(6)})`);
-console.log(`Ground size: ${GROUND_SIZE_M / 1000} km × ${GROUND_SIZE_M / 1000} km`);
+console.log(
+  `Ground size: ${GROUND_SIZE_M / 1000} km × ${GROUND_SIZE_M / 1000} km`,
+);
 
 interface Point {
   lon: number;
@@ -62,8 +64,10 @@ interface Point {
   sidc?: string;
 }
 
-// Target SIDC for UAV / Drone icon replacement
-const SIDC_DRONE = '10031000001219000000';
+// // Detect ЗПМ objects by name prefix — rendered with drone.svg icon
+// function isZpm(name: string): boolean {
+//   return name.startsWith('ЗПМ ');
+// }
 
 // Read drone SVG icon content
 const droneIconPath = path.resolve(process.cwd(), 'icons/drone.svg');
@@ -123,7 +127,9 @@ function escapeXml(str: string): string {
 //    Optional: skipped if file does not exist
 // ----------------------------------------------------
 const lbzKmlPath = path.resolve(process.cwd(), 'myrne/лбз/doc.kml');
-const lbzKmlContent = fs.existsSync(lbzKmlPath) ? fs.readFileSync(lbzKmlPath, 'utf-8') : '';
+const lbzKmlContent = fs.existsSync(lbzKmlPath)
+  ? fs.readFileSync(lbzKmlPath, 'utf-8')
+  : '';
 
 const lbzCoordMatches =
   lbzKmlContent.match(/<coordinates>([\s\S]*?)<\/coordinates>/gi) || [];
@@ -177,7 +183,9 @@ const pathElements = kmlLines
 // 2. Blue Force Points Parsing (myrne/blue_force/doc.kml)
 // ----------------------------------------------------
 const blueKmlPath = path.resolve(process.cwd(), 'myrne/blue_force/doc.kml');
-const blueKmlContent = fs.existsSync(blueKmlPath) ? fs.readFileSync(blueKmlPath, 'utf-8') : '';
+const blueKmlContent = fs.existsSync(blueKmlPath)
+  ? fs.readFileSync(blueKmlPath, 'utf-8')
+  : '';
 
 const bluePlacemarks =
   blueKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
@@ -214,7 +222,7 @@ let droneIconCount = 0;
 
 bluePointMarkers.forEach((pt, idx) => {
   const svgPt = geoToSvg(pt);
-  const isDrone = pt.sidc === SIDC_DRONE;
+  const isDrone = isZpm(pt.name ?? '');
 
   if (isDrone) {
     droneIconCount++;
@@ -250,7 +258,9 @@ bluePointMarkers.forEach((pt, idx) => {
 //    Optional: skipped if file does not exist
 // ----------------------------------------------------
 const enemyKmlPath = path.resolve(process.cwd(), 'myrne/enemy/doc.kml');
-const enemyKmlContent = fs.existsSync(enemyKmlPath) ? fs.readFileSync(enemyKmlPath, 'utf-8') : '';
+const enemyKmlContent = fs.existsSync(enemyKmlPath)
+  ? fs.readFileSync(enemyKmlPath, 'utf-8')
+  : '';
 
 const enemyPlacemarks =
   enemyKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
@@ -368,7 +378,7 @@ ${enemyTextElements.join('\n')}
 const outputPath = path.resolve(process.cwd(), 'layout_1810x1810_25k.svg');
 fs.writeFileSync(outputPath, svgContent, 'utf-8');
 
-console.log(`SVG successfully generated with SIDC drone icons: ${outputPath}`);
+console.log(`SVG successfully generated: ${outputPath}`);
 console.log(`- Blue Force points: ${bluePointMarkers.length}`);
-console.log(`- Drone Icons rendered (SIDC=${SIDC_DRONE}): ${droneIconCount}`);
+console.log(`- ЗПМ icons rendered: ${droneIconCount}`);
 console.log(`- Enemy points & labels: ${enemyPointMarkers.length}`);
