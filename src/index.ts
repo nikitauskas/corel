@@ -64,22 +64,32 @@ interface Point {
   sidc?: string;
 }
 
-const mappingSVGs = {
-  'ЗПМ ': 'icons/Ракетні війська та артилерія/Батарея БПЛА.svg',
-  'РТР ':
+const mappingSVGs: Record<string, [string, number]> = {
+  'ЗПМ ': ['icons/Ракетні війська та артилерія/Батарея БПЛА.svg', 7.932],
+  'РТР ': [
     'icons/Зв_язок/Станція звязку _РЗ-радіо_ ТрЗ-транкінговий_ РРЗ-радіорелейний_ ТРЗ-топосферний_ СЗ-супутниковий_ ПрЗ-проводовий.svg',
+    7.932,
+  ],
 };
+
+// Padding (in SVG user units) added around each icon's content bounding box when icons were extracted.
+// targetHeightMm in mappingSVGs refers to the VISIBLE content size, not the padded viewBox.
+const ICON_VIEWBOX_PADDING = 50;
+
+// Per-icon rendered size [width, height] in mm, populated during defs generation
+const iconRenderedSizes: [number, number][] = [];
 
 // Process mapped icons into SVG <defs> components
 let iconsDefsContent = '';
 let iconsSymbolsContent = '';
 
-Object.entries(mappingSVGs).forEach(([prefix, iconPathRelative], idx) => {
+Object.entries(mappingSVGs).forEach(([prefix, [iconPathRelative, targetHeightMm]], idx) => {
   const iconPath = path.resolve(process.cwd(), iconPathRelative);
   if (!fs.existsSync(iconPath)) {
     console.warn(
       `Warning: Icon not found for prefix '${prefix}': ${iconPathRelative}`,
     );
+    iconRenderedSizes.push([targetHeightMm, targetHeightMm]); // fallback square
     return;
   }
 
@@ -93,8 +103,8 @@ Object.entries(mappingSVGs).forEach(([prefix, iconPathRelative], idx) => {
     .map(Number);
   const minX = parts[0] || 0;
   const minY = parts[1] || 0;
-  const width = parts[2] || 100;
-  const height = parts[3] || 100;
+  const svgWidth = parts[2] || 100;
+  const svgHeight = parts[3] || 100;
 
   const innerSvgMatch = iconContent.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
   const innerSvg = innerSvgMatch ? innerSvgMatch[1] : '';
@@ -105,18 +115,25 @@ Object.entries(mappingSVGs).forEach(([prefix, iconPathRelative], idx) => {
   }
   const geometry = innerSvg.replace(/<defs>[\s\S]*?<\/defs>/i, '');
 
-  const targetIconSize = 8.0; // mm
-  const scale = Math.min(targetIconSize / width, targetIconSize / height);
-  const scaledW = width * scale;
-  const scaledH = height * scale;
-  const offsetX = (targetIconSize - scaledW) / 2;
-  const offsetY = (targetIconSize - scaledH) / 2;
+  // Scale so that the VISIBLE CONTENT height (viewBox minus padding on both sides)
+  // matches targetHeightMm exactly, preserving aspect ratio.
+  const contentH = svgHeight - 2 * ICON_VIEWBOX_PADDING;
+  const contentW = svgWidth - 2 * ICON_VIEWBOX_PADDING;
+  const scale = targetHeightMm / (contentH > 0 ? contentH : svgHeight);
+  const scaledW = svgWidth * scale;   // total rendered width including padding
+  const scaledH = svgHeight * scale;  // total rendered height including padding
+  const scaledContentW = contentW * scale; // == targetHeightMm * (contentW / contentH)
+  const scaledContentH = contentH * scale; // == targetHeightMm
+
+  // Record actual CONTENT dimensions for centering during placement
+  iconRenderedSizes.push([scaledContentW, scaledContentH]);
+
   const symbolId = `icon-mapping-${idx}`;
 
   iconsSymbolsContent += `
     <g id="${symbolId}">
-      <!-- Normalize ${prefix} from viewBox (${viewBoxStr}) to max ${targetIconSize}x${targetIconSize} mm preserving aspect ratio -->
-      <g transform="translate(${offsetX.toFixed(4)}, ${offsetY.toFixed(4)}) scale(${scale}) translate(${-minX}, ${-minY})">
+      <!-- ${prefix}: content=${scaledContentW.toFixed(4)}x${scaledContentH.toFixed(4)}mm (target=${targetHeightMm}mm), total with padding=${scaledW.toFixed(4)}x${scaledH.toFixed(4)}mm -->
+      <g transform="scale(${scale}) translate(${-minX}, ${-minY})">
         ${geometry}
       </g>
     </g>`;
@@ -278,9 +295,10 @@ bluePointMarkers.forEach((pt, idx) => {
 
   if (mappingIdx !== -1) {
     customIconCount++;
-    const iconSize = 8.0; // mm
-    const xPos = Number((svgPt.x - iconSize / 2).toFixed(3));
-    const yPos = Number((svgPt.y - iconSize / 2).toFixed(3));
+    // Use the actual rendered dimensions for this icon
+    const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
+    const xPos = Number((svgPt.x - iconW / 2).toFixed(3));
+    const yPos = Number((svgPt.y - iconH / 2).toFixed(3));
 
     bluePointElements.push(
       `    <g transform="translate(${xPos} ${yPos})">`,
@@ -301,7 +319,8 @@ bluePointMarkers.forEach((pt, idx) => {
   const cleanText = escapeXml(labelText);
 
   // Position text below dot or icon
-  const textYOffset = mappingIdx !== -1 ? 6.0 : 4.2;
+  const [, iconH] = mappingIdx !== -1 ? (iconRenderedSizes[mappingIdx] ?? [8.0, 8.0]) : [0, 0];
+  const textYOffset = mappingIdx !== -1 ? iconH / 2 + 1.5 : 4.2;
   blueTextElements.push(
     `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + textYOffset).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
   );
