@@ -314,7 +314,7 @@ bluePointMarkers.forEach((pt, idx) => {
     const { xPos, yPos, cleanText, rectX, rectY, rectW, rectH } =
       computeLabelLayout(svgPt, iconW, iconH, pt.name || 'Test');
 
-    const cleanDesc = pt.desc ? escapeXml(pt.desc) : '';
+    const groupDesc = 'AK74-2од'; //pt.desc ? escapeXml(pt.desc) : '';
     const descX = Number(rectX) + Number(rectW) / 2;
     const descY = Number(rectY) + Number(rectH) + 2.6; // 3.0mm gives a little padding below the rect
 
@@ -324,10 +324,10 @@ bluePointMarkers.forEach((pt, idx) => {
       `    <text id="blue-label-${idx + 1}" x="${xPos}" y="${yPos.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${cleanText}</text>`,
     ];
 
-    if (cleanDesc) {
+    if (groupDesc) {
       // 8pt ≈ 2.822mm
       textElements.push(
-        `    <text id="blue-label-desc-${idx + 1}" x="${descX.toFixed(3)}" y="${descY.toFixed(3)}" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>`,
+        `    <text id="blue-label-desc-${idx + 1}" x="${descX.toFixed(3)}" y="${descY.toFixed(3)}" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${groupDesc}</text>`,
       );
     }
 
