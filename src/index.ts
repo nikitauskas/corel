@@ -285,7 +285,7 @@ bluePointMarkers.forEach((pt, idx) => {
     bluePointElements.push(
       `    <g transform="translate(${xPos} ${yPos})">`,
       `      <use xlink:href="#icon-mapping-${mappingIdx}" />`,
-      `    </g>`,
+      '    </g>',
     );
   } else {
     bluePointElements.push(
