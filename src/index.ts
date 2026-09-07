@@ -1,7 +1,11 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as m from 'mgrs';
-import { computeLabelLayout, escapeXml } from './utils.js';
+import {
+  computeLabelLayout,
+  computeRightLabelLayout,
+  escapeXml,
+} from './utils.js';
 
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
@@ -314,6 +318,8 @@ bluePointMarkers.forEach((pt, idx) => {
     const { xPos, yPos, cleanText, rectX, rectY, rectW, rectH } =
       computeLabelLayout(svgPt, iconW, iconH, pt.name || 'Test');
 
+    const rightLabel = computeRightLabelLayout(svgPt, iconW, iconH, '9/3//78');
+
     const groupDesc = 'AK74-2од'; //pt.desc ? escapeXml(pt.desc) : '';
     const descX = Number(rectX) + Number(rectW) / 2;
     const descY = Number(rectY) + Number(rectH) + 2.6; // 3.0mm gives a little padding below the rect
@@ -322,6 +328,8 @@ bluePointMarkers.forEach((pt, idx) => {
       `<g id="blue-label-${idx + 1}-group">`,
       `    <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="#92B4EC" />`,
       `    <text id="blue-label-${idx + 1}" x="${xPos}" y="${yPos.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${cleanText}</text>`,
+      `    <rect x="${rightLabel.rectX}" y="${rightLabel.rectY}" width="${rightLabel.rectW}" height="${rightLabel.rectH}" fill="#92B4EC" />`,
+      `    <text id="blue-label-right-${idx + 1}" x="${rightLabel.xPos}" y="${rightLabel.yPos.toFixed(3)}" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
     ];
 
     if (groupDesc) {

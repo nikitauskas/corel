@@ -238,4 +238,29 @@ function escapeXml(str: string): string {
     .replace(/'/g, '&apos;');
 }
 
-export { measureTextWidthMm, computeLabelLayout, escapeXml };
+function computeRightLabelLayout(
+  svgPt: { x: number; y: number },
+  iconW: number,
+  iconH: number,
+  rawName: string,
+  fontSizeMm = 3.526, // matches font-size="3.526" used in <text>
+  rectPadX = 0.9,
+  rectPadY = 0.05,
+  rectHeight = 2.917, // mm — matches text height in CorelDraw
+) {
+  const cleanText = escapeXml(rawName ?? '');
+
+  const xPos = Number((svgPt.x + iconW / 2).toFixed(3));
+  const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5;
+
+  const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
+
+  const rectX = (xPos - rectPadX).toFixed(3);
+  const rectY = (yPos - rectHeight + rectPadY).toFixed(3);
+  const rectW = (textWidth + rectPadX * 2).toFixed(3);
+  const rectH = rectHeight.toFixed(3);
+
+  return { xPos, yPos, cleanText, rectX, rectY, rectW, rectH };
+}
+
+export { measureTextWidthMm, computeLabelLayout, computeRightLabelLayout, escapeXml };
