@@ -215,7 +215,8 @@ function computeLabelLayout(
 ) {
   const cleanText = escapeXml(rawName ?? '');
 
-  const xPos = Number((svgPt.x - iconW / 2).toFixed(3));
+  // Shift left by rectPadX so the background rect ends exactly at the icon edge
+  const xPos = Number((svgPt.x - iconW / 2 - rectPadX).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5;
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
@@ -250,7 +251,8 @@ function computeRightLabelLayout(
 ) {
   const cleanText = escapeXml(rawName ?? '');
 
-  const xPos = Number((svgPt.x + iconW / 2).toFixed(3));
+  // Shift right by rectPadX so the background rect starts exactly at the icon edge
+  const xPos = Number((svgPt.x + iconW / 2 + rectPadX).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5;
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
