@@ -320,21 +320,21 @@ bluePointMarkers.forEach((pt, idx) => {
     // dominant-baseline / dy → text baseline sits at bottom of icon, grows UP
     const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
     const xPos = Number((svgPt.x - iconW / 2).toFixed(3));
-    const yPos = Number((svgPt.y + iconH / 2).toFixed(3)); // bottom edge
+    const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5; // bottom edge
     const cleanText = escapeXml(pt.name ?? '');
     // Font size: ArialBI 3.528 mm → 9.9999 pt in CorelDraw (1 pt = 0.352778 mm)
     // Estimate text width: ~2.0 mm per character at font-size 3.268 mm (bold italic)
     const estimatedTextWidth = cleanText.length * 2.0;
-    const rectHeight = 4.0; // slightly taller than font size for padding
-    const rectPadX = 0.5; // horizontal padding
-    const rectPadY = 0.8; // vertical padding above baseline
+    const rectHeight = 2.917; // mm — matches text height in CorelDraw
+    const rectPadX = 0.9; // horizontal padding
+    const rectPadY = 0.05; // vertical padding above baseline
     const rectX = (xPos - estimatedTextWidth - rectPadX).toFixed(3);
     const rectY = (yPos - rectHeight + rectPadY).toFixed(3);
     const rectW = (estimatedTextWidth + rectPadX * 2).toFixed(3);
     const rectH = rectHeight.toFixed(3);
     blueTextElements.push(
       `<g id="blue-label-${idx + 1}-group">`,
-      `    <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="yellow" />`,
+      `    <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="#92B4EC" />`,
       `    <text id="blue-label-${idx + 1}" x="${xPos}" y="${yPos.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${cleanText}</text>`,
       '</g>',
     );
