@@ -453,14 +453,14 @@ ${generatedIconsDefs}
 ${pathElements}
   </g>
 
-  <!-- Blue Force Layer (Red Dots / Drone Icons) -->
-  <g id="BlueForceDots">
-${bluePointElements.join('\n')}
-  </g>
-
   <!-- Blue Force Centered Labels -->
   <g id="BlueForceLabels">
 ${blueTextElements.join('\n')}
+  </g>
+
+  <!-- Blue Force Layer (Red Dots / Drone Icons) -->
+  <g id="BlueForceDots">
+${bluePointElements.join('\n')}
   </g>
 
   <!-- Enemy Black Dots Layer -->
