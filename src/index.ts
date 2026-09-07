@@ -314,19 +314,29 @@ bluePointMarkers.forEach((pt, idx) => {
   }
 
   // Text label logic
-  let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
-  if (!labelText || labelText === '●') {
-    labelText = `Blue #${idx + 1}`;
+  if (mappingIdx !== -1) {
+    // Custom icon: name label anchored at bottom-left of icon
+    // text-anchor="end" → text grows LEFT from x (left edge of icon)
+    // dominant-baseline / dy → text baseline sits at bottom of icon, grows UP
+    const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
+    const xPos = Number((svgPt.x - iconW / 2).toFixed(3));
+    const yPos = Number((svgPt.y + iconH / 2).toFixed(3)); // bottom edge
+    const cleanText = escapeXml(pt.name ?? '');
+    // Font size: Arial 10px → 3.268 mm (as specified)
+    blueTextElements.push(
+      `    <text id="blue-label-${idx + 1}" x="${xPos}" y="${yPos.toFixed(3)}" text-anchor="end" font-family="Arial, sans-serif" font-size="3.268" font-weight="bold" font-style="italic" fill="#cc0000">${cleanText}</text>`,
+    );
+  } else {
+    // Regular dot: name/desc label below the dot
+    let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
+    if (!labelText || labelText === '●') {
+      labelText = `Blue #${idx + 1}`;
+    }
+    const cleanText = escapeXml(labelText);
+    blueTextElements.push(
+      `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
+    );
   }
-  const cleanText = escapeXml(labelText);
-
-  // Position text below dot or icon
-  const [, iconH] =
-    mappingIdx !== -1 ? (iconRenderedSizes[mappingIdx] ?? [8.0, 8.0]) : [0, 0];
-  const textYOffset = mappingIdx !== -1 ? iconH / 2 + 1.5 : 4.2;
-  blueTextElements.push(
-    `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + textYOffset).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
-  );
 });
 
 // ----------------------------------------------------
