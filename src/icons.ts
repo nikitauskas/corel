@@ -412,11 +412,11 @@ function buildSvg(
     `  width="${width}" height="${height}"`,
     `  viewBox="${vbX} ${vbY} ${vbW} ${vbH}"`,
     `  style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">`,
-    `  <defs>`,
+    '  <defs>',
     defs,
-    `  </defs>`,
+    '  </defs>',
     innerContent,
-    `</svg>`,
+    '</svg>',
   ].join('\n');
 }
 
@@ -523,7 +523,6 @@ function parseGroups(svgText: string): {
         childLines = [];
         childId = '';
       }
-      continue;
     }
 
     // Lines between children (like <metadata>) or standalone elements
