@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as m from 'mgrs';
+import { computeLabelLayout, escapeXml } from './utils.js';
 
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
@@ -179,16 +180,6 @@ function geoToSvg(pt: Point): { x: number; y: number } {
   return { x: Number(x.toFixed(3)), y: Number(y.toFixed(3)) };
 }
 
-// Helper to escape XML special characters
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-}
-
 // ----------------------------------------------------
 // 1. KML Lines Parsing (myrne/лбз/doc.kml) - Filtered to Window
 //    Optional: skipped if file does not exist
@@ -318,20 +309,11 @@ bluePointMarkers.forEach((pt, idx) => {
     // Custom icon: name label anchored at bottom-left of icon
     // text-anchor="end" → text grows LEFT from x (left edge of icon)
     // dominant-baseline / dy → text baseline sits at bottom of icon, grows UP
+
     const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
-    const xPos = Number((svgPt.x - iconW / 2).toFixed(3));
-    const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5; // bottom edge
-    const cleanText = escapeXml(pt.name ?? '');
-    // Font size: ArialBI 3.528 mm → 9.9999 pt in CorelDraw (1 pt = 0.352778 mm)
-    // Estimate text width: ~2.0 mm per character at font-size 3.268 mm (bold italic)
-    const estimatedTextWidth = cleanText.length * 2.0;
-    const rectHeight = 2.917; // mm — matches text height in CorelDraw
-    const rectPadX = 0.9; // horizontal padding
-    const rectPadY = 0.05; // vertical padding above baseline
-    const rectX = (xPos - estimatedTextWidth - rectPadX).toFixed(3);
-    const rectY = (yPos - rectHeight + rectPadY).toFixed(3);
-    const rectW = (estimatedTextWidth + rectPadX * 2).toFixed(3);
-    const rectH = rectHeight.toFixed(3);
+    const { xPos, yPos, cleanText, rectX, rectY, rectW, rectH } =
+      computeLabelLayout(svgPt, iconW, iconH, pt.name || 'Test');
+
     blueTextElements.push(
       `<g id="blue-label-${idx + 1}-group">`,
       `    <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="#92B4EC" />`,
