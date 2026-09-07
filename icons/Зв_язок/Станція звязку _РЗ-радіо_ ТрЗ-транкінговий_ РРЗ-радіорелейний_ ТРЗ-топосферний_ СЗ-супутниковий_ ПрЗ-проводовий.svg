@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="800" height="412"
-  viewBox="9295.82 19047.84 1823.3400000000001 940"
+  width="800" height="800"
+  viewBox="9295.82 19047.84 940 940"
   style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
   <defs>
+
+
 <style type="text/css">
    <![CDATA[
     @font-face { font-family:"Arial";font-variant:normal;font-weight:bold;src:url("#FontID1") format(svg)}
@@ -301,13 +303,15 @@
 <clipPath id="id12">
        <path d="M15504.77 -2230.34l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
       </clipPath>
+  
+  
   </defs>
-  <g id="Станція_x0020_звязку_x0020__x0028_РЗ-радіо_x002c__x0020_ТрЗ-транкінговий_x002c__x0020_РРЗ-радіорелейний_x002c__x0020_ТРЗ-топосферний_x002c__x0020_СЗ-супутниковий_x002c__x0020_ПрЗ-проводовий_x0029_">
+<g id="Станція_x0020_звязку_x0020__x0028_РЗ-радіо_x002c__x0020_ТрЗ-транкінговий_x002c__x0020_РРЗ-радіорелейний_x002c__x0020_ТРЗ-топосферний_x002c__x0020_СЗ-супутниковий_x002c__x0020_ПрЗ-проводовий_x0029_">
    <circle class="fil0 str0" cx="9765.82" cy="19517.84" r="420"/>
    <g>
     <line class="fil1 str0" x1="9765.78" y1="19777.46" x2="9765.85" y2= "19262.83" />
     <polyline class="fil1 str0" points="9659.57,19266.35 9712.56,19326.08 9765.55,19385.82 9818.54,19326.08 9871.53,19266.35 "/>
    </g>
-   <text x="10269.16" y="19644.13"  class="fil2 fnt27">РЗ</text>
+   
   </g>
 </svg>
