@@ -64,35 +64,67 @@ interface Point {
   sidc?: string;
 }
 
-// Detect ЗПМ objects by name prefix — rendered with Батарея БПЛА.svg icon
-function isZpm(name: string): boolean {
-  return name.startsWith('ЗПМ ');
-}
+const mappingSVGs = {
+  'ЗПМ ': 'icons/Ракетні війська та артилерія/Батарея БПЛА.svg',
+  'РТР ':
+    'icons/Зв_язок/Станція звязку _РЗ-радіо_ ТрЗ-транкінговий_ РРЗ-радіорелейний_ ТРЗ-топосферний_ СЗ-супутниковий_ ПрЗ-проводовий.svg',
+};
 
-// Read Батарея БПЛА SVG icon and extract its content for a <symbol>
-const zpmIconPath = path.resolve(
-  process.cwd(),
-  'icons/Ракетні війська та артилерія/Батарея БПЛА.svg',
-);
-const zpmIconContent = fs.readFileSync(zpmIconPath, 'utf-8');
-const viewBoxMatch = zpmIconContent.match(/viewBox="([^"]+)"/);
-const zpmViewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 100 100';
-const innerSvgMatch = zpmIconContent.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
-const zpmInnerSvg = innerSvgMatch ? innerSvgMatch[1] : '';
+// Process mapped icons into SVG <defs> components
+let iconsDefsContent = '';
+let iconsSymbolsContent = '';
 
-const zpmDefsMatch = zpmInnerSvg.match(/<defs>([\s\S]*?)<\/defs>/i);
-const zpmDefs = zpmDefsMatch ? zpmDefsMatch[1] : '';
-const zpmGeometry = zpmInnerSvg.replace(/<defs>[\s\S]*?<\/defs>/i, '');
+Object.entries(mappingSVGs).forEach(([prefix, iconPathRelative], idx) => {
+  const iconPath = path.resolve(process.cwd(), iconPathRelative);
+  if (!fs.existsSync(iconPath)) {
+    console.warn(
+      `Warning: Icon not found for prefix '${prefix}': ${iconPathRelative}`,
+    );
+    return;
+  }
 
-const zpmSymbolDef = `  <defs>
-    <!-- Hoisted defs from ZPM icon -->
-${zpmDefs}
-    <g id="blue-zpm">
-      <!-- Normalize from viewBox (13492.87 10010.44 1470.46 1221.72) to an 8x8 icon -->
-      <g transform="scale(0.00544047, 0.00654814) translate(-13492.87, -10010.44)">
-        ${zpmGeometry}
+  const iconContent = fs.readFileSync(iconPath, 'utf-8');
+
+  const viewBoxMatch = iconContent.match(/viewBox="([^"]+)"/);
+  const viewBoxStr = viewBoxMatch ? viewBoxMatch[1] : '0 0 100 100';
+  const parts = viewBoxStr
+    .trim()
+    .split(/[\s,]+/)
+    .map(Number);
+  const minX = parts[0] || 0;
+  const minY = parts[1] || 0;
+  const width = parts[2] || 100;
+  const height = parts[3] || 100;
+
+  const innerSvgMatch = iconContent.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
+  const innerSvg = innerSvgMatch ? innerSvgMatch[1] : '';
+
+  const defsMatch = innerSvg.match(/<defs>([\s\S]*?)<\/defs>/i);
+  if (defsMatch) {
+    iconsDefsContent += `\n    <!-- Hoisted defs for ${prefix} -->\n    ${defsMatch[1]}`;
+  }
+  const geometry = innerSvg.replace(/<defs>[\s\S]*?<\/defs>/i, '');
+
+  const targetIconSize = 8.0; // mm
+  const scale = Math.min(targetIconSize / width, targetIconSize / height);
+  const scaledW = width * scale;
+  const scaledH = height * scale;
+  const offsetX = (targetIconSize - scaledW) / 2;
+  const offsetY = (targetIconSize - scaledH) / 2;
+  const symbolId = `icon-mapping-${idx}`;
+
+  iconsSymbolsContent += `
+    <g id="${symbolId}">
+      <!-- Normalize ${prefix} from viewBox (${viewBoxStr}) to max ${targetIconSize}x${targetIconSize} mm preserving aspect ratio -->
+      <g transform="translate(${offsetX.toFixed(4)}, ${offsetY.toFixed(4)}) scale(${scale}) translate(${-minX}, ${-minY})">
+        ${geometry}
       </g>
-    </g>
+    </g>`;
+});
+
+const generatedIconsDefs = `  <defs>
+${iconsDefsContent}
+${iconsSymbolsContent}
   </defs>`;
 
 // Window Bounds Filter Function
@@ -234,21 +266,25 @@ for (const pm of bluePlacemarks) {
 // Generate SVG elements for Blue Force points (Red Dots OR Drone Icons if SIDC matches)
 const bluePointElements: string[] = [];
 const blueTextElements: string[] = [];
-let droneIconCount = 0;
+let customIconCount = 0;
 
 bluePointMarkers.forEach((pt, idx) => {
   const svgPt = geoToSvg(pt);
-  const isDrone = isZpm(pt.name ?? '');
 
-  if (isDrone) {
-    droneIconCount++;
+  const ptName = pt.name ?? '';
+  const mappingIdx = Object.keys(mappingSVGs).findIndex((prefix) =>
+    ptName.startsWith(prefix),
+  );
+
+  if (mappingIdx !== -1) {
+    customIconCount++;
     const iconSize = 8.0; // mm
     const xPos = Number((svgPt.x - iconSize / 2).toFixed(3));
     const yPos = Number((svgPt.y - iconSize / 2).toFixed(3));
 
     bluePointElements.push(
       `    <g transform="translate(${xPos} ${yPos})">`,
-      `      <use xlink:href="#blue-zpm" />`,
+      `      <use xlink:href="#icon-mapping-${mappingIdx}" />`,
       `    </g>`,
     );
   } else {
@@ -265,7 +301,7 @@ bluePointMarkers.forEach((pt, idx) => {
   const cleanText = escapeXml(labelText);
 
   // Position text below dot or icon
-  const textYOffset = isDrone ? 6.0 : 4.2;
+  const textYOffset = mappingIdx !== -1 ? 6.0 : 4.2;
   blueTextElements.push(
     `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + textYOffset).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
   );
@@ -355,7 +391,7 @@ const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     </rdf:RDF>
   </metadata>
 
-${zpmSymbolDef}
+${generatedIconsDefs}
 
   <!-- Background / Canvas -->
   <rect id="background" width="100%" height="100%" fill="#ffffff" />
@@ -400,5 +436,5 @@ fs.writeFileSync(outputPath, svgContent, 'utf-8');
 
 console.log(`SVG successfully generated: ${outputPath}`);
 console.log(`- Blue Force points: ${bluePointMarkers.length}`);
-console.log(`- ЗПМ icons rendered: ${droneIconCount}`);
+console.log(`- Custom mapped icons rendered: ${customIconCount}`);
 console.log(`- Enemy points & labels: ${enemyPointMarkers.length}`);
