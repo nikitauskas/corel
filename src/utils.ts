@@ -203,7 +203,7 @@ function measureTextWidthMm(text: string, fontSizeMm: number): number {
  * icon label, using accurate glyph-width measurement instead of a flat
  * per-character estimate.
  */
-function computeLabelLayout(
+function computeLeftLabelLayout(
   svgPt: { x: number; y: number },
   iconW: number,
   iconH: number,
@@ -212,11 +212,12 @@ function computeLabelLayout(
   rectPadX = 0.9,
   rectPadY = 0.05,
   rectHeight = 2.917, // mm — matches text height in CorelDraw
+  marginOffset = 0.0, // Extra outwards shift from the icon (user tweakable)
 ) {
   const cleanText = escapeXml(rawName ?? '');
 
-  // Shift left by rectPadX so the background rect ends exactly at the icon edge
-  const xPos = Number((svgPt.x - iconW / 2 - rectPadX).toFixed(3));
+  // Shift left by marginOffset so it doesn't overlap the icon more than desired
+  const xPos = Number((svgPt.x - iconW / 2 - marginOffset).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5;
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
@@ -248,11 +249,12 @@ function computeRightLabelLayout(
   rectPadX = 0.9,
   rectPadY = 0.05,
   rectHeight = 2.917, // mm — matches text height in CorelDraw
+  marginOffset = 0.0, // Extra outwards shift from the icon (user tweakable)
 ) {
   const cleanText = escapeXml(rawName ?? '');
 
-  // Shift right by rectPadX so the background rect starts exactly at the icon edge
-  const xPos = Number((svgPt.x + iconW / 2 + rectPadX).toFixed(3));
+  // Shift right by marginOffset so it doesn't overlap the icon more than desired
+  const xPos = Number((svgPt.x + iconW / 2 + marginOffset).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5;
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
@@ -265,4 +267,9 @@ function computeRightLabelLayout(
   return { xPos, yPos, cleanText, rectX, rectY, rectW, rectH };
 }
 
-export { measureTextWidthMm, computeLabelLayout, computeRightLabelLayout, escapeXml };
+export {
+  measureTextWidthMm,
+  computeLeftLabelLayout,
+  computeRightLabelLayout,
+  escapeXml,
+};

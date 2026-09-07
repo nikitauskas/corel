@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as m from 'mgrs';
 import {
-  computeLabelLayout,
+  computeLeftLabelLayout,
   computeRightLabelLayout,
   escapeXml,
 } from './utils.js';
@@ -315,10 +315,36 @@ bluePointMarkers.forEach((pt, idx) => {
     // dominant-baseline / dy → text baseline sits at bottom of icon, grows UP
 
     const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
-    const { xPos, yPos, cleanText, rectX, rectY, rectW, rectH } =
-      computeLabelLayout(svgPt, iconW, iconH, pt.name || 'Test');
 
-    const rightLabel = computeRightLabelLayout(svgPt, iconW, iconH, '9/3//78');
+    // Tweak these values to adjust the gap between the labels and the icon.
+    // Positive values move the labels outwards (away from the icon).
+    const leftLabelMargin = 0.0;
+    const rightLabelMargin = 1.0;
+
+    const { xPos, yPos, cleanText, rectX, rectY, rectW, rectH } =
+      computeLeftLabelLayout(
+        svgPt,
+        iconW,
+        iconH,
+        pt.name || 'Test',
+        3.526,
+        0.9,
+        0.05,
+        2.917,
+        leftLabelMargin,
+      );
+
+    const rightLabel = computeRightLabelLayout(
+      svgPt,
+      iconW,
+      iconH,
+      '9/3//78',
+      3.526,
+      0.9,
+      0.05,
+      2.917,
+      rightLabelMargin,
+    );
 
     const groupDesc = 'AK74-2од'; //pt.desc ? escapeXml(pt.desc) : '';
     const descX = Number(rectX) + Number(rectW) / 2;
