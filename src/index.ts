@@ -324,7 +324,7 @@ bluePointMarkers.forEach((pt, idx) => {
     const cleanText = escapeXml(pt.name ?? '');
     // Font size: Arial 10px → 3.268 mm (as specified)
     blueTextElements.push(
-      `    <text id="blue-label-${idx + 1}" x="${xPos}" y="${yPos.toFixed(3)}" text-anchor="end" font-family="Arial, sans-serif" font-size="3.268" font-weight="bold" font-style="italic" fill="#cc0000">${cleanText}</text>`,
+      `    <text id="blue-label-${idx + 1}" x="${xPos}" y="${yPos.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.268" fill="green">${cleanText}</text>`,
     );
   } else {
     // Regular dot: name/desc label below the dot
