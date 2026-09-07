@@ -6,6 +6,7 @@
   <defs>
 
 
+
 <style type="text/css">
    <![CDATA[
     @font-face { font-family:"Arial";font-variant:normal;font-weight:bold;src:url("#FontID1") format(svg)}
@@ -303,6 +304,7 @@
 <clipPath id="id12">
        <path d="M15504.77 -2230.34l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
       </clipPath>
+  
   
   
   </defs>

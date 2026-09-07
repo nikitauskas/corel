@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="800" height="665"
-  viewBox="13492.87 10010.44 1470.4599999999991 1221.7199999999993"
+  width="800" height="492"
+  viewBox="13492.87 10432.16 1300 800"
   style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
   <defs>
+
 <style type="text/css">
    <![CDATA[
     @font-face { font-family:"Arial";font-variant:normal;font-weight:bold;src:url("#FontID1") format(svg)}
@@ -301,10 +302,11 @@
 <clipPath id="id12">
        <path d="M15504.77 -2230.34l2057.13 0 0 380.6 -2057.13 0 0 -380.6z"/>
       </clipPath>
+  
   </defs>
-  <g id="Батарея_x0020_БПЛА">
+<g id="Батарея_x0020_БПЛА">
    <rect class="fil0 str0" x="13542.87" y="10482.16" width="1200" height="700"/>
-   <text x="14113.33" y="10460.44"  class="fil2 fnt8">І</text>
+   
    <polygon class="fil2 str5" points="14142.27,10868.77 13812.22,10704.77 13812.27,10755.72 13977.58,10857.63 14142.89,10959.55 14308.2,10857.63 14473.51,10755.72 14473.52,10705.09 "/>
   </g>
 </svg>

@@ -311,6 +311,7 @@ function getAllSvgFiles(dir: string): string[] {
 function removeTextsFromIcons() {
   const labelsExceptions = [
     '/Зв_язок/Станція звязку _РЗ-радіо_ ТрЗ-транкінговий_ РРЗ-радіорелейний_ ТРЗ-топосферний_ СЗ-супутниковий_ ПрЗ-проводовий.',
+    '/Ракетні війська та артилерія/Батарея БПЛА',
   ];
 
   const allFiles = getAllSvgFiles(ICONS_DIR);
