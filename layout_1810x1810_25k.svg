@@ -42,6 +42,31 @@
       </g>
     </g>
     <g id="icon-mapping-2">
+      <!-- Гвинтівка: content=7.9320x7.9320mm (target=7.932mm), total with padding=7.9320x7.9320mm -->
+      <g transform="scale(0.2558709677419355) translate(0, 0)">
+        
+  <path fill="#C4F2F7" stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M15.323 30.313c8.279 0 14.99-6.711 14.99-14.99S23.602.333 15.323.333.333 7.044.333 15.323s6.711 14.99 14.99 14.99Z"/>
+  <path stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M15.323 5.57v15.55"/>
+  <path fill="#000" d="m18.378 8.737-3.021-3.021v-.667l3.02 3.021zm-6.043-.667 3.022-3.021v.666l-3.022 3.022z"/>
+  <path stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M10.358 21.119h9.93"/>
+
+      </g>
+    </g>
+    <g id="icon-mapping-3">
+      <!-- Радіоелектронна боротьба - Пошук: content=11.7200x7.0320mm (target=7.032mm), total with padding=11.7200x7.0320mm -->
+      <g transform="scale(0.293) translate(0, 0)">
+        
+  <path fill="#C4F2F7" stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M39.425.333H.333v22.804h39.092z"/>
+  <path fill="none"  stroke="#000" stroke-miterlimit="22.926" stroke-width=".756" d="M.399 3.78a1.573 1.573 0 0 1 3.147 0m-.022-.357a1.574 1.574 0 0 0 3.147 0m-.031.288a1.573 1.573 0 1 1 3.146 0m-.035-.406a1.573 1.573 0 1 0 3.147 0m-.032.398a1.573 1.573 0 1 1 3.147 0"/>
+  <path fill="none" stroke="#000" stroke-miterlimit="22.926" stroke-width=".756" d="M12.859 3.794a1.573 1.573 0 1 1 3.147 0m-.022-.358a1.573 1.573 0 1 0 3.147 0m-.032.288a1.573 1.573 0 0 1 3.147 0m-.035-.406a1.573 1.573 0 1 0 3.147 0m-.032.398a1.573 1.573 0 0 1 3.146 0"/>
+  <path fill="none" stroke="#000" stroke-miterlimit="22.926" stroke-width=".756" d="M25.312 3.794a1.573 1.573 0 1 1 3.146 0m-.02-.358a1.573 1.573 0 0 0 3.146 0m-.031.288a1.573 1.573 0 1 1 3.146 0m-.035-.406a1.573 1.573 0 1 0 3.147 0m-.032.398c0-.869.704-1.573 1.573-1.573M.399 6.712a1.573 1.573 0 1 1 3.147 0m-.022-.357a1.574 1.574 0 0 0 3.147 0m-.031.288a1.573 1.573 0 1 1 3.146 0m-.035-.406a1.573 1.573 0 1 0 3.147 0m-.032.398a1.573 1.573 0 1 1 3.147 0"/>
+  <path fill="none" stroke="#000" stroke-miterlimit="22.926" stroke-width=".756" d="M12.859 6.726a1.573 1.573 0 0 1 3.147 0m-.022-.358a1.573 1.573 0 1 0 3.147 0m-.032.289a1.573 1.573 0 0 1 3.147 0m-.035-.406a1.573 1.573 0 0 0 3.147 0m-.032.397a1.573 1.573 0 0 1 3.146 0"/>
+  <path fill="none" stroke="#000" stroke-miterlimit="22.926" stroke-width=".756" d="M25.312 6.726a1.573 1.573 0 0 1 3.146 0m-.02-.358a1.573 1.573 0 0 0 3.146 0m-.031.289a1.573 1.573 0 1 1 3.146 0m-.035-.406a1.573 1.573 0 0 0 3.147 0m-.032.397c0-.87.704-1.574 1.573-1.574"/>
+  <path fill="#000" d="M12.82 15.485V8.904h4.88v1.113h-3.55v1.459h3.303v1.109H14.15v1.79h3.677v1.11zm7.066 0-1.57-6.581h1.36l.991 4.52 1.203-4.52h1.58l1.154 4.596 1.01-4.596h1.338l-1.598 6.58h-1.41l-1.31-4.92-1.307 4.92z"/>
+
+      </g>
+    </g>
+    <g id="icon-mapping-4">
       <!-- Точка злету БпЛА вертикального зльоту / посадки: content=10.2969x7.0320mm (target=7.032mm), total with padding=10.2969x7.0320mm -->
       <g transform="scale(0.25114285714285717) translate(0, 0)">
         
@@ -49,6 +74,35 @@
 <path d="M14.0887 4.25632L20.1416 9.1406L25.6964 4.25632" fill="none" stroke="black" stroke-width="1.33342" stroke-miterlimit="22.9256"/>
 <path d="M11.3557 22.7945L23.6237 15.5896L11.0299 9.01399L11.3557 22.7945Z" fill="black" stroke="black" stroke-width="1.33342" stroke-miterlimit="22.9256"/>
 <path d="M29.8868 8.69727L17.29 15.4558L29.7473 22.4812L29.8868 8.69727Z" fill="black" stroke="black" stroke-width="1.33342" stroke-miterlimit="22.9256"/>
+
+      </g>
+    </g>
+    <g id="icon-mapping-5">
+      <!-- Піхотний підрозділ: content=10.2969x7.0320mm (target=7.032mm), total with padding=10.2969x7.0320mm -->
+      <g transform="scale(0.25114285714285717) translate(0, 0)">
+        
+  <path fill="#C4F2F7" stroke="#000" stroke-miterlimit="22.926" stroke-width=".628" d="M40.415 27.088 40.325.415.315.476l.09 26.672z"/>
+  <path stroke="#000" fill="none" stroke-miterlimit="22.926" d="M40.324.415.405 27.148M15.456 4.24l4.624 3.7 4.244-3.7"/>
+  <path stroke="#000" fill="none" stroke-miterlimit="22.926" stroke-width=".756" d="m.314.476 40.101 26.612"/>
+
+      </g>
+    </g>
+    <g id="icon-mapping-6">
+      <!-- Середня гаубиця: content=7.9320x7.9320mm (target=7.932mm), total with padding=7.9320x7.9320mm -->
+      <g transform="scale(0.2558709677419355) translate(0, 0)">
+        
+  <path fill="#C4F2F7" stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M15.323 30.313c8.279 0 14.99-6.711 14.99-14.99S23.602.333 15.323.333.333 7.044.333 15.323s6.711 14.99 14.99 14.99Z"/>
+  <path stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M15.323 5.57v15.55"/>
+  <path fill="#000" d="m18.378 8.737-3.021-3.021v-.667l3.021 3.021zm-6.043-.667 3.022-3.021v.666l-3.022 3.022z"/>
+  <path stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M12.84 13.624h4.965m-4.965 1.89h4.965"/>
+
+      </g>
+    </g>
+    <g id="icon-mapping-7">
+      <!-- Особа з гвинтівкою: content=5.0000x6.0000mm (target=6mm), total with padding=5.0000x6.0000mm -->
+      <g transform="scale(0.25) translate(0, 0)">
+        
+  <path fill="#C4F2F7" fill-rule="evenodd" stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="m9.782.389 4.725 2.834 4.724 2.835v11.339l-4.724 2.834-4.725 2.835-4.724-2.835-4.725-2.834V6.058l4.725-2.835z" clip-rule="evenodd"/>
 
       </g>
     </g>
@@ -79,7 +133,13 @@
     <text id="blue-label-right-1" x="649.698" y="107.365" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-1" x="625.449" y="110.015" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
 </g>
-    <text id="blue-label-2" x="306.551" y="183.831" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ БАНАН</text>
+<g id="blue-label-2-group">
+    <rect x="282.970" y="180.530" width="20.015" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-2" x="302.085" y="183.397" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ БАНАН</text>
+    <rect x="310.117" y="180.530" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-2" x="311.017" y="183.397" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-2" x="292.978" y="186.047" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
 <g id="blue-label-3-group">
     <rect x="313.239" y="175.990" width="28.837" height="2.917" fill="#92B4EC" />
     <text id="blue-label-3" x="341.176" y="178.857" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Акапулько</text>
@@ -108,7 +168,13 @@
     <text id="blue-label-right-6" x="179.492" y="417.877" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-6" x="158.279" y="420.527" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-7" x="171.351" y="427.945" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Пасіка</text>
+<g id="blue-label-7-group">
+    <rect x="144.818" y="424.194" width="21.785" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-7" x="165.703" y="427.061" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Пасіка</text>
+    <rect x="176.099" y="424.194" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-7" x="176.999" y="427.061" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-7" x="155.711" y="429.711" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-10од</text>
+</g>
     <text id="blue-label-8" x="291.009" y="428.002" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Аптека</text>
 <g id="blue-label-9-group">
     <rect x="531.521" y="425.541" width="22.374" height="2.917" fill="#92B4EC" />
@@ -132,7 +198,13 @@
     <text id="blue-label-desc-11" x="456.810" y="435.404" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
 </g>
     <text id="blue-label-12" x="253.332" y="438.515" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">МВГ Титан</text>
-    <text id="blue-label-13" x="315.601" y="438.255" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЕБ Гарда</text>
+<g id="blue-label-13-group">
+    <rect x="289.921" y="434.504" width="20.220" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-13" x="309.241" y="437.371" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">РЕБ Гарда</text>
+    <rect x="321.061" y="434.504" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-13" x="321.961" y="437.371" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-13" x="300.031" y="440.021" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
 <g id="blue-label-14-group">
     <rect x="321.797" y="436.645" width="19.042" height="2.917" fill="#92B4EC" />
     <text id="blue-label-14" x="339.939" y="439.512" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">РТР Турін</text>
@@ -148,10 +220,28 @@
     <text id="blue-label-desc-15" x="545.231" y="439.584" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
 </g>
     <text id="blue-label-16" x="239.739" y="445.529" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ППП Петрович</text>
-    <text id="blue-label-17" x="304.924" y="453.665" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Делі</text>
+<g id="blue-label-17-group">
+    <rect x="286.431" y="450.364" width="14.927" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-17" x="300.458" y="453.231" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Делі</text>
+    <rect x="308.490" y="450.364" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-17" x="309.39" y="453.231" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-17" x="293.894" y="455.881" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
     <text id="blue-label-18" x="533.391" y="452.068" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПРПл &quot;Смарагд&quot;</text>
-    <text id="blue-label-19" x="256.216" y="460.924" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Пегас</text>
-    <text id="blue-label-20" x="260.34" y="466.090" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Регбі</text>
+<g id="blue-label-19-group">
+    <rect x="235.371" y="457.623" width="17.279" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-19" x="251.75" y="460.490" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Пегас</text>
+    <rect x="259.782" y="457.623" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-19" x="260.682" y="460.490" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-19" x="244.011" y="463.140" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-20-group">
+    <rect x="236.356" y="462.339" width="19.236" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-20" x="254.692" y="465.206" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Регбі</text>
+    <rect x="265.088" y="462.339" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-20" x="265.988" y="465.206" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-20" x="245.974" y="467.856" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-36од</text>
+</g>
     <text id="blue-label-21" x="337.069" y="464.580" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Гребля</text>
 <g id="blue-label-22-group">
     <rect x="579.174" y="467.723" width="21.588" height="2.917" fill="#92B4EC" />
@@ -176,8 +266,20 @@
 </g>
     <text id="blue-label-25" x="335.989" y="500.814" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЛС Промінь</text>
     <text id="blue-label-26" x="336.026" y="500.732" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РЛС Промінь</text>
-    <text id="blue-label-27" x="456.758" y="498.286" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Юнга</text>
-    <text id="blue-label-28" x="454.12" y="507.593" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Маяк</text>
+<g id="blue-label-27-group">
+    <rect x="430.493" y="494.535" width="20.805" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-27" x="450.398" y="497.402" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">пРЕБ Юнга</text>
+    <rect x="462.218" y="494.535" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-27" x="463.118" y="497.402" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-27" x="440.895" y="500.052" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
+</g>
+<g id="blue-label-28-group">
+    <rect x="427.851" y="503.842" width="20.809" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-28" x="447.76" y="506.709" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">пРЕБ Маяк</text>
+    <rect x="459.580" y="503.842" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-28" x="460.48" y="506.709" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-28" x="438.255" y="509.359" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-29-group">
     <rect x="629.226" y="502.166" width="18.841" height="2.917" fill="#92B4EC" />
     <text id="blue-label-29" x="647.167" y="505.033" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Кент</text>
@@ -192,8 +294,20 @@
     <text id="blue-label-right-30" x="508.704" y="508.823" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-30" x="488.788" y="511.473" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-31" x="429.548" y="518.875" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Кентавр</text>
-    <text id="blue-label-32" x="112.448" y="522.191" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Широ</text>
+<g id="blue-label-31-group">
+    <rect x="404.003" y="515.574" width="21.979" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-31" x="425.082" y="518.441" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Кентавр</text>
+    <rect x="433.114" y="515.574" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-31" x="434.014" y="518.441" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-31" x="414.993" y="521.091" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
+<g id="blue-label-32-group">
+    <rect x="91.610" y="518.890" width="17.272" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-32" x="107.982" y="521.757" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Широ</text>
+    <rect x="116.014" y="518.890" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-32" x="116.914" y="521.757" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-32" x="100.246" y="524.407" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
+</g>
 <g id="blue-label-33-group">
     <rect x="92.493" y="524.576" width="20.414" height="2.917" fill="#92B4EC" />
     <text id="blue-label-33" x="112.007" y="527.443" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">РТР Йокай</text>
@@ -208,7 +322,13 @@
     <text id="blue-label-right-34" x="117.961" y="531.179" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-34" x="99.329" y="533.829" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-35" x="434.104" y="534.685" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Одісей</text>
+<g id="blue-label-35-group">
+    <rect x="411.104" y="531.384" width="19.434" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-35" x="429.638" y="534.251" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Одісей</text>
+    <rect x="437.670" y="531.384" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-35" x="438.57" y="534.251" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-35" x="420.821" y="536.901" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
     <text id="blue-label-36" x="194.191" y="544.043" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гр. РЕтрансл</text>
 <g id="blue-label-37-group">
     <rect x="320.912" y="537.031" width="19.039" height="2.917" fill="#92B4EC" />
@@ -226,7 +346,13 @@
     <text id="blue-label-right-40" x="85.421" y="578.337" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-40" x="69.337" y="580.987" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
 </g>
-    <text id="blue-label-41" x="80.955" y="578.771" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Бузок</text>
+<g id="blue-label-41-group">
+    <rect x="53.315" y="575.020" width="22.180" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-41" x="74.595" y="577.887" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">пРЕБ Бузок</text>
+    <rect x="86.415" y="575.020" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-41" x="87.315" y="577.887" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-41" x="64.405" y="580.537" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
+</g>
 <g id="blue-label-42-group">
     <rect x="688.452" y="573.865" width="28.834" height="2.917" fill="#92B4EC" />
     <text id="blue-label-42" x="716.386" y="576.732" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Капітошка</text>
@@ -249,9 +375,27 @@
     <text id="blue-label-right-45" x="719.837" y="580.578" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-45" x="699.629" y="583.228" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-46" x="474.398" y="594.472" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Арчер</text>
-    <text id="blue-label-47" x="517.851" y="613.215" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Поле</text>
-    <text id="blue-label-48" x="520.588" y="615.239" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Бомбер</text>
+<g id="blue-label-46-group">
+    <rect x="452.576" y="591.171" width="18.256" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-46" x="469.932" y="594.038" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Арчер</text>
+    <rect x="477.964" y="591.171" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-46" x="478.864" y="594.038" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-46" x="461.704" y="596.688" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-47-group">
+    <rect x="498.184" y="609.914" width="16.101" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-47" x="513.385" y="612.781" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Поле</text>
+    <rect x="521.417" y="609.914" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-47" x="522.317" y="612.781" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-47" x="506.235" y="615.431" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-48-group">
+    <rect x="496.220" y="611.938" width="20.802" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-48" x="516.122" y="614.805" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Бомбер</text>
+    <rect x="524.154" y="611.938" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-48" x="525.054" y="614.805" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-48" x="506.621" y="617.455" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-49-group">
     <rect x="494.647" y="611.488" width="21.193" height="2.917" fill="#92B4EC" />
     <text id="blue-label-49" x="514.94" y="614.355" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Скопа</text>
@@ -324,9 +468,27 @@
     <text id="blue-label-right-60" x="475.336" y="636.288" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-60" x="455.322" y="638.938" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
 </g>
-    <text id="blue-label-61" x="642.479" y="636.717" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гр евак Макаждон</text>
-    <text id="blue-label-62" x="738.114" y="646.337" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЕЛЕКТРИК</text>
-    <text id="blue-label-63" x="738.164" y="646.654" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ДЄД</text>
+<g id="blue-label-61-group">
+    <rect x="603.795" y="632.966" width="33.936" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-61" x="636.831" y="635.833" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Гр евак Макаждон</text>
+    <rect x="647.227" y="632.966" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-61" x="648.127" y="635.833" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-61" x="620.763" y="638.483" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-62-group">
+    <rect x="714.821" y="642.070" width="21.193" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-62" x="735.114" y="644.937" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЕЛЕКТРИК</text>
+    <rect x="740.214" y="642.070" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-62" x="741.114" y="644.937" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-62" x="725.418" y="647.587" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-Xод</text>
+</g>
+<g id="blue-label-63-group">
+    <rect x="727.018" y="642.387" width="9.046" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-63" x="735.164" y="645.254" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ДЄД</text>
+    <rect x="740.264" y="642.387" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-63" x="741.164" y="645.254" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-63" x="731.541" y="647.904" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-Xод</text>
+</g>
 <g id="blue-label-64-group">
     <rect x="708.846" y="650.505" width="19.039" height="2.917" fill="#92B4EC" />
     <text id="blue-label-64" x="726.985" y="653.372" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Куба</text>
@@ -341,7 +503,13 @@
     <text id="blue-label-right-65" x="790.148" y="654.773" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-65" x="771.407" y="657.423" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-66" x="794.547" y="653.459" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Бджола</text>
+<g id="blue-label-66-group">
+    <rect x="770.176" y="650.158" width="20.805" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-66" x="790.081" y="653.025" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Бджола</text>
+    <rect x="798.113" y="650.158" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-66" x="799.013" y="653.025" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-66" x="780.579" y="655.675" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-67" x="167.436" y="659.550" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПРП Алмаз</text>
     <text id="blue-label-68" x="177.066" y="1744.769" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">УДШВ</text>
     <text id="blue-label-69" x="177.066" y="1744.769" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">УДШВ</text>
@@ -354,11 +522,35 @@
     <text id="blue-label-right-72" x="775.393" y="665.424" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-72" x="753.812" y="668.074" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-5од</text>
 </g>
-    <text id="blue-label-73" x="705.654" y="679.714" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Фелікс</text>
-    <text id="blue-label-74" x="798.931" y="682.252" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Літо</text>
+<g id="blue-label-73-group">
+    <rect x="682.848" y="676.413" width="19.240" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-73" x="701.188" y="679.280" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Фелікс</text>
+    <rect x="709.220" y="676.413" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-73" x="710.12" y="679.280" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-73" x="692.468" y="681.930" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-74-group">
+    <rect x="780.441" y="678.951" width="14.924" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-74" x="794.465" y="681.818" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Літо</text>
+    <rect x="802.497" y="678.951" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-74" x="803.397" y="681.818" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-74" x="787.903" y="684.468" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-75" x="550.365" y="684.528" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Возик</text>
-    <text id="blue-label-76" x="800.038" y="709.433" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Тарган</text>
-    <text id="blue-label-77" x="789.88" y="714.309" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Жук</text>
+<g id="blue-label-76-group">
+    <rect x="777.236" y="706.132" width="19.236" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-76" x="795.572" y="708.999" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Тарган</text>
+    <rect x="803.604" y="706.132" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-76" x="804.504" y="708.999" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-76" x="786.854" y="711.649" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-77-group">
+    <rect x="771.584" y="711.008" width="14.730" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-77" x="785.414" y="713.875" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Жук</text>
+    <rect x="793.446" y="711.008" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-77" x="794.346" y="713.875" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-77" x="778.949" y="716.525" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-78-group">
     <rect x="296.325" y="714.725" width="25.502" height="2.917" fill="#92B4EC" />
     <text id="blue-label-78" x="320.927" y="717.592" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Боржомі</text>
@@ -383,7 +575,13 @@
     <text id="blue-label-right-83" x="529.689" y="741.428" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-83" x="510.361" y="744.078" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-84" x="317.884" y="749.782" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Піон</text>
+<g id="blue-label-84-group">
+    <rect x="292.599" y="746.031" width="19.825" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-84" x="311.524" y="748.898" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">пРЕБ Піон</text>
+    <rect x="323.344" y="746.031" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-84" x="324.244" y="748.898" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-84" x="302.512" y="751.548" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
+</g>
 <g id="blue-label-85-group">
     <rect x="518.943" y="749.999" width="18.845" height="2.917" fill="#92B4EC" />
     <text id="blue-label-85" x="536.888" y="752.866" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Аякс</text>
@@ -398,9 +596,21 @@
     <text id="blue-label-right-86" x="791.831" y="757.243" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-86" x="770.838" y="759.893" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-5од</text>
 </g>
-    <text id="blue-label-87" x="788.253" y="763.089" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Патрон</text>
+<g id="blue-label-87-group">
+    <rect x="764.474" y="759.788" width="20.213" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-87" x="783.787" y="762.655" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Патрон</text>
+    <rect x="791.819" y="759.788" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-87" x="792.719" y="762.655" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-87" x="774.581" y="765.305" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-88" x="768.444" y="771.109" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Сич</text>
-    <text id="blue-label-89" x="815.054" y="790.804" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Прага</text>
+<g id="blue-label-89-group">
+    <rect x="794.015" y="787.503" width="17.473" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-89" x="810.588" y="790.370" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Прага</text>
+    <rect x="818.620" y="787.503" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-89" x="819.52" y="790.370" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-89" x="802.751" y="793.020" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-90-group">
     <rect x="775.538" y="791.733" width="21.979" height="2.917" fill="#92B4EC" />
     <text id="blue-label-90" x="796.617" y="794.600" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Сканія</text>
@@ -444,7 +654,13 @@
     <text id="blue-label-right-96" x="880.488" y="809.925" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-96" x="860.572" y="812.575" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-5од</text>
 </g>
-    <text id="blue-label-97" x="377.585" y="813.998" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Незмінний</text>
+<g id="blue-label-97-group">
+    <rect x="344.007" y="810.247" width="28.830" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-97" x="371.937" y="813.114" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Незмінний</text>
+    <rect x="382.333" y="810.247" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-97" x="383.233" y="813.114" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-97" x="358.422" y="815.764" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-26од</text>
+</g>
 <g id="blue-label-98-group">
     <rect x="712.981" y="811.293" width="18.647" height="2.917" fill="#92B4EC" />
     <text id="blue-label-98" x="730.728" y="814.160" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Трал</text>
@@ -466,7 +682,13 @@
     <text id="blue-label-right-100" x="870.047" y="841.026" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-100" x="851.699" y="843.676" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
 </g>
-    <text id="blue-label-101" x="625.309" y="846.319" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Ріо</text>
+<g id="blue-label-101-group">
+    <rect x="608.776" y="843.018" width="12.967" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-101" x="620.843" y="845.885" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Ріо</text>
+    <rect x="628.875" y="843.018" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-101" x="629.775" y="845.885" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-101" x="615.260" y="848.535" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-102-group">
     <rect x="851.391" y="849.275" width="23.933" height="2.917" fill="#92B4EC" />
     <text id="blue-label-102" x="874.424" y="852.142" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Фантом</text>
@@ -474,7 +696,13 @@
     <text id="blue-label-right-102" x="885.72" y="852.142" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-102" x="863.357" y="854.792" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-103" x="942.621" y="853.885" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Рамзес</text>
+<g id="blue-label-103-group">
+    <rect x="919.033" y="850.584" width="20.022" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-103" x="938.155" y="853.451" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Рамзес</text>
+    <rect x="946.187" y="850.584" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-103" x="947.087" y="853.451" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-103" x="929.044" y="856.101" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
 <g id="blue-label-104-group">
     <rect x="828.168" y="857.768" width="20.999" height="2.917" fill="#92B4EC" />
     <text id="blue-label-104" x="848.267" y="860.635" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Чедер</text>
@@ -489,7 +717,13 @@
     <text id="blue-label-right-105" x="859.565" y="860.675" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-105" x="837.691" y="863.325" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
 </g>
-    <text id="blue-label-106" x="1004.888" y="871.371" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Жменя</text>
+<g id="blue-label-106-group">
+    <rect x="977.773" y="867.620" width="22.367" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-106" x="999.24" y="870.487" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Жменя</text>
+    <rect x="1009.636" y="867.620" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-106" x="1010.536" y="870.487" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-106" x="988.957" y="873.137" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-107-group">
     <rect x="976.601" y="869.051" width="23.742" height="2.917" fill="#92B4EC" />
     <text id="blue-label-107" x="999.443" y="871.918" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Мультік</text>
@@ -497,7 +731,13 @@
     <text id="blue-label-right-107" x="1010.739" y="871.918" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-107" x="988.472" y="874.568" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
 </g>
-    <text id="blue-label-108" x="533.2" y="878.414" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Рим</text>
+<g id="blue-label-108-group">
+    <rect x="515.102" y="875.113" width="14.532" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-108" x="528.734" y="877.980" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Рим</text>
+    <rect x="536.766" y="875.113" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-108" x="537.666" y="877.980" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-108" x="522.368" y="880.630" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-109-group">
     <rect x="854.948" y="873.912" width="21.193" height="2.917" fill="#92B4EC" />
     <text id="blue-label-109" x="875.241" y="876.779" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Купол</text>
@@ -513,7 +753,13 @@
     <text id="blue-label-right-111" x="825.967" y="891.677" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-111" x="803.018" y="894.327" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
 </g>
-    <text id="blue-label-112" x="1008.848" y="892.599" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Батя</text>
+<g id="blue-label-112-group">
+    <rect x="996.912" y="888.332" width="9.836" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-112" x="1005.848" y="891.199" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Батя</text>
+    <rect x="1010.948" y="888.332" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-112" x="1011.848" y="891.199" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-112" x="1001.830" y="893.849" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
 <g id="blue-label-113-group">
     <rect x="622.435" y="890.412" width="26.285" height="2.917" fill="#92B4EC" />
     <text id="blue-label-113" x="647.82" y="893.279" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Мухомор</text>
@@ -535,7 +781,13 @@
     <text id="blue-label-right-115" x="968.195" y="899.866" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-115" x="947.497" y="902.516" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-116" x="1119.09" y="903.799" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Самямі</text>
+<g id="blue-label-116-group">
+    <rect x="1091.386" y="900.048" width="22.956" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-116" x="1113.442" y="902.915" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Самямі</text>
+    <rect x="1123.838" y="900.048" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-116" x="1124.738" y="902.915" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-116" x="1102.864" y="905.565" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-117" x="750.116" y="905.791" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Стаєр</text>
 <g id="blue-label-118-group">
     <rect x="827.809" y="907.248" width="25.311" height="2.917" fill="#92B4EC" />
@@ -553,7 +805,13 @@
 </g>
     <text id="blue-label-120" x="752.147" y="914.545" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Дукаті</text>
     <text id="blue-label-121" x="763.221" y="914.946" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">-</text>
-    <text id="blue-label-122" x="837.633" y="915.315" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Ірпінь</text>
+<g id="blue-label-122-group">
+    <rect x="812.281" y="911.564" width="20.604" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-122" x="831.985" y="914.431" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Ірпінь</text>
+    <rect x="842.381" y="911.564" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-122" x="843.281" y="914.431" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-122" x="822.583" y="917.081" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-5од</text>
+</g>
     <text id="blue-label-123" x="852.67" y="913.958" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Пірат</text>
 <g id="blue-label-124-group">
     <rect x="836.063" y="913.832" width="22.371" height="2.917" fill="#92B4EC" />
@@ -569,11 +827,23 @@
     <text id="blue-label-right-125" x="980.294" y="915.331" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-125" x="955.187" y="917.981" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
 </g>
-    <text id="blue-label-126" x="1095.961" y="917.719" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Фен</text>
+<g id="blue-label-126-group">
+    <rect x="1073.743" y="913.968" width="17.470" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-126" x="1090.313" y="916.835" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Фен</text>
+    <rect x="1100.709" y="913.968" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-126" x="1101.609" y="916.835" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-126" x="1082.478" y="919.485" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-127" x="851.583" y="918.582" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Плесо</text>
     <text id="blue-label-128" x="862.555" y="919.590" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Млин</text>
     <text id="blue-label-129" x="319.746" y="921.685" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Марс</text>
-    <text id="blue-label-130" x="868.45" y="921.039" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕР Мурена</text>
+<g id="blue-label-130-group">
+    <rect x="837.873" y="917.288" width="25.117" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-130" x="862.09" y="920.155" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">пРЕР Мурена</text>
+    <rect x="873.910" y="917.288" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-130" x="874.81" y="920.155" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-130" x="850.432" y="922.805" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
 <g id="blue-label-131-group">
     <rect x="846.978" y="917.441" width="18.453" height="2.917" fill="#92B4EC" />
     <text id="blue-label-131" x="864.531" y="920.308" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">РТР Кедр</text>
@@ -598,11 +868,35 @@
     <text id="blue-label-desc-135" x="848.286" y="933.378" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-7од</text>
 </g>
     <text id="blue-label-136" x="808.762" y="935.753" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Баха</text>
-    <text id="blue-label-137" x="277.096" y="938.032" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Нерв</text>
+<g id="blue-label-137-group">
+    <rect x="253.309" y="934.281" width="19.039" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-137" x="271.448" y="937.148" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Нерв</text>
+    <rect x="281.844" y="934.281" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-137" x="282.744" y="937.148" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-137" x="262.829" y="939.798" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-23од</text>
+</g>
     <text id="blue-label-138" x="642.036" y="938.358" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Ман</text>
-    <text id="blue-label-139" x="804.592" y="939.717" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Бастіон</text>
-    <text id="blue-label-140" x="859.993" y="939.226" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ Ака</text>
-    <text id="blue-label-141" x="735.381" y="940.030" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Єгер</text>
+<g id="blue-label-139-group">
+    <rect x="776.102" y="935.966" width="23.742" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-139" x="798.944" y="938.833" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Бастіон</text>
+    <rect x="809.340" y="935.966" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-139" x="810.24" y="938.833" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-139" x="787.973" y="941.483" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-12од</text>
+</g>
+<g id="blue-label-140-group">
+    <rect x="842.480" y="935.925" width="13.947" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-140" x="855.527" y="938.792" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ Ака</text>
+    <rect x="863.559" y="935.925" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-140" x="864.459" y="938.792" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-140" x="849.453" y="941.442" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-141-group">
+    <rect x="712.575" y="936.279" width="18.058" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-141" x="729.733" y="939.146" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Єгер</text>
+    <rect x="740.129" y="936.279" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-141" x="741.029" y="939.146" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-141" x="721.604" y="941.796" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-6од</text>
+</g>
 <g id="blue-label-142-group">
     <rect x="840.624" y="936.679" width="18.453" height="2.917" fill="#92B4EC" />
     <text id="blue-label-142" x="858.177" y="939.546" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">РТР Садо</text>
@@ -611,7 +905,13 @@
     <text id="blue-label-desc-142" x="849.851" y="942.196" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
 </g>
     <text id="blue-label-143" x="944.115" y="941.197" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Ямаха</text>
-    <text id="blue-label-144" x="854.204" y="943.601" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр КИЇВСТАР</text>
+<g id="blue-label-144-group">
+    <rect x="820.823" y="939.850" width="28.633" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-144" x="848.556" y="942.717" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр КИЇВСТАР</text>
+    <rect x="858.952" y="939.850" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-144" x="859.852" y="942.717" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-144" x="835.139" y="945.367" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-145-group">
     <rect x="816.375" y="942.796" width="18.256" height="2.917" fill="#92B4EC" />
     <text id="blue-label-145" x="833.731" y="945.663" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Таїті</text>
@@ -619,7 +919,13 @@
     <text id="blue-label-right-145" x="845.027" y="945.663" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-145" x="825.503" y="948.313" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-8од</text>
 </g>
-    <text id="blue-label-146" x="850.689" y="945.668" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Угольок</text>
+<g id="blue-label-146-group">
+    <rect x="821.807" y="941.917" width="24.134" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-146" x="845.041" y="944.784" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Угольок</text>
+    <rect x="855.437" y="941.917" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-146" x="856.337" y="944.784" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-146" x="833.874" y="947.434" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-147" x="809.668" y="949.213" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Гольф</text>
 <g id="blue-label-148-group">
     <rect x="781.079" y="944.150" width="24.913" height="2.917" fill="#92B4EC" />
@@ -628,7 +934,13 @@
     <text id="blue-label-right-148" x="816.388" y="947.017" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-148" x="793.535" y="949.667" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-5од</text>
 </g>
-    <text id="blue-label-149" x="866.541" y="948.796" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Генерал</text>
+<g id="blue-label-149-group">
+    <rect x="837.070" y="945.045" width="24.723" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-149" x="860.893" y="947.912" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Генерал</text>
+    <rect x="871.289" y="945.045" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-149" x="872.189" y="947.912" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-149" x="849.432" y="950.562" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-6од</text>
+</g>
 <g id="blue-label-150-group">
     <rect x="862.648" y="945.296" width="23.936" height="2.917" fill="#92B4EC" />
     <text id="blue-label-150" x="885.684" y="948.163" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Джокер</text>
@@ -650,7 +962,13 @@
     <text id="blue-label-right-152" x="843.151" y="951.749" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-152" x="823.530" y="954.399" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
 </g>
-    <text id="blue-label-153" x="869.758" y="952.405" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 316</text>
+<g id="blue-label-153-group">
+    <rect x="848.711" y="948.654" width="16.299" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-153" x="864.11" y="951.521" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр 316</text>
+    <rect x="874.506" y="948.654" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-153" x="875.406" y="951.521" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-153" x="856.861" y="954.171" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-154-group">
     <rect x="826.731" y="950.766" width="20.802" height="2.917" fill="#92B4EC" />
     <text id="blue-label-154" x="846.633" y="953.633" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Терра</text>
@@ -679,7 +997,13 @@
     <text id="blue-label-right-157" x="845.617" y="956.739" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-157" x="822.860" y="959.389" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
 </g>
-    <text id="blue-label-158" x="1134.481" y="957.244" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Барон</text>
+<g id="blue-label-158-group">
+    <rect x="1108.540" y="953.493" width="21.193" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-158" x="1128.833" y="956.360" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Барон</text>
+    <rect x="1139.229" y="953.493" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-158" x="1140.129" y="956.360" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-158" x="1119.137" y="959.010" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-159" x="802.235" y="959.388" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Цитадель</text>
 <g id="blue-label-160-group">
     <rect x="820.143" y="956.453" width="25.502" height="2.917" fill="#92B4EC" />
@@ -688,8 +1012,20 @@
     <text id="blue-label-right-160" x="856.041" y="959.320" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-160" x="832.894" y="961.970" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-161" x="861.211" y="960.139" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Ракета</text>
-    <text id="blue-label-162" x="862.116" y="961.108" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Касім</text>
+<g id="blue-label-161-group">
+    <rect x="834.089" y="956.388" width="22.374" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-161" x="855.563" y="959.255" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Ракета</text>
+    <rect x="865.959" y="956.388" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-161" x="866.859" y="959.255" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-161" x="845.276" y="961.905" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
+<g id="blue-label-162-group">
+    <rect x="848.223" y="956.841" width="11.793" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-162" x="859.116" y="959.708" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Касім</text>
+    <rect x="864.216" y="956.841" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-162" x="865.116" y="959.708" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-162" x="854.119" y="962.358" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
 <g id="blue-label-163-group">
     <rect x="828.107" y="957.408" width="21.387" height="2.917" fill="#92B4EC" />
     <text id="blue-label-163" x="848.594" y="960.275" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Фіджи</text>
@@ -705,7 +1041,13 @@
     <text id="blue-label-desc-164" x="843.394" y="963.916" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-Xод</text>
 </g>
     <text id="blue-label-165" x="802.547" y="962.970" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Сталкер</text>
-    <text id="blue-label-166" x="820.526" y="964.190" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Небо</text>
+<g id="blue-label-166-group">
+    <rect x="796.545" y="960.439" width="19.233" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-166" x="814.878" y="963.306" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Небо</text>
+    <rect x="825.274" y="960.439" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-166" x="826.174" y="963.306" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-166" x="806.161" y="965.956" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-7од</text>
+</g>
 <g id="blue-label-167-group">
     <rect x="852.771" y="959.416" width="20.216" height="2.917" fill="#92B4EC" />
     <text id="blue-label-167" x="872.087" y="962.283" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Пегас</text>
@@ -714,25 +1056,103 @@
     <text id="blue-label-desc-167" x="862.879" y="964.933" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
     <text id="blue-label-168" x="682.922" y="968.750" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Сузукі</text>
-    <text id="blue-label-169" x="858.191" y="970.332" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП</text>
-    <text id="blue-label-170" x="878.957" y="969.154" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Абрам</text>
-    <text id="blue-label-171" x="889.329" y="970.102" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гр евак Корінь</text>
-    <text id="blue-label-172" x="879.602" y="971.927" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Гроза</text>
+<g id="blue-label-169-group">
+    <rect x="844.006" y="966.581" width="9.437" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-169" x="852.543" y="969.448" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП</text>
+    <rect x="862.939" y="966.581" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-169" x="863.839" y="969.448" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-169" x="848.724" y="972.098" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-170-group">
+    <rect x="852.431" y="965.403" width="21.778" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-170" x="873.309" y="968.270" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Абрам</text>
+    <rect x="883.705" y="965.403" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-170" x="884.605" y="968.270" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-170" x="863.320" y="970.920" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
+<g id="blue-label-171-group">
+    <rect x="856.918" y="966.351" width="27.663" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-171" x="883.681" y="969.218" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Гр евак Корінь</text>
+    <rect x="894.077" y="966.351" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-171" x="894.977" y="969.218" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-171" x="870.750" y="971.868" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-172-group">
+    <rect x="854.250" y="968.176" width="20.604" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-172" x="873.954" y="971.043" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Гроза</text>
+    <rect x="884.350" y="968.176" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-172" x="885.25" y="971.043" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-172" x="864.552" y="973.693" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-173" x="885.37" y="973.221" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗЗР Пацифісти</text>
     <text id="blue-label-174" x="618.289" y="977.450" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">пРЕБ Драч</text>
-    <text id="blue-label-175" x="882.262" y="976.831" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Шгр Ізолента</text>
-    <text id="blue-label-176" x="820.435" y="981.354" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Камін</text>
-    <text id="blue-label-177" x="858.921" y="980.845" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Спалах</text>
+<g id="blue-label-175-group">
+    <rect x="853.183" y="973.080" width="24.331" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-175" x="876.614" y="975.947" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Шгр Ізолента</text>
+    <rect x="887.010" y="973.080" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-175" x="887.91" y="975.947" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-175" x="865.348" y="978.597" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-176-group">
+    <rect x="795.083" y="977.603" width="20.604" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-176" x="814.787" y="980.470" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Камін</text>
+    <rect x="825.183" y="977.603" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-176" x="826.083" y="980.470" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-176" x="805.385" y="983.120" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-7од</text>
+</g>
+<g id="blue-label-177-group">
+    <rect x="831.213" y="977.094" width="22.960" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-177" x="853.273" y="979.961" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Спалах</text>
+    <rect x="863.669" y="977.094" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-177" x="864.569" y="979.961" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-177" x="842.693" y="982.611" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-178" x="858.921" y="980.845" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ЗЗР Спалах</text>
     <text id="blue-label-179" x="687.888" y="984.552" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Корінь</text>
     <text id="blue-label-180" x="808.555" y="984.248" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ПДП Тбілісі</text>
     <text id="blue-label-181" x="661.461" y="991.400" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Пентагон</text>
-    <text id="blue-label-182" x="748.422" y="990.651" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ ЛІС 2</text>
-    <text id="blue-label-183" x="723.782" y="996.197" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП ЄН</text>
-    <text id="blue-label-184" x="768.121" y="995.962" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Кобзар</text>
-    <text id="blue-label-185" x="793.56" y="995.504" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Горизонт</text>
-    <text id="blue-label-186" x="831.393" y="995.770" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП Хімік</text>
-    <text id="blue-label-187" x="872.092" y="996.150" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">КСП</text>
+<g id="blue-label-182-group">
+    <rect x="728.363" y="987.350" width="16.493" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-182" x="743.956" y="990.217" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ ЛІС 2</text>
+    <rect x="751.988" y="987.350" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-182" x="752.888" y="990.217" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-182" x="736.610" y="992.867" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-6од</text>
+</g>
+<g id="blue-label-183-group">
+    <rect x="703.916" y="992.446" width="15.118" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-183" x="718.134" y="995.313" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП ЄН</text>
+    <rect x="728.530" y="992.446" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-183" x="729.43" y="995.313" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-183" x="711.475" y="997.963" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-6од</text>
+</g>
+<g id="blue-label-184-group">
+    <rect x="740.223" y="992.211" width="23.150" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-184" x="762.473" y="995.078" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Кобзар</text>
+    <rect x="772.869" y="992.211" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-184" x="773.769" y="995.078" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-184" x="751.798" y="997.728" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-185-group">
+    <rect x="761.942" y="991.753" width="26.870" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-185" x="787.912" y="994.620" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Горизонт</text>
+    <rect x="798.308" y="991.753" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-185" x="799.208" y="994.620" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-185" x="775.377" y="997.270" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-8од</text>
+</g>
+<g id="blue-label-186-group">
+    <rect x="807.409" y="992.019" width="19.236" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-186" x="825.745" y="994.886" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП Хімік</text>
+    <rect x="836.141" y="992.019" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-186" x="837.041" y="994.886" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-186" x="817.027" y="997.536" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-10од</text>
+</g>
+<g id="blue-label-187-group">
+    <rect x="857.907" y="992.399" width="9.437" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-187" x="866.444" y="995.266" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">КСП</text>
+    <rect x="876.840" y="992.399" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-187" x="877.74" y="995.266" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-187" x="862.625" y="997.916" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
+</g>
 <g id="blue-label-188-group">
     <rect x="740.052" y="995.433" width="20.216" height="2.917" fill="#92B4EC" />
     <text id="blue-label-188" x="759.368" y="998.300" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">РТР Манго</text>
@@ -740,7 +1160,13 @@
     <text id="blue-label-right-188" x="768.3" y="998.300" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-188" x="750.160" y="1000.950" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-8од</text>
 </g>
-    <text id="blue-label-189" x="1173.771" y="997.669" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ГрЕвак Штіль</text>
+<g id="blue-label-189-group">
+    <rect x="1143.906" y="993.918" width="25.117" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-189" x="1168.123" y="996.785" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ГрЕвак Штіль</text>
+    <rect x="1178.519" y="993.918" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-189" x="1179.419" y="996.785" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-189" x="1156.465" y="999.435" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-190-group">
     <rect x="738.454" y="995.929" width="24.719" height="2.917" fill="#92B4EC" />
     <text id="blue-label-190" x="762.273" y="998.796" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Студент</text>
@@ -767,15 +1193,63 @@
     <text id="blue-label-right-197" x="780.279" y="1014.623" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-197" x="758.405" y="1017.273" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
 </g>
-    <text id="blue-label-198" x="1205.121" y="1020.463" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ГрЕвак Аспірин</text>
-    <text id="blue-label-199" x="1195.593" y="1022.348" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 299</text>
-    <text id="blue-label-200" x="1166.403" y="1027.585" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Лис</text>
-    <text id="blue-label-201" x="765.944" y="1037.338" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Марафон</text>
-    <text id="blue-label-202" x="765.944" y="1037.338" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Марафон</text>
+<g id="blue-label-198-group">
+    <rect x="1170.947" y="1016.712" width="29.426" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-198" x="1199.473" y="1019.579" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ГрЕвак Аспірин</text>
+    <rect x="1209.869" y="1016.712" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-198" x="1210.769" y="1019.579" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-198" x="1185.660" y="1022.229" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-199-group">
+    <rect x="1174.546" y="1018.597" width="16.299" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-199" x="1189.945" y="1021.464" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр 299</text>
+    <rect x="1200.341" y="1018.597" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-199" x="1201.241" y="1021.464" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-199" x="1182.696" y="1024.114" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-200-group">
+    <rect x="1155.842" y="1023.318" width="8.461" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-200" x="1163.403" y="1026.185" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Лис</text>
+    <rect x="1168.503" y="1023.318" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-200" x="1169.403" y="1026.185" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-200" x="1160.072" y="1028.835" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-201-group">
+    <rect x="738.442" y="1034.037" width="23.936" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-201" x="761.478" y="1036.904" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВП Марафон</text>
+    <rect x="769.510" y="1034.037" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-201" x="770.41" y="1036.904" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-201" x="750.410" y="1039.554" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-6од</text>
+</g>
+<g id="blue-label-202-group">
+    <rect x="738.442" y="1034.037" width="23.936" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-202" x="761.478" y="1036.904" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВП Марафон</text>
+    <rect x="769.510" y="1034.037" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-202" x="770.41" y="1036.904" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-202" x="750.410" y="1039.554" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-6од</text>
+</g>
     <text id="blue-label-203" x="868.602" y="1038.085" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Бобслей</text>
-    <text id="blue-label-204" x="1180.123" y="1038.142" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Вересень</text>
-    <text id="blue-label-205" x="1180.266" y="1037.619" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Шима</text>
-    <text id="blue-label-206" x="1181.055" y="1042.664" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Центавр</text>
+<g id="blue-label-204-group">
+    <rect x="1148.498" y="1034.391" width="26.877" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-204" x="1174.475" y="1037.258" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Вересень</text>
+    <rect x="1184.871" y="1034.391" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-204" x="1185.771" y="1037.258" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-204" x="1161.937" y="1039.908" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-205-group">
+    <rect x="1155.111" y="1033.868" width="20.407" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-205" x="1174.618" y="1036.735" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Шима</text>
+    <rect x="1185.014" y="1033.868" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-205" x="1185.914" y="1036.735" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-205" x="1165.315" y="1039.385" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-3од</text>
+</g>
+<g id="blue-label-206-group">
+    <rect x="1151.391" y="1038.913" width="24.916" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-206" x="1175.407" y="1041.780" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Центавр</text>
+    <rect x="1185.803" y="1038.913" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-206" x="1186.703" y="1041.780" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-206" x="1163.849" y="1044.430" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
 <g id="blue-label-207-group">
     <rect x="1008.496" y="1040.619" width="22.565" height="2.917" fill="#92B4EC" />
     <text id="blue-label-207" x="1030.161" y="1043.486" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ЗПМ Цунамі</text>
@@ -783,10 +1257,34 @@
     <text id="blue-label-right-207" x="1041.457" y="1043.486" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-207" x="1019.779" y="1046.136" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-4од</text>
 </g>
-    <text id="blue-label-208" x="1181.459" y="1045.525" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Серпень</text>
-    <text id="blue-label-209" x="643.741" y="1047.013" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВГ ЛІС 1</text>
-    <text id="blue-label-210" x="1225.438" y="1048.183" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр &quot;Шторм&quot;</text>
-    <text id="blue-label-211" x="1247.348" y="1049.518" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 300</text>
+<g id="blue-label-208-group">
+    <rect x="1151.601" y="1041.774" width="25.110" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-208" x="1175.811" y="1044.641" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Серпень</text>
+    <rect x="1186.207" y="1041.774" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-208" x="1187.107" y="1044.641" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-208" x="1164.156" y="1047.291" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-209-group">
+    <rect x="623.682" y="1043.712" width="16.493" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-209" x="639.275" y="1046.579" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ВГ ЛІС 1</text>
+    <rect x="647.307" y="1043.712" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-209" x="648.207" y="1046.579" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-209" x="631.928" y="1049.229" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-6од</text>
+</g>
+<g id="blue-label-210-group">
+    <rect x="1194.984" y="1044.432" width="25.706" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-210" x="1219.79" y="1047.299" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр &quot;Шторм&quot;</text>
+    <rect x="1230.186" y="1044.432" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-210" x="1231.086" y="1047.299" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-210" x="1207.837" y="1049.949" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-211-group">
+    <rect x="1226.301" y="1045.767" width="16.299" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-211" x="1241.7" y="1048.634" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр 300</text>
+    <rect x="1252.096" y="1045.767" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-211" x="1252.996" y="1048.634" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-211" x="1234.450" y="1051.284" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-212" x="1329.636" y="1050.170" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">до 30.06</text>
 <g id="blue-label-213-group">
     <rect x="735.377" y="1048.918" width="19.430" height="2.917" fill="#92B4EC" />
@@ -795,28 +1293,142 @@
     <text id="blue-label-right-213" x="765.203" y="1051.785" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
     <text id="blue-label-desc-213" x="745.092" y="1054.435" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-Xод</text>
 </g>
-    <text id="blue-label-214" x="1308.125" y="1055.559" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Сєрго</text>
+<g id="blue-label-214-group">
+    <rect x="1294.236" y="1051.292" width="11.789" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-214" x="1305.125" y="1054.159" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Сєрго</text>
+    <rect x="1310.225" y="1051.292" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-214" x="1311.125" y="1054.159" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-214" x="1300.131" y="1056.809" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
     <text id="blue-label-215" x="758.233" y="1058.578" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Венера</text>
     <text id="blue-label-216" x="177.066" y="1744.769" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">78/80</text>
-    <text id="blue-label-217" x="1267.115" y="1065.726" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Гуч</text>
-    <text id="blue-label-218" x="1324.015" y="1067.178" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 319</text>
-    <text id="blue-label-219" x="1235.973" y="1070.693" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Оріон</text>
-    <text id="blue-label-220" x="1323.548" y="1070.225" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр 227</text>
-    <text id="blue-label-221" x="1236.297" y="1073.557" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр &quot;Альфа&quot;</text>
-    <text id="blue-label-222" x="1236.656" y="1077.577" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Уран</text>
-    <text id="blue-label-223" x="1307.62" y="1084.149" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Док</text>
-    <text id="blue-label-224" x="1309.898" y="1083.203" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Магелан</text>
-    <text id="blue-label-225" x="1310.427" y="1083.626" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Рибак</text>
-    <text id="blue-label-226" x="1302.316" y="1084.945" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Пікачу</text>
-    <text id="blue-label-227" x="1302.316" y="1084.945" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Девіс</text>
-    <text id="blue-label-228" x="1272.821" y="1099.796" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Вітер</text>
-    <text id="blue-label-229" x="1286.537" y="1105.171" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">БАТЯ</text>
+<g id="blue-label-217-group">
+    <rect x="1257.140" y="1061.459" width="7.875" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-217" x="1264.115" y="1064.326" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Гуч</text>
+    <rect x="1269.215" y="1061.459" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-217" x="1270.115" y="1064.326" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-217" x="1261.078" y="1066.976" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-218-group">
+    <rect x="1302.968" y="1063.427" width="16.299" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-218" x="1318.367" y="1066.294" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр 319</text>
+    <rect x="1328.763" y="1063.427" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-218" x="1329.663" y="1066.294" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-218" x="1311.118" y="1068.944" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-219-group">
+    <rect x="1210.621" y="1066.942" width="20.604" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-219" x="1230.325" y="1069.809" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Оріон</text>
+    <rect x="1240.721" y="1066.942" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-219" x="1241.621" y="1069.809" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-219" x="1220.923" y="1072.459" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-220-group">
+    <rect x="1302.501" y="1066.474" width="16.299" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-220" x="1317.9" y="1069.341" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр 227</text>
+    <rect x="1328.296" y="1066.474" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-220" x="1329.196" y="1069.341" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-220" x="1310.650" y="1071.991" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-221-group">
+    <rect x="1206.816" y="1069.806" width="24.733" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-221" x="1230.649" y="1072.673" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр &quot;Альфа&quot;</text>
+    <rect x="1241.045" y="1069.806" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-221" x="1241.945" y="1072.673" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-221" x="1219.183" y="1075.323" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-222-group">
+    <rect x="1212.869" y="1073.826" width="19.039" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-222" x="1231.008" y="1076.693" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Уран</text>
+    <rect x="1241.404" y="1073.826" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-222" x="1242.304" y="1076.693" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-222" x="1222.389" y="1079.343" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-223-group">
+    <rect x="1297.059" y="1079.882" width="8.461" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-223" x="1304.62" y="1082.749" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Док</text>
+    <rect x="1309.720" y="1079.882" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-223" x="1310.62" y="1082.749" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-223" x="1301.289" y="1085.399" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-224-group">
+    <rect x="1291.693" y="1078.936" width="16.105" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-224" x="1306.898" y="1081.803" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Магелан</text>
+    <rect x="1311.998" y="1078.936" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-224" x="1312.898" y="1081.803" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-224" x="1299.745" y="1084.453" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-225-group">
+    <rect x="1295.945" y="1079.359" width="12.382" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-225" x="1307.427" y="1082.226" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Рибак</text>
+    <rect x="1312.527" y="1079.359" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-225" x="1313.427" y="1082.226" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-225" x="1302.136" y="1084.876" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-226-group">
+    <rect x="1287.048" y="1080.678" width="13.168" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-226" x="1299.316" y="1083.545" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Пікачу</text>
+    <rect x="1304.416" y="1080.678" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-226" x="1305.316" y="1083.545" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-226" x="1293.632" y="1086.195" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-227-group">
+    <rect x="1289.009" y="1080.678" width="11.207" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-227" x="1299.316" y="1083.545" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Девіс</text>
+    <rect x="1304.416" y="1080.678" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-227" x="1305.316" y="1083.545" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-227" x="1294.612" y="1086.195" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-228-group">
+    <rect x="1248.252" y="1096.045" width="19.821" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-228" x="1267.173" y="1098.912" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Вітер</text>
+    <rect x="1277.569" y="1096.045" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-228" x="1278.469" y="1098.912" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-228" x="1258.162" y="1101.562" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-229-group">
+    <rect x="1273.039" y="1100.904" width="11.398" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-229" x="1283.537" y="1103.771" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">БАТЯ</text>
+    <rect x="1288.637" y="1100.904" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-229" x="1289.537" y="1103.771" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-229" x="1278.738" y="1106.421" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-Xод</text>
+</g>
     <text id="blue-label-230" x="1128.007" y="1106.698" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">РПА</text>
-    <text id="blue-label-231" x="1291.311" y="1113.330" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр &quot;Щит&quot;</text>
-    <text id="blue-label-232" x="1233.279" y="1114.873" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Лєший</text>
-    <text id="blue-label-233" x="1242.307" y="1117.674" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Зевс</text>
-    <text id="blue-label-234" x="1207.425" y="1119.645" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ШГр Мак</text>
-    <text id="blue-label-235" x="1297.187" y="1145.280" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">Шгр &quot;Березень&quot;</text>
+<g id="blue-label-231-group">
+    <rect x="1265.557" y="1109.579" width="21.006" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-231" x="1285.663" y="1112.446" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр &quot;Щит&quot;</text>
+    <rect x="1296.059" y="1109.579" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-231" x="1296.959" y="1112.446" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-231" x="1276.060" y="1115.096" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-232-group">
+    <rect x="1206.559" y="1111.122" width="21.972" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-232" x="1227.631" y="1113.989" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Лєший</text>
+    <rect x="1238.027" y="1111.122" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-232" x="1238.927" y="1113.989" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-232" x="1217.545" y="1116.639" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-233-group">
+    <rect x="1230.371" y="1113.407" width="9.836" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-233" x="1239.307" y="1116.274" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Зевс</text>
+    <rect x="1244.407" y="1113.407" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-233" x="1245.307" y="1116.274" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-233" x="1235.289" y="1118.924" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-1од</text>
+</g>
+<g id="blue-label-234-group">
+    <rect x="1185.401" y="1115.894" width="17.276" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-234" x="1201.777" y="1118.761" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">ШГр Мак</text>
+    <rect x="1212.173" y="1115.894" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-234" x="1213.073" y="1118.761" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-234" x="1194.039" y="1121.411" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
+<g id="blue-label-235-group">
+    <rect x="1263.394" y="1141.529" width="29.045" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-235" x="1291.539" y="1144.396" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">Шгр &quot;Березень&quot;</text>
+    <rect x="1301.935" y="1141.529" width="12.583" height="2.917" fill="#92B4EC" />
+    <text id="blue-label-right-235" x="1302.835" y="1144.396" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">9/3//78</text>
+    <text id="blue-label-desc-235" x="1277.917" y="1147.046" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">AK74-2од</text>
+</g>
     <text id="blue-label-236" x="768.806" y="1154.257" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">ВП Ялина</text>
     <text id="blue-label-237" x="177.066" y="1744.769" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">2/95_13/95</text>
     <text id="blue-label-238" x="177.066" y="1744.769" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">2/95_13/95</text>
@@ -833,20 +1445,24 @@
     <g transform="translate(638.78 100.533)">
       <use xlink:href="#icon-mapping-0" />
     </g>
-    <circle id="blue-point-2" cx="306.551" cy="179.631" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(302.585 175.665)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
     <g transform="translate(341.676 172.025)">
       <use xlink:href="#icon-mapping-0" />
     </g>
     <g transform="translate(326.693 242.376)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(548.653 396.065)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(168.574 411.045)">
       <use xlink:href="#icon-mapping-0" />
     </g>
-    <circle id="blue-point-7" cx="171.351" cy="423.745" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(166.203 420.229)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-8" cx="291.009" cy="423.802" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(553.495 420.676)">
       <use xlink:href="#icon-mapping-1" />
@@ -858,7 +1474,9 @@
       <use xlink:href="#icon-mapping-0" />
     </g>
     <circle id="blue-point-12" cx="253.332" cy="434.315" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-13" cx="315.601" cy="434.055" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(309.741 430.539)">
+      <use xlink:href="#icon-mapping-3" />
+    </g>
     <g transform="translate(340.439 431.78)">
       <use xlink:href="#icon-mapping-1" />
     </g>
@@ -866,13 +1484,19 @@
       <use xlink:href="#icon-mapping-0" />
     </g>
     <circle id="blue-point-16" cx="239.739" cy="441.329" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-17" cx="304.924" cy="449.465" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(300.958 445.499)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
     <circle id="blue-point-18" cx="533.391" cy="447.868" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-19" cx="256.216" cy="456.724" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-20" cx="260.34" cy="461.89" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(252.25 452.758)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(255.192 458.374)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-21" cx="337.069" cy="460.38" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(600.362 463.758)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(650.427 480.701)">
       <use xlink:href="#icon-mapping-1" />
@@ -882,23 +1506,33 @@
     </g>
     <circle id="blue-point-25" cx="335.989" cy="496.614" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-26" cx="336.026" cy="496.532" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-27" cx="456.758" cy="494.086" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-28" cx="454.12" cy="503.393" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(450.898 490.57)">
+      <use xlink:href="#icon-mapping-3" />
+    </g>
+    <g transform="translate(448.26 499.877)">
+      <use xlink:href="#icon-mapping-3" />
+    </g>
     <g transform="translate(647.667 498.201)">
       <use xlink:href="#icon-mapping-0" />
     </g>
     <g transform="translate(497.908 501.991)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(425.582 510.709)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-31" cx="429.548" cy="514.675" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-32" cx="112.448" cy="517.991" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(108.482 514.025)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
     <g transform="translate(112.507 519.711)">
       <use xlink:href="#icon-mapping-1" />
     </g>
     <g transform="translate(109.529 523.447)">
       <use xlink:href="#icon-mapping-1" />
     </g>
-    <circle id="blue-point-35" cx="434.104" cy="530.485" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(430.138 526.519)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
     <circle id="blue-point-36" cx="194.191" cy="539.843" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(339.551 533.066)">
       <use xlink:href="#icon-mapping-0" />
@@ -908,182 +1542,232 @@
     <g transform="translate(76.989 570.605)">
       <use xlink:href="#icon-mapping-1" />
     </g>
-    <circle id="blue-point-41" cx="80.955" cy="574.571" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(75.095 571.055)">
+      <use xlink:href="#icon-mapping-3" />
+    </g>
     <g transform="translate(716.886 569.9)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-43" cx="119.328" cy="576.894" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(709.041 573.746)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(709.041 573.746)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(470.432 586.306)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-46" cx="474.398" cy="590.272" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-47" cx="517.851" cy="609.015" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-48" cx="520.588" cy="611.039" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <g transform="translate(515.44 607.523)">
+    <g transform="translate(513.885 605.049)">
       <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(516.622 607.073)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(515.44 607.523)">
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-50" cx="398.478" cy="613.339" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(688.751 612.797)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(752.054 610.985)">
       <use xlink:href="#icon-mapping-0" />
     </g>
     <g transform="translate(752.379 610.537)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(758.844 610.888)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-55" cx="771.524" cy="614.48" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(776.548 610.119)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(416.234 618.029)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(762.065 617.566)">
       <use xlink:href="#icon-mapping-0" />
     </g>
     <g transform="translate(671.013 624.748)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(464.54 629.456)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-61" cx="642.479" cy="632.517" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-62" cx="738.114" cy="642.137" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-63" cx="738.164" cy="642.454" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(637.331 629.001)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(735.614 639.137)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(735.664 639.454)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
     <g transform="translate(727.485 646.54)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(779.352 647.941)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(790.581 645.293)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-66" cx="794.547" cy="649.259" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-67" cx="167.436" cy="655.35" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-68" cx="177.066" cy="1740.569" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-69" cx="177.066" cy="1740.569" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-70" cx="95.966" cy="661.842" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-71" cx="769.304" cy="663.279" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(764.597 658.592)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(701.688 671.548)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-73" cx="705.654" cy="675.514" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-74" cx="798.931" cy="678.052" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-75" cx="550.365" cy="680.328" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-76" cx="800.038" cy="705.233" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-77" cx="789.88" cy="710.109" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <g transform="translate(321.427 710.76)">
+    <g transform="translate(794.965 674.086)">
       <use xlink:href="#icon-mapping-2" />
+    </g>
+    <circle id="blue-point-75" cx="550.365" cy="680.328" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(796.072 701.267)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(785.914 706.143)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(321.427 710.76)">
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-79" cx="318.314" cy="730.122" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-80" cx="380.99" cy="727.83" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-81" cx="289.513" cy="730.949" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(576.308 729.7)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(518.893 734.596)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-84" cx="317.884" cy="745.582" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(312.024 742.066)">
+      <use xlink:href="#icon-mapping-3" />
+    </g>
     <g transform="translate(537.388 746.034)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(781.035 750.411)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(784.287 754.923)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-87" cx="788.253" cy="758.889" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-88" cx="768.444" cy="766.909" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-89" cx="815.054" cy="786.604" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <g transform="translate(797.117 787.768)">
+    <g transform="translate(811.088 782.638)">
       <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(797.117 787.768)">
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(868.925 790.147)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(751.838 793.413)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(726.999 795.892)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-94" cx="343.785" cy="804.92" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(755.813 799.431)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(869.692 803.093)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-97" cx="377.585" cy="809.798" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(372.437 806.282)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(731.228 807.328)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(871.201 816.853)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(859.251 834.194)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(621.343 838.153)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-101" cx="625.309" cy="842.119" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(874.924 845.31)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(938.655 845.719)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-103" cx="942.621" cy="849.685" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(848.767 853.803)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(848.769 853.843)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-106" cx="1004.888" cy="867.171" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(999.74 863.655)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(999.943 865.086)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(529.234 870.248)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-108" cx="533.2" cy="874.214" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(875.741 869.947)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-110" cx="641.002" cy="886.502" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(815.171 884.845)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-112" cx="1008.848" cy="888.399" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1006.348 885.399)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
     <g transform="translate(648.32 886.447)">
       <use xlink:href="#icon-mapping-0" />
     </g>
     <g transform="translate(955.574 888.103)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(957.399 893.034)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-116" cx="1119.09" cy="899.599" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1113.942 896.083)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-117" cx="750.116" cy="901.591" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(852.72 903.283)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(968.353 903.666)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-120" cx="752.147" cy="910.345" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-121" cx="763.221" cy="910.746" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-122" cx="837.633" cy="911.115" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(832.485 907.599)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-123" cx="852.67" cy="909.758" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(858.034 908.967)">
       <use xlink:href="#icon-mapping-1" />
     </g>
     <g transform="translate(969.498 908.499)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-126" cx="1095.961" cy="913.519" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1090.813 910.003)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-127" cx="851.583" cy="914.382" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-128" cx="862.555" cy="915.39" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-129" cx="319.746" cy="917.485" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-130" cx="868.45" cy="916.839" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(862.59 913.323)">
+      <use xlink:href="#icon-mapping-3" />
+    </g>
     <g transform="translate(865.031 912.576)">
       <use xlink:href="#icon-mapping-1" />
     </g>
@@ -1093,97 +1777,149 @@
     </g>
     <circle id="blue-point-134" cx="817.926" cy="925.712" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(855.838 923.896)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-136" cx="808.762" cy="931.553" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-137" cx="277.096" cy="933.832" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(271.948 930.316)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-138" cx="642.036" cy="934.158" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-139" cx="804.592" cy="935.517" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-140" cx="859.993" cy="935.026" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-141" cx="735.381" cy="935.83" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(799.444 932.001)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(856.027 931.06)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(730.233 932.314)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(858.677 931.814)">
       <use xlink:href="#icon-mapping-1" />
     </g>
     <circle id="blue-point-143" cx="944.115" cy="936.997" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-144" cx="854.204" cy="939.401" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <g transform="translate(834.231 938.831)">
-      <use xlink:href="#icon-mapping-2" />
+    <g transform="translate(849.056 935.885)">
+      <use xlink:href="#icon-mapping-5" />
     </g>
-    <circle id="blue-point-146" cx="850.689" cy="941.468" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(834.231 938.831)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(845.541 937.952)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-147" cx="809.668" cy="945.013" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(805.592 940.185)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-149" cx="866.541" cy="944.596" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(861.393 941.08)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(886.184 941.331)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(821.457 946.223)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(832.355 944.917)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-153" cx="869.758" cy="948.205" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(864.61 944.689)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(847.133 946.801)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(874.298 947.894)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(832.663 949.617)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(834.821 949.907)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-158" cx="1134.481" cy="953.044" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1129.333 949.528)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-159" cx="802.235" cy="955.188" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(845.245 952.488)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-161" cx="861.211" cy="955.939" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-162" cx="862.116" cy="956.908" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(856.063 952.423)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(859.616 953.908)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
     <g transform="translate(849.094 953.443)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(851.83 954.434)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-165" cx="802.547" cy="958.77" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-166" cx="820.526" cy="959.99" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(815.378 956.474)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(872.587 955.451)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-168" cx="682.922" cy="964.55" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-169" cx="858.191" cy="966.132" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-170" cx="878.957" cy="964.954" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-171" cx="889.329" cy="965.902" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-172" cx="879.602" cy="967.727" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(853.043 962.616)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(873.809 961.438)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(884.181 962.386)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(874.454 964.211)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-173" cx="885.37" cy="969.021" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-174" cx="618.289" cy="973.25" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-175" cx="882.262" cy="972.631" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-176" cx="820.435" cy="977.154" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-177" cx="858.921" cy="976.645" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(877.114 969.115)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(815.287 973.638)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(853.773 973.129)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-178" cx="858.921" cy="976.645" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-179" cx="687.888" cy="980.352" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-180" cx="808.555" cy="980.048" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-181" cx="661.461" cy="987.2" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-182" cx="748.422" cy="986.451" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-183" cx="723.782" cy="991.997" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-184" cx="768.121" cy="991.762" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-185" cx="793.56" cy="991.304" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-186" cx="831.393" cy="991.57" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-187" cx="872.092" cy="991.95" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(744.456 982.485)">
+      <use xlink:href="#icon-mapping-2" />
+    </g>
+    <g transform="translate(718.634 988.481)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(762.973 988.246)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(788.412 987.788)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(826.245 988.054)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(866.944 988.434)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(759.868 990.568)">
       <use xlink:href="#icon-mapping-1" />
     </g>
-    <circle id="blue-point-189" cx="1173.771" cy="993.469" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1168.623 989.953)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(762.773 991.964)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <g transform="translate(787.446 997.397)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
     <circle id="blue-point-192" cx="814.496" cy="1001.807" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-193" cx="1109.483" cy="1002.058" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
@@ -1191,50 +1927,112 @@
     <circle id="blue-point-195" cx="749.634" cy="1009.359" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-196" cx="774.221" cy="1012.159" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(769.483 1007.791)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-198" cx="1205.121" cy="1016.263" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-199" cx="1195.593" cy="1018.148" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-200" cx="1166.403" cy="1023.385" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-201" cx="765.944" cy="1033.138" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-202" cx="765.944" cy="1033.138" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1199.973 1012.747)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1190.445 1014.632)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1163.903 1020.385)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(761.978 1029.172)">
+      <use xlink:href="#icon-mapping-6" />
+    </g>
+    <g transform="translate(761.978 1029.172)">
+      <use xlink:href="#icon-mapping-6" />
+    </g>
     <circle id="blue-point-203" cx="868.602" cy="1033.885" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-204" cx="1180.123" cy="1033.942" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-205" cx="1180.266" cy="1033.419" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-206" cx="1181.055" cy="1038.464" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1174.975 1030.426)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1175.118 1029.903)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1175.907 1034.948)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <g transform="translate(1030.661 1036.654)">
+      <use xlink:href="#icon-mapping-4" />
+    </g>
+    <g transform="translate(1176.311 1037.809)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(639.775 1038.847)">
       <use xlink:href="#icon-mapping-2" />
     </g>
-    <circle id="blue-point-208" cx="1181.459" cy="1041.325" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-209" cx="643.741" cy="1042.813" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-210" cx="1225.438" cy="1043.983" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-211" cx="1247.348" cy="1045.318" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1220.29 1040.467)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1242.2 1041.802)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-212" cx="1329.636" cy="1045.97" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <g transform="translate(754.407 1044.953)">
-      <use xlink:href="#icon-mapping-2" />
+      <use xlink:href="#icon-mapping-4" />
     </g>
-    <circle id="blue-point-214" cx="1308.125" cy="1051.359" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1305.625 1048.359)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
     <circle id="blue-point-215" cx="758.233" cy="1054.378" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-216" cx="177.066" cy="1740.569" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-217" cx="1267.115" cy="1061.526" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-218" cx="1324.015" cy="1062.978" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-219" cx="1235.973" cy="1066.493" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-220" cx="1323.548" cy="1066.025" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-221" cx="1236.297" cy="1069.357" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-222" cx="1236.656" cy="1073.377" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-223" cx="1307.62" cy="1079.949" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-224" cx="1309.898" cy="1079.003" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-225" cx="1310.427" cy="1079.426" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-226" cx="1302.316" cy="1080.745" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-227" cx="1302.316" cy="1080.745" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-228" cx="1272.821" cy="1095.596" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-229" cx="1286.537" cy="1100.971" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1264.615 1058.526)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(1318.867 1059.462)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1230.825 1062.977)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1318.4 1062.509)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1231.149 1065.841)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1231.508 1069.861)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1305.12 1076.949)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(1307.398 1076.003)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(1307.927 1076.426)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(1299.816 1077.745)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(1299.816 1077.745)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(1267.673 1092.08)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1284.037 1097.971)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
     <circle id="blue-point-230" cx="1128.007" cy="1102.498" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-231" cx="1291.311" cy="1109.13" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-232" cx="1233.279" cy="1110.673" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-233" cx="1242.307" cy="1113.474" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-234" cx="1207.425" cy="1115.445" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
-    <circle id="blue-point-235" cx="1297.187" cy="1141.08" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
+    <g transform="translate(1286.163 1105.614)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1228.131 1107.157)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1239.807 1110.474)">
+      <use xlink:href="#icon-mapping-7" />
+    </g>
+    <g transform="translate(1202.277 1111.929)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
+    <g transform="translate(1292.039 1137.564)">
+      <use xlink:href="#icon-mapping-5" />
+    </g>
     <circle id="blue-point-236" cx="768.806" cy="1150.057" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-237" cx="177.066" cy="1740.569" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
     <circle id="blue-point-238" cx="177.066" cy="1740.569" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
