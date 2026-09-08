@@ -221,7 +221,9 @@ function computeLeftLabelLayout(
   const xPos = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
 
-  const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
+  // Measure width from the raw (unescaped) text so that special chars like " are
+  // counted as 1 glyph, not as the 6-char XML entity &quot;
+  const textWidth = measureTextWidthMm(rawName ?? '', fontSizeMm);
 
   const rectX = (xPos - textWidth - rectPadX).toFixed(3);
   const rectY = (yPos - rectHeight + rectPadY).toFixed(3);
@@ -259,7 +261,9 @@ function computeRightLabelLayout(
   const xPos = Number((svgPt.x + iconW / 2 + marginOffsetX).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
 
-  const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
+  // Measure width from the raw (unescaped) text so that special chars like " are
+  // counted as 1 glyph, not as the 6-char XML entity &quot;
+  const textWidth = measureTextWidthMm(rawName ?? '', fontSizeMm);
 
   const rectX = (xPos - rectPadX).toFixed(3);
   const rectY = (yPos - rectHeight + rectPadY).toFixed(3);
