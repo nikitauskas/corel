@@ -67,6 +67,7 @@ interface Point {
   name?: string;
   desc?: string;
   sidc?: string;
+  count?: string;
 }
 
 const mappingSVGs: Record<string, [string, number]> = {
@@ -276,6 +277,7 @@ for (let i = 1; i < csvLines.length; i++) {
 
   if (cols.length >= 8) {
     const sidc = cols[3]?.trim() || '';
+    const count = cols[4]?.trim() || '';
     const name = cols[5]?.trim() || '';
     const mgrsStr = cols[7]?.trim() || '';
     const desc = cols[12]?.trim() || '';
@@ -284,7 +286,7 @@ for (let i = 1; i < csvLines.length; i++) {
       try {
         const [lon, lat] = mgrs.toPoint(mgrsStr);
         if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
-          bluePointMarkers.push({ lon, lat, name, desc, sidc });
+          bluePointMarkers.push({ lon, lat, name, desc, sidc, count });
         }
       } catch (e) {
         // Ignore invalid MGRS strings
@@ -362,7 +364,8 @@ bluePointMarkers.forEach((pt, idx) => {
       rightLabelMargin,
     );
 
-    const groupDesc = 'AK74-2од'; //pt.desc ? escapeXml(pt.desc) : '';
+    const countNum = pt.count || 'X';
+    const groupDesc = `AK74-${countNum}од`;
     const descX = Number(rectX) + Number(rectW) / 2;
     const descY = Number(rectY) + Number(rectH) + 2.6; // 3.0mm gives a little padding below the rect
 
