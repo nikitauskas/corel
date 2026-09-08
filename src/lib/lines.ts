@@ -62,7 +62,10 @@ export function buildLinePathElements(
     const mgrsRaw = cols[7]?.trim() || '';
     if (!mgrsRaw) continue;
 
-    const mgrsParts = mgrsRaw.split(';').map((s) => s.trim()).filter(Boolean);
+    const mgrsParts = mgrsRaw
+      .split(';')
+      .map((s) => s.trim())
+      .filter(Boolean);
     const segment: Point[] = [];
 
     for (const mgrsStr of mgrsParts) {

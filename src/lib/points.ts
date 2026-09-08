@@ -1,7 +1,11 @@
 import * as m from 'mgrs';
 import { Point } from './geo.js';
-import { computeLeftLabelLayout, computeRightLabelLayout, escapeXml } from './utils.js';
 import { mappingSVGs } from './icons.js';
+import {
+  computeLeftLabelLayout,
+  computeRightLabelLayout,
+  escapeXml,
+} from './utils.js';
 
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
@@ -12,7 +16,7 @@ export function parseBluePoints(
 ): Point[] {
   const bluePointMarkers: Point[] = [];
   const csvLines = csvContent.split('\n');
-  
+
   for (let i = 1; i < csvLines.length; i++) {
     const line = csvLines[i].trim();
     if (!line) continue;
@@ -156,14 +160,14 @@ export function buildBlueForceElements(
       textElements.push('</g>');
       blueTextElements.push(...textElements);
     } else {
-      let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
-      if (!labelText || labelText === '●') {
-        labelText = `Blue #${idx + 1}`;
-      }
-      const cleanText = escapeXml(labelText);
-      blueTextElements.push(
-        `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
-      );
+      // let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
+      // if (!labelText || labelText === '●') {
+      //   labelText = `Blue #${idx + 1}`;
+      // }
+      // const cleanText = escapeXml(labelText);
+      // blueTextElements.push(
+      //   `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
+      // );
     }
   });
 
