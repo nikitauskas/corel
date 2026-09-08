@@ -4,8 +4,7 @@ export function buildFinalSvg(
   map: MapContext,
   generatedIconsDefs: string,
   pathElements: string,
-  bluePointElements: string[],
-  blueTextElements: string[],
+  blueForceElements: string[],
 ): string {
   const { widthMm, heightMm, centerX, centerY, scale, mgrsTL } = map;
 
@@ -40,14 +39,9 @@ ${generatedIconsDefs}
 ${pathElements}
   </g>
 
-  <!-- Blue Force Centered Labels -->
-  <g id="BlueForceLabels">
-${blueTextElements.join('\n')}
-  </g>
-
-  <!-- Blue Force Layer (Red Dots / Drone Icons) -->
-  <g id="BlueForceDots">
-${bluePointElements.join('\n')}
+  <!-- Blue Force Layer (Units with Markers & Labels) -->
+  <g id="BlueForce">
+${blueForceElements.join('\n')}
   </g>
 
 </svg>

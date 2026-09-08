@@ -68,8 +68,8 @@ for (const format of MAP_FORMATS) {
   // Parse points inside map window
   const bluePointMarkers = parseBluePoints(blueCsvContent, map.inWindow);
 
-  // Generate SVG elements for Blue Force points
-  const { bluePointElements, blueTextElements } = buildBlueForceElements(
+  // Generate SVG elements for Blue Force points (marker + labels grouped per element)
+  const { blueForceElements } = buildBlueForceElements(
     bluePointMarkers,
     iconRenderedSizes,
     map.geoToSvg,
@@ -80,8 +80,7 @@ for (const format of MAP_FORMATS) {
     map,
     generatedIconsDefs,
     pathElements,
-    bluePointElements,
-    blueTextElements,
+    blueForceElements,
   );
 
   const filename =
