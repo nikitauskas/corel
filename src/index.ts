@@ -1,12 +1,12 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as m from 'mgrs';
+import { buildLinePathElements } from './lib/lines.js';
 import {
   computeLeftLabelLayout,
   computeRightLabelLayout,
   escapeXml,
 } from './utils.js';
-import { buildLinePathElements } from './lib/lines.js';
 
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
@@ -365,44 +365,6 @@ bluePointMarkers.forEach((pt, idx) => {
 });
 
 // ----------------------------------------------------
-// 3. Enemy Points Parsing (myrne/enemy/doc.kml)
-//    Optional: skipped if file does not exist
-// ----------------------------------------------------
-const enemyKmlPath = path.resolve(process.cwd(), 'myrne/enemy/doc.kml');
-const enemyKmlContent = fs.existsSync(enemyKmlPath)
-  ? fs.readFileSync(enemyKmlPath, 'utf-8')
-  : '';
-
-const enemyPlacemarks =
-  enemyKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
-const enemyPointMarkers: Point[] = [];
-
-for (const pm of enemyPlacemarks) {
-  const nameMatch = pm.match(/<name>(.*?)<\/name>/i);
-  const descMatch = pm.match(/<description>(.*?)<\/description>/i);
-  const sidcMatch = pm.match(/<Data name="sidc">\s*<value>(.*?)<\/value>/i);
-
-  const name = nameMatch ? nameMatch[1].trim() : '';
-  const desc = descMatch ? descMatch[1].trim() : '';
-  const sidc = sidcMatch ? sidcMatch[1].trim() : '';
-
-  const coordMatch = pm.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
-  if (coordMatch) {
-    const rawCoords = coordMatch[1].trim().split(/\s+/);
-    for (const pStr of rawCoords) {
-      const parts = pStr.split(',');
-      if (parts.length >= 2) {
-        const lon = Number.parseFloat(parts[0]);
-        const lat = Number.parseFloat(parts[1]);
-        if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
-          enemyPointMarkers.push({ lon, lat, name, desc, sidc });
-        }
-      }
-    }
-  }
-}
-
-// ----------------------------------------------------
 // 4. Generate Final CorelDRAW SVG Content
 // ----------------------------------------------------
 const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -455,5 +417,6 @@ fs.writeFileSync(outputPath, svgContent, 'utf-8');
 console.log(`SVG successfully generated: ${outputPath}`);
 console.log(`- Blue Force points: ${bluePointMarkers.length}`);
 console.log(`- Custom mapped icons rendered: ${customIconCount}`);
-console.log(`- CSV lines rendered: ${pathElements ? pathElements.split('<path').length - 1 : 0}`);
-console.log(`- Enemy points & labels: ${enemyPointMarkers.length}`);
+console.log(
+  `- CSV lines rendered: ${pathElements ? pathElements.split('<path').length - 1 : 0}`,
+);
