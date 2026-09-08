@@ -455,5 +455,5 @@ fs.writeFileSync(outputPath, svgContent, 'utf-8');
 console.log(`SVG successfully generated: ${outputPath}`);
 console.log(`- Blue Force points: ${bluePointMarkers.length}`);
 console.log(`- Custom mapped icons rendered: ${customIconCount}`);
-console.log(`- CSV lines rendered: ${csvLineSegments.length}`);
+console.log(`- CSV lines rendered: ${pathElements ? pathElements.split('<path').length - 1 : 0}`);
 console.log(`- Enemy points & labels: ${enemyPointMarkers.length}`);
