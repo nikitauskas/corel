@@ -68,11 +68,13 @@ interface Point {
   desc?: string;
   sidc?: string;
   count?: string;
+  app6dType?: string;
 }
 
 const mappingSVGs: Record<string, [string, number]> = {
-  'ЗПМ ': ['icons2/1.svg', 7.032],
-  'РТР ': ['icons2/2.svg', 7.932],
+  'Точка злету БпЛА літакового типу': ['icons2/1.svg', 7.032],
+  Антена: ['icons2/2.svg', 7.932],
+  'Точка злету БпЛА вертикального зльоту / посадки': ['icons2/3.svg', 7.032],
 };
 
 // Padding (in SVG user units) added around each icon's content bounding box when icons were extracted.
@@ -277,6 +279,7 @@ for (let i = 1; i < csvLines.length; i++) {
   cols.push(currentWord);
 
   if (cols.length >= 8) {
+    const app6dType = cols[0]?.trim() || '';
     const sidc = cols[3]?.trim() || '';
     const count = cols[4]?.trim() || '';
     const name = cols[5]?.trim() || '';
@@ -287,7 +290,7 @@ for (let i = 1; i < csvLines.length; i++) {
       try {
         const [lon, lat] = mgrs.toPoint(mgrsStr);
         if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
-          bluePointMarkers.push({ lon, lat, name, desc, sidc, count });
+          bluePointMarkers.push({ lon, lat, name, desc, sidc, count, app6dType });
         }
       } catch (e) {
         // Ignore invalid MGRS strings
@@ -304,9 +307,9 @@ let customIconCount = 0;
 bluePointMarkers.forEach((pt, idx) => {
   const svgPt = geoToSvg(pt);
 
-  const ptName = pt.name ?? '';
-  const mappingIdx = Object.keys(mappingSVGs).findIndex((prefix) =>
-    ptName.startsWith(prefix),
+  const ptApp6dType = pt.app6dType ?? '';
+  const mappingIdx = Object.keys(mappingSVGs).findIndex(
+    (key) => key === ptApp6dType,
   );
 
   if (mappingIdx !== -1) {
