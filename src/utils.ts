@@ -212,13 +212,14 @@ function computeLeftLabelLayout(
   rectPadX = 0.9,
   rectPadY = 0.05,
   rectHeight = 2.917, // mm — matches text height in CorelDraw
-  marginOffset = 0.0, // Extra outwards shift from the icon (user tweakable)
+  marginOffsetX = 0.0, // Extra outwards shift from the icon (user tweakable)
+  marginOffsetY = -0.2, // Extra outwards shift from the icon (user tweakable)
 ) {
   const cleanText = escapeXml(rawName ?? '');
 
   // Shift left by marginOffset so it doesn't overlap the icon more than desired
-  const xPos = Number((svgPt.x - iconW / 2 - marginOffset).toFixed(3));
-  const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5;
+  const xPos = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
+  const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
 
@@ -249,13 +250,14 @@ function computeRightLabelLayout(
   rectPadX = 0.9,
   rectPadY = 0.05,
   rectHeight = 2.917, // mm — matches text height in CorelDraw
-  marginOffset = 0.0, // Extra outwards shift from the icon (user tweakable)
+  marginOffsetX = 0.0, // Extra outwards shift from the icon (user tweakable)
+  marginOffsetY = -0.2, // Extra outwards shift from the icon (user tweakable)
 ) {
   const cleanText = escapeXml(rawName ?? '');
 
   // Shift right by marginOffset so it doesn't overlap the icon more than desired
-  const xPos = Number((svgPt.x + iconW / 2 + marginOffset).toFixed(3));
-  const yPos = Number((svgPt.y + iconH / 2).toFixed(3)) + 0.5;
+  const xPos = Number((svgPt.x + iconW / 2 + marginOffsetX).toFixed(3));
+  const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
 
