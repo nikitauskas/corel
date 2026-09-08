@@ -71,10 +71,10 @@ interface Point {
   app6dType?: string;
 }
 
-const mappingSVGs: Record<string, [string, number]> = {
-  'Точка злету БпЛА літакового типу': ['icons2/1.svg', 7.032],
-  Антена: ['icons2/2.svg', 7.932],
-  'Точка злету БпЛА вертикального зльоту / посадки': ['icons2/3.svg', 7.032],
+const mappingSVGs: Record<string, [number]> = {
+  'Точка злету БпЛА літакового типу': [7.032],
+  Антена: [7.932],
+  'Точка злету БпЛА вертикального зльоту / посадки': [7.032],
 };
 
 // Padding (in SVG user units) added around each icon's content bounding box when icons were extracted.
@@ -90,7 +90,8 @@ let iconsDefsContent = '';
 let iconsSymbolsContent = '';
 
 Object.entries(mappingSVGs).forEach(
-  ([prefix, [iconPathRelative, targetHeightMm]], idx) => {
+  ([prefix, [targetHeightMm]], idx) => {
+    const iconPathRelative = `icons2/${prefix.replace(/\//g, '-')}.svg`;
     const iconPath = path.resolve(process.cwd(), iconPathRelative);
     if (!fs.existsSync(iconPath)) {
       console.warn(
