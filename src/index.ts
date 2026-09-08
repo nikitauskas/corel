@@ -290,7 +290,15 @@ for (let i = 1; i < csvLines.length; i++) {
       try {
         const [lon, lat] = mgrs.toPoint(mgrsStr);
         if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
-          bluePointMarkers.push({ lon, lat, name, desc, sidc, count, app6dType });
+          bluePointMarkers.push({
+            lon,
+            lat,
+            name,
+            desc,
+            sidc,
+            count,
+            app6dType,
+          });
         }
       } catch (e) {
         // Ignore invalid MGRS strings
@@ -340,8 +348,8 @@ bluePointMarkers.forEach((pt, idx) => {
 
     // Tweak these values to adjust the gap between the labels and the icon.
     // Positive values move the labels outwards (away from the icon).
-    const leftLabelMargin = 0.0;
-    const rightLabelMargin = 1.0;
+    const leftLabelMargin = -0.5;
+    const rightLabelMargin = 0.5;
 
     const { xPos, yPos, cleanText, rectX, rectY, rectW, rectH } =
       computeLeftLabelLayout(
