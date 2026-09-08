@@ -70,11 +70,8 @@ interface Point {
 }
 
 const mappingSVGs: Record<string, [string, number]> = {
-  'ЗПМ ': ['icons/Ракетні війська та артилерія/Батарея БПЛА.svg', 7.032],
-  'РТР ': [
-    'icons/Зв_язок/Станція звязку _РЗ-радіо_ ТрЗ-транкінговий_ РРЗ-радіорелейний_ ТРЗ-топосферний_ СЗ-супутниковий_ ПрЗ-проводовий.svg',
-    7.932,
-  ],
+  'ЗПМ ': ['icons2/1.svg', 7.032],
+  'РТР ': ['icons2/2.svg', 7.932],
 };
 
 // Padding (in SVG user units) added around each icon's content bounding box when icons were extracted.
