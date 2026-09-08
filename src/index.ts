@@ -239,36 +239,55 @@ const pathElements = kmlLines
   .join('\n');
 
 // ----------------------------------------------------
-// 2. Blue Force Points Parsing (myrne/blue_force/doc.kml)
+// 2. Blue Force Points Parsing (data/full_data.csv)
 // ----------------------------------------------------
-const blueKmlPath = path.resolve(process.cwd(), 'myrne/blue_force/doc.kml');
-const blueKmlContent = fs.existsSync(blueKmlPath)
-  ? fs.readFileSync(blueKmlPath, 'utf-8')
+const blueCsvPath = path.resolve(process.cwd(), 'data/full_data.csv');
+const blueCsvContent = fs.existsSync(blueCsvPath)
+  ? fs.readFileSync(blueCsvPath, 'utf-8')
   : '';
 
-const bluePlacemarks =
-  blueKmlContent.match(/<Placemark[\s\S]*?<\/Placemark>/gi) || [];
 const bluePointMarkers: Point[] = [];
 
-for (const pm of bluePlacemarks) {
-  if (/<Point>/i.test(pm)) {
-    const nameMatch = pm.match(/<name>(.*?)<\/name>/i);
-    const descMatch = pm.match(/<description>(.*?)<\/description>/i);
-    const sidcMatch = pm.match(/<Data name="sidc">\s*<value>(.*?)<\/value>/i);
+const csvLines = blueCsvContent.split('\n');
+for (let i = 1; i < csvLines.length; i++) {
+  const line = csvLines[i].trim();
+  if (!line) continue;
 
-    const name = nameMatch ? nameMatch[1].trim() : '';
-    const desc = descMatch ? descMatch[1].trim() : '';
-    const sidc = sidcMatch ? sidcMatch[1].trim() : '';
+  const cols: string[] = [];
+  let inQuotes = false;
+  let currentWord = '';
+  for (let j = 0; j < line.length; j++) {
+    const char = line[j];
+    if (char === '"') {
+      if (inQuotes && line[j + 1] === '"') {
+        currentWord += '"';
+        j++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ',' && !inQuotes) {
+      cols.push(currentWord);
+      currentWord = '';
+    } else {
+      currentWord += char;
+    }
+  }
+  cols.push(currentWord);
 
-    const coordMatch = pm.match(/<coordinates>([\s\S]*?)<\/coordinates>/i);
-    if (coordMatch) {
-      const parts = coordMatch[1].trim().split(',');
-      if (parts.length >= 2) {
-        const lon = Number.parseFloat(parts[0]);
-        const lat = Number.parseFloat(parts[1]);
+  if (cols.length >= 8) {
+    const sidc = cols[3]?.trim() || '';
+    const name = cols[5]?.trim() || '';
+    const mgrsStr = cols[7]?.trim() || '';
+    const desc = cols[12]?.trim() || '';
+
+    if (mgrsStr) {
+      try {
+        const [lon, lat] = mgrs.toPoint(mgrsStr);
         if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
           bluePointMarkers.push({ lon, lat, name, desc, sidc });
         }
+      } catch (e) {
+        // Ignore invalid MGRS strings
       }
     }
   }
