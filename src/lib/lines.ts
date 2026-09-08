@@ -102,7 +102,7 @@ export function buildLinePathElements(
         const pt = geoToSvg(seg[i]);
         d += ` L ${pt.x},${pt.y}`;
       }
-      return `    <path id="csv-line-${idx + 1}" d="${d}" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
+      return `    <path id="Горизонтальна (між підрозділами)" d="${d}" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
     })
     .filter(Boolean)
     .join('\n');

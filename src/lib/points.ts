@@ -90,7 +90,7 @@ export function buildBlueForceElements(
     );
 
     const elementLines: string[] = [];
-    elementLines.push(`    <g id="blue-force-${idx + 1}">`);
+    elementLines.push(`    <g id="${ptApp6dType}">`);
 
     if (mappingIdx !== -1) {
       const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
