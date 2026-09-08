@@ -102,7 +102,8 @@ export function buildLinePathElements(
         const pt = geoToSvg(seg[i]);
         d += ` L ${pt.x},${pt.y}`;
       }
-      return `    <path id="Горизонтальна (між підрозділами)" d="${d}" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
+      return `    <path id="Горизонтальна (між підрозділами)" d="${d}" stroke="#171796" stroke-width="4.2333" stroke-miterlimit="22.9256" stroke-opacity="0.301961" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="Горизонтальна (між підрозділами)" d="${d}" stroke="#171796" stroke-width="1.0583" stroke-miterlimit="22.9256" fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
     })
     .filter(Boolean)
     .join('\n');
