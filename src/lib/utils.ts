@@ -215,14 +215,12 @@ function computeLeftLabelLayout(
   marginOffsetX = 0.0, // Extra outwards shift from the icon (user tweakable)
   marginOffsetY = -0.2, // Extra outwards shift from the icon (user tweakable)
 ) {
-  const cleanText = escapeXml(rawName ?? '');
+  const cleanText = rawName ?? '';
 
   // Shift left by marginOffset so it doesn't overlap the icon more than desired
   const xPos = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
 
-  // Measure width from the raw (unescaped) text so that special chars like " are
-  // counted as 1 glyph, not as the 6-char XML entity &quot;
   const textWidth = measureTextWidthMm(rawName ?? '', fontSizeMm);
 
   const rectX = (xPos - textWidth - rectPadX).toFixed(3);
@@ -231,16 +229,6 @@ function computeLeftLabelLayout(
   const rectH = rectHeight.toFixed(3);
 
   return { xPos, yPos, cleanText, rectX, rectY, rectW, rectH };
-}
-
-// Helper to escape XML special characters
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
 }
 
 function computeRightLabelLayout(
@@ -255,14 +243,12 @@ function computeRightLabelLayout(
   marginOffsetX = 0.0, // Extra outwards shift from the icon (user tweakable)
   marginOffsetY = -0.2, // Extra outwards shift from the icon (user tweakable)
 ) {
-  const cleanText = escapeXml(rawName ?? '');
+  const cleanText = rawName ?? '';
 
   // Shift right by marginOffset so it doesn't overlap the icon more than desired
   const xPos = Number((svgPt.x + iconW / 2 + marginOffsetX).toFixed(3));
   const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
 
-  // Measure width from the raw (unescaped) text so that special chars like " are
-  // counted as 1 glyph, not as the 6-char XML entity &quot;
   const textWidth = measureTextWidthMm(rawName ?? '', fontSizeMm);
 
   const rectX = (xPos - rectPadX).toFixed(3);
@@ -277,5 +263,4 @@ export {
   measureTextWidthMm,
   computeLeftLabelLayout,
   computeRightLabelLayout,
-  escapeXml,
 };

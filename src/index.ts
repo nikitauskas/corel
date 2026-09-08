@@ -63,7 +63,7 @@ for (const format of MAP_FORMATS) {
     blueCsvContent,
     map.inWindow,
     map.geoToSvg,
-  );
+  ); //
 
   // Parse points inside map window
   const bluePointMarkers = parseBluePoints(blueCsvContent, map.inWindow);

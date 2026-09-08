@@ -4,7 +4,6 @@ import { mappingSVGs } from './icons.js';
 import {
   computeLeftLabelLayout,
   computeRightLabelLayout,
-  escapeXml,
 } from './utils.js';
 
 const mgrs =
@@ -164,7 +163,7 @@ export function buildBlueForceElements(
       if (!labelText || labelText === '●') {
         labelText = `Blue #${idx + 1}`;
       }
-      const cleanText = escapeXml(labelText);
+      const cleanText = labelText;
       elementLines.push(
         `      <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
       );
