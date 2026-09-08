@@ -119,9 +119,20 @@
     <line id="horizontal-center-line" x1="0" y1="905" x2="1810" y2="905" />
   </g>
 
-  <!-- KML Frontlines Layer -->
+  <!-- Lines Layer (Горизонтальна між підрозділами) -->
   <g id="KMLLines">
-
+    <path id="csv-line-1" d="M 1748.821,797.96 L 1423.328,582.311 L 1224.543,507.931" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-2" d="M 1748.821,797.96 L 1423.328,582.311 L 1224.543,507.931" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-3" d="M 1622.726,975.587 L 1357.182,859.062 L 1347.911,852.353 L 1339.513,852.323 L 1332.929,861.139 L 1321.013,856.504 L 1304.194,840.923 L 1289.998,839.99 L 1239.292,865.137 L 812.595,755.634" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-4" d="M 1622.726,975.587 L 1357.182,859.062 L 1347.911,852.353 L 1339.513,852.323 L 1332.929,861.139 L 1321.013,856.504 L 1304.194,840.923 L 1289.998,839.99 L 1239.292,865.137 L 812.595,755.634" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-5" d="M 1509.856,1198.797 L 1502.022,1188.928 L 1496.1,1186.106 L 1493.108,1191.221 L 1493.017,1197.729 L 1483.06,1201.091 L 1472.824,1200.232 L 1471.395,1193.409 L 1475.614,1186.781 L 1474.462,1179.911 L 1464.492,1173.177 L 1457.351,1166.721 L 1464.596,1158.887 L 1463.896,1145.698 L 1459.262,1136.614 L 1458.314,1120.36 L 1447.481,1112.774 L 1449.376,1101.345 L 1438.566,1091.844 L 1428.965,1093.881 L 1418.366,1090.32 L 1415.086,1078.724 L 1412.276,1068.231 L 1398.317,1066.765 L 1219.107,1011.889 L 1080.147,997.334 L 983.63,974.549 L 948.09,956.028 L 763.322,910.184" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-6" d="M 1226.111,1334.615 L 1145.028,1151.224 L 995.794,1152.759 L 968.585,1140.48 L 667.134,981.827" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-7" d="M 1226.111,1334.615 L 1145.028,1151.224 L 995.794,1152.759 L 968.585,1140.48 L 667.134,981.827" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-8" d="M 1381.195,1347.026 L 1359.366,1225.552 L 1251.14,1171.035 L 1184.72,1121.8 L 1125.902,1101.245 L 1046.433,1099.862 L 1011.683,1100.981 L 996.22,1101.024 L 952.262,1066.882 L 798.893,1006.378" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-9" d="M 1121.91,1380.567 L 1101.568,1283.615 L 1071.501,1246.03 L 963.001,1171.823 L 944.942,1157.265 L 881.099,1149.223 L 786.898,1105.416" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-10" d="M 1121.91,1380.567 L 1101.568,1283.615 L 1071.501,1246.03 L 963.001,1171.823 L 944.942,1157.265 L 881.099,1149.223 L 786.898,1105.416" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-11" d="M 759.795,1674.193 L 724.652,1582.221 L 680.566,1272.882 L 535.698,1158.441" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="csv-line-12" d="M 759.795,1674.193 L 724.652,1582.221 L 680.566,1272.882 L 535.698,1158.441" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
   </g>
 
   <!-- Blue Force Centered Labels -->
@@ -2044,13 +2055,4 @@
     <circle id="blue-point-244" cx="1381.159" cy="1347.146" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />
   </g>
 
-  <!-- Enemy Black Dots Layer -->
-  <g id="EnemyDots">
-
-  </g>
-
-  <!-- Enemy Centered Labels -->
-  <g id="EnemyLabels">
-
-  </g>
 </svg>

@@ -1,415 +1,47 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import * as m from 'mgrs';
+
+import { inWindow, geoToSvg } from './lib/geo.js';
+import { buildIconsDefs } from './lib/icons.js';
+import { parseBluePoints, buildBlueForceElements } from './lib/points.js';
 import { buildLinePathElements } from './lib/lines.js';
-import {
-  computeLeftLabelLayout,
-  computeRightLabelLayout,
-  escapeXml,
-} from './utils.js';
-
-const mgrs =
-  'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
-
-// Layout & Canvas Parameters
-// Physical map sheet: 1810 mm × 1810 mm at scale 1:25,000
-// SVG canvas matches the physical map size exactly (no bleed/trim distinction here)
-const MAP_SHEET_MM = 1810; // physical map dimension (square)
-const MAP_SCALE = 25_000; // 1:25000
-
-const TOTAL_WIDTH_MM = MAP_SHEET_MM;
-const TOTAL_HEIGHT_MM = MAP_SHEET_MM;
-
-const CENTER_X_MM = TOTAL_WIDTH_MM / 2; // 905 mm
-const CENTER_Y_MM = TOTAL_HEIGHT_MM / 2; // 905 mm
+import { buildFinalSvg } from './lib/svg.js';
 
 // ----------------------------------------------------
-// MGRS Window — derived from Top-Left corner + map size
-//
-// Top-Left MGRS: 37U BP 97080 43769
-// Ground coverage = MAP_SHEET_MM * MAP_SCALE (mm → m)
-//   = 1810 mm × 25 000 = 45 250 000 mm = 45 250 m = 45.25 km
+// 1. Defs generation
 // ----------------------------------------------------
-export const MGRS_TL = '37UBP9708043769';
-
-const [TL_LON, TL_LAT] = mgrs.toPoint(MGRS_TL);
-
-// Ground size covered by the map sheet, in metres
-const GROUND_SIZE_M = (MAP_SHEET_MM * MAP_SCALE) / 1000;
-
-// Degree spans (using TL latitude for cos correction)
-const TL_LAT_RAD = (TL_LAT * Math.PI) / 180;
-const M_PER_DEG_LAT = 111_320;
-const M_PER_DEG_LON = 111_320 * Math.cos(TL_LAT_RAD);
-
-const SPAN_DEG_LON = GROUND_SIZE_M / M_PER_DEG_LON; // ~0.610°
-const SPAN_DEG_LAT = GROUND_SIZE_M / M_PER_DEG_LAT; // ~0.406°
-
-// Derived bounding box (TL = top-left, BR = bottom-right)
-const MIN_LON = TL_LON;
-const MAX_LAT = TL_LAT;
-const MAX_LON = TL_LON + SPAN_DEG_LON;
-const MIN_LAT = TL_LAT - SPAN_DEG_LAT;
-
-console.log(`Map window:  TL (${TL_LON.toFixed(6)}, ${TL_LAT.toFixed(6)})`);
-console.log(`             BR (${MAX_LON.toFixed(6)}, ${MIN_LAT.toFixed(6)})`);
-console.log(
-  `Ground size: ${GROUND_SIZE_M / 1000} km × ${GROUND_SIZE_M / 1000} km`,
-);
-
-interface Point {
-  lon: number;
-  lat: number;
-  name?: string;
-  desc?: string;
-  sidc?: string;
-  count?: string;
-  app6dType?: string;
-}
-
-const mappingSVGs: Record<string, [number]> = {
-  'Точка злету БпЛА літакового типу': [7.032],
-  Антена: [7.932],
-  Гвинтівка: [7.932],
-  'Радіоелектронна боротьба - Пошук': [7.032],
-  'Точка злету БпЛА вертикального зльоту / посадки': [7.032],
-  'Піхотний підрозділ': [7.032],
-  'Середня гаубиця': [7.932],
-  'Особа з гвинтівкою': [6], // 8.249
-};
-
-// Padding (in SVG user units) added around each icon's content bounding box when icons were extracted.
-// Updated SVGs are compact (no extra padding), so this is 0.
-// targetHeightMm in mappingSVGs refers to the full viewBox height.
-const ICON_VIEWBOX_PADDING = 0;
-
-// Per-icon rendered size [width, height] in mm, populated during defs generation
-const iconRenderedSizes: [number, number][] = [];
-
-// Process mapped icons into SVG <defs> components
-let iconsDefsContent = '';
-let iconsSymbolsContent = '';
-
-Object.entries(mappingSVGs).forEach(([prefix, [targetHeightMm]], idx) => {
-  const iconPathRelative = `icons2/${prefix.replace(/\//g, '-')}.svg`;
-  const iconPath = path.resolve(process.cwd(), iconPathRelative);
-  if (!fs.existsSync(iconPath)) {
-    console.warn(
-      `Warning: Icon not found for prefix '${prefix}': ${iconPathRelative}`,
-    );
-    iconRenderedSizes.push([targetHeightMm, targetHeightMm]); // fallback square
-    return;
-  }
-
-  const iconContent = fs.readFileSync(iconPath, 'utf-8');
-
-  const viewBoxMatch = iconContent.match(/viewBox="([^"]+)"/);
-  const viewBoxStr = viewBoxMatch ? viewBoxMatch[1] : '0 0 100 100';
-  const parts = viewBoxStr
-    .trim()
-    .split(/[\s,]+/)
-    .map(Number);
-  const minX = parts[0] || 0;
-  const minY = parts[1] || 0;
-  const svgWidth = parts[2] || 100;
-  const svgHeight = parts[3] || 100;
-
-  const innerSvgMatch = iconContent.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
-  const innerSvg = innerSvgMatch ? innerSvgMatch[1] : '';
-
-  const defsMatch = innerSvg.match(/<defs>([\s\S]*?)<\/defs>/i);
-  if (defsMatch) {
-    iconsDefsContent += `\n    <!-- Hoisted defs for ${prefix} -->\n    ${defsMatch[1]}`;
-  }
-  const geometry = innerSvg.replace(/<defs>[\s\S]*?<\/defs>/i, '');
-
-  // Scale so that the VISIBLE CONTENT height (viewBox minus padding on both sides)
-  // matches targetHeightMm exactly, preserving aspect ratio.
-  const contentH = svgHeight - 2 * ICON_VIEWBOX_PADDING;
-  const contentW = svgWidth - 2 * ICON_VIEWBOX_PADDING;
-  const scale = targetHeightMm / (contentH > 0 ? contentH : svgHeight);
-  const scaledW = svgWidth * scale; // total rendered width including padding
-  const scaledH = svgHeight * scale; // total rendered height including padding
-  const scaledContentW = contentW * scale; // == targetHeightMm * (contentW / contentH)
-  const scaledContentH = contentH * scale; // == targetHeightMm
-
-  // Record actual CONTENT dimensions for centering during placement
-  iconRenderedSizes.push([scaledContentW, scaledContentH]);
-
-  const symbolId = `icon-mapping-${idx}`;
-
-  iconsSymbolsContent += `
-    <g id="${symbolId}">
-      <!-- ${prefix}: content=${scaledContentW.toFixed(4)}x${scaledContentH.toFixed(4)}mm (target=${targetHeightMm}mm), total with padding=${scaledW.toFixed(4)}x${scaledH.toFixed(4)}mm -->
-      <g transform="scale(${scale}) translate(${-minX}, ${-minY})">
-        ${geometry}
-      </g>
-    </g>`;
-});
-
-const generatedIconsDefs = `  <defs>
-${iconsDefsContent}
-${iconsSymbolsContent}
-  </defs>`;
-
-// Window Bounds Filter Function
-function inWindow(lon: number, lat: number): boolean {
-  return lon >= MIN_LON && lon <= MAX_LON && lat >= MIN_LAT && lat <= MAX_LAT;
-}
-
-// Center of the window
-const centerLon = (MIN_LON + MAX_LON) / 2;
-const centerLat = (MIN_LAT + MAX_LAT) / 2;
-
-// Top-left corner as the SVG origin reference
-const SHIFT_LON = MIN_LON; // TL longitude
-const SHIFT_LAT = MAX_LAT; // TL latitude
-
-// Aspect correction at center latitude
-const LAT_RAD = (centerLat * Math.PI) / 180;
-const COS_LAT = Math.cos(LAT_RAD);
-
-// Scale: map the window exactly onto the physical sheet dimensions
-// S is mm per degree such that SPAN_DEG_LON * COS_LAT * S == TOTAL_WIDTH_MM
-// and SPAN_DEG_LAT * S == TOTAL_HEIGHT_MM  (both should be equal for a square map)
-const S = TOTAL_WIDTH_MM / (SPAN_DEG_LON * COS_LAT); // mm / degree
-
-// Offset so that TL maps to SVG (0, 0)
-const OFFSET_X = 0; // TL is at x=0
-const OFFSET_Y = 0; // TL is at y=0
-
-// Transform (lon, lat) -> (svgX, svgY) in mm
-function geoToSvg(pt: Point): { x: number; y: number } {
-  const x = OFFSET_X + (pt.lon - SHIFT_LON) * COS_LAT * S;
-  const y = OFFSET_Y + (SHIFT_LAT - pt.lat) * S;
-  return { x: Number(x.toFixed(3)), y: Number(y.toFixed(3)) };
-}
+const { generatedIconsDefs, iconRenderedSizes, customIconCount } = buildIconsDefs();
 
 // ----------------------------------------------------
-// 1. CSV Parsing (data/full_data.csv) - shared read for lines & points
+// 2. Data Parsing
 // ----------------------------------------------------
 const blueCsvPath = path.resolve(process.cwd(), 'data/full_data.csv');
 const blueCsvContent = fs.existsSync(blueCsvPath)
   ? fs.readFileSync(blueCsvPath, 'utf-8')
   : '';
 
-// ----------------------------------------------------
-// 1a. Lines Parsing - "Горизонтальна (між підрозділами)" rows
-//     Delegated to src/lib/lines.ts
-// ----------------------------------------------------
+// Lines Parsing
 const pathElements = buildLinePathElements(blueCsvContent, inWindow, geoToSvg);
 
-// ----------------------------------------------------
-// 1b. Blue Force Points Parsing (same CSV, second pass)
-// ----------------------------------------------------
+// Blue Force Points Parsing
+const bluePointMarkers = parseBluePoints(blueCsvContent, inWindow);
 
-const bluePointMarkers: Point[] = [];
-
-const csvLines = blueCsvContent.split('\n');
-for (let i = 1; i < csvLines.length; i++) {
-  const line = csvLines[i].trim();
-  if (!line) continue;
-
-  const cols: string[] = [];
-  let inQuotes = false;
-  let currentWord = '';
-  for (let j = 0; j < line.length; j++) {
-    const char = line[j];
-    if (char === '"') {
-      if (inQuotes && line[j + 1] === '"') {
-        currentWord += '"';
-        j++;
-      } else {
-        inQuotes = !inQuotes;
-      }
-    } else if (char === ',' && !inQuotes) {
-      cols.push(currentWord);
-      currentWord = '';
-    } else {
-      currentWord += char;
-    }
-  }
-  cols.push(currentWord);
-
-  if (cols.length >= 8) {
-    const app6dType = cols[0]?.trim() || '';
-    const sidc = cols[3]?.trim() || '';
-    const count = cols[4]?.trim() || '';
-    const name = cols[5]?.trim() || '';
-    const mgrsStr = cols[7]?.trim() || '';
-    const desc = cols[12]?.trim() || '';
-
-    if (mgrsStr) {
-      try {
-        const [lon, lat] = mgrs.toPoint(mgrsStr);
-        if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
-          bluePointMarkers.push({
-            lon,
-            lat,
-            name,
-            desc,
-            sidc,
-            count,
-            app6dType,
-          });
-        }
-      } catch (e) {
-        // Ignore invalid MGRS strings
-      }
-    }
-  }
-}
-
-// Generate SVG elements for Blue Force points (Red Dots OR Drone Icons if SIDC matches)
-const bluePointElements: string[] = [];
-const blueTextElements: string[] = [];
-let customIconCount = 0;
-
-bluePointMarkers.forEach((pt, idx) => {
-  const svgPt = geoToSvg(pt);
-
-  const ptApp6dType = pt.app6dType ?? '';
-  const mappingIdx = Object.keys(mappingSVGs).findIndex(
-    (key) => key === ptApp6dType,
-  );
-
-  if (mappingIdx !== -1) {
-    customIconCount++;
-    // Use the actual rendered dimensions for this icon
-    const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
-    const xPos = Number((svgPt.x - iconW / 2).toFixed(3));
-    const yPos = Number((svgPt.y - iconH / 2).toFixed(3));
-
-    bluePointElements.push(
-      `    <g transform="translate(${xPos} ${yPos})">`,
-      `      <use xlink:href="#icon-mapping-${mappingIdx}" />`,
-      '    </g>',
-    );
-  } else {
-    bluePointElements.push(
-      `    <circle id="blue-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
-    );
-  }
-
-  // Text label logic
-  if (mappingIdx !== -1) {
-    // Custom icon: name label anchored at bottom-left of icon
-    // text-anchor="end" → text grows LEFT from x (left edge of icon)
-    // dominant-baseline / dy → text baseline sits at bottom of icon, grows UP
-
-    const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
-
-    // Tweak these values to adjust the gap between the labels and the icon.
-    // Positive values move the labels outwards (away from the icon).
-    const leftLabelMargin = -0.5;
-    const rightLabelMargin = 0.5;
-
-    const { xPos, yPos, cleanText, rectX, rectY, rectW, rectH } =
-      computeLeftLabelLayout(
-        svgPt,
-        iconW,
-        iconH,
-        pt.name || 'Test',
-        3.526,
-        0.9,
-        0.05,
-        2.917,
-        leftLabelMargin,
-      );
-
-    const rightLabel = computeRightLabelLayout(
-      svgPt,
-      iconW,
-      iconH,
-      '9/3//78',
-      3.526,
-      0.9,
-      0.05,
-      2.917,
-      rightLabelMargin,
-    );
-
-    const countNum = pt.count || 'X';
-    const groupDesc = `AK74-${countNum}од`;
-    const descX = Number(rectX) + Number(rectW) / 2;
-    const descY = Number(rectY) + Number(rectH) + 2.6; // 3.0mm gives a little padding below the rect
-
-    const textElements = [
-      `<g id="blue-label-${idx + 1}-group">`,
-      `    <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="#92B4EC" />`,
-      `    <text id="blue-label-${idx + 1}" x="${xPos}" y="${yPos.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${cleanText}</text>`,
-      `    <rect x="${rightLabel.rectX}" y="${rightLabel.rectY}" width="${rightLabel.rectW}" height="${rightLabel.rectH}" fill="#92B4EC" />`,
-      `    <text id="blue-label-right-${idx + 1}" x="${rightLabel.xPos}" y="${rightLabel.yPos.toFixed(3)}" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
-    ];
-
-    if (groupDesc) {
-      // 8pt ≈ 2.822mm
-      textElements.push(
-        `    <text id="blue-label-desc-${idx + 1}" x="${descX.toFixed(3)}" y="${descY.toFixed(3)}" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${groupDesc}</text>`,
-      );
-    }
-
-    textElements.push('</g>');
-    blueTextElements.push(...textElements);
-  } else {
-    // Regular dot: name/desc label below the dot
-    let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
-    if (!labelText || labelText === '●') {
-      labelText = `Blue #${idx + 1}`;
-    }
-    const cleanText = escapeXml(labelText);
-    blueTextElements.push(
-      `    <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
-    );
-  }
-});
+// Generate SVG elements for Blue Force points
+const { bluePointElements, blueTextElements } = buildBlueForceElements(
+  bluePointMarkers,
+  iconRenderedSizes,
+  geoToSvg,
+);
 
 // ----------------------------------------------------
-// 4. Generate Final CorelDRAW SVG Content
+// 3. Assemble and Output final SVG
 // ----------------------------------------------------
-const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="${TOTAL_WIDTH_MM}mm" height="${TOTAL_HEIGHT_MM}mm" viewBox="0 0 ${TOTAL_WIDTH_MM} ${TOTAL_HEIGHT_MM}" style="width: ${TOTAL_WIDTH_MM}mm; height: ${TOTAL_HEIGHT_MM}mm;" version="1.1">
-  <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:document-units="mm" showgrid="false" units="mm" width="${TOTAL_WIDTH_MM}mm" height="${TOTAL_HEIGHT_MM}mm" inkscape:zoom="1" inkscape:cx="${CENTER_X_MM}" inkscape:cy="${CENTER_Y_MM}" />
-  <metadata id="metadata1">
-    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-      <cc:Work xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>1:25000 Map 1810×1810mm — TL MGRS ${MGRS_TL} — SIDC UAV Drone Icons</dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-
-${generatedIconsDefs}
-
-  <!-- Background / Canvas -->
-  <rect id="background" width="100%" height="100%" fill="#ffffff" />
-
-  <!-- Center Crosshair Lines -->
-  <g id="CenterLines" stroke="#000000" stroke-width="0.5" stroke-linecap="square">
-    <!-- Vertical Center Line -->
-    <line id="vertical-center-line" x1="${CENTER_X_MM}" y1="0" x2="${CENTER_X_MM}" y2="${TOTAL_HEIGHT_MM}" />
-    <!-- Horizontal Center Line -->
-    <line id="horizontal-center-line" x1="0" y1="${CENTER_Y_MM}" x2="${TOTAL_WIDTH_MM}" y2="${CENTER_Y_MM}" />
-  </g>
-
-  <!-- Lines Layer (Горизонтальна між підрозділами) -->
-  <g id="KMLLines">
-${pathElements}
-  </g>
-
-  <!-- Blue Force Centered Labels -->
-  <g id="BlueForceLabels">
-${blueTextElements.join('\n')}
-  </g>
-
-  <!-- Blue Force Layer (Red Dots / Drone Icons) -->
-  <g id="BlueForceDots">
-${bluePointElements.join('\n')}
-  </g>
-
-</svg>
-`;
+const svgContent = buildFinalSvg(
+  generatedIconsDefs,
+  pathElements,
+  bluePointElements,
+  blueTextElements,
+);
 
 const outputPath = path.resolve(process.cwd(), 'layout_1810x1810_25k.svg');
 fs.writeFileSync(outputPath, svgContent, 'utf-8');
