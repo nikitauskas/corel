@@ -6,6 +6,7 @@ import {
   computeRightLabelLayout,
   escapeXml,
 } from './utils.js';
+import { buildLinePathElements } from './lib/lines.js';
 
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
@@ -15,17 +16,12 @@ const mgrs =
 // SVG canvas matches the physical map size exactly (no bleed/trim distinction here)
 const MAP_SHEET_MM = 1810; // physical map dimension (square)
 const MAP_SCALE = 25_000; // 1:25000
-const BLEED_MM = 0.0; // no bleed for this format
-const DPI = 300;
 
 const TOTAL_WIDTH_MM = MAP_SHEET_MM;
 const TOTAL_HEIGHT_MM = MAP_SHEET_MM;
 
 const CENTER_X_MM = TOTAL_WIDTH_MM / 2; // 905 mm
 const CENTER_Y_MM = TOTAL_HEIGHT_MM / 2; // 905 mm
-
-// Pixels at 300 DPI (1 inch = 25.4 mm)
-const MM_TO_PX_300 = DPI / 25.4;
 
 // ----------------------------------------------------
 // MGRS Window — derived from Top-Left corner + map size
@@ -190,69 +186,22 @@ function geoToSvg(pt: Point): { x: number; y: number } {
 }
 
 // ----------------------------------------------------
-// 1. KML Lines Parsing (myrne/лбз/doc.kml) - Filtered to Window
-//    Optional: skipped if file does not exist
-// ----------------------------------------------------
-const lbzKmlPath = path.resolve(process.cwd(), 'myrne/лбз/doc.kml');
-const lbzKmlContent = fs.existsSync(lbzKmlPath)
-  ? fs.readFileSync(lbzKmlPath, 'utf-8')
-  : '';
-
-const lbzCoordMatches =
-  lbzKmlContent.match(/<coordinates>([\s\S]*?)<\/coordinates>/gi) || [];
-
-const kmlLines: Point[][] = [];
-
-for (const match of lbzCoordMatches) {
-  const rawCoords = match.replace(/<\/?coordinates>/gi, '').trim();
-  const pointsStr = rawCoords.split(/\s+/);
-  let currentSegment: Point[] = [];
-
-  for (const pStr of pointsStr) {
-    const parts = pStr.split(',');
-    if (parts.length >= 2) {
-      const lon = Number.parseFloat(parts[0]);
-      const lat = Number.parseFloat(parts[1]);
-      if (!Number.isNaN(lon) && !Number.isNaN(lat)) {
-        const pt = { lon, lat };
-        if (inWindow(lon, lat)) {
-          currentSegment.push(pt);
-        } else {
-          if (currentSegment.length > 0) {
-            kmlLines.push(currentSegment);
-            currentSegment = [];
-          }
-        }
-      }
-    }
-  }
-  if (currentSegment.length > 0) {
-    kmlLines.push(currentSegment);
-  }
-}
-
-// Generate SVG <path> d attributes for filtered KML lines
-const pathElements = kmlLines
-  .map((line, idx) => {
-    if (line.length < 2) return '';
-    const start = geoToSvg(line[0]);
-    let d = `M ${start.x},${start.y}`;
-    for (let i = 1; i < line.length; i++) {
-      const pt = geoToSvg(line[i]);
-      d += ` L ${pt.x},${pt.y}`;
-    }
-    return `    <path id="kml-line-${idx + 1}" d="${d}" stroke="#d32f2f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
-  })
-  .filter(Boolean)
-  .join('\n');
-
-// ----------------------------------------------------
-// 2. Blue Force Points Parsing (data/full_data.csv)
+// 1. CSV Parsing (data/full_data.csv) - shared read for lines & points
 // ----------------------------------------------------
 const blueCsvPath = path.resolve(process.cwd(), 'data/full_data.csv');
 const blueCsvContent = fs.existsSync(blueCsvPath)
   ? fs.readFileSync(blueCsvPath, 'utf-8')
   : '';
+
+// ----------------------------------------------------
+// 1a. Lines Parsing - "Горизонтальна (між підрозділами)" rows
+//     Delegated to src/lib/lines.ts
+// ----------------------------------------------------
+const pathElements = buildLinePathElements(blueCsvContent, inWindow, geoToSvg);
+
+// ----------------------------------------------------
+// 1b. Blue Force Points Parsing (same CSV, second pass)
+// ----------------------------------------------------
 
 const bluePointMarkers: Point[] = [];
 
@@ -453,36 +402,6 @@ for (const pm of enemyPlacemarks) {
   }
 }
 
-// Generate SVG elements for Enemy points
-const enemyCircleElements: string[] = [];
-const enemyTextElements: string[] = [];
-
-enemyPointMarkers.forEach((pt, idx) => {
-  const svgPt = geoToSvg(pt);
-
-  enemyCircleElements.push(
-    `    <circle id="enemy-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#000000" stroke="#ffffff" stroke-width="0.3" />`,
-  );
-
-  let labelText =
-    pt.name && pt.name !== '-'
-      ? pt.name
-      : pt.desc && pt.desc !== '-'
-        ? pt.desc
-        : '';
-  if (!labelText || labelText === '-') {
-    labelText = `E-${idx + 1}`;
-  }
-  if (labelText.startsWith('DTG Start')) {
-    labelText = 'DTG';
-  }
-  const cleanText = escapeXml(labelText);
-
-  enemyTextElements.push(
-    `    <text id="enemy-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.5" font-weight="normal" fill="#000000">${cleanText}</text>`,
-  );
-});
-
 // ----------------------------------------------------
 // 4. Generate Final CorelDRAW SVG Content
 // ----------------------------------------------------
@@ -512,7 +431,7 @@ ${generatedIconsDefs}
     <line id="horizontal-center-line" x1="0" y1="${CENTER_Y_MM}" x2="${TOTAL_WIDTH_MM}" y2="${CENTER_Y_MM}" />
   </g>
 
-  <!-- KML Frontlines Layer -->
+  <!-- Lines Layer (Горизонтальна між підрозділами) -->
   <g id="KMLLines">
 ${pathElements}
   </g>
@@ -527,15 +446,6 @@ ${blueTextElements.join('\n')}
 ${bluePointElements.join('\n')}
   </g>
 
-  <!-- Enemy Black Dots Layer -->
-  <g id="EnemyDots">
-${enemyCircleElements.join('\n')}
-  </g>
-
-  <!-- Enemy Centered Labels -->
-  <g id="EnemyLabels">
-${enemyTextElements.join('\n')}
-  </g>
 </svg>
 `;
 
@@ -545,4 +455,5 @@ fs.writeFileSync(outputPath, svgContent, 'utf-8');
 console.log(`SVG successfully generated: ${outputPath}`);
 console.log(`- Blue Force points: ${bluePointMarkers.length}`);
 console.log(`- Custom mapped icons rendered: ${customIconCount}`);
+console.log(`- CSV lines rendered: ${csvLineSegments.length}`);
 console.log(`- Enemy points & labels: ${enemyPointMarkers.length}`);
