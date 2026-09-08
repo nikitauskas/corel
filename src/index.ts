@@ -75,7 +75,9 @@ const mappingSVGs: Record<string, [number]> = {
   'Точка злету БпЛА літакового типу': [7.032],
   Антена: [7.932],
   'Точка злету БпЛА вертикального зльоту / посадки': [7.032],
-  'Піхотний підрозділ': [7.032], //
+  'Піхотний підрозділ': [7.032],
+  'Середня гаубиця': [7.932],
+  'Особа з гвинтівкою': [6], // 8.249
 };
 
 // Padding (in SVG user units) added around each icon's content bounding box when icons were extracted.
