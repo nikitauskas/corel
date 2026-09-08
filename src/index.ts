@@ -76,8 +76,9 @@ const mappingSVGs: Record<string, [string, number]> = {
 };
 
 // Padding (in SVG user units) added around each icon's content bounding box when icons were extracted.
-// targetHeightMm in mappingSVGs refers to the VISIBLE content size, not the padded viewBox.
-const ICON_VIEWBOX_PADDING = 50;
+// Updated SVGs are compact (no extra padding), so this is 0.
+// targetHeightMm in mappingSVGs refers to the full viewBox height.
+const ICON_VIEWBOX_PADDING = 0;
 
 // Per-icon rendered size [width, height] in mm, populated during defs generation
 const iconRenderedSizes: [number, number][] = [];
