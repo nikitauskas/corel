@@ -2,8 +2,14 @@ import * as m from 'mgrs';
 import { Point } from './geo.js';
 import { mappingSVGs } from './icons.js';
 import {
+  BoundingBox,
+  Rect,
+  boundingBoxesOverlap,
+  computeBoundingBox,
   computeLeftLabelLayout,
   computeRightLabelLayout,
+  measureTextWidthMm,
+  rectsOverlap,
 } from './utils.js';
 
 const mgrs =
@@ -73,23 +79,48 @@ export function parseBluePoints(
   return bluePointMarkers;
 }
 
+export interface BlueForceElementLayout {
+  pt: Point;
+  idx: number;
+  svgPt: { x: number; y: number };
+  mappingIdx: number;
+  ptApp6dType: string;
+  parts: Rect[];
+  bbox: BoundingBox;
+  iconDetails?: {
+    iconW: number;
+    iconH: number;
+    xPos: number;
+    yPos: number;
+    labelX: number;
+    labelY: number;
+    cleanText: string;
+    rectX: string;
+    rectY: string;
+    rectW: string;
+    rectH: string;
+    rightLabel: ReturnType<typeof computeRightLabelLayout>;
+    descX: number;
+    descY: number;
+    groupDesc: string;
+  };
+  circleDetails?: {
+    cleanText: string;
+  };
+}
+
 export function buildBlueForceElements(
   points: Point[],
   iconRenderedSizes: [number, number][],
   geoToSvg: (pt: Point) => { x: number; y: number },
 ) {
-  const blueForceElements: string[] = [];
-
-  points.forEach((pt, idx) => {
+  // 1. Calculate bounding polygon / rectangles for each element
+  const preparedElements: BlueForceElementLayout[] = points.map((pt, idx) => {
     const svgPt = geoToSvg(pt);
-
     const ptApp6dType = pt.app6dType ?? '';
     const mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
     );
-
-    const elementLines: string[] = [];
-    elementLines.push(`    <g id="${ptApp6dType}">`);
 
     if (mappingIdx !== -1) {
       const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
@@ -136,10 +167,148 @@ export function buildBlueForceElements(
       const descX = Number(rectX) + Number(rectW) / 2;
       const descY = Number(rectY) + Number(rectH) + 2.6;
 
+      const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
+      const leftRect: Rect = {
+        x: Number(rectX),
+        y: Number(rectY),
+        width: Number(rectW),
+        height: Number(rectH),
+      };
+      const rightRect: Rect = {
+        x: Number(rightLabel.rectX),
+        y: Number(rightLabel.rectY),
+        width: Number(rightLabel.rectW),
+        height: Number(rightLabel.rectH),
+      };
+
+      const parts: Rect[] = [iconRect, leftRect, rightRect];
+
+      if (groupDesc) {
+        const descW = measureTextWidthMm(groupDesc, 2.822);
+        const descRect: Rect = {
+          x: descX - descW / 2,
+          y: descY - 2.5,
+          width: descW,
+          height: 2.822,
+        };
+        parts.push(descRect);
+      }
+
+      const bbox = computeBoundingBox(parts);
+
+      return {
+        pt,
+        idx,
+        svgPt,
+        mappingIdx,
+        ptApp6dType,
+        parts,
+        bbox,
+        iconDetails: {
+          iconW,
+          iconH,
+          xPos,
+          yPos,
+          labelX,
+          labelY,
+          cleanText,
+          rectX,
+          rectY,
+          rectW,
+          rectH,
+          rightLabel,
+          descX,
+          descY,
+          groupDesc,
+        },
+      };
+    }
+
+    // Fallback circular marker
+    let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
+    if (!labelText || labelText === '●') {
+      labelText = `Blue #${idx + 1}`;
+    }
+    const cleanText = labelText;
+    const circleRect: Rect = {
+      x: svgPt.x - 2.0,
+      y: svgPt.y - 2.0,
+      width: 4.0,
+      height: 4.0,
+    };
+    const textW = measureTextWidthMm(cleanText, 1.6);
+    const textRect: Rect = {
+      x: svgPt.x - textW / 2,
+      y: svgPt.y + 4.2 - 1.6,
+      width: textW,
+      height: 1.6,
+    };
+    const parts = [circleRect, textRect];
+    const bbox = computeBoundingBox(parts);
+
+    return {
+      pt,
+      idx,
+      svgPt,
+      mappingIdx,
+      ptApp6dType,
+      parts,
+      bbox,
+      circleDetails: {
+        cleanText,
+      },
+    };
+  });
+
+  // 2. Check for overlaps between elements
+  const overlappingIndices = new Set<number>();
+  for (let i = 0; i < preparedElements.length; i++) {
+    const elA = preparedElements[i];
+    for (let j = i + 1; j < preparedElements.length; j++) {
+      const elB = preparedElements[j];
+      if (boundingBoxesOverlap(elA.bbox, elB.bbox)) {
+        const partsOverlap = elA.parts.some((pA) =>
+          elB.parts.some((pB) => rectsOverlap(pA, pB)),
+        );
+        if (partsOverlap) {
+          overlappingIndices.add(i);
+          overlappingIndices.add(j);
+        }
+      }
+    }
+  }
+
+  // 3. Render SVG elements (red background for overlapping element label rectangles)
+  const blueForceElements: string[] = [];
+
+  preparedElements.forEach((el, idx) => {
+    const isOverlapping = overlappingIndices.has(idx);
+    const elementLines: string[] = [];
+    elementLines.push(`    <g id="${el.ptApp6dType}">`);
+
+    if (el.mappingIdx !== -1 && el.iconDetails) {
+      const {
+        xPos,
+        yPos,
+        labelX,
+        labelY,
+        cleanText,
+        rectX,
+        rectY,
+        rectW,
+        rectH,
+        rightLabel,
+        descX,
+        descY,
+        groupDesc,
+      } = el.iconDetails;
+
+      const rectBgColor = isOverlapping ? '#ff0000' : '#92B4EC';
+
       elementLines.push(
-        `      <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="#92B4EC" />`,
+        `      <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="${rectBgColor}" />`,
         `      <text id="blue-label-${idx + 1}" x="${labelX}" y="${labelY.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${cleanText}</text>`,
-        `      <rect x="${rightLabel.rectX}" y="${rightLabel.rectY}" width="${rightLabel.rectW}" height="${rightLabel.rectH}" fill="#92B4EC" />`,
+        `      <rect x="${rightLabel.rectX}" y="${rightLabel.rectY}" width="${rightLabel.rectW}" height="${rightLabel.rectH}" fill="${rectBgColor}" />`,
         `      <text id="blue-label-right-${idx + 1}" x="${rightLabel.xPos}" y="${rightLabel.yPos.toFixed(3)}" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
       );
 
@@ -151,21 +320,15 @@ export function buildBlueForceElements(
 
       elementLines.push(
         `      <g transform="translate(${xPos} ${yPos})">`,
-        `        <use xlink:href="#icon-mapping-${mappingIdx}" />`,
+        `        <use xlink:href="#icon-mapping-${el.mappingIdx}" />`,
         '      </g>',
       );
-    } else {
+    } else if (el.circleDetails) {
       elementLines.push(
-        `      <circle id="blue-point-${idx + 1}" cx="${svgPt.x}" cy="${svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
+        `      <circle id="blue-point-${idx + 1}" cx="${el.svgPt.x}" cy="${el.svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
       );
-
-      let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
-      if (!labelText || labelText === '●') {
-        labelText = `Blue #${idx + 1}`;
-      }
-      const cleanText = labelText;
       elementLines.push(
-        `      <text id="blue-label-${idx + 1}" x="${svgPt.x}" y="${(svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${cleanText}</text>`,
+        `      <text id="blue-label-${idx + 1}" x="${el.svgPt.x}" y="${(el.svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
       );
     }
 
@@ -173,5 +336,5 @@ export function buildBlueForceElements(
     blueForceElements.push(elementLines.join('\n'));
   });
 
-  return { blueForceElements };
+  return { blueForceElements, overlappingCount: overlappingIndices.size };
 }
