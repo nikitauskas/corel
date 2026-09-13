@@ -1,16 +1,59 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-export const mappingSVGs: Record<string, [number]> = {
-  'Точка злету БпЛА літакового типу': [7.032],
-  Антена: [7.932],
-  Гвинтівка: [7.932],
-  'Радіоелектронна боротьба - Пошук': [7.032],
-  'Точка злету БпЛА вертикального зльоту / посадки': [7.032],
-  'Піхотний підрозділ': [7.032],
-  'Середня гаубиця': [7.932],
-  'Особа з гвинтівкою': [6], // 8.249
-  'Стик (між частинами та підрозділами)': [6.84],
+const STANDARD_ICON_SIZE_MM = 7.932;
+
+export const mappingSVGs: Record<
+  string,
+  {
+    height: number;
+    priority: number;
+  }
+> = {
+  'Точка злету БпЛА літакового типу': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  Антена: {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  Гвинтівка: {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Радіоелектронна боротьба - Пошук': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Точка злету БпЛА вертикального зльоту / посадки': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Піхотний підрозділ': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Середня гаубиця': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Особа з гвинтівкою': {
+    height: 6, // 8.249
+    priority: 5,
+  },
+
+  'Стик (між частинами та підрозділами)': {
+    height: 6.84,
+    priority: 5,
+  },
 };
 
 const ICON_VIEWBOX_PADDING = 0;
@@ -21,7 +64,8 @@ export function buildIconsDefs() {
   let iconsSymbolsContent = '';
   let customIconCount = 0;
 
-  Object.entries(mappingSVGs).forEach(([prefix, [targetHeightMm]], idx) => {
+  Object.entries(mappingSVGs).forEach(
+    ([prefix, { height: targetHeightMm }], idx) => {
     const iconPathRelative = `icons2/${prefix.replace(/\//g, '-')}.svg`;
     const iconPath = path.resolve(process.cwd(), iconPathRelative);
     if (!fs.existsSync(iconPath)) {
