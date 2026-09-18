@@ -6,6 +6,7 @@ import { MapFormatConfig, createMapContext } from './lib/geo.js';
 import { buildIconsDefs } from './lib/icons.js';
 import { buildLUnitsSpearationLinesSVGs } from './lib/lines.js';
 import { buildBlueForceElements } from './lib/points.js';
+import { renderBlueForceSVG } from './lib/render-points-svg.js';
 import { buildFinalSvg } from './lib/svg.js';
 
 // ====================================================
@@ -68,12 +69,16 @@ for (const format of MAP_FORMATS) {
   ); //
 
   // Generate SVG elements for Blue Force points (marker + labels grouped per element)
-  const { blueForceElements, overlappingCount } = buildBlueForceElements(
+  const { preparedElements, overlappingIndices } = buildBlueForceElements(
     blueCsvData,
     iconRenderedSizes,
     map.inWindow,
     map.geoToSvg,
   );
+
+  // step to generate svg
+  const blueForceElements = renderBlueForceSVG(preparedElements, overlappingIndices);
+  const overlappingCount = overlappingIndices.size;
 
   // Assemble final SVG
   const svgContent = buildFinalSvg(
