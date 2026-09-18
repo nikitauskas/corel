@@ -1,5 +1,26 @@
 import { BlueForceElementLayout } from './points.js';
 
+const CONNECTOR_STUB_MM = 4.5;
+
+/**
+ * Renders a two-segment solid connector between a displaced element and its anchor:
+ *  1. A vertical line going straight down CONNECTOR_STUB_MM from renderPt.
+ *  2. A diagonal line from the bottom of that stub to anchorPt.
+ */
+function renderConnector(
+  anchorPt: { x: number; y: number },
+  renderPt: { x: number; y: number },
+): string {
+  const stubBottomY = renderPt.y + CONNECTOR_STUB_MM;
+  return `      <path
+  d="M ${renderPt.x.toFixed(3)},${renderPt.y.toFixed(3)}
+     V ${stubBottomY.toFixed(3)}
+     L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}"
+  fill="none"
+  stroke="#333333"
+  stroke-width="0.4" />`;
+}
+
 export function renderBlueForceSVG(
   preparedElements: BlueForceElementLayout[],
 ): string[] {
@@ -22,12 +43,9 @@ export function renderBlueForceSVG(
     const elementLines: string[] = [];
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
 
-    // Draw L-shape leader line from anchorPoint to renderPoint
+    // Draw connector: vertical stub down from renderPoint, then diagonal to anchorPoint
     if (isDisplaced && renderPt) {
-      // L-shape: horizontal from anchor to renderPoint.x, then vertical to renderPoint.y
-      elementLines.push(
-        `      <path d="M ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)} H ${renderPt.x.toFixed(3)} V ${renderPt.y.toFixed(3)}" fill="none" stroke="#333333" stroke-width="0.4" stroke-dasharray="1.5,0.8" />`,
-      );
+      elementLines.push(renderConnector(anchorPt, renderPt));
     }
 
     // Wrap element content in translate group when displaced
