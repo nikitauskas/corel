@@ -7,6 +7,7 @@ export function renderBlueForceSVG(
 
   preparedElements.forEach((el, idx) => {
     const isOverlapping = el.isOverlapping;
+
     const elementLines: string[] = [];
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
 

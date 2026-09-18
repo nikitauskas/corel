@@ -76,8 +76,14 @@ for (const format of MAP_FORMATS) {
     map.geoToSvg,
   );
 
+  // calculat new renderPoint due to overlapping
+  //step 1: find overlapping
+  //step 2: move elements to avoid overlapping
+
   // step to generate svg
   const blueForceElements = renderBlueForceSVG(preparedElements);
+
+  //count overlapping
   const overlappingCount = preparedElements.filter(
     (el) => el.isOverlapping,
   ).length;
