@@ -17,7 +17,7 @@ const mgrs =
 
 import { CsvRow } from './csv.js';
 
-export function parseBluePoints(
+export function filterElementsInsideWindow(
   csvData: CsvRow[],
   inWindow: (lon: number, lat: number) => boolean,
 ): Point[] {

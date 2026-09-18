@@ -5,7 +5,10 @@ import { CsvRow, parseCSV } from './lib/csv.js';
 import { MapFormatConfig, createMapContext } from './lib/geo.js';
 import { buildIconsDefs } from './lib/icons.js';
 import { buildLUnitsSpearationLinesSVGs } from './lib/lines.js';
-import { buildBlueForceElements, parseBluePoints } from './lib/points.js';
+import {
+  buildBlueForceElements,
+  filterElementsInsideWindow,
+} from './lib/points.js';
 import { buildFinalSvg } from './lib/svg.js';
 
 // ====================================================
@@ -68,7 +71,10 @@ for (const format of MAP_FORMATS) {
   ); //
 
   // Parse points inside map window
-  const bluePointMarkers = parseBluePoints(blueCsvData, map.inWindow);
+  const bluePointMarkers = filterElementsInsideWindow(
+    blueCsvData,
+    map.inWindow,
+  );
 
   // Generate SVG elements for Blue Force points (marker + labels grouped per element)
   const { blueForceElements, overlappingCount } = buildBlueForceElements(
