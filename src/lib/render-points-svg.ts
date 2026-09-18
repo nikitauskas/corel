@@ -8,8 +8,34 @@ export function renderBlueForceSVG(
   preparedElements.forEach((el, idx) => {
     const isOverlapping = el.isOverlapping;
 
+    // Determine if element should be displaced to a renderPoint
+    const renderPt = el.renderPoint;
+    const anchorPt = el.anchorPoint;
+    const isDisplaced =
+      isOverlapping &&
+      renderPt &&
+      (renderPt.x !== anchorPt.x || renderPt.y !== anchorPt.y);
+
+    const dx = isDisplaced && renderPt ? renderPt.x - anchorPt.x : 0;
+    const dy = isDisplaced && renderPt ? renderPt.y - anchorPt.y : 0;
+
     const elementLines: string[] = [];
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
+
+    // Draw L-shape leader line from anchorPoint to renderPoint
+    if (isDisplaced && renderPt) {
+      // L-shape: horizontal from anchor to renderPoint.x, then vertical to renderPoint.y
+      elementLines.push(
+        `      <path d="M ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)} H ${renderPt.x.toFixed(3)} V ${renderPt.y.toFixed(3)}" fill="none" stroke="#333333" stroke-width="0.4" stroke-dasharray="1.5,0.8" />`,
+      );
+    }
+
+    // Wrap element content in translate group when displaced
+    if (isDisplaced) {
+      elementLines.push(
+        `      <g transform="translate(${dx.toFixed(3)}, ${dy.toFixed(3)})">`,
+      );
+    }
 
     if (el.mappingIdx !== -1 && el.iconDetails) {
       const { xPos, yPos, leftLabel, rightLabel, leftDesc } = el.iconDetails;
@@ -36,11 +62,13 @@ export function renderBlueForceSVG(
       );
     } else if (el.circleDetails) {
       elementLines.push(
-        `      <circle id="blue-point-${idx + 1}" cx="${el.anchorPoint.x}" cy="${el.anchorPoint.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
+        `      <circle id="blue-point-${idx + 1}" cx="${anchorPt.x}" cy="${anchorPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
+        `      <text id="blue-label-${idx + 1}" x="${anchorPt.x}" y="${(anchorPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
       );
-      elementLines.push(
-        `      <text id="blue-label-${idx + 1}" x="${el.anchorPoint.x}" y="${(el.anchorPoint.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
-      );
+    }
+
+    if (isDisplaced) {
+      elementLines.push('      </g>');
     }
 
     elementLines.push('    </g>');
