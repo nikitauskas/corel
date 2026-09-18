@@ -58,6 +58,7 @@ export interface BlueForceElementLayout {
   pt: Point;
   idx: number;
   anchorPoint: { x: number; y: number };
+  renderPoint?: { x: number; y: number };
   mappingIdx: number;
   ptApp6dType: string;
   parts: Rect[];
