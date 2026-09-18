@@ -57,7 +57,7 @@ export function filterElementsInsideWindow(
 export interface BlueForceElementLayout {
   pt: Point;
   idx: number;
-  svgCoords: { x: number; y: number };
+  anchorPoint: { x: number; y: number };
   mappingIdx: number;
   ptApp6dType: string;
   parts: Rect[];
@@ -94,7 +94,7 @@ export function buildBlueForceElements(
 
   // 1. Calculate bounding polygon / rectangles for each element
   const preparedElements: BlueForceElementLayout[] = points.map((pt, idx) => {
-    const svgCoords = geoToSvg(pt);
+    const anchorPoint = geoToSvg(pt);
     const ptApp6dType = pt.app6dType ?? '';
     const mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
@@ -102,14 +102,14 @@ export function buildBlueForceElements(
 
     if (mappingIdx !== -1) {
       const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
-      const xPos = Number((svgCoords.x - iconW / 2).toFixed(3));
-      const yPos = Number((svgCoords.y - iconH / 2).toFixed(3));
+      const xPos = Number((anchorPoint.x - iconW / 2).toFixed(3));
+      const yPos = Number((anchorPoint.y - iconH / 2).toFixed(3));
 
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
 
       const leftLabel = computeLeftLabelLayout(
-        svgCoords,
+        anchorPoint,
         iconW,
         iconH,
         pt.name || 'Test',
@@ -121,7 +121,7 @@ export function buildBlueForceElements(
       );
 
       const rightLabel = computeRightLabelLayout(
-        svgCoords,
+        anchorPoint,
         iconW,
         iconH,
         '9/3//78',
@@ -180,7 +180,7 @@ export function buildBlueForceElements(
       return {
         pt,
         idx,
-        svgCoords,
+        anchorPoint,
         mappingIdx,
         ptApp6dType,
         parts,
@@ -204,15 +204,15 @@ export function buildBlueForceElements(
     }
     const cleanText = labelText;
     const circleRect: Rect = {
-      x: svgCoords.x - 2.0,
-      y: svgCoords.y - 2.0,
+      x: anchorPoint.x - 2.0,
+      y: anchorPoint.y - 2.0,
       width: 4.0,
       height: 4.0,
     };
     const textW = measureTextWidthMm(cleanText, 1.6);
     const textRect: Rect = {
-      x: svgCoords.x - textW / 2,
-      y: svgCoords.y + 4.2 - 1.6,
+      x: anchorPoint.x - textW / 2,
+      y: anchorPoint.y + 4.2 - 1.6,
       width: textW,
       height: 1.6,
     };
@@ -222,7 +222,7 @@ export function buildBlueForceElements(
     return {
       pt,
       idx,
-      svgCoords,
+      anchorPoint,
       mappingIdx,
       ptApp6dType,
       parts,

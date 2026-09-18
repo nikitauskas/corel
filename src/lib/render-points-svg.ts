@@ -36,10 +36,10 @@ export function renderBlueForceSVG(
       );
     } else if (el.circleDetails) {
       elementLines.push(
-        `      <circle id="blue-point-${idx + 1}" cx="${el.svgCoords.x}" cy="${el.svgCoords.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
+        `      <circle id="blue-point-${idx + 1}" cx="${el.anchorPoint.x}" cy="${el.anchorPoint.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
       );
       elementLines.push(
-        `      <text id="blue-label-${idx + 1}" x="${el.svgCoords.x}" y="${(el.svgCoords.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
+        `      <text id="blue-label-${idx + 1}" x="${el.anchorPoint.x}" y="${(el.anchorPoint.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
       );
     }
 
