@@ -23,7 +23,7 @@ interface Point {
  */
 import { CsvRow } from './csv.js';
 
-export function buildLinePathElements(
+export function buildLUnitsSpearationLinesSVGs(
   csvData: CsvRow[],
   inWindow: (lon: number, lat: number) => boolean,
   geoToSvg: (pt: Point) => { x: number; y: number },

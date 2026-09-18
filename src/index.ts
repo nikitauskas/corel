@@ -4,7 +4,7 @@ import * as path from 'node:path';
 import { CsvRow, parseCSV } from './lib/csv.js';
 import { MapFormatConfig, createMapContext } from './lib/geo.js';
 import { buildIconsDefs } from './lib/icons.js';
-import { buildLinePathElements } from './lib/lines.js';
+import { buildLUnitsSpearationLinesSVGs } from './lib/lines.js';
 import { buildBlueForceElements, parseBluePoints } from './lib/points.js';
 import { buildFinalSvg } from './lib/svg.js';
 
@@ -61,7 +61,7 @@ for (const format of MAP_FORMATS) {
   const map = createMapContext(format, STARTING_MGRS_TL);
 
   // Parse lines matching map window and project to SVG coordinates
-  const pathElements = buildLinePathElements(
+  const unitsSpearationLinesSVGs = buildLUnitsSpearationLinesSVGs(
     blueCsvData,
     map.inWindow,
     map.geoToSvg,
@@ -81,7 +81,7 @@ for (const format of MAP_FORMATS) {
   const svgContent = buildFinalSvg(
     map,
     generatedIconsDefs,
-    pathElements,
+    unitsSpearationLinesSVGs,
     blueForceElements,
   );
 
@@ -101,6 +101,6 @@ for (const format of MAP_FORMATS) {
   console.log(`- Overlapping elements marked red: ${overlappingCount}`);
   console.log(`- Custom mapped icons: ${customIconCount}`);
   console.log(
-    `- CSV lines rendered: ${pathElements ? pathElements.split('<path').length - 1 : 0}`,
+    `- CSV lines rendered: ${unitsSpearationLinesSVGs.split('<path').length - 1}`,
   );
 }
