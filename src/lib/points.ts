@@ -69,9 +69,15 @@ export interface BlueForceElementLayout {
     yPos: number;
     leftLabel: ReturnType<typeof computeLeftLabelLayout>;
     rightLabel: ReturnType<typeof computeRightLabelLayout>;
-    descX: number;
-    descY: number;
-    groupDesc: string;
+    leftDesc: {
+      cleanText: string;
+      xPos: number;
+      yPos: number;
+      rectX: number;
+      rectY: number;
+      rectW: number;
+      rectH: number;
+    };
   };
   circleDetails?: {
     cleanText: string;
@@ -127,9 +133,21 @@ export function buildBlueForceElements(
       );
 
       const countNum = pt.count || 'X';
-      const groupDesc = `AK74-${countNum}од`;
+      const cleanTextDesc = `AK74-${countNum}од`;
       const descX = Number(leftLabel.rectX) + Number(leftLabel.rectW) / 2;
       const descY = Number(leftLabel.rectY) + Number(leftLabel.rectH) + 2.6;
+      
+      const leftDesc = {
+        cleanText: cleanTextDesc,
+        xPos: descX,
+        yPos: descY,
+        rectW: cleanTextDesc ? measureTextWidthMm(cleanTextDesc, 2.822) : 0,
+        rectH: 2.822,
+        rectX: 0,
+        rectY: 0,
+      };
+      leftDesc.rectX = leftDesc.xPos - leftDesc.rectW / 2;
+      leftDesc.rectY = leftDesc.yPos - 2.5;
 
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
       const leftRect: Rect = {
@@ -147,13 +165,12 @@ export function buildBlueForceElements(
 
       const parts: Rect[] = [iconRect, leftRect, rightRect];
 
-      if (groupDesc) {
-        const descW = measureTextWidthMm(groupDesc, 2.822);
+      if (leftDesc.cleanText) {
         const descRect: Rect = {
-          x: descX - descW / 2,
-          y: descY - 2.5,
-          width: descW,
-          height: 2.822,
+          x: leftDesc.rectX,
+          y: leftDesc.rectY,
+          width: leftDesc.rectW,
+          height: leftDesc.rectH,
         };
         parts.push(descRect);
       }
@@ -175,9 +192,7 @@ export function buildBlueForceElements(
           yPos,
           leftLabel,
           rightLabel,
-          descX,
-          descY,
-          groupDesc,
+          leftDesc,
         },
       };
     }
@@ -245,7 +260,7 @@ export function buildBlueForceElements(
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
 
     if (el.mappingIdx !== -1 && el.iconDetails) {
-      const { xPos, yPos, leftLabel, rightLabel, descX, descY, groupDesc } =
+      const { xPos, yPos, leftLabel, rightLabel, leftDesc } =
         el.iconDetails;
 
       const rectBgColor = isOverlapping ? '#ff0000' : '#92B4EC';
@@ -257,9 +272,9 @@ export function buildBlueForceElements(
         `      <text id="blue-label-right-${idx + 1}" x="${rightLabel.xPos}" y="${rightLabel.yPos.toFixed(3)}" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
       );
 
-      if (groupDesc) {
+      if (leftDesc.cleanText) {
         elementLines.push(
-          `      <text id="blue-label-desc-${idx + 1}" x="${descX.toFixed(3)}" y="${descY.toFixed(3)}" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${groupDesc}</text>`,
+          `      <text id="blue-label-desc-${idx + 1}" x="${leftDesc.xPos.toFixed(3)}" y="${leftDesc.yPos.toFixed(3)}" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${leftDesc.cleanText}</text>`,
         );
       }
 
