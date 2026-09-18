@@ -15,63 +15,38 @@ import {
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
 
+import { CsvRow } from './csv.js';
+
 export function parseBluePoints(
-  csvContent: string,
+  csvData: CsvRow[],
   inWindow: (lon: number, lat: number) => boolean,
 ): Point[] {
   const bluePointMarkers: Point[] = [];
-  const csvLines = csvContent.split('\n');
 
-  for (let i = 1; i < csvLines.length; i++) {
-    const line = csvLines[i].trim();
-    if (!line) continue;
+  for (const row of csvData) {
+    const app6dType = row['app6d type']?.trim() || '';
+    const sidc = row['app6d sidc']?.trim() || '';
+    const count = row['objects count']?.trim() || '';
+    const name = row.name?.trim() || '';
+    const mgrsStr = row['coordinates(mgrs)']?.trim() || '';
+    const desc = row['object creator']?.trim() || '';
 
-    const cols: string[] = [];
-    let inQuotes = false;
-    let currentWord = '';
-    for (let j = 0; j < line.length; j++) {
-      const char = line[j];
-      if (char === '"') {
-        if (inQuotes && line[j + 1] === '"') {
-          currentWord += '"';
-          j++;
-        } else {
-          inQuotes = !inQuotes;
+    if (mgrsStr) {
+      try {
+        const [lon, lat] = mgrs.toPoint(mgrsStr);
+        if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
+          bluePointMarkers.push({
+            lon,
+            lat,
+            name,
+            desc,
+            sidc,
+            count,
+            app6dType,
+          });
         }
-      } else if (char === ',' && !inQuotes) {
-        cols.push(currentWord);
-        currentWord = '';
-      } else {
-        currentWord += char;
-      }
-    }
-    cols.push(currentWord);
-
-    if (cols.length >= 8) {
-      const app6dType = cols[0]?.trim() || '';
-      const sidc = cols[3]?.trim() || '';
-      const count = cols[4]?.trim() || '';
-      const name = cols[5]?.trim() || '';
-      const mgrsStr = cols[7]?.trim() || '';
-      const desc = cols[12]?.trim() || '';
-
-      if (mgrsStr) {
-        try {
-          const [lon, lat] = mgrs.toPoint(mgrsStr);
-          if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
-            bluePointMarkers.push({
-              lon,
-              lat,
-              name,
-              desc,
-              sidc,
-              count,
-              app6dType,
-            });
-          }
-        } catch (e) {
-          // Ignore invalid MGRS strings
-        }
+      } catch (e) {
+        // Ignore invalid MGRS strings
       }
     }
   }

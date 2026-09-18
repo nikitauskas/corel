@@ -21,45 +21,21 @@ interface Point {
  * @param geoToSvg   - Converts a {lon, lat} point to SVG {x, y} coordinates (in mm)
  * @returns           A string of SVG <path> elements joined by newlines
  */
+import { CsvRow } from './csv.js';
+
 export function buildLinePathElements(
-  csvContent: string,
+  csvData: CsvRow[],
   inWindow: (lon: number, lat: number) => boolean,
   geoToSvg: (pt: Point) => { x: number; y: number },
 ): string {
   const csvLineSegments: Point[][] = [];
 
-  const csvRawLines = csvContent.split('\n');
-  for (let i = 1; i < csvRawLines.length; i++) {
-    const line = csvRawLines[i].trim();
-    if (!line) continue;
-
-    // Simple CSV parser (handles quoted fields)
-    const cols: string[] = [];
-    let inQuotes = false;
-    let currentWord = '';
-    for (let j = 0; j < line.length; j++) {
-      const char = line[j];
-      if (char === '"') {
-        if (inQuotes && line[j + 1] === '"') {
-          currentWord += '"';
-          j++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (char === ',' && !inQuotes) {
-        cols.push(currentWord);
-        currentWord = '';
-      } else {
-        currentWord += char;
-      }
-    }
-    cols.push(currentWord);
-
-    const app6dType = cols[0]?.trim() || '';
+  for (const row of csvData) {
+    const app6dType = row['app6d type']?.trim() || '';
     if (app6dType !== 'Горизонтальна (між підрозділами)') continue;
 
     // col[7] — semicolon-separated MGRS coords for the line
-    const mgrsRaw = cols[7]?.trim() || '';
+    const mgrsRaw = row['coordinates(mgrs)']?.trim() || '';
     if (!mgrsRaw) continue;
 
     const mgrsParts = mgrsRaw

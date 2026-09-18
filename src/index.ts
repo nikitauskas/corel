@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
+import { parseCSV } from './lib/csv.js';
 import { MapFormatConfig, createMapContext } from './lib/geo.js';
 import { buildIconsDefs } from './lib/icons.js';
 import { buildLinePathElements } from './lib/lines.js';
@@ -51,6 +52,7 @@ const blueCsvPath = path.resolve(process.cwd(), 'data/full_data.csv');
 const blueCsvContent = fs.existsSync(blueCsvPath)
   ? fs.readFileSync(blueCsvPath, 'utf-8')
   : '';
+const blueCsvData = blueCsvContent ? parseCSV(blueCsvContent) : [];
 
 // ----------------------------------------------------
 // 3. Generate SVGs for each configured map format
@@ -60,13 +62,13 @@ for (const format of MAP_FORMATS) {
 
   // Parse lines matching map window and project to SVG coordinates
   const pathElements = buildLinePathElements(
-    blueCsvContent,
+    blueCsvData,
     map.inWindow,
     map.geoToSvg,
   ); //
 
   // Parse points inside map window
-  const bluePointMarkers = parseBluePoints(blueCsvContent, map.inWindow);
+  const bluePointMarkers = parseBluePoints(blueCsvData, map.inWindow);
 
   // Generate SVG elements for Blue Force points (marker + labels grouped per element)
   const { blueForceElements, overlappingCount } = buildBlueForceElements(
