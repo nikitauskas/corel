@@ -4,16 +4,21 @@ const CONNECTOR_STUB_MM = 4.5;
 
 /**
  * Renders a two-segment solid connector between a displaced element and its anchor:
- *  1. A vertical line going straight down CONNECTOR_STUB_MM from renderPt.
+ *  1. A vertical line going straight down CONNECTOR_STUB_MM from the icon's bottom edge.
  *  2. A diagonal line from the bottom of that stub to anchorPt.
+ *
+ * @param anchorPt   - The original geographic anchor point in SVG space.
+ * @param renderPt   - The displaced render position (center of the icon) in SVG space.
+ * @param iconBottomY - The Y coordinate of the icon's bottom edge in SVG space.
  */
 function renderConnector(
   anchorPt: { x: number; y: number },
   renderPt: { x: number; y: number },
+  iconBottomY: number,
 ): string {
-  const stubBottomY = renderPt.y + CONNECTOR_STUB_MM;
+  const stubBottomY = iconBottomY + CONNECTOR_STUB_MM;
   return `      <path
-  d="M ${renderPt.x.toFixed(3)},${renderPt.y.toFixed(3)}
+  d="M ${renderPt.x.toFixed(3)},${iconBottomY.toFixed(3)}
      V ${stubBottomY.toFixed(3)}
      L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}"
   fill="none"
@@ -43,9 +48,14 @@ export function renderBlueForceSVG(
     const elementLines: string[] = [];
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
 
-    // Draw connector: vertical stub down from renderPoint, then diagonal to anchorPoint
+    // Draw connector: vertical stub from icon bottom, then diagonal to anchorPoint
     if (isDisplaced && renderPt) {
-      elementLines.push(renderConnector(anchorPt, renderPt));
+      // iconBottomY = center Y + half icon height; fall back to center Y for circles
+      const iconBottomY =
+        el.iconDetails != null
+          ? renderPt.y + el.iconDetails.iconH / 2
+          : renderPt.y;
+      elementLines.push(renderConnector(anchorPt, renderPt, iconBottomY));
     }
 
     // Wrap element content in translate group when displaced
