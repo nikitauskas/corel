@@ -2,12 +2,11 @@ import { BlueForceElementLayout } from './points.js';
 
 export function renderBlueForceSVG(
   preparedElements: BlueForceElementLayout[],
-  overlappingIndices: Set<number>,
 ): string[] {
   const blueForceElements: string[] = [];
 
   preparedElements.forEach((el, idx) => {
-    const isOverlapping = overlappingIndices.has(idx);
+    const isOverlapping = el.isOverlapping;
     const elementLines: string[] = [];
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
 

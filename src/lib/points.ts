@@ -59,6 +59,7 @@ export interface BlueForceElementLayout {
   idx: number;
   anchorPoint: { x: number; y: number };
   renderPoint?: { x: number; y: number };
+  isOverlapping?: boolean;
   mappingIdx: number;
   ptApp6dType: string;
   parts: Rect[];
@@ -234,8 +235,6 @@ export function buildBlueForceElements(
     };
   });
 
-  // 2. Check for overlaps between elements
-  const overlappingIndices = new Set<number>();
   for (let i = 0; i < preparedElements.length; i++) {
     const elA = preparedElements[i];
     for (let j = i + 1; j < preparedElements.length; j++) {
@@ -245,12 +244,12 @@ export function buildBlueForceElements(
           elB.parts.some((pB) => rectsOverlap(pA, pB)),
         );
         if (partsOverlap) {
-          overlappingIndices.add(i);
-          overlappingIndices.add(j);
+          elA.isOverlapping = true;
+          elB.isOverlapping = true;
         }
       }
     }
   }
 
-  return { preparedElements, overlappingIndices };
+  return preparedElements;
 }

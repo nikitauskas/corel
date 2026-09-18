@@ -69,7 +69,7 @@ for (const format of MAP_FORMATS) {
   ); //
 
   // Generate SVG elements for Blue Force points (marker + labels grouped per element)
-  const { preparedElements, overlappingIndices } = buildBlueForceElements(
+  const preparedElements = buildBlueForceElements(
     blueCsvData,
     iconRenderedSizes,
     map.inWindow,
@@ -77,8 +77,10 @@ for (const format of MAP_FORMATS) {
   );
 
   // step to generate svg
-  const blueForceElements = renderBlueForceSVG(preparedElements, overlappingIndices);
-  const overlappingCount = overlappingIndices.size;
+  const blueForceElements = renderBlueForceSVG(preparedElements);
+  const overlappingCount = preparedElements.filter(
+    (el) => el.isOverlapping,
+  ).length;
 
   // Assemble final SVG
   const svgContent = buildFinalSvg(
