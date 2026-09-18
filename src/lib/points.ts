@@ -85,10 +85,13 @@ export interface BlueForceElementLayout {
 }
 
 export function buildBlueForceElements(
-  points: Point[],
+  csvData: CsvRow[],
   iconRenderedSizes: [number, number][],
+  inWindow: (lon: number, lat: number) => boolean,
   geoToSvg: (pt: Point) => { x: number; y: number },
 ) {
+  const points = filterElementsInsideWindow(csvData, inWindow);
+
   // 1. Calculate bounding polygon / rectangles for each element
   const preparedElements: BlueForceElementLayout[] = points.map((pt, idx) => {
     const svgPt = geoToSvg(pt);

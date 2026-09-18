@@ -5,10 +5,7 @@ import { CsvRow, parseCSV } from './lib/csv.js';
 import { MapFormatConfig, createMapContext } from './lib/geo.js';
 import { buildIconsDefs } from './lib/icons.js';
 import { buildLUnitsSpearationLinesSVGs } from './lib/lines.js';
-import {
-  buildBlueForceElements,
-  filterElementsInsideWindow,
-} from './lib/points.js';
+import { buildBlueForceElements } from './lib/points.js';
 import { buildFinalSvg } from './lib/svg.js';
 
 // ====================================================
@@ -70,16 +67,11 @@ for (const format of MAP_FORMATS) {
     map.geoToSvg,
   ); //
 
-  // Parse points inside map window
-  const bluePointMarkers = filterElementsInsideWindow(
-    blueCsvData,
-    map.inWindow,
-  );
-
   // Generate SVG elements for Blue Force points (marker + labels grouped per element)
   const { blueForceElements, overlappingCount } = buildBlueForceElements(
-    bluePointMarkers,
+    blueCsvData,
     iconRenderedSizes,
+    map.inWindow,
     map.geoToSvg,
   );
 
@@ -103,7 +95,7 @@ for (const format of MAP_FORMATS) {
   );
   console.log(`Output: ${outputPath}`);
   console.log(`- Top-Left MGRS: ${map.mgrsTL}`);
-  console.log(`- Blue Force points in window: ${bluePointMarkers.length}`);
+  console.log(`- Blue Force points in window: ${blueForceElements.length}`);
   console.log(`- Overlapping elements marked red: ${overlappingCount}`);
   console.log(`- Custom mapped icons: ${customIconCount}`);
   console.log(
