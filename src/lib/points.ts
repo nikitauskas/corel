@@ -57,7 +57,7 @@ export function filterElementsInsideWindow(
 export interface BlueForceElementLayout {
   pt: Point;
   idx: number;
-  svgPt: { x: number; y: number };
+  svgCoords: { x: number; y: number };
   mappingIdx: number;
   ptApp6dType: string;
   parts: Rect[];
@@ -88,7 +88,7 @@ export function buildBlueForceElements(
 
   // 1. Calculate bounding polygon / rectangles for each element
   const preparedElements: BlueForceElementLayout[] = points.map((pt, idx) => {
-    const svgPt = geoToSvg(pt);
+    const svgCoords = geoToSvg(pt);
     const ptApp6dType = pt.app6dType ?? '';
     const mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
@@ -96,14 +96,14 @@ export function buildBlueForceElements(
 
     if (mappingIdx !== -1) {
       const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
-      const xPos = Number((svgPt.x - iconW / 2).toFixed(3));
-      const yPos = Number((svgPt.y - iconH / 2).toFixed(3));
+      const xPos = Number((svgCoords.x - iconW / 2).toFixed(3));
+      const yPos = Number((svgCoords.y - iconH / 2).toFixed(3));
 
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
 
       const leftLabel = computeLeftLabelLayout(
-        svgPt,
+        svgCoords,
         iconW,
         iconH,
         pt.name || 'Test',
@@ -115,7 +115,7 @@ export function buildBlueForceElements(
       );
 
       const rightLabel = computeRightLabelLayout(
-        svgPt,
+        svgCoords,
         iconW,
         iconH,
         '9/3//78',
@@ -163,7 +163,7 @@ export function buildBlueForceElements(
       return {
         pt,
         idx,
-        svgPt,
+        svgCoords,
         mappingIdx,
         ptApp6dType,
         parts,
@@ -189,15 +189,15 @@ export function buildBlueForceElements(
     }
     const cleanText = labelText;
     const circleRect: Rect = {
-      x: svgPt.x - 2.0,
-      y: svgPt.y - 2.0,
+      x: svgCoords.x - 2.0,
+      y: svgCoords.y - 2.0,
       width: 4.0,
       height: 4.0,
     };
     const textW = measureTextWidthMm(cleanText, 1.6);
     const textRect: Rect = {
-      x: svgPt.x - textW / 2,
-      y: svgPt.y + 4.2 - 1.6,
+      x: svgCoords.x - textW / 2,
+      y: svgCoords.y + 4.2 - 1.6,
       width: textW,
       height: 1.6,
     };
@@ -207,7 +207,7 @@ export function buildBlueForceElements(
     return {
       pt,
       idx,
-      svgPt,
+      svgCoords,
       mappingIdx,
       ptApp6dType,
       parts,
@@ -245,15 +245,8 @@ export function buildBlueForceElements(
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
 
     if (el.mappingIdx !== -1 && el.iconDetails) {
-      const {
-        xPos,
-        yPos,
-        leftLabel,
-        rightLabel,
-        descX,
-        descY,
-        groupDesc,
-      } = el.iconDetails;
+      const { xPos, yPos, leftLabel, rightLabel, descX, descY, groupDesc } =
+        el.iconDetails;
 
       const rectBgColor = isOverlapping ? '#ff0000' : '#92B4EC';
 
@@ -277,10 +270,10 @@ export function buildBlueForceElements(
       );
     } else if (el.circleDetails) {
       elementLines.push(
-        `      <circle id="blue-point-${idx + 1}" cx="${el.svgPt.x}" cy="${el.svgPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
+        `      <circle id="blue-point-${idx + 1}" cx="${el.svgCoords.x}" cy="${el.svgCoords.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
       );
       elementLines.push(
-        `      <text id="blue-label-${idx + 1}" x="${el.svgPt.x}" y="${(el.svgPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
+        `      <text id="blue-label-${idx + 1}" x="${el.svgCoords.x}" y="${(el.svgCoords.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
       );
     }
 
