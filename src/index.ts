@@ -7,6 +7,7 @@ import { buildIconsDefs } from './lib/icons.js';
 import { buildLUnitsSpearationLinesSVGs } from './lib/lines.js';
 import { buildBlueForceElements } from './lib/points.js';
 import { renderBlueForceSVG } from './lib/render-points-svg.js';
+import { resolveOverlappingRenderPoints } from './lib/resolve-overlaps.js';
 import { buildFinalSvg } from './lib/svg.js';
 
 // ====================================================
@@ -79,6 +80,7 @@ for (const format of MAP_FORMATS) {
   // calculat new renderPoint due to overlapping
   //step 1: find overlapping
   //step 2: move elements to avoid overlapping
+  resolveOverlappingRenderPoints(preparedElements);
 
   // step to generate svg
   const blueForceElements = renderBlueForceSVG(preparedElements);
