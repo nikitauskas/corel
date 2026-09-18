@@ -67,13 +67,7 @@ export interface BlueForceElementLayout {
     iconH: number;
     xPos: number;
     yPos: number;
-    labelX: number;
-    labelY: number;
-    cleanText: string;
-    rectX: string;
-    rectY: string;
-    rectW: string;
-    rectH: string;
+    leftLabel: ReturnType<typeof computeLeftLabelLayout>;
     rightLabel: ReturnType<typeof computeRightLabelLayout>;
     descX: number;
     descY: number;
@@ -108,15 +102,7 @@ export function buildBlueForceElements(
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
 
-      const {
-        xPos: labelX,
-        yPos: labelY,
-        cleanText,
-        rectX,
-        rectY,
-        rectW,
-        rectH,
-      } = computeLeftLabelLayout(
+      const leftLabel = computeLeftLabelLayout(
         svgPt,
         iconW,
         iconH,
@@ -142,15 +128,15 @@ export function buildBlueForceElements(
 
       const countNum = pt.count || 'X';
       const groupDesc = `AK74-${countNum}од`;
-      const descX = Number(rectX) + Number(rectW) / 2;
-      const descY = Number(rectY) + Number(rectH) + 2.6;
+      const descX = Number(leftLabel.rectX) + Number(leftLabel.rectW) / 2;
+      const descY = Number(leftLabel.rectY) + Number(leftLabel.rectH) + 2.6;
 
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
       const leftRect: Rect = {
-        x: Number(rectX),
-        y: Number(rectY),
-        width: Number(rectW),
-        height: Number(rectH),
+        x: Number(leftLabel.rectX),
+        y: Number(leftLabel.rectY),
+        width: Number(leftLabel.rectW),
+        height: Number(leftLabel.rectH),
       };
       const rightRect: Rect = {
         x: Number(rightLabel.rectX),
@@ -187,13 +173,7 @@ export function buildBlueForceElements(
           iconH,
           xPos,
           yPos,
-          labelX,
-          labelY,
-          cleanText,
-          rectX,
-          rectY,
-          rectW,
-          rectH,
+          leftLabel,
           rightLabel,
           descX,
           descY,
@@ -268,13 +248,7 @@ export function buildBlueForceElements(
       const {
         xPos,
         yPos,
-        labelX,
-        labelY,
-        cleanText,
-        rectX,
-        rectY,
-        rectW,
-        rectH,
+        leftLabel,
         rightLabel,
         descX,
         descY,
@@ -284,8 +258,8 @@ export function buildBlueForceElements(
       const rectBgColor = isOverlapping ? '#ff0000' : '#92B4EC';
 
       elementLines.push(
-        `      <rect x="${rectX}" y="${rectY}" width="${rectW}" height="${rectH}" fill="${rectBgColor}" />`,
-        `      <text id="blue-label-${idx + 1}" x="${labelX}" y="${labelY.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${cleanText}</text>`,
+        `      <rect x="${leftLabel.rectX}" y="${leftLabel.rectY}" width="${leftLabel.rectW}" height="${leftLabel.rectH}" fill="${rectBgColor}" />`,
+        `      <text id="blue-label-${idx + 1}" x="${leftLabel.xPos}" y="${leftLabel.yPos.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${leftLabel.cleanText}</text>`,
         `      <rect x="${rightLabel.rectX}" y="${rightLabel.rectY}" width="${rightLabel.rectW}" height="${rightLabel.rectH}" fill="${rectBgColor}" />`,
         `      <text id="blue-label-right-${idx + 1}" x="${rightLabel.xPos}" y="${rightLabel.yPos.toFixed(3)}" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
       );
