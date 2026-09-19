@@ -30,6 +30,7 @@ export function renderBlueForceSVG(
   preparedElements: BlueForceElementLayout[],
 ): string[] {
   const blueForceElements: string[] = [];
+  const connectorLines: string[] = [];
 
   preparedElements.forEach((el, idx) => {
     const renderPt = el.renderPoint;
@@ -52,7 +53,7 @@ export function renderBlueForceSVG(
         el.iconDetails != null
           ? renderPt.y + el.iconDetails.iconH / 2
           : renderPt.y;
-      elementLines.push(renderConnector(anchorPt, renderPt, iconBottomY));
+      connectorLines.push(renderConnector(anchorPt, renderPt, iconBottomY));
     }
 
     // Wrap element content in translate group when displaced
@@ -99,6 +100,12 @@ export function renderBlueForceSVG(
     elementLines.push('    </g>');
     blueForceElements.push(elementLines.join('\n'));
   });
+
+  if (connectorLines.length > 0) {
+    blueForceElements.unshift(
+      `    <g id="connectors">\n${connectorLines.join('\n')}\n    </g>`,
+    );
+  }
 
   return blueForceElements;
 }
