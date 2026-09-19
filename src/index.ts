@@ -87,7 +87,7 @@ for (const format of MAP_FORMATS) {
 
   //count overlapping
   const overlappingCount = preparedElements.filter(
-    (el) => el.isOverlapping,
+    (el) => el.status !== 'idle',
   ).length;
 
   // Assemble final SVG

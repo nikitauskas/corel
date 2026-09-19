@@ -59,7 +59,6 @@ export interface BlueForceElementLayout {
   idx: number;
   anchorPoint: { x: number; y: number };
   renderPoint?: { x: number; y: number };
-  isOverlapping?: boolean;
   mappingIdx: number;
   ptApp6dType: string;
   parts: Rect[];
@@ -247,8 +246,25 @@ export function buildBlueForceElements(
           elB.parts.some((pB) => rectsOverlap(pA, pB)),
         );
         if (partsOverlap) {
-          elA.isOverlapping = true;
-          elB.isOverlapping = true;
+          const priorityA = mappingSVGs[elA.ptApp6dType]?.priority ?? 0;
+          const priorityB = mappingSVGs[elB.ptApp6dType]?.priority ?? 0;
+
+          if (priorityA === 10 && priorityB === 10) {
+            elA.status = 'conflict';
+            elB.status = 'conflict';
+          } else if (priorityA > priorityB) {
+            if (priorityB !== 10 && elB.status !== 'conflict') {
+              elB.status = 'displaced';
+            }
+          } else if (priorityB > priorityA) {
+            if (priorityA !== 10 && elA.status !== 'conflict') {
+              elA.status = 'displaced';
+            }
+          } else {
+            // Equal priority < 10
+            if (priorityA !== 10 && elA.status !== 'conflict') elA.status = 'displaced';
+            if (priorityB !== 10 && elB.status !== 'conflict') elB.status = 'displaced';
+          }
         }
       }
     }

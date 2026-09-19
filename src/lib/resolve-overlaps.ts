@@ -66,12 +66,12 @@ function* spiralAround(cx: number, cy: number): Generator<[number, number]> {
 export function resolveOverlappingRenderPoints(
   elements: BlueForceElementLayout[],
 ): void {
-  const overlapping = elements.filter((el) => el.isOverlapping);
+  const overlapping = elements.filter((el) => el.status === 'displaced');
   if (overlapping.length === 0) return;
 
-  // Seed the occupied list with all non-overlapping elements (fixed obstacles)
+  // Seed the occupied list with all non-displaced elements (fixed obstacles)
   const occupied: AABB[] = elements
-    .filter((el) => !el.isOverlapping)
+    .filter((el) => el.status !== 'displaced')
     .map((el) => bboxAt(el, el.anchorPoint.x, el.anchorPoint.y));
 
   // Process top-to-bottom, left-to-right for stable, predictable output

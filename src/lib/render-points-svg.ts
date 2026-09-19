@@ -32,13 +32,10 @@ export function renderBlueForceSVG(
   const blueForceElements: string[] = [];
 
   preparedElements.forEach((el, idx) => {
-    const isOverlapping = el.isOverlapping;
-
-    // Determine if element should be displaced to a renderPoint
     const renderPt = el.renderPoint;
     const anchorPt = el.anchorPoint;
     const isDisplaced =
-      isOverlapping &&
+      el.status === 'displaced' &&
       renderPt &&
       (renderPt.x !== anchorPt.x || renderPt.y !== anchorPt.y);
 
@@ -68,7 +65,7 @@ export function renderBlueForceSVG(
     if (el.mappingIdx !== -1 && el.iconDetails) {
       const { xPos, yPos, leftLabel, rightLabel, leftDesc } = el.iconDetails;
 
-      const rectBgColor = isOverlapping ? '#ff0000' : '#92B4EC';
+      const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
 
       elementLines.push(
         `      <rect x="${leftLabel.rectX}" y="${leftLabel.rectY}" width="${leftLabel.rectW}" height="${leftLabel.rectH}" fill="${rectBgColor}" />`,
