@@ -6,13 +6,6 @@ const STEP_MM = 1.5;
 /** Safety ring limit for the spiral search */
 const MAX_RINGS = 400;
 
-/** Minimum angle from the vertical axis (in radians) to ensure visible connector lines */
-const MIN_VERTICAL_ANGLE_RAD = (10 * Math.PI) / 180;
-const MIN_VERTICAL_TAN = Math.tan(MIN_VERTICAL_ANGLE_RAD);
-
-/** Length of the vertical stub extending from the bottom of the icon */
-const CONNECTOR_LENGTH_MM = 5.5; //
-
 interface AABB {
   minX: number;
   minY: number;
@@ -26,17 +19,9 @@ function aabbsOverlap(a: AABB, b: AABB): boolean {
   );
 }
 
-function expandAABB(box: AABB, amount: number): AABB {
-  return {
-    minX: box.minX - amount,
-    minY: box.minY - amount,
-    maxX: box.maxX + amount,
-    maxY: box.maxY + amount,
-  };
-}
-
 /**
  * Returns the element's axis-aligned bounding box as if its centre were placed at (cx, cy).
+ * The element's bbox in points.ts is computed relative to the anchorPoint, so we shift it.
  */
 function bboxAt(el: BlueForceElementLayout, cx: number, cy: number): AABB {
   const dx = cx - el.anchorPoint.x;
@@ -50,199 +35,73 @@ function bboxAt(el: BlueForceElementLayout, cx: number, cy: number): AABB {
 }
 
 /**
- * Generates expanding square rings around (cx, cy).
- * Yields an array of all points in the current ring so they can be scored together.
+ * Generates (x, y) candidate positions in an expanding square spiral centred on (cx, cy).
+ * Ring 0 → the anchor itself; ring 1 → 8 neighbours at distance STEP_MM; and so on.
  */
-function* spiralRings(cx: number, cy: number): Generator<[number, number][]> {
-  yield [[cx, cy]];
+function* spiralAround(cx: number, cy: number): Generator<[number, number]> {
+  yield [cx, cy];
   for (let ring = 1; ring < MAX_RINGS; ring++) {
-    const currentRing: [number, number][] = [];
+    // Walk the perimeter of the ring square (clockwise)
     for (let col = -ring; col <= ring; col++) {
-      currentRing.push([cx + col * STEP_MM, cy - ring * STEP_MM]);
+      yield [cx + col * STEP_MM, cy - ring * STEP_MM]; // top edge
     }
     for (let row = -ring + 1; row <= ring; row++) {
-      currentRing.push([cx + ring * STEP_MM, cy + row * STEP_MM]);
+      yield [cx + ring * STEP_MM, cy + row * STEP_MM]; // right edge
     }
     for (let col = ring - 1; col >= -ring; col--) {
-      currentRing.push([cx + col * STEP_MM, cy + ring * STEP_MM]);
+      yield [cx + col * STEP_MM, cy + ring * STEP_MM]; // bottom edge
     }
     for (let row = ring - 1; row >= -ring + 1; row--) {
-      currentRing.push([cx - ring * STEP_MM, cy + row * STEP_MM]);
-    }
-    yield currentRing;
-  }
-}
-
-/**
- * Simple Disjoint-Set (Union-Find) to group overlapping elements into clusters.
- */
-class UnionFind {
-  parent: number[];
-  constructor(size: number) {
-    this.parent = Array.from({ length: size }, (_, i) => i);
-  }
-  find(i: number): number {
-    if (this.parent[i] === i) return i;
-    const root = this.find(this.parent[i]);
-    this.parent[i] = root;
-    return root;
-  }
-  union(i: number, j: number) {
-    const rootI = this.find(i);
-    const rootJ = this.find(j);
-    if (rootI !== rootJ) {
-      this.parent[rootI] = rootJ;
+      yield [cx - ring * STEP_MM, cy + row * STEP_MM]; // left edge
     }
   }
 }
 
 /**
- * Assigns each overlapping element the closest possible renderPoint to its anchor.
- * Ensures that the dynamic connector lines remain geometrically valid and clearly visible.
+ * Assigns each overlapping element the closest possible renderPoint to its anchorPoint
+ * that does not collide with any other element (overlapping or not).
+ *
+ * Non-overlapping elements are treated as immovable obstacles at their anchorPoints.
+ * Overlapping elements are placed one-by-one (sorted top-to-bottom, left-to-right for
+ * determinism), each claiming the nearest free slot.
  */
 export function resolveOverlappingRenderPoints(
   elements: BlueForceElementLayout[],
 ): void {
-  const overlapping = elements
-    .filter((el) => el.status === 'displaced')
-    .sort(
-      (a, b) =>
-        a.anchorPoint.y - b.anchorPoint.y || a.anchorPoint.x - b.anchorPoint.x,
-    );
-
+  const overlapping = elements.filter((el) => el.status === 'displaced');
   if (overlapping.length === 0) return;
 
+  // Seed the occupied list with all non-displaced elements (fixed obstacles)
   const occupied: AABB[] = elements
     .filter((el) => el.status !== 'displaced')
     .map((el) => bboxAt(el, el.anchorPoint.x, el.anchorPoint.y));
 
-  // 1. Find Connected Clusters
-  const uf = new UnionFind(overlapping.length);
-  const bboxes = overlapping.map((el) =>
-    bboxAt(el, el.anchorPoint.x, el.anchorPoint.y),
+  // Process top-to-bottom, left-to-right for stable, predictable output
+  const sorted = [...overlapping].sort(
+    (a, b) =>
+      a.anchorPoint.y - b.anchorPoint.y || a.anchorPoint.x - b.anchorPoint.x,
   );
 
-  for (let i = 0; i < overlapping.length; i++) {
-    const boxI = expandAABB(bboxes[i], STEP_MM * 2);
-    for (let j = i + 1; j < overlapping.length; j++) {
-      const boxJ = expandAABB(bboxes[j], STEP_MM * 2);
-      if (aabbsOverlap(boxI, boxJ)) {
-        uf.union(i, j);
+  for (const el of sorted) {
+    const { x: ax, y: ay } = el.anchorPoint;
+    let placed = false;
+
+    for (const [cx, cy] of spiralAround(ax, ay)) {
+      const candidate = bboxAt(el, cx, cy);
+      if (!occupied.some((o) => aabbsOverlap(candidate, o))) {
+        el.renderPoint = {
+          x: Number(cx.toFixed(3)),
+          y: Number(cy.toFixed(3)),
+        };
+        occupied.push(candidate);
+        placed = true;
+        break;
       }
     }
-  }
 
-  const clustersMap = new Map<number, BlueForceElementLayout[]>();
-  for (let i = 0; i < overlapping.length; i++) {
-    const root = uf.find(i);
-    let cluster = clustersMap.get(root);
-
-    if (!cluster) {
-      cluster = [];
-      clustersMap.set(root, cluster);
-    }
-
-    cluster.push(overlapping[i]);
-  }
-
-  // 2. Resolve placements
-  for (const cluster of clustersMap.values()) {
-    let cx = 0;
-    let cy = 0;
-    for (const el of cluster) {
-      cx += el.anchorPoint.x;
-      cy += el.anchorPoint.y;
-    }
-    cx /= cluster.length;
-    cy /= cluster.length;
-
-    const byType: Record<string, BlueForceElementLayout[]> = {};
-    for (const el of cluster) {
-      if (!byType[el.ptApp6dType]) byType[el.ptApp6dType] = [];
-      byType[el.ptApp6dType].push(el);
-    }
-
-    const types = Object.keys(byType).sort();
-    const numTypes = types.length;
-
-    const directionalRadius = STEP_MM * 10 * Math.sqrt(cluster.length);
-
-    for (let i = 0; i < numTypes; i++) {
-      const typeName = types[i];
-      const typeGroup = byType[typeName];
-
-      let typeCx = cx;
-      let typeCy = cy;
-
-      if (numTypes > 1) {
-        const angle = (i / numTypes) * Math.PI * 2;
-        typeCx += Math.cos(angle) * directionalRadius;
-        typeCy += Math.sin(angle) * directionalRadius;
-      }
-
-      typeGroup.sort((a, b) => {
-        const distA = Math.hypot(a.anchorPoint.x - cx, a.anchorPoint.y - cy);
-        const distB = Math.hypot(b.anchorPoint.x - cx, b.anchorPoint.y - cy);
-        return distA - distB || a.anchorPoint.y - b.anchorPoint.y;
-      });
-
-      for (const el of typeGroup) {
-        let placed = false;
-        const ax = el.anchorPoint.x;
-        const ay = el.anchorPoint.y;
-
-        for (const ringPoints of spiralRings(ax, ay)) {
-          let bestPoint: [number, number] | null = null;
-          let minScore = Number.POSITIVE_INFINITY;
-
-          for (const [sx, sy] of ringPoints) {
-            // Calculate the exact joint where the vertical stub ends
-            const jointY = sy + CONNECTOR_LENGTH_MM;
-            const lineDx = ax - sx;
-            const lineDy = ay - jointY; // Vector from joint to anchor (positive if anchor is below)
-
-            // Requirement 1: The connector line must form an obtuse or right angle (>= 90°)
-            // with the downward-pointing stub. This means the anchor must not be higher than the joint.
-            if (lineDy < 0) {
-              continue;
-            }
-
-            // Requirement 2: The line must deviate from the pure vertical axis by at least 10°.
-            // This prevents a perfectly straight line continuing from the stub downwards.
-            if (Math.abs(lineDx) < lineDy * MIN_VERTICAL_TAN) {
-              continue;
-            }
-
-            const candidate = bboxAt(el, sx, sy);
-
-            if (!occupied.some((o) => aabbsOverlap(candidate, o))) {
-              const distToAnchor = Math.hypot(sx - ax, sy - ay);
-              const distToTypeCenter = Math.hypot(sx - typeCx, sy - typeCy);
-
-              const score = distToAnchor * 10000 + distToTypeCenter;
-
-              if (score < minScore) {
-                minScore = score;
-                bestPoint = [sx, sy];
-              }
-            }
-          }
-
-          if (bestPoint) {
-            el.renderPoint = {
-              x: Number(bestPoint[0].toFixed(3)),
-              y: Number(bestPoint[1].toFixed(3)),
-            };
-            occupied.push(bboxAt(el, bestPoint[0], bestPoint[1]));
-            placed = true;
-            break;
-          }
-        }
-
-        if (!placed) {
-          el.renderPoint = undefined;
-        }
-      }
+    // Fallback: if spiral exhausted (shouldn't happen), leave renderPoint undefined
+    if (!placed) {
+      el.renderPoint = undefined;
     }
   }
 }
