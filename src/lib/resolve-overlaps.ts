@@ -10,6 +10,9 @@ const MAX_RINGS = 400;
 const MIN_VERTICAL_ANGLE_RAD = (10 * Math.PI) / 180;
 const MIN_VERTICAL_TAN = Math.tan(MIN_VERTICAL_ANGLE_RAD);
 
+/** Length of the vertical stub extending from the bottom of the icon */
+const CONNECTOR_LENGTH_MM = 5.5; //
+
 interface AABB {
   minX: number;
   minY: number;
@@ -51,20 +54,20 @@ function bboxAt(el: BlueForceElementLayout, cx: number, cy: number): AABB {
  * Yields an array of all points in the current ring so they can be scored together.
  */
 function* spiralRings(cx: number, cy: number): Generator<[number, number][]> {
-  yield [[cx, cy]]; // Ring 0
+  yield [[cx, cy]];
   for (let ring = 1; ring < MAX_RINGS; ring++) {
     const currentRing: [number, number][] = [];
     for (let col = -ring; col <= ring; col++) {
-      currentRing.push([cx + col * STEP_MM, cy - ring * STEP_MM]); // top
+      currentRing.push([cx + col * STEP_MM, cy - ring * STEP_MM]);
     }
     for (let row = -ring + 1; row <= ring; row++) {
-      currentRing.push([cx + ring * STEP_MM, cy + row * STEP_MM]); // right
+      currentRing.push([cx + ring * STEP_MM, cy + row * STEP_MM]);
     }
     for (let col = ring - 1; col >= -ring; col--) {
-      currentRing.push([cx + col * STEP_MM, cy + ring * STEP_MM]); // bottom
+      currentRing.push([cx + col * STEP_MM, cy + ring * STEP_MM]);
     }
     for (let row = ring - 1; row >= -ring + 1; row--) {
-      currentRing.push([cx - ring * STEP_MM, cy + row * STEP_MM]); // left
+      currentRing.push([cx - ring * STEP_MM, cy + row * STEP_MM]);
     }
     yield currentRing;
   }
@@ -95,8 +98,7 @@ class UnionFind {
 
 /**
  * Assigns each overlapping element the closest possible renderPoint to its anchor.
- * Uses a directional bias to cluster elements of the same type together, while
- * avoiding vertical stacking to ensure connector lines are visible.
+ * Ensures that the dynamic connector lines remain geometrically valid and clearly visible.
  */
 export function resolveOverlappingRenderPoints(
   elements: BlueForceElementLayout[],
@@ -145,7 +147,6 @@ export function resolveOverlappingRenderPoints(
 
   // 2. Resolve placements
   for (const cluster of clustersMap.values()) {
-    // Center of mass for the cluster
     let cx = 0;
     let cy = 0;
     for (const el of cluster) {
@@ -164,7 +165,6 @@ export function resolveOverlappingRenderPoints(
     const types = Object.keys(byType).sort();
     const numTypes = types.length;
 
-    // Arbitrary distance just to act as a directional "magnet" for sorting ties
     const directionalRadius = STEP_MM * 10 * Math.sqrt(cluster.length);
 
     for (let i = 0; i < numTypes; i++) {
@@ -180,7 +180,6 @@ export function resolveOverlappingRenderPoints(
         typeCy += Math.sin(angle) * directionalRadius;
       }
 
-      // Process elements closest to the cluster center first
       typeGroup.sort((a, b) => {
         const distA = Math.hypot(a.anchorPoint.x - cx, a.anchorPoint.y - cy);
         const distB = Math.hypot(b.anchorPoint.x - cx, b.anchorPoint.y - cy);
@@ -192,31 +191,34 @@ export function resolveOverlappingRenderPoints(
         const ax = el.anchorPoint.x;
         const ay = el.anchorPoint.y;
 
-        // Spiral around the element's ACTUAL anchor to guarantee closeness
         for (const ringPoints of spiralRings(ax, ay)) {
           let bestPoint: [number, number] | null = null;
           let minScore = Number.POSITIVE_INFINITY;
 
           for (const [sx, sy] of ringPoints) {
-            const dx = sx - ax;
-            const dy = sy - ay;
+            // Calculate the exact joint where the vertical stub ends
+            const jointY = sy + CONNECTOR_LENGTH_MM;
+            const lineDx = ax - sx;
+            const lineDy = ay - jointY; // Vector from joint to anchor (positive if anchor is below)
 
-            // Reject points that form too steep of a vertical line to ensure
-            // connectors don't overlap with the central vertical ticks of the icon.
-            if (dy !== 0 && Math.abs(dx) < Math.abs(dy) * MIN_VERTICAL_TAN) {
+            // Requirement 1: The connector line must form an obtuse or right angle (>= 90°)
+            // with the downward-pointing stub. This means the anchor must not be higher than the joint.
+            if (lineDy < 0) {
+              continue;
+            }
+
+            // Requirement 2: The line must deviate from the pure vertical axis by at least 10°.
+            // This prevents a perfectly straight line continuing from the stub downwards.
+            if (Math.abs(lineDx) < lineDy * MIN_VERTICAL_TAN) {
               continue;
             }
 
             const candidate = bboxAt(el, sx, sy);
 
             if (!occupied.some((o) => aabbsOverlap(candidate, o))) {
-              // Primary goal: Minimize exact Euclidean distance to anchor
-              const distToAnchor = Math.hypot(dx, dy);
-
-              // Secondary goal: Bias towards the type's directional magnet
+              const distToAnchor = Math.hypot(sx - ax, sy - ay);
               const distToTypeCenter = Math.hypot(sx - typeCx, sy - typeCy);
 
-              // Weight anchor proximity heavily over grouping
               const score = distToAnchor * 10000 + distToTypeCenter;
 
               if (score < minScore) {
