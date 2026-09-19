@@ -160,7 +160,7 @@ export function resolveOverlappingRenderPoints(
       const angle = (idx * 2 * Math.PI) / types.length; // Spread types radially
       typeVectors.set(type, { x: Math.cos(angle), y: Math.sin(angle) });
     });
-
+    //
     cluster.forEach((el) => {
       processedQueue.push({
         el,
@@ -194,21 +194,14 @@ export function resolveOverlappingRenderPoints(
         }
 
         // B. Joint height constraint (Angle >= 90°)
-        const isAnchorInside =
-          ax >= candidateBbox.minX &&
-          ax <= candidateBbox.maxX &&
-          ay >= candidateBbox.minY &&
-          ay <= candidateBbox.maxY;
+        // Сустав на 5.5 мм ниже нижней границы кандидата (maxY)
+        const jointY = candidateBbox.maxY + 5.5;
 
-        if (!isAnchorInside) {
-          // If the anchor is NOT inside the icon bbox, evaluate the joint constraint.
-          // Joint is 5.5mm below the bottom of the bounding box.
-          const jointY = candidateBbox.maxY + 5.5;
-
-          // In SVG/Canvas geometry (Y goes down), the anchor 'ay' cannot be "higher" (smaller) than jointY.
-          if (ay < jointY) {
-            continue; // Strictly reject this point
-          }
+        // В координатах SVG Y растет вниз.
+        // Если якорь (ay) меньше (выше) сустава, линия пойдет вверх, образуя острый угол.
+        // Безусловно бракуем.
+        if (ay < jointY) {
+          continue;
         }
 
         // C. Calculate composite score
@@ -240,7 +233,7 @@ export function resolveOverlappingRenderPoints(
         placed = true;
         break;
       }
-    } //
+    }
 
     if (!placed) {
       el.renderPoint = undefined;
