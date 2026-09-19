@@ -71,9 +71,13 @@ class UnionFind {
   private parent = new Map<number, number>();
 
   find(i: number): number {
-    if (!this.parent.has(i)) this.parent.set(i, i);
-    if (this.parent.get(i) === i) return i;
-    const root = this.find(this.parent.get(i)!);
+    let parentI = this.parent.get(i);
+    if (parentI === undefined) {
+      this.parent.set(i, i);
+      parentI = i;
+    }
+    if (parentI === i) return i;
+    const root = this.find(parentI);
     this.parent.set(i, root);
     return root;
   }
@@ -126,8 +130,12 @@ export function resolveOverlappingRenderPoints(
   const clustersMap = new Map<number, BlueForceElementLayout[]>();
   for (let i = 0; i < displacedElements.length; i++) {
     const root = uf.find(i);
-    if (!clustersMap.has(root)) clustersMap.set(root, []);
-    clustersMap.get(root)!.push(displacedElements[i]);
+    let clusterElements = clustersMap.get(root);
+    if (!clusterElements) {
+      clusterElements = [];
+      clustersMap.set(root, clusterElements);
+    }
+    clusterElements.push(displacedElements[i]);
   }
   const clusters = Array.from(clustersMap.values());
 
@@ -156,17 +164,19 @@ export function resolveOverlappingRenderPoints(
     const types = Array.from(new Set(cluster.map((el) => el.ptApp6dType)));
     const typeVectors = new Map<string, Point2D>();
 
-    types.forEach((type, idx) => {
+    // Переписан forEach на for...of
+    for (const [idx, type] of types.entries()) {
       const angle = (idx * 2 * Math.PI) / types.length; // Spread types radially
       typeVectors.set(type, { x: Math.cos(angle), y: Math.sin(angle) });
-    });
-    //
-    cluster.forEach((el) => {
+    }
+
+    // Переписан forEach на for...of
+    for (const el of cluster) {
       processedQueue.push({
         el,
         vector: typeVectors.get(el.ptApp6dType) || { x: 0, y: 0 },
       });
-    });
+    }
   }
 
   // Define static obstacles
@@ -205,8 +215,6 @@ export function resolveOverlappingRenderPoints(
         }
 
         // C. Calculate composite score
-        // - Euclidean distance is penalized heavily (weight 10,000)
-        // - Dot product with type vector adds small aesthetic pull (rewarded -> subtracted from score)
         const dist = getDistance({ x: cx, y: cy }, el.anchorPoint);
         const dx = cx - ax;
         const dy = cy - ay;
