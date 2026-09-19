@@ -6,9 +6,6 @@ const STEP_MM = 1.5;
 /** Safety ring limit for the spiral search */
 const MAX_RINGS = 400;
 
-/** Multiplier for how far to push different types apart in a cluster */
-const TYPE_SEPARATION_MULTIPLIER = 2.5;
-
 interface AABB {
   minX: number;
   minY: number;
@@ -46,23 +43,26 @@ function bboxAt(el: BlueForceElementLayout, cx: number, cy: number): AABB {
 }
 
 /**
- * Generates (x, y) candidate positions in an expanding square spiral centred on (cx, cy).
+ * Generates expanding square rings around (cx, cy).
+ * Yields an array of all points in the current ring so they can be scored together.
  */
-function* spiralAround(cx: number, cy: number): Generator<[number, number]> {
-  yield [cx, cy];
+function* spiralRings(cx: number, cy: number): Generator<[number, number][]> {
+  yield [[cx, cy]]; // Ring 0
   for (let ring = 1; ring < MAX_RINGS; ring++) {
+    const currentRing: [number, number][] = [];
     for (let col = -ring; col <= ring; col++) {
-      yield [cx + col * STEP_MM, cy - ring * STEP_MM];
+      currentRing.push([cx + col * STEP_MM, cy - ring * STEP_MM]); // top
     }
     for (let row = -ring + 1; row <= ring; row++) {
-      yield [cx + ring * STEP_MM, cy + row * STEP_MM];
+      currentRing.push([cx + ring * STEP_MM, cy + row * STEP_MM]); // right
     }
     for (let col = ring - 1; col >= -ring; col--) {
-      yield [cx + col * STEP_MM, cy + ring * STEP_MM];
+      currentRing.push([cx + col * STEP_MM, cy + ring * STEP_MM]); // bottom
     }
     for (let row = ring - 1; row >= -ring + 1; row--) {
-      yield [cx - ring * STEP_MM, cy + row * STEP_MM];
+      currentRing.push([cx - ring * STEP_MM, cy + row * STEP_MM]); // left
     }
+    yield currentRing;
   }
 }
 
@@ -76,8 +76,7 @@ class UnionFind {
   }
   find(i: number): number {
     if (this.parent[i] === i) return i;
-
-    // Resolve the root first, then assign, then return
+    // Resolve the root first, then assign, then return (fixes assignment in expression lint rule)
     const root = this.find(this.parent[i]);
     this.parent[i] = root;
     return root;
@@ -92,13 +91,12 @@ class UnionFind {
 }
 
 /**
- * Assigns each overlapping element the closest possible renderPoint.
- * Elements grouped by proximity are separated radially into "lobes" based on their type.
+ * Assigns each overlapping element the closest possible renderPoint to its anchor.
+ * Uses a directional bias to cluster elements of the same type together.
  */
 export function resolveOverlappingRenderPoints(
   elements: BlueForceElementLayout[],
 ): void {
-  // Sort initially for deterministic processing
   const overlapping = elements
     .filter((el) => el.status === 'displaced')
     .sort(
@@ -112,14 +110,13 @@ export function resolveOverlappingRenderPoints(
     .filter((el) => el.status !== 'displaced')
     .map((el) => bboxAt(el, el.anchorPoint.x, el.anchorPoint.y));
 
-  // 1. Find Connected Clusters based on proximity
+  // 1. Find Connected Clusters
   const uf = new UnionFind(overlapping.length);
   const bboxes = overlapping.map((el) =>
     bboxAt(el, el.anchorPoint.x, el.anchorPoint.y),
   );
 
   for (let i = 0; i < overlapping.length; i++) {
-    // Expand the box slightly so near-misses also get grouped into the same visual cluster
     const boxI = expandAABB(bboxes[i], STEP_MM * 2);
     for (let j = i + 1; j < overlapping.length; j++) {
       const boxJ = expandAABB(bboxes[j], STEP_MM * 2);
@@ -134,6 +131,7 @@ export function resolveOverlappingRenderPoints(
     const root = uf.find(i);
     let cluster = clustersMap.get(root);
 
+    // Fixes the forbidden non-null assertion (!) lint rule
     if (!cluster) {
       cluster = [];
       clustersMap.set(root, cluster);
@@ -142,9 +140,9 @@ export function resolveOverlappingRenderPoints(
     cluster.push(overlapping[i]);
   }
 
-  // 2. Resolve placements cluster by cluster
+  // 2. Resolve placements
   for (const cluster of clustersMap.values()) {
-    // Determine main center of mass for this cluster
+    // Center of mass for the cluster
     let cx = 0;
     let cy = 0;
     for (const el of cluster) {
@@ -154,21 +152,17 @@ export function resolveOverlappingRenderPoints(
     cx /= cluster.length;
     cy /= cluster.length;
 
-    // Group elements in this cluster by their type
     const byType: Record<string, BlueForceElementLayout[]> = {};
     for (const el of cluster) {
       if (!byType[el.ptApp6dType]) byType[el.ptApp6dType] = [];
       byType[el.ptApp6dType].push(el);
     }
 
-    const types = Object.keys(byType).sort(); // Deterministic sorting of types
+    const types = Object.keys(byType).sort();
     const numTypes = types.length;
 
-    // Dynamic radius based on cluster size to push types outward from the center
-    const separationRadius =
-      numTypes > 1
-        ? STEP_MM * TYPE_SEPARATION_MULTIPLIER * Math.sqrt(cluster.length)
-        : 0;
+    // Arbitrary distance just to act as a directional "magnet" for sorting ties
+    const directionalRadius = STEP_MM * 10 * Math.sqrt(cluster.length);
 
     for (let i = 0; i < numTypes; i++) {
       const typeName = types[i];
@@ -177,45 +171,57 @@ export function resolveOverlappingRenderPoints(
       let typeCx = cx;
       let typeCy = cy;
 
-      // If multiple types exist, position this type's "gravity center" on a circle (like flower petals)
       if (numTypes > 1) {
         const angle = (i / numTypes) * Math.PI * 2;
-        typeCx += Math.cos(angle) * separationRadius;
-        typeCy += Math.sin(angle) * separationRadius;
+        typeCx += Math.cos(angle) * directionalRadius;
+        typeCy += Math.sin(angle) * directionalRadius;
       }
 
-      // Sort elements so ones closest to their new target center are placed first
+      // Process elements closest to the cluster center first
       typeGroup.sort((a, b) => {
-        const distA = Math.hypot(
-          a.anchorPoint.x - typeCx,
-          a.anchorPoint.y - typeCy,
-        );
-        const distB = Math.hypot(
-          b.anchorPoint.x - typeCx,
-          b.anchorPoint.y - typeCy,
-        );
-        return (
-          distA - distB ||
-          a.anchorPoint.y - b.anchorPoint.y ||
-          a.anchorPoint.x - b.anchorPoint.x
-        );
+        const distA = Math.hypot(a.anchorPoint.x - cx, a.anchorPoint.y - cy);
+        const distB = Math.hypot(b.anchorPoint.x - cx, b.anchorPoint.y - cy);
+        return distA - distB || a.anchorPoint.y - b.anchorPoint.y;
       });
 
-      // Execute spiral placement around the TYPE'S center, not the element's raw anchor point
       for (const el of typeGroup) {
         let placed = false;
+        const ax = el.anchorPoint.x;
+        const ay = el.anchorPoint.y;
 
-        for (const [sx, sy] of spiralAround(typeCx, typeCy)) {
-          const candidate = bboxAt(el, sx, sy);
+        // Spiral around the element's ACTUAL anchor to guarantee closeness
+        for (const ringPoints of spiralRings(ax, ay)) {
+          let bestPoint: [number, number] | null = null;
+          let minScore = Number.POSITIVE_INFINITY;
 
-          if (!occupied.some((o) => aabbsOverlap(candidate, o))) {
+          for (const [sx, sy] of ringPoints) {
+            const candidate = bboxAt(el, sx, sy);
+
+            if (!occupied.some((o) => aabbsOverlap(candidate, o))) {
+              // Primary goal: Minimize exact Euclidean distance to anchor (edges are closer than corners in a square ring)
+              const distToAnchor = Math.hypot(sx - ax, sy - ay);
+
+              // Secondary goal: Bias towards the type's directional magnet to group identical types
+              const distToTypeCenter = Math.hypot(sx - typeCx, sy - typeCy);
+
+              // Weight anchor proximity heavily (10000x multiplier) over grouping
+              const score = distToAnchor * 10000 + distToTypeCenter;
+
+              if (score < minScore) {
+                minScore = score;
+                bestPoint = [sx, sy];
+              }
+            }
+          }
+
+          if (bestPoint) {
             el.renderPoint = {
-              x: Number(sx.toFixed(3)),
-              y: Number(sy.toFixed(3)),
+              x: Number(bestPoint[0].toFixed(3)),
+              y: Number(bestPoint[1].toFixed(3)),
             };
-            occupied.push(candidate);
+            occupied.push(bboxAt(el, bestPoint[0], bestPoint[1]));
             placed = true;
-            break;
+            break; // Break the rings loop
           }
         }
 
