@@ -261,9 +261,11 @@ export function buildBlueForceElements(
               elA.status = 'displaced';
             }
           } else {
-            // Equal priority < 10
-            if (priorityA !== 10 && elA.status !== 'conflict') elA.status = 'displaced';
-            if (priorityB !== 10 && elB.status !== 'conflict') elB.status = 'displaced';
+            // Equal priority  < 10
+            // Keep the first element (elA) in its original position and only displace the second (elB)
+            if (priorityB !== 10 && elB.status !== 'conflict') {
+              elB.status = 'displaced';
+            }
           }
         }
       }
