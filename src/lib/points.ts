@@ -187,7 +187,9 @@ export function buildBlueForceElements(
         ptApp6dType,
         parts,
         bbox,
-        status: (pt.name?.startsWith('КСП ') ? 'movable' : 'idle') as BlueForceElementLayout['status'],
+        status: (pt.name?.startsWith('КСП ')
+          ? 'movable'
+          : 'idle') as BlueForceElementLayout['status'],
         iconDetails: {
           iconW,
           iconH,
@@ -230,7 +232,9 @@ export function buildBlueForceElements(
       ptApp6dType,
       parts,
       bbox,
-      status: (pt.name?.startsWith('КСП ') ? 'movable' : 'idle') as BlueForceElementLayout['status'],
+      status: (pt.name?.startsWith('КСП')
+        ? 'movable'
+        : 'idle') as BlueForceElementLayout['status'],
       circleDetails: {
         cleanText,
       },
