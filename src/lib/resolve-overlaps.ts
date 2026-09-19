@@ -1,31 +1,10 @@
-import type { BlueForceElementLayout } from './points.js';
+import { BlueForceElementLayout } from './points.js';
 
-/* ────────────────────────────── Константы ────────────────────────────── */
-
-/** Шаг сетки поиска, мм (квадратная спираль вокруг якоря) */
+/** Search grid step size in mm */
 const STEP_MM = 1.5;
 
-/** Предельное число колец спирали (защита от бесконечного поиска) */
+/** Safety ring limit for the spiral search */
 const MAX_RINGS = 400;
-
-/**
- * Смещение «сустава» коннектора вниз от центра иконки, мм.
- * Линия к якорю строится от конца вертикального штриха, а не от центра.
- */
-export const CONNECTOR_JOINT_OFFSET_MM = 5.5;
-
-/** Вес близости к якорю. В 10 000 раз выше веса притяжения к группе. */
-const ANCHOR_WEIGHT = 10_000;
-const GROUP_WEIGHT = 1;
-
-/** Радиус «лепестка»: на каком расстоянии от центра кластера лежит целевая точка типа, мм */
-const PETAL_RADIUS_MM = 12;
-
-/** Допуски для сравнения чисел с плавающей точкой */
-const GEOM_EPS = 1e-9;
-const SCORE_EPS = 1e-6;
-
-/* ────────────────────────────── Геометрия ────────────────────────────── */
 
 interface AABB {
   minX: number;
@@ -34,7 +13,7 @@ interface AABB {
   maxY: number;
 }
 
-interface Vec {
+interface Point2D {
   x: number;
   y: number;
 }
@@ -45,10 +24,6 @@ function aabbsOverlap(a: AABB, b: AABB): boolean {
   );
 }
 
-/**
- * AABB элемента, если бы его центр стоял в (cx, cy).
- * bbox в points.ts посчитан относительно anchorPoint, поэтому просто сдвигаем.
- */
 function bboxAt(el: BlueForceElementLayout, cx: number, cy: number): AABB {
   const dx = cx - el.anchorPoint.x;
   const dy = cy - el.anchorPoint.y;
@@ -60,267 +35,215 @@ function bboxAt(el: BlueForceElementLayout, cx: number, cy: number): AABB {
   };
 }
 
-/**
- * Ограничение по углу коннектора (≥ 90°).
- * Линия идёт от «сустава» (центр иконки + 5.5 мм вниз) к якорю.
- * Координаты — SVG (Y вниз): якорь не должен быть ВЫШЕ сустава,
- * иначе линия шла бы вверх. Горизонталь (равенство) допустима.
- */
-function isConnectorAngleValid(anchorY: number, centerY: number): boolean {
-  const jointY = centerY + CONNECTOR_JOINT_OFFSET_MM;
-  return anchorY >= jointY - GEOM_EPS;
+function getDistance(p1: Point2D, p2: Point2D): number {
+  return Math.hypot(p1.x - p2.x, p1.y - p2.y);
 }
 
-/* ────────────────────────────── Union-Find ───────────────────────────── */
-
-class UnionFind {
-  private parent: number[];
-  private size: number[];
-
-  constructor(n: number) {
-    this.parent = Array.from({ length: n }, (_, i) => i);
-    this.size = new Array<number>(n).fill(1);
+/**
+ * Generates (x, y) candidate positions for a SPECIFIC ring in a square spiral.
+ * Ring 0 is just the center.
+ */
+function* getRingCandidates(
+  cx: number,
+  cy: number,
+  ring: number,
+): Generator<[number, number]> {
+  if (ring === 0) {
+    yield [cx, cy];
+    return;
   }
+  for (let col = -ring; col <= ring; col++) {
+    yield [cx + col * STEP_MM, cy - ring * STEP_MM]; // top edge
+  }
+  for (let row = -ring + 1; row <= ring; row++) {
+    yield [cx + ring * STEP_MM, cy + row * STEP_MM]; // right edge
+  }
+  for (let col = ring - 1; col >= -ring; col--) {
+    yield [cx + col * STEP_MM, cy + ring * STEP_MM]; // bottom edge
+  }
+  for (let row = ring - 1; row >= -ring + 1; row--) {
+    yield [cx - ring * STEP_MM, cy + row * STEP_MM]; // left edge
+  }
+}
+
+/** Simple Union-Find for clustering */
+class UnionFind {
+  private parent = new Map<number, number>();
 
   find(i: number): number {
-    let root = i;
-    while (this.parent[root] !== root) root = this.parent[root];
-    // сжатие путей
-    let node = i;
-    while (this.parent[node] !== root) {
-      const next = this.parent[node];
-      this.parent[node] = root;
-      node = next;
-    }
+    if (!this.parent.has(i)) this.parent.set(i, i);
+    if (this.parent.get(i) === i) return i;
+    const root = this.find(this.parent.get(i)!);
+    this.parent.set(i, root);
     return root;
   }
 
-  union(a: number, b: number): void {
-    let ra = this.find(a);
-    let rb = this.find(b);
-    if (ra === rb) return;
-    if (this.size[ra] < this.size[rb]) [ra, rb] = [rb, ra];
-    this.parent[rb] = ra;
-    this.size[ra] += this.size[rb];
-  }
-}
-
-/* ───────────────────────── Детерминированный порядок ─────────────────── */
-
-/** Сверху-вниз, слева-направо; idx — финальный tie-break для стабильности */
-function compareTopLeft(
-  a: BlueForceElementLayout,
-  b: BlueForceElementLayout,
-): number {
-  return (
-    a.anchorPoint.y - b.anchorPoint.y ||
-    a.anchorPoint.x - b.anchorPoint.x ||
-    a.idx - b.idx
-  );
-}
-
-/* ─────────────────────────────── Кластеры ────────────────────────────── */
-
-/**
- * Объединяет смещаемые элементы, чьи bbox ПЕРЕСЕКАЮТСЯ в исходных позициях (по якорям).
- * Вход должен быть уже отсортирован по compareTopLeft — тогда и кластеры
- * (порядок Map = порядок первого вхождения) идут в детерминированном порядке.
- */
-function buildClusters(
-  sortedItems: BlueForceElementLayout[],
-): BlueForceElementLayout[][] {
-  const boxes = sortedItems.map((el) =>
-    bboxAt(el, el.anchorPoint.x, el.anchorPoint.y),
-  );
-  const uf = new UnionFind(sortedItems.length);
-
-  for (let i = 0; i < boxes.length; i++) {
-    for (let j = i + 1; j < boxes.length; j++) {
-      if (aabbsOverlap(boxes[i], boxes[j])) uf.union(i, j);
+  union(i: number, j: number): void {
+    const rootI = this.find(i);
+    const rootJ = this.find(j);
+    if (rootI !== rootJ) {
+      this.parent.set(rootI, rootJ);
     }
   }
-
-  const byRoot = new Map<number, BlueForceElementLayout[]>();
-  sortedItems.forEach((el, i) => {
-    const root = uf.find(i);
-    const bucket = byRoot.get(root);
-    if (bucket) bucket.push(el);
-    else byRoot.set(root, [el]);
-  });
-  return [...byRoot.values()];
-}
-
-/** Центр масс кластера — среднее по якорям */
-function centroidOf(points: Vec[]): Vec {
-  let sx = 0;
-  let sy = 0;
-  for (const p of points) {
-    sx += p.x;
-    sy += p.y;
-  }
-  return { x: sx / points.length, y: sy / points.length };
-}
-
-/** Группировка по ptApp6dType. Порядок групп = порядок первого элемента (сверху-вниз, слева-направо). */
-function groupByType(
-  cluster: BlueForceElementLayout[],
-): BlueForceElementLayout[][] {
-  const map = new Map<string, BlueForceElementLayout[]>();
-  for (const el of cluster) {
-    const bucket = map.get(el.ptApp6dType);
-    if (bucket) bucket.push(el);
-    else map.set(el.ptApp6dType, [el]);
-  }
-  return [...map.values()];
 }
 
 /**
- * Направляющий вектор «лепестка» для группы k из total.
- * Из-за ограничения коннектора допустима только верхняя полуплоскость (Y вниз → sin < 0),
- * поэтому лепестки равномерно раскладываются по дуге π…2π. Для одной группы — строго вверх.
- */
-function petalDirection(k: number, total: number): Vec {
-  const theta = Math.PI + (Math.PI * (k + 0.5)) / total;
-  return { x: Math.cos(theta), y: Math.sin(theta) };
-}
-
-/* ───────────────────────────────── Спираль ───────────────────────────── */
-
-/**
- * Расширяющаяся квадратная спираль с шагом STEP_MM.
- * Ring 0 → сам якорь; ring N → периметр квадрата (8·N точек).
- * Третий элемент кортежа — номер кольца (нужен для досрочной остановки поиска).
- */
-function* spiralAround(
-  cx: number,
-  cy: number,
-): Generator<[number, number, number]> {
-  yield [cx, cy, 0];
-  for (let ring = 1; ring < MAX_RINGS; ring++) {
-    const r = ring * STEP_MM;
-    for (let col = -ring; col <= ring; col++)
-      yield [cx + col * STEP_MM, cy - r, ring]; // верх
-    for (let row = -ring + 1; row <= ring; row++)
-      yield [cx + r, cy + row * STEP_MM, ring]; // право
-    for (let col = ring - 1; col >= -ring; col--)
-      yield [cx + col * STEP_MM, cy + r, ring]; // низ
-    for (let row = ring - 1; row >= -ring + 1; row--)
-      yield [cx - r, cy + row * STEP_MM, ring]; // лево
-  }
-}
-
-/* ─────────────────────────────── Поиск точки ─────────────────────────── */
-
-/**
- * Ищет лучшую свободную точку для элемента.
- *
- * score = 10 000 · dist(кандидат, якорь) + 1 · dist(кандидат, цель группы)
- *
- * Кольцо квадратной спирали — это расстояние Чебышёва, а не евклидово, поэтому
- * первая найденная свободная точка не обязательно ближайшая. Мы продолжаем обход,
- * пока нижняя оценка score следующего кольца (10 000 · ring · STEP) не превысит
- * лучший найденный score — так минимум по сетке находится точно.
- */
-function findBestSlot(
-  el: BlueForceElementLayout,
-  occupied: AABB[],
-  groupTarget: Vec,
-): Vec | null {
-  const { x: ax, y: ay } = el.anchorPoint;
-  let best: Vec | null = null;
-  let bestScore = Number.POSITIVE_INFINITY;
-
-  for (const [cx, cy, ring] of spiralAround(ax, ay)) {
-    // Ни одна точка этого и последующих колец уже не может быть лучше
-    if (ANCHOR_WEIGHT * ring * STEP_MM > bestScore) break;
-
-    // 1) Жёсткое ограничение: якорь не выше сустава коннектора
-    if (!isConnectorAngleValid(ay, cy)) continue;
-
-    // 2) Жёсткое ограничение: нет пересечений с занятыми областями
-    const candidate = bboxAt(el, cx, cy);
-    if (occupied.some((o) => aabbsOverlap(candidate, o))) continue;
-
-    // 3) Мягкий критерий
-    const score =
-      ANCHOR_WEIGHT * Math.hypot(cx - ax, cy - ay) +
-      GROUP_WEIGHT * Math.hypot(cx - groupTarget.x, cy - groupTarget.y);
-
-    // SCORE_EPS: при равенстве побеждает точка, раньше встреченная в спирали (детерминизм)
-    if (score < bestScore - SCORE_EPS) {
-      bestScore = score;
-      best = { x: cx, y: cy };
-    }
-  }
-  return best;
-}
-
-/* ─────────────────────────────── Публичный API ───────────────────────── */
-
-/**
- * Назначает каждому смещаемому элементу renderPoint:
- *  1. Смещаемые элементы (status === 'displaced') объединяются в кластеры по пересечению bbox (Union-Find).
- *  2. Внутри кластера элементы делятся по ptApp6dType; каждой группе — свой «лепесток».
- *  3. Для каждого элемента выбирается свободная точка с минимальным score
- *     (расстояние до якоря весит в 10 000 раз больше притяжения к группе).
- *  4. Точки, где якорь оказывается выше «сустава» коннектора (центр + 5.5 мм), отбраковываются.
- *
- * Порядок обработки полностью детерминирован:
- *  кластеры — сверху-вниз/слева-направо; группы — так же по первому элементу;
- *  элементы внутри группы — по удалённости от центра масс кластера (ближние первыми).
- *
- * Элементы с другим status считаются неподвижными препятствиями в своих якорях.
+ * Main resolution function.
  */
 export function resolveOverlappingRenderPoints(
   elements: BlueForceElementLayout[],
 ): void {
-  const displaced = elements
-    .filter((el) => el.status === 'displaced')
-    .sort(compareTopLeft);
-  if (displaced.length === 0) return;
+  const displacedElements = elements.filter((el) => el.status === 'displaced');
+  if (displacedElements.length === 0) return;
 
+  // 1. Initial sorting for determinism (Top-to-bottom, Left-to-right)
+  displacedElements.sort(
+    (a, b) =>
+      a.anchorPoint.y - b.anchorPoint.y || a.anchorPoint.x - b.anchorPoint.x,
+  );
+
+  // 2. Build Clusters via Union-Find (Overlap detection)
+  const uf = new UnionFind();
+  for (let i = 0; i < displacedElements.length; i++) {
+    for (let j = i + 1; j < displacedElements.length; j++) {
+      const bboxI = bboxAt(
+        displacedElements[i],
+        displacedElements[i].anchorPoint.x,
+        displacedElements[i].anchorPoint.y,
+      );
+      const bboxJ = bboxAt(
+        displacedElements[j],
+        displacedElements[j].anchorPoint.x,
+        displacedElements[j].anchorPoint.y,
+      );
+      if (aabbsOverlap(bboxI, bboxJ)) {
+        uf.union(i, j);
+      }
+    }
+  }
+
+  // 3. Group elements into clusters
+  const clustersMap = new Map<number, BlueForceElementLayout[]>();
+  for (let i = 0; i < displacedElements.length; i++) {
+    const root = uf.find(i);
+    if (!clustersMap.has(root)) clustersMap.set(root, []);
+    clustersMap.get(root)!.push(displacedElements[i]);
+  }
+  const clusters = Array.from(clustersMap.values());
+
+  // 4. Calculate Centers of Mass (CoM) and process clusters
+  const processedQueue: Array<{ el: BlueForceElementLayout; vector: Point2D }> =
+    [];
+
+  for (const cluster of clusters) {
+    const com = cluster.reduce(
+      (acc, el) => ({
+        x: acc.x + el.anchorPoint.x,
+        y: acc.y + el.anchorPoint.y,
+      }),
+      { x: 0, y: 0 },
+    );
+    com.x /= cluster.length;
+    com.y /= cluster.length;
+
+    // Sort within cluster by distance to CoM (closest first)
+    cluster.sort(
+      (a, b) =>
+        getDistance(a.anchorPoint, com) - getDistance(b.anchorPoint, com),
+    );
+
+    // Group types and generate aesthetic petal vectors for this cluster
+    const types = Array.from(new Set(cluster.map((el) => el.ptApp6dType)));
+    const typeVectors = new Map<string, Point2D>();
+
+    types.forEach((type, idx) => {
+      const angle = (idx * 2 * Math.PI) / types.length; // Spread types radially
+      typeVectors.set(type, { x: Math.cos(angle), y: Math.sin(angle) });
+    });
+
+    cluster.forEach((el) => {
+      processedQueue.push({
+        el,
+        vector: typeVectors.get(el.ptApp6dType) || { x: 0, y: 0 },
+      });
+    });
+  }
+
+  // Define static obstacles
   const occupied: AABB[] = elements
     .filter((el) => el.status !== 'displaced')
     .map((el) => bboxAt(el, el.anchorPoint.x, el.anchorPoint.y));
 
-  for (const cluster of buildClusters(displaced)) {
-    const centroid = centroidOf(cluster.map((el) => el.anchorPoint));
-    const groups = groupByType(cluster);
+  // 5. Place elements using the constrained scoring search
+  for (const item of processedQueue) {
+    const { el, vector } = item;
+    const { x: ax, y: ay } = el.anchorPoint;
+    let placed = false;
 
-    groups.forEach((members, groupIdx) => {
-      const dir = petalDirection(groupIdx, groups.length);
-      const petalPoint: Vec = {
-        x: centroid.x + dir.x * PETAL_RADIUS_MM,
-        y: centroid.y + dir.y * PETAL_RADIUS_MM,
-      };
+    // Search outward ring by ring
+    for (let ring = 0; ring < MAX_RINGS; ring++) {
+      let bestPoint: Point2D | null = null;
+      let bestScore = Number.POSITIVE_INFINITY;
 
-      const dist = (el: BlueForceElementLayout) =>
-        Math.hypot(
-          el.anchorPoint.x - centroid.x,
-          el.anchorPoint.y - centroid.y,
-        );
-      const queue = [...members].sort(
-        (a, b) => dist(a) - dist(b) || compareTopLeft(a, b),
-      );
+      for (const [cx, cy] of getRingCandidates(ax, ay, ring)) {
+        const candidateBbox = bboxAt(el, cx, cy);
 
-      const placed: Vec[] = [];
-      for (const el of queue) {
-        // Пока в группе никого нет — тянемся к лепестку, затем к центру уже размещённых
-        const groupTarget = placed.length > 0 ? centroidOf(placed) : petalPoint;
-        const slot = findBestSlot(el, occupied, groupTarget);
-
-        if (!slot) {
-          el.renderPoint = undefined; // спираль исчерпана (на практике не должно случаться)
+        // A. Collision check
+        if (occupied.some((o) => aabbsOverlap(candidateBbox, o))) {
           continue;
         }
 
-        el.renderPoint = {
-          x: Number(slot.x.toFixed(3)),
-          y: Number(slot.y.toFixed(3)),
-        };
-        occupied.push(bboxAt(el, slot.x, slot.y));
-        placed.push(slot);
+        // B. Joint height constraint (Angle >= 90°)
+        const isAnchorInside =
+          ax >= candidateBbox.minX &&
+          ax <= candidateBbox.maxX &&
+          ay >= candidateBbox.minY &&
+          ay <= candidateBbox.maxY;
+
+        if (!isAnchorInside) {
+          // If the anchor is NOT inside the icon bbox, evaluate the joint constraint.
+          // Joint is 5.5mm below the bottom of the bounding box.
+          const jointY = candidateBbox.maxY + 5.5;
+
+          // In SVG/Canvas geometry (Y goes down), the anchor 'ay' cannot be "higher" (smaller) than jointY.
+          if (ay < jointY) {
+            continue; // Strictly reject this point
+          }
+        }
+
+        // C. Calculate composite score
+        // - Euclidean distance is penalized heavily (weight 10,000)
+        // - Dot product with type vector adds small aesthetic pull (rewarded -> subtracted from score)
+        const dist = getDistance({ x: cx, y: cy }, el.anchorPoint);
+        const dx = cx - ax;
+        const dy = cy - ay;
+
+        // Normalize direction (avoid divide by zero)
+        const len = dist || 1;
+        const dotPull = (dx / len) * vector.x + (dy / len) * vector.y;
+
+        const score = 10000 * dist - dotPull;
+
+        if (score < bestScore) {
+          bestScore = score;
+          bestPoint = { x: cx, y: cy };
+        }
       }
-    });
+
+      // If we found valid candidates in this ring, place the best one and stop searching for this element
+      if (bestPoint) {
+        el.renderPoint = {
+          x: Number(bestPoint.x.toFixed(3)),
+          y: Number(bestPoint.y.toFixed(3)),
+        };
+        occupied.push(bboxAt(el, bestPoint.x, bestPoint.y));
+        placed = true;
+        break;
+      }
+    } //
+
+    if (!placed) {
+      el.renderPoint = undefined;
+    }
   }
 }
