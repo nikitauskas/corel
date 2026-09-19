@@ -63,7 +63,7 @@ export interface BlueForceElementLayout {
   ptApp6dType: string;
   parts: Rect[];
   bbox: BoundingBox;
-  status: 'idle' | 'displaced' | 'conflict' | 'movable';
+  status: 'idle' | 'displaced' | 'conflict';
   iconDetails?: {
     iconW: number;
     iconH: number;
@@ -187,9 +187,7 @@ export function buildBlueForceElements(
         ptApp6dType,
         parts,
         bbox,
-        status: (pt.name?.startsWith('КСП ')
-          ? 'movable'
-          : 'idle') as BlueForceElementLayout['status'],
+        status: 'idle',
         iconDetails: {
           iconW,
           iconH,
@@ -232,9 +230,7 @@ export function buildBlueForceElements(
       ptApp6dType,
       parts,
       bbox,
-      status: (pt.name?.startsWith('КСП')
-        ? 'movable'
-        : 'idle') as BlueForceElementLayout['status'],
+      status: 'idle',
       circleDetails: {
         cleanText,
       },
@@ -245,9 +241,6 @@ export function buildBlueForceElements(
     const elA = preparedElements[i];
     for (let j = i + 1; j < preparedElements.length; j++) {
       const elB = preparedElements[j];
-      // Movable elements never participate in conflict resolution
-      if (elA.status === 'movable' || elB.status === 'movable') continue;
-
       if (boundingBoxesOverlap(elA.bbox, elB.bbox)) {
         const partsOverlap = elA.parts.some((pA) =>
           elB.parts.some((pB) => rectsOverlap(pA, pB)),
