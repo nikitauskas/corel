@@ -6,6 +6,10 @@ const STEP_MM = 1.5;
 /** Safety ring limit for the spiral search */
 const MAX_RINGS = 400;
 
+/** Minimum angle from the vertical axis (in radians) to ensure visible connector lines */
+const MIN_VERTICAL_ANGLE_RAD = (10 * Math.PI) / 180;
+const MIN_VERTICAL_TAN = Math.tan(MIN_VERTICAL_ANGLE_RAD);
+
 interface AABB {
   minX: number;
   minY: number;
@@ -76,7 +80,6 @@ class UnionFind {
   }
   find(i: number): number {
     if (this.parent[i] === i) return i;
-    // Resolve the root first, then assign, then return (fixes assignment in expression lint rule)
     const root = this.find(this.parent[i]);
     this.parent[i] = root;
     return root;
@@ -92,7 +95,8 @@ class UnionFind {
 
 /**
  * Assigns each overlapping element the closest possible renderPoint to its anchor.
- * Uses a directional bias to cluster elements of the same type together.
+ * Uses a directional bias to cluster elements of the same type together, while
+ * avoiding vertical stacking to ensure connector lines are visible.
  */
 export function resolveOverlappingRenderPoints(
   elements: BlueForceElementLayout[],
@@ -131,7 +135,6 @@ export function resolveOverlappingRenderPoints(
     const root = uf.find(i);
     let cluster = clustersMap.get(root);
 
-    // Fixes the forbidden non-null assertion (!) lint rule
     if (!cluster) {
       cluster = [];
       clustersMap.set(root, cluster);
@@ -195,16 +198,25 @@ export function resolveOverlappingRenderPoints(
           let minScore = Number.POSITIVE_INFINITY;
 
           for (const [sx, sy] of ringPoints) {
+            const dx = sx - ax;
+            const dy = sy - ay;
+
+            // Reject points that form too steep of a vertical line to ensure
+            // connectors don't overlap with the central vertical ticks of the icon.
+            if (dy !== 0 && Math.abs(dx) < Math.abs(dy) * MIN_VERTICAL_TAN) {
+              continue;
+            }
+
             const candidate = bboxAt(el, sx, sy);
 
             if (!occupied.some((o) => aabbsOverlap(candidate, o))) {
-              // Primary goal: Minimize exact Euclidean distance to anchor (edges are closer than corners in a square ring)
-              const distToAnchor = Math.hypot(sx - ax, sy - ay);
+              // Primary goal: Minimize exact Euclidean distance to anchor
+              const distToAnchor = Math.hypot(dx, dy);
 
-              // Secondary goal: Bias towards the type's directional magnet to group identical types
+              // Secondary goal: Bias towards the type's directional magnet
               const distToTypeCenter = Math.hypot(sx - typeCx, sy - typeCy);
 
-              // Weight anchor proximity heavily (10000x multiplier) over grouping
+              // Weight anchor proximity heavily over grouping
               const score = distToAnchor * 10000 + distToTypeCenter;
 
               if (score < minScore) {
@@ -221,7 +233,7 @@ export function resolveOverlappingRenderPoints(
             };
             occupied.push(bboxAt(el, bestPoint[0], bestPoint[1]));
             placed = true;
-            break; // Break the rings loop
+            break;
           }
         }
 
