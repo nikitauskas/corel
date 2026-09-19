@@ -63,7 +63,7 @@ export interface BlueForceElementLayout {
   ptApp6dType: string;
   parts: Rect[];
   bbox: BoundingBox;
-  status: 'idle' | 'displaced' | 'conflict';
+  status: 'idle' | 'displaced' | 'conflict' | 'movable';
   iconDetails?: {
     iconW: number;
     iconH: number;
