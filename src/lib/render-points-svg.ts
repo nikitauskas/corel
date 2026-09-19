@@ -40,8 +40,14 @@ export function renderBlueForceSVG(
       renderPt &&
       (renderPt.x !== anchorPt.x || renderPt.y !== anchorPt.y);
 
-    const dx = isDisplaced && renderPt ? renderPt.x - anchorPt.x : 0;
-    const dy = isDisplaced && renderPt ? renderPt.y - anchorPt.y : 0;
+    // Movable elements also shift to their resolved renderPoint, but without a connector
+    const isPlaced =
+      (el.status === 'displaced' || el.status === 'movable') &&
+      renderPt &&
+      (renderPt.x !== anchorPt.x || renderPt.y !== anchorPt.y);
+
+    const dx = isPlaced && renderPt ? renderPt.x - anchorPt.x : 0;
+    const dy = isPlaced && renderPt ? renderPt.y - anchorPt.y : 0;
 
     const elementLines: string[] = [];
     elementLines.push(`    <g id="${el.ptApp6dType}">`);
@@ -56,8 +62,8 @@ export function renderBlueForceSVG(
       connectorLines.push(renderConnector(anchorPt, renderPt, iconBottomY));
     }
 
-    // Wrap element content in translate group when displaced
-    if (isDisplaced) {
+    // Wrap element content in translate group when displaced or moved
+    if (isPlaced) {
       elementLines.push(
         `      <g transform="translate(${dx.toFixed(3)}, ${dy.toFixed(3)})">`,
       );
@@ -93,7 +99,7 @@ export function renderBlueForceSVG(
       );
     }
 
-    if (isDisplaced) {
+    if (isPlaced) {
       elementLines.push('      </g>');
     }
 
