@@ -52,7 +52,7 @@ export const mappingSVGs: Record<
 
   'Стик (між частинами та підрозділами)': {
     height: 6.84,
-    priority: 9,
+    priority: 10,
   },
 };
 

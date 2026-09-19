@@ -64,6 +64,7 @@ export interface BlueForceElementLayout {
   ptApp6dType: string;
   parts: Rect[];
   bbox: BoundingBox;
+  status: 'idle' | 'displaced' | 'conflict';
   iconDetails?: {
     iconW: number;
     iconH: number;
@@ -187,6 +188,7 @@ export function buildBlueForceElements(
         ptApp6dType,
         parts,
         bbox,
+        status: 'idle',
         iconDetails: {
           iconW,
           iconH,
@@ -229,6 +231,7 @@ export function buildBlueForceElements(
       ptApp6dType,
       parts,
       bbox,
+      status: 'idle',
       circleDetails: {
         cleanText,
       },
