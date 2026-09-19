@@ -82,7 +82,7 @@ export function renderBlueForceSVG(
       }
 
       elementLines.push(
-        `      <g transform="translate(${xPos} ${yPos})">`,
+        `      <g transform="translate(${xPos} ${yPos})" data-status="${el.status}" data-anchor-point="${anchorPt.x} ${anchorPt.y}" data-render-point="${renderPt?.x} ${renderPt?.y}">`,
         `        <use xlink:href="#icon-mapping-${el.mappingIdx}" />`,
         '      </g>',
       );
