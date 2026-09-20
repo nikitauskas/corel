@@ -50,7 +50,7 @@ const { generatedIconsDefs, iconRenderedSizes, customIconCount } =
 // ----------------------------------------------------
 // 2. Data Loading (shared across all maps)
 // ----------------------------------------------------
-const blueCsvPath = path.resolve(process.cwd(), 'data/full_data.csv');
+const blueCsvPath = path.resolve(process.cwd(), 'data/nikitos.csv');
 const blueCsvContent = fs.existsSync(blueCsvPath)
   ? fs.readFileSync(blueCsvPath, 'utf-8')
   : '';

@@ -13,6 +13,8 @@ export interface Point {
   sidc?: string;
   count?: string;
   app6dType?: string;
+  higherFrmation?: string;
+  comments?: string;
 }
 
 export interface MapFormatConfig {

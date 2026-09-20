@@ -30,6 +30,8 @@ export function filterElementsInsideWindow(
     const name = row.name?.trim() || '';
     const mgrsStr = row['coordinates(mgrs)']?.trim() || '';
     const desc = row['object creator']?.trim() || '';
+    const higherFrmation = row['Вище формування']?.trim() || '';
+    const comments = row.comments?.trim() || '';
 
     if (mgrsStr) {
       try {
@@ -43,6 +45,8 @@ export function filterElementsInsideWindow(
             sidc,
             count,
             app6dType,
+            higherFrmation,
+            comments,
           });
         }
       } catch (e) {
@@ -126,7 +130,7 @@ export function buildBlueForceElements(
         anchorPoint,
         iconW,
         iconH,
-        '9/3//78',
+        pt.higherFrmation || 'XXXX/XXXX/XXXX',
         3.526,
         0.9,
         0.05,
@@ -134,8 +138,14 @@ export function buildBlueForceElements(
         rightLabelMargin,
       );
 
-      const countNum = pt.count || 'X';
-      const cleanTextDesc = `AK74-${countNum}од`;
+      const countNum = pt.count;
+      const rifleType = pt.comments?.toLowerCase().includes('colt')
+        ? 'ColtM4A1'
+        : 'AK74';
+      const cleanTextDesc =
+        rifleType && countNum
+          ? `${rifleType}-${countNum}од`
+          : 'XXXXXXXXXXXXX од.';
       const descX = Number(leftLabel.rectX) + Number(leftLabel.rectW) / 2;
       const descY = Number(leftLabel.rectY) + Number(leftLabel.rectH) + 2.6;
 
