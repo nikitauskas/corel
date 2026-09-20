@@ -15,6 +15,7 @@ export interface Point {
   app6dType?: string;
   higherFrmation?: string;
   comments?: string;
+  isHQ?: boolean;
 }
 
 export interface MapFormatConfig {

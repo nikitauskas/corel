@@ -43,6 +43,7 @@ export function filterElementsInsideWindow(
           bluePointMarkers.push({
             lon,
             lat,
+            isHQ,
             name: isHQ ? `HQ ${name}` : name,
             desc,
             sidc,
@@ -261,6 +262,9 @@ export function buildBlueForceElements(
         if (partsOverlap) {
           const priorityA = mappingSVGs[elA.ptApp6dType]?.priority ?? 0;
           const priorityB = mappingSVGs[elB.ptApp6dType]?.priority ?? 0;
+
+          // if (elA.pt.isHQ) priorityA -= 5;
+          // if (elB.pt.isHQ) priorityB -= 5;
 
           if (priorityA === 10 && priorityB === 10) {
             elA.status = 'conflict';
