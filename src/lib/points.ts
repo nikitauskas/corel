@@ -30,6 +30,9 @@ export function filterElementsInsideWindow(
     const name = row.name?.trim() || '';
     const mgrsStr = row['coordinates(mgrs)']?.trim() || '';
     const desc = row['object creator']?.trim() || '';
+    const isHQ =
+      (row['Штаб / тактична група / індикатор хибності']?.trim() || '') ===
+      'Штаб';
     const higherFrmation = row['Вище формування']?.trim() || '';
     const comments = row.comments?.trim() || '';
 
@@ -40,7 +43,7 @@ export function filterElementsInsideWindow(
           bluePointMarkers.push({
             lon,
             lat,
-            name,
+            name: isHQ ? `HQ ${name}` : name,
             desc,
             sidc,
             count,
