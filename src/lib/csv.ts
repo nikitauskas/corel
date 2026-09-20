@@ -1,10 +1,44 @@
 export interface CsvRow {
   'app6d type'?: string;
+  'overlay name'?: string;
+  'object id'?: string;
   'app6d sidc'?: string;
   'objects count'?: string;
   name?: string;
+  // 'status of presence'?: string;
   'coordinates(mgrs)'?: string;
+  // 'observation date/time'?: string;
+  // 'updating datetime'?: string;
+  // 'closest settlement'?: string;
+  // 'distance from FLT (km)'?: string;
+  comments?: string;
   'object creator'?: string;
+  // 'object last editor'?: string;
+  // 'object creation date/time'?: string;
+  // 'Додаткова інформація'?: string;
+  // 'Ідентифікація'?: string;
+  // 'Час виявлення'?: string;
+  'Вище формування'?: string;
+  // 'Штаб / тактична група / індикатор хибності'?: string;
+  // 'Ешелон'?: string;
+  // 'Сектор 1'?: string;
+  // 'Сектор 2'?: string;
+  // 'Категорія'?: string;
+  // 'Показник стану експлуатації'?: string;
+  // 'Клас'?: string;
+  // 'Мобільність'?: string;
+  // 'Зауваження штабу'?: string;
+  // 'Надійність / достовірність'?: string;
+  // dd_asset?: string;
+  // dd_munition?: string;
+  // dd_munition_quantity?: string;
+  // dd_auto_guidance?: string;
+  // 'Класифікатор стану експлуатації'?: string;
+  // 'Пілотований'?: string;
+  // 'Висота'?: string;
+  // 'Тип джерела'?: string;
+  // area?: string;
+  // 'Тривалість готовності'?: string;
 }
 
 export function parseCSV<T = CsvRow>(csvContent: string): T[] {
@@ -42,6 +76,8 @@ export function parseCSV<T = CsvRow>(csvContent: string): T[] {
     });
     result.push(obj as unknown as T);
   }
+
+  console.log(result[0]);
 
   return result;
 }
