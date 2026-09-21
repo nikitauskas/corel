@@ -265,50 +265,25 @@ export function buildBlueForceElements(
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
       const parts: Rect[] = [iconRect];
 
-      if (leftLabel.cleanText) {
-        parts.push({
-          x: leftLabel.rectX,
-          y: leftLabel.rectY,
-          width: leftLabel.rectW,
-          height: leftLabel.rectH,
-        });
-      }
-
-      if (rightLabel.cleanText) {
-        parts.push({
-          x: rightLabel.rectX,
-          y: rightLabel.rectY,
-          width: rightLabel.rectW,
-          height: rightLabel.rectH,
-        });
-      }
-
-      if (bottomLabel.cleanText) {
-        parts.push({
-          x: bottomLabel.rectX,
-          y: bottomLabel.rectY,
-          width: bottomLabel.rectW,
-          height: bottomLabel.rectH,
-        });
-      }
-
-      if (bottomDesc.cleanText) {
-        parts.push({
-          x: bottomDesc.rectX,
-          y: bottomDesc.rectY,
-          width: bottomDesc.rectW,
-          height: bottomDesc.rectH,
-        });
-      }
-
-      if (leftDesc.cleanText) {
-        parts.push({
-          x: leftDesc.rectX,
-          y: leftDesc.rectY,
-          width: leftDesc.rectW,
-          height: leftDesc.rectH,
-        });
-      }
+      const addLabelRect = (label: {
+        cleanText: string;
+        rectX: number;
+        rectY: number;
+        rectW: number;
+        rectH: number;
+      }) => {
+        if (label.cleanText) {
+          parts.push({
+            x: label.rectX,
+            y: label.rectY,
+            width: label.rectW,
+            height: label.rectH,
+          });
+        }
+      };
+      [leftLabel, leftDesc, bottomLabel, bottomDesc, rightLabel].forEach(
+        addLabelRect,
+      );
 
       const bbox = computeBoundingBox(parts);
 
