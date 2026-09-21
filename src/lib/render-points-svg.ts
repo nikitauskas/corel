@@ -17,14 +17,15 @@ function renderConnector(
   iconBottomY: number,
   iconW = 0,
   isHQ = false,
+  isJustVertical = false,
 ): string {
-  const stubBottomY = iconBottomY + (isHQ ? 9 : CONNECTOR_STUB_MM);
-  const startX = isHQ ? renderPt.x - iconW / 2 : renderPt.x;
+  const stubBottomY = iconBottomY + (isHQ ? 8 : CONNECTOR_STUB_MM);
+  const startX = isHQ ? renderPt.x - iconW / 2 + 0.2 : renderPt.x;
 
   return `      <path
   d="M ${startX.toFixed(3)},${iconBottomY.toFixed(3)}
      V ${stubBottomY.toFixed(3)}
-     L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}"
+     ${isJustVertical ? '' : `L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}`}"
   fill="none"
   stroke="#333333"
   stroke-width="0.4" />`;
@@ -64,6 +65,21 @@ export function renderBlueForceSVG(
           iconBottomY,
           el.iconDetails?.iconW,
           el.pt.isHQ,
+        ),
+      );
+    } else if (el.pt.isHQ) {
+      const iconBottomY =
+        el.iconDetails != null
+          ? anchorPt.y + el.iconDetails.iconH / 2
+          : anchorPt.y;
+      connectorLines.push(
+        renderConnector(
+          anchorPt,
+          anchorPt,
+          iconBottomY,
+          el.iconDetails?.iconW,
+          el.pt.isHQ,
+          true,
         ),
       );
     }

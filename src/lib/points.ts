@@ -112,7 +112,7 @@ export function buildBlueForceElements(
 
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
-      const bottomLeftMargin = 0.5;
+      const bottomLeftMargin = 1.5;
 
       let leftLabelText = '';
       let leftDescText = '';
@@ -122,10 +122,10 @@ export function buildBlueForceElements(
       let bottomDescText = '';
 
       const leftLabelBg = '#92B4EC';
-      const leftDescBg = 'transparent';
+      const leftDescBg = 'none';
       const rightLabelBg = '#92B4EC';
-      const bottomLabelBg = 'transparent';
-      const bottomDescBg = 'transparent';
+      const bottomLabelBg = 'none';
+      const bottomDescBg = 'none';
 
       if (pt.name) {
         leftLabelText = pt.name;
