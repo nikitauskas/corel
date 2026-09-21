@@ -18,7 +18,7 @@ function renderConnector(
   iconW = 0,
   isHQ = false,
 ): string {
-  const stubBottomY = iconBottomY + CONNECTOR_STUB_MM;
+  const stubBottomY = iconBottomY + (isHQ ? 9 : CONNECTOR_STUB_MM);
   const startX = isHQ ? renderPt.x - iconW / 2 : renderPt.x;
 
   return `      <path

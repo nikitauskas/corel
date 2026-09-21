@@ -205,7 +205,7 @@ export function resolveOverlappingRenderPoints(
 
         // B. Joint height constraint (Angle >= 90°)
         // Сустав на 5.5 мм ниже нижней границы кандидата (maxY)
-        const jointY = candidateBbox.maxY + 5.5;
+        const jointY = candidateBbox.maxY + 7.5; ////////// !!!!!!!!!
 
         // В координатах SVG Y растет вниз.
         // Если якорь (ay) меньше (выше) сустава, линия пойдет вверх, образуя острый угол.
