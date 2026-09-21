@@ -112,11 +112,59 @@ export function buildBlueForceElements(
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
 
+      let leftLabelText = '';
+      let leftDescText = '';
+      let rightLabelText = '';
+      let rightDescText = '';
+      let bottomLabelText = '';
+      let bottomDescText = '';
+
+      if (pt.name) {
+        leftLabelText = pt.name;
+      } else {
+        leftLabelText = 'Left Label';
+      }
+
+      if (pt.count) {
+        const countNum = pt.count;
+        const rifleType = pt.comments?.toLowerCase().includes('colt')
+          ? 'ColtM4A1'
+          : 'AK74';
+        leftDescText =
+          rifleType && countNum
+            ? `${rifleType}-${countNum}од`
+            : 'XXXXXXXXXXXXX од.';
+      }
+
+      if (pt.higherFrmation) {
+        rightLabelText = pt.higherFrmation;
+      } else {
+        rightLabelText = 'Right Label';
+      }
+
+      if (pt.higherFrmation === 'xxx') {
+        rightDescText = 'sss';
+      }
+      if (pt.higherFrmation === 'xxx2') {
+        bottomLabelText = 'sss';
+      }
+      if (pt.higherFrmation === 'xxx3') {
+        bottomDescText = 'sss';
+      }
+
+      if (ptApp6dType === 'Стик (між частинами та підрозділами)') {
+        bottomLabelText = pt.name ?? '';
+        rightLabelText = '';
+        rightDescText = '';
+        leftLabelText = '';
+        leftDescText = '';
+      }
+
       const leftLabel = computeLabelLayout(
         anchorPoint,
         iconW,
         iconH,
-        pt.name || 'Test',
+        leftLabelText,
         'left',
         3.526,
         0.9,
@@ -129,7 +177,7 @@ export function buildBlueForceElements(
         anchorPoint,
         iconW,
         iconH,
-        pt.higherFrmation || 'XXXX/XXXX/XXXX',
+        rightLabelText,
         'right',
         3.526,
         0.9,
@@ -143,14 +191,7 @@ export function buildBlueForceElements(
         x: leftLabel.rectX + leftLabel.rectW / 2,
         y: leftLabel.rectY + leftLabel.rectH,
       };
-      const countNum = pt.count;
-      const rifleType = pt.comments?.toLowerCase().includes('colt')
-        ? 'ColtM4A1'
-        : 'AK74';
-      const leftDescText =
-        rifleType && countNum
-          ? `${rifleType}-${countNum}од`
-          : 'XXXXXXXXXXXXX од.';
+
       const leftDesc = computeLabelLayout(
         leftDescOrigin,
         0,
@@ -169,7 +210,7 @@ export function buildBlueForceElements(
         anchorPoint,
         iconW,
         iconH,
-        '',
+        bottomLabelText,
         'bottom-center',
         3.526,
         0.9,
@@ -187,7 +228,7 @@ export function buildBlueForceElements(
         bottomDescOrigin,
         0,
         0,
-        '',
+        bottomDescText,
         'bottom-center',
         2.822,
         0.9,
