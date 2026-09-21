@@ -169,7 +169,7 @@ export function buildBlueForceElements(
         anchorPoint,
         iconW,
         iconH,
-        'Bottom text',
+        '',
         'bottom-center',
         3.526,
         0.9,
@@ -187,7 +187,7 @@ export function buildBlueForceElements(
         bottomDescOrigin,
         0,
         0,
-        'AK47 - X',
+        '',
         'bottom-center',
         2.822,
         0.9,
@@ -197,38 +197,43 @@ export function buildBlueForceElements(
       );
 
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
-      const leftRect: Rect = {
-        x: leftLabel.rectX,
-        y: leftLabel.rectY,
-        width: leftLabel.rectW,
-        height: leftLabel.rectH,
-      };
-      const rightRect: Rect = {
-        x: rightLabel.rectX,
-        y: rightLabel.rectY,
-        width: rightLabel.rectW,
-        height: rightLabel.rectH,
-      };
-      const bottomLabelRect: Rect = {
-        x: bottomLabel.rectX,
-        y: bottomLabel.rectY,
-        width: bottomLabel.rectW,
-        height: bottomLabel.rectH,
-      };
-      const bottomDescRect: Rect = {
-        x: bottomDesc.rectX,
-        y: bottomDesc.rectY,
-        width: bottomDesc.rectW,
-        height: bottomDesc.rectH,
-      };
+      const parts: Rect[] = [iconRect];
 
-      const parts: Rect[] = [
-        iconRect,
-        leftRect,
-        rightRect,
-        bottomLabelRect,
-        bottomDescRect,
-      ];
+      if (leftLabel.cleanText) {
+        parts.push({
+          x: leftLabel.rectX,
+          y: leftLabel.rectY,
+          width: leftLabel.rectW,
+          height: leftLabel.rectH,
+        });
+      }
+
+      if (rightLabel.cleanText) {
+        parts.push({
+          x: rightLabel.rectX,
+          y: rightLabel.rectY,
+          width: rightLabel.rectW,
+          height: rightLabel.rectH,
+        });
+      }
+
+      if (bottomLabel.cleanText) {
+        parts.push({
+          x: bottomLabel.rectX,
+          y: bottomLabel.rectY,
+          width: bottomLabel.rectW,
+          height: bottomLabel.rectH,
+        });
+      }
+
+      if (bottomDesc.cleanText) {
+        parts.push({
+          x: bottomDesc.rectX,
+          y: bottomDesc.rectY,
+          width: bottomDesc.rectW,
+          height: bottomDesc.rectH,
+        });
+      }
 
       if (leftDesc.cleanText) {
         parts.push({
