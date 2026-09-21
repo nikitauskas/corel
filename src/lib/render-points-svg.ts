@@ -15,10 +15,14 @@ function renderConnector(
   anchorPt: { x: number; y: number },
   renderPt: { x: number; y: number },
   iconBottomY: number,
+  iconW = 0,
+  isHQ = false,
 ): string {
   const stubBottomY = iconBottomY + CONNECTOR_STUB_MM;
+  const startX = isHQ ? renderPt.x - iconW / 2 : renderPt.x;
+
   return `      <path
-  d="M ${renderPt.x.toFixed(3)},${iconBottomY.toFixed(3)}
+  d="M ${startX.toFixed(3)},${iconBottomY.toFixed(3)}
      V ${stubBottomY.toFixed(3)}
      L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}"
   fill="none"
@@ -53,7 +57,15 @@ export function renderBlueForceSVG(
         el.iconDetails != null
           ? renderPt.y + el.iconDetails.iconH / 2
           : renderPt.y;
-      connectorLines.push(renderConnector(anchorPt, renderPt, iconBottomY));
+      connectorLines.push(
+        renderConnector(
+          anchorPt,
+          renderPt,
+          iconBottomY,
+          el.iconDetails?.iconW,
+          el.pt.isHQ,
+        ),
+      );
     }
 
     // Wrap element content in translate group when displaced
