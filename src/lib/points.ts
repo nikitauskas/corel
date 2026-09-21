@@ -112,6 +112,7 @@ export function buildBlueForceElements(
 
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
+      const bottomLeftMargin = 0.5;
 
       let leftLabelText = '';
       let leftDescText = '';
@@ -228,6 +229,7 @@ export function buildBlueForceElements(
         0.05,
         2.917,
         0.05, // gap between icon bottom and label rect top
+        isHQ ? bottomLeftMargin : 0.0, // marginOffsetX
       );
 
       // bottomDesc sits below the bottomLabel rect
@@ -237,7 +239,7 @@ export function buildBlueForceElements(
       };
       const bottomDesc = computeLabelLayout(
         bottomDescOrigin,
-        0,
+        iconW, // use iconW to align with left edge of the icon
         0,
         bottomDescText,
         'bottom-left',
@@ -246,6 +248,7 @@ export function buildBlueForceElements(
         0.05,
         2.822,
         0.5, // gap between bottomLabel rect and bottomDesc rect
+        bottomLeftMargin, // marginOffsetX
       );
 
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };

@@ -250,6 +250,7 @@ function computeLabelLayout(
   rectPadY = 0.05,
   rectHeight = 2.917,
   marginOffset = 0.0,
+  marginOffsetX = 0.0,
 ): LabelLayout {
   const cleanText = rawName ?? '';
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
@@ -290,7 +291,7 @@ function computeLabelLayout(
 
     case 'bottom-left':
       textAnchor = 'start';
-      xPos = Number((svgPt.x - iconW / 2).toFixed(3));
+      xPos = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
       rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
       yPos = Number((rectY + rectHeight - rectPadY).toFixed(3));
       rectX = Number((xPos - rectPadX).toFixed(3));
