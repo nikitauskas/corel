@@ -44,7 +44,7 @@ export function filterElementsInsideWindow(
             lon,
             lat,
             isHQ,
-            name: isHQ ? `HQ ${name}` : name,
+            name,
             desc,
             sidc,
             count,
@@ -100,6 +100,7 @@ export function buildBlueForceElements(
   const preparedElements: BlueForceElementLayout[] = points.map((pt, idx) => {
     const anchorPoint = geoToSvg(pt);
     const ptApp6dType = pt.app6dType ?? '';
+    const isHQ = pt.isHQ;
     const mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
     );
@@ -160,6 +161,14 @@ export function buildBlueForceElements(
         leftDescText = '';
       }
 
+      if (pt.isHQ) {
+        bottomLabelText = pt.name ?? '';
+        rightLabelText = '';
+        rightDescText = '';
+        leftLabelText = '';
+        leftDescText = '';
+      }
+
       const leftLabel = computeLabelLayout(
         anchorPoint,
         iconW,
@@ -211,7 +220,7 @@ export function buildBlueForceElements(
         iconW,
         iconH,
         bottomLabelText,
-        'bottom-center',
+        isHQ ? 'bottom-left' : 'bottom-center',
         3.526,
         0.9,
         0.05,
