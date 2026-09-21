@@ -198,65 +198,115 @@ function measureTextWidthMm(text: string, fontSizeMm: number): number {
   return (totalUnits / 1000) * fontSizeMm;
 }
 
+// ─────────────────────────────────────────────────────────────
+// Unified label layout
+// ─────────────────────────────────────────────────────────────
+
 /**
- * Computes the background rect + text position for a bottom-left-anchored
- * icon label, using accurate glyph-width measurement instead of a flat
- * per-character estimate.
+ * Placement strategy for a label relative to its parent icon.
+ *
+ * - `left`          – text-anchor="end",    text sits to the left of the icon
+ * - `right`         – text-anchor="start",  text sits to the right of the icon
+ * - `bottom-center` – text-anchor="middle", text is horizontally centered below the icon
+ * - `bottom-left`   – text-anchor="start",  text starts from the icon's left edge, grows right
  */
-function computeLeftLabelLayout(
-  svgPt: { x: number; y: number },
-  iconW: number,
-  iconH: number,
-  rawName: string,
-  fontSizeMm = 3.526, // matches font-size="3.526" used in <text>
-  rectPadX = 0.9,
-  rectPadY = 0.05,
-  rectHeight = 2.917, // mm — matches text height in CorelDraw
-  marginOffsetX = 0.0, // Extra outwards shift from the icon (user tweakable)
-  marginOffsetY = -0.2, // Extra outwards shift from the icon (user tweakable)
-) {
-  const cleanText = rawName ?? '';
+export type LabelAnchor = 'left' | 'right' | 'bottom-center' | 'bottom-left';
 
-  // Shift left by marginOffset so it doesn't overlap the icon more than desired
-  const xPos = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
-  const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
-
-  const textWidth = measureTextWidthMm(rawName ?? '', fontSizeMm);
-
-  const rectX = (xPos - textWidth - rectPadX).toFixed(3);
-  const rectY = (yPos - rectHeight + rectPadY).toFixed(3);
-  const rectW = (textWidth + rectPadX * 2).toFixed(3);
-  const rectH = rectHeight.toFixed(3);
-
-  return { xPos, yPos, cleanText, rectX, rectY, rectW, rectH };
+/** All geometric + content data needed to render a label + its background rect. */
+export interface LabelLayout {
+  cleanText: string;
+  /** SVG text x anchor point. */
+  xPos: number;
+  /** SVG text baseline y. */
+  yPos: number;
+  /** SVG text-anchor attribute value. */
+  textAnchor: 'end' | 'start' | 'middle';
+  rectX: number;
+  rectY: number;
+  rectW: number;
+  rectH: number;
 }
 
-function computeRightLabelLayout(
+/**
+ * Unified label layout calculator.
+ *
+ * For `left` / `right` anchors, `marginOffset` shifts the label outward along
+ * the horizontal axis (negative = further left for `left`).
+ * For `bottom-*` anchors, `marginOffset` is the vertical gap between the
+ * bottom of the icon (svgPt.y + iconH/2) and the top of the background rect.
+ *
+ * When computing a secondary label (desc) that sits below another label rather
+ * than below the icon, pass the label's rect-bottom as `svgPt.y` with
+ * `iconH = 0` and set `marginOffset` to the desired gap.
+ */
+function computeLabelLayout(
   svgPt: { x: number; y: number },
   iconW: number,
   iconH: number,
   rawName: string,
-  fontSizeMm = 3.526, // matches font-size="3.526" used in <text>
+  anchor: LabelAnchor,
+  fontSizeMm = 3.526,
   rectPadX = 0.9,
   rectPadY = 0.05,
-  rectHeight = 2.917, // mm — matches text height in CorelDraw
-  marginOffsetX = 0.0, // Extra outwards shift from the icon (user tweakable)
-  marginOffsetY = -0.2, // Extra outwards shift from the icon (user tweakable)
-) {
+  rectHeight = 2.917,
+  marginOffset = 0.0,
+): LabelLayout {
   const cleanText = rawName ?? '';
+  const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
 
-  // Shift right by marginOffset so it doesn't overlap the icon more than desired
-  const xPos = Number((svgPt.x + iconW / 2 + marginOffsetX).toFixed(3));
-  const yPos = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
+  let xPos: number;
+  let yPos: number;
+  let rectX: number;
+  let rectY: number;
+  let textAnchor: 'end' | 'start' | 'middle';
 
-  const textWidth = measureTextWidthMm(rawName ?? '', fontSizeMm);
+  // Vertical baseline for left/right labels: icon bottom edge + a small inward nudge
+  const sideBaselineY = Number((svgPt.y + iconH / 2 - 0.2).toFixed(3));
 
-  const rectX = (xPos - rectPadX).toFixed(3);
-  const rectY = (yPos - rectHeight + rectPadY).toFixed(3);
-  const rectW = (textWidth + rectPadX * 2).toFixed(3);
-  const rectH = rectHeight.toFixed(3);
+  switch (anchor) {
+    case 'left':
+      textAnchor = 'end';
+      xPos = Number((svgPt.x - iconW / 2 + marginOffset).toFixed(3));
+      yPos = sideBaselineY;
+      rectX = Number((xPos - textWidth - rectPadX).toFixed(3));
+      rectY = Number((yPos - rectHeight + rectPadY).toFixed(3));
+      break;
 
-  return { xPos, yPos, cleanText, rectX, rectY, rectW, rectH };
+    case 'right':
+      textAnchor = 'start';
+      xPos = Number((svgPt.x + iconW / 2 + marginOffset).toFixed(3));
+      yPos = sideBaselineY;
+      rectX = Number((xPos - rectPadX).toFixed(3));
+      rectY = Number((yPos - rectHeight + rectPadY).toFixed(3));
+      break;
+
+    case 'bottom-center':
+      textAnchor = 'middle';
+      xPos = Number(svgPt.x.toFixed(3));
+      rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
+      yPos = Number((rectY + rectHeight - rectPadY).toFixed(3));
+      rectX = Number((xPos - textWidth / 2 - rectPadX).toFixed(3));
+      break;
+
+    case 'bottom-left':
+      textAnchor = 'start';
+      xPos = Number((svgPt.x - iconW / 2).toFixed(3));
+      rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
+      yPos = Number((rectY + rectHeight - rectPadY).toFixed(3));
+      rectX = Number((xPos - rectPadX).toFixed(3));
+      break;
+  }
+
+  return {
+    cleanText,
+    xPos,
+    yPos,
+    textAnchor,
+    rectX,
+    rectY,
+    rectW: Number((textWidth + rectPadX * 2).toFixed(3)),
+    rectH: Number(rectHeight.toFixed(3)),
+  };
 }
 
 export interface Rect {
@@ -311,4 +361,4 @@ export function computeBoundingBox(rects: Rect[]): BoundingBox {
   return { minX, minY, maxX, maxY };
 }
 
-export { measureTextWidthMm, computeLeftLabelLayout, computeRightLabelLayout };
+export { measureTextWidthMm, computeLabelLayout };

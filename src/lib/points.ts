@@ -3,11 +3,11 @@ import { Point } from './geo.js';
 import { mappingSVGs } from './icons.js';
 import {
   BoundingBox,
+  LabelLayout,
   Rect,
   boundingBoxesOverlap,
   computeBoundingBox,
-  computeLeftLabelLayout,
-  computeRightLabelLayout,
+  computeLabelLayout,
   measureTextWidthMm,
   rectsOverlap,
 } from './utils.js';
@@ -77,17 +77,11 @@ export interface BlueForceElementLayout {
     iconH: number;
     xPos: number;
     yPos: number;
-    leftLabel: ReturnType<typeof computeLeftLabelLayout>;
-    rightLabel: ReturnType<typeof computeRightLabelLayout>;
-    leftDesc: {
-      cleanText: string;
-      xPos: number;
-      yPos: number;
-      rectX: number;
-      rectY: number;
-      rectW: number;
-      rectH: number;
-    };
+    leftLabel: LabelLayout;
+    rightLabel: LabelLayout;
+    leftDesc: LabelLayout;
+    bottomLabel: LabelLayout;
+    bottomDesc: LabelLayout;
   };
   circleDetails?: {
     cleanText: string;
@@ -118,11 +112,12 @@ export function buildBlueForceElements(
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
 
-      const leftLabel = computeLeftLabelLayout(
+      const leftLabel = computeLabelLayout(
         anchorPoint,
         iconW,
         iconH,
         pt.name || 'Test',
+        'left',
         3.526,
         0.9,
         0.05,
@@ -130,11 +125,12 @@ export function buildBlueForceElements(
         leftLabelMargin,
       );
 
-      const rightLabel = computeRightLabelLayout(
+      const rightLabel = computeLabelLayout(
         anchorPoint,
         iconW,
         iconH,
         pt.higherFrmation || 'XXXX/XXXX/XXXX',
+        'right',
         3.526,
         0.9,
         0.05,
@@ -142,53 +138,105 @@ export function buildBlueForceElements(
         rightLabelMargin,
       );
 
+      // leftDesc sits below the leftLabel rect, centered on it
+      const leftDescOrigin = {
+        x: leftLabel.rectX + leftLabel.rectW / 2,
+        y: leftLabel.rectY + leftLabel.rectH,
+      };
       const countNum = pt.count;
       const rifleType = pt.comments?.toLowerCase().includes('colt')
         ? 'ColtM4A1'
         : 'AK74';
-      const cleanTextDesc =
+      const leftDescText =
         rifleType && countNum
           ? `${rifleType}-${countNum}од`
           : 'XXXXXXXXXXXXX од.';
-      const descX = Number(leftLabel.rectX) + Number(leftLabel.rectW) / 2;
-      const descY = Number(leftLabel.rectY) + Number(leftLabel.rectH) + 2.6;
+      const leftDesc = computeLabelLayout(
+        leftDescOrigin,
+        0,
+        0,
+        leftDescText,
+        'bottom-center',
+        2.822,
+        0.9,
+        0.05,
+        2.822,
+        0.1, // small gap below leftLabel rect
+      );
 
-      const leftDesc = {
-        cleanText: cleanTextDesc,
-        xPos: descX,
-        yPos: descY,
-        rectW: cleanTextDesc ? measureTextWidthMm(cleanTextDesc, 2.822) : 0,
-        rectH: 2.822,
-        rectX: 0,
-        rectY: 0,
+      // bottomLabel sits centered below the icon
+      const bottomLabel = computeLabelLayout(
+        anchorPoint,
+        iconW,
+        iconH,
+        'Bottom text',
+        'bottom-center',
+        3.526,
+        0.9,
+        0.05,
+        2.917,
+        0.05, // gap between icon bottom and label rect top
+      );
+
+      // bottomDesc sits below the bottomLabel rect
+      const bottomDescOrigin = {
+        x: anchorPoint.x,
+        y: bottomLabel.rectY + bottomLabel.rectH,
       };
-      leftDesc.rectX = leftDesc.xPos - leftDesc.rectW / 2;
-      leftDesc.rectY = leftDesc.yPos - 2.5;
+      const bottomDesc = computeLabelLayout(
+        bottomDescOrigin,
+        0,
+        0,
+        'AK47 - X',
+        'bottom-center',
+        2.822,
+        0.9,
+        0.05,
+        2.822,
+        0.5, // gap between bottomLabel rect and bottomDesc rect
+      );
 
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
       const leftRect: Rect = {
-        x: Number(leftLabel.rectX),
-        y: Number(leftLabel.rectY),
-        width: Number(leftLabel.rectW),
-        height: Number(leftLabel.rectH),
+        x: leftLabel.rectX,
+        y: leftLabel.rectY,
+        width: leftLabel.rectW,
+        height: leftLabel.rectH,
       };
       const rightRect: Rect = {
-        x: Number(rightLabel.rectX),
-        y: Number(rightLabel.rectY),
-        width: Number(rightLabel.rectW),
-        height: Number(rightLabel.rectH),
+        x: rightLabel.rectX,
+        y: rightLabel.rectY,
+        width: rightLabel.rectW,
+        height: rightLabel.rectH,
+      };
+      const bottomLabelRect: Rect = {
+        x: bottomLabel.rectX,
+        y: bottomLabel.rectY,
+        width: bottomLabel.rectW,
+        height: bottomLabel.rectH,
+      };
+      const bottomDescRect: Rect = {
+        x: bottomDesc.rectX,
+        y: bottomDesc.rectY,
+        width: bottomDesc.rectW,
+        height: bottomDesc.rectH,
       };
 
-      const parts: Rect[] = [iconRect, leftRect, rightRect];
+      const parts: Rect[] = [
+        iconRect,
+        leftRect,
+        rightRect,
+        bottomLabelRect,
+        bottomDescRect,
+      ];
 
       if (leftDesc.cleanText) {
-        const descRect: Rect = {
+        parts.push({
           x: leftDesc.rectX,
           y: leftDesc.rectY,
           width: leftDesc.rectW,
           height: leftDesc.rectH,
-        };
-        parts.push(descRect);
+        });
       }
 
       const bbox = computeBoundingBox(parts);
@@ -210,6 +258,8 @@ export function buildBlueForceElements(
           leftLabel,
           rightLabel,
           leftDesc,
+          bottomLabel,
+          bottomDesc,
         },
       };
     }

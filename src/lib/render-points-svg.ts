@@ -76,20 +76,25 @@ export function renderBlueForceSVG(
     }
 
     if (el.mappingIdx !== -1 && el.iconDetails) {
-      const { xPos, yPos, leftLabel, rightLabel, leftDesc } = el.iconDetails;
+      const { xPos, yPos, leftLabel, rightLabel, leftDesc, bottomLabel, bottomDesc } = el.iconDetails;
 
       const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
 
       elementLines.push(
         `      <rect x="${leftLabel.rectX}" y="${leftLabel.rectY}" width="${leftLabel.rectW}" height="${leftLabel.rectH}" fill="${rectBgColor}" />`,
-        `      <text id="blue-label-${idx + 1}" x="${leftLabel.xPos}" y="${leftLabel.yPos.toFixed(3)}" text-anchor="end" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${leftLabel.cleanText}</text>`,
+        `      <text id="blue-label-${idx + 1}" x="${leftLabel.xPos}" y="${leftLabel.yPos.toFixed(3)}" text-anchor="${leftLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${leftLabel.cleanText}</text>`,
         `      <rect x="${rightLabel.rectX}" y="${rightLabel.rectY}" width="${rightLabel.rectW}" height="${rightLabel.rectH}" fill="${rectBgColor}" />`,
-        `      <text id="blue-label-right-${idx + 1}" x="${rightLabel.xPos}" y="${rightLabel.yPos.toFixed(3)}" text-anchor="start" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
+        `      <text id="blue-label-right-${idx + 1}" x="${rightLabel.xPos}" y="${rightLabel.yPos.toFixed(3)}" text-anchor="${rightLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
+        `      <rect x="${bottomLabel.rectX}" y="${bottomLabel.rectY}" width="${bottomLabel.rectW}" height="${bottomLabel.rectH}" fill="${rectBgColor}" />`,
+        `      <text id="blue-label-bottom-${idx + 1}" x="${bottomLabel.xPos.toFixed(3)}" y="${bottomLabel.yPos.toFixed(3)}" text-anchor="${bottomLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${bottomLabel.cleanText}</text>`,
+        `      <rect x="${bottomDesc.rectX}" y="${bottomDesc.rectY}" width="${bottomDesc.rectW}" height="${bottomDesc.rectH}" fill="${rectBgColor}" />`,
+        `      <text id="blue-label-bottom-desc-${idx + 1}" x="${bottomDesc.xPos.toFixed(3)}" y="${bottomDesc.yPos.toFixed(3)}" text-anchor="${bottomDesc.textAnchor}" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${bottomDesc.cleanText}</text>`,
       );
 
       if (leftDesc.cleanText) {
         elementLines.push(
-          `      <text id="blue-label-desc-${idx + 1}" x="${leftDesc.xPos.toFixed(3)}" y="${leftDesc.yPos.toFixed(3)}" text-anchor="middle" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${leftDesc.cleanText}</text>`,
+          `      <rect x="${leftDesc.rectX}" y="${leftDesc.rectY}" width="${leftDesc.rectW}" height="${leftDesc.rectH}" fill="${rectBgColor}" />`,
+          `      <text id="blue-label-desc-${idx + 1}" x="${leftDesc.xPos.toFixed(3)}" y="${leftDesc.yPos.toFixed(3)}" text-anchor="${leftDesc.textAnchor}" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${leftDesc.cleanText}</text>`,
         );
       }
 
