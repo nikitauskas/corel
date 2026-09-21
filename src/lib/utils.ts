@@ -247,13 +247,20 @@ function computeLabelLayout(
   rawName: string,
   anchor: LabelAnchor,
   bgColor = '#92B4EC',
-  fontSizeMm = 3.526,
-  rectPadX = 0.9,
-  rectPadY = 0.05,
-  rectHeight = 2.917,
+  size = 'md',
   marginOffset = 0.0,
   marginOffsetX = 0.0,
+  rectPadX = 0.9,
+  rectPadY = 0.05,
 ): LabelLayout {
+  let fontSizeMm = 3.526; // matches font-size="3.526" in CorelDraw
+  let rectHeight = 2.917; // mm — matches text height in CorelDraw
+
+  if (size === 'sm') {
+    fontSizeMm = 2.822;
+    rectHeight = 2.822;
+  }
+
   const cleanText = rawName ?? '';
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
 

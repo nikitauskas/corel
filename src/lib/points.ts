@@ -185,10 +185,7 @@ export function buildBlueForceElements(
         leftLabelText,
         'left',
         leftLabelBg,
-        3.526,
-        0.9,
-        0.05,
-        2.917,
+        'md',
         leftLabelMargin,
       );
 
@@ -199,10 +196,7 @@ export function buildBlueForceElements(
         rightLabelText,
         'right',
         rightLabelBg,
-        3.526,
-        0.9,
-        0.05,
-        2.917,
+        'md',
         rightLabelMargin,
       );
 
@@ -219,10 +213,7 @@ export function buildBlueForceElements(
         leftDescText,
         'bottom-center',
         leftDescBg,
-        2.822,
-        0.9,
-        0.05,
-        2.822,
+        'sm',
         0.1, // small gap below leftLabel rect
       );
 
@@ -234,10 +225,7 @@ export function buildBlueForceElements(
         bottomLabelText,
         isHQ ? 'bottom-left' : 'bottom-center',
         bottomLabelBg,
-        3.526,
-        0.9,
-        0.05,
-        2.917,
+        'md',
         0.05, // gap between icon bottom and label rect top
         isHQ ? bottomLeftMargin : 0.0, // marginOffsetX
       );
@@ -254,10 +242,7 @@ export function buildBlueForceElements(
         bottomDescText,
         'bottom-left',
         bottomDescBg,
-        2.822,
-        0.9,
-        0.05,
-        2.822,
+        'sm',
         0.5, // gap between bottomLabel rect and bottomDesc rect
         bottomLeftMargin, // marginOffsetX
       );
