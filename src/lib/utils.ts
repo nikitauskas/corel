@@ -225,6 +225,7 @@ export interface LabelLayout {
   rectY: number;
   rectW: number;
   rectH: number;
+  bgColor: string;
 }
 
 /**
@@ -245,6 +246,7 @@ function computeLabelLayout(
   iconH: number,
   rawName: string,
   anchor: LabelAnchor,
+  bgColor = '#92B4EC',
   fontSizeMm = 3.526,
   rectPadX = 0.9,
   rectPadY = 0.05,
@@ -307,6 +309,7 @@ function computeLabelLayout(
     rectY,
     rectW: Number((textWidth + rectPadX * 2).toFixed(3)),
     rectH: Number(rectHeight.toFixed(3)),
+    bgColor,
   };
 }
 

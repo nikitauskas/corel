@@ -121,6 +121,12 @@ export function buildBlueForceElements(
       let bottomLabelText = '';
       let bottomDescText = '';
 
+      const leftLabelBg = '#92B4EC';
+      const leftDescBg = '#92B4EC';
+      const rightLabelBg = '#92B4EC';
+      const bottomLabelBg = '#92B4EC';
+      const bottomDescBg = '#92B4EC';
+
       if (pt.name) {
         leftLabelText = pt.name;
       } else {
@@ -157,7 +163,7 @@ export function buildBlueForceElements(
 
       if (pt.isHQ) {
         bottomLabelText = pt.name ?? '';
-        bottomDescText = 'dfwefwf ' + leftDescText;
+        bottomDescText = leftDescText;
         rightLabelText = '';
         rightDescText = '';
         leftLabelText = '';
@@ -178,6 +184,7 @@ export function buildBlueForceElements(
         iconH,
         leftLabelText,
         'left',
+        leftLabelBg,
         3.526,
         0.9,
         0.05,
@@ -191,6 +198,7 @@ export function buildBlueForceElements(
         iconH,
         rightLabelText,
         'right',
+        rightLabelBg,
         3.526,
         0.9,
         0.05,
@@ -210,6 +218,7 @@ export function buildBlueForceElements(
         0,
         leftDescText,
         'bottom-center',
+        leftDescBg,
         2.822,
         0.9,
         0.05,
@@ -224,6 +233,7 @@ export function buildBlueForceElements(
         iconH,
         bottomLabelText,
         isHQ ? 'bottom-left' : 'bottom-center',
+        bottomLabelBg,
         3.526,
         0.9,
         0.05,
@@ -243,6 +253,7 @@ export function buildBlueForceElements(
         0,
         bottomDescText,
         'bottom-left',
+        bottomDescBg,
         2.822,
         0.9,
         0.05,
