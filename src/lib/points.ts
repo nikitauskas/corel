@@ -135,6 +135,7 @@ export function buildBlueForceElements(
           rifleType && countNum
             ? `${rifleType}-${countNum}од`
             : 'XXXXXXXXXXXXX од.';
+        leftDescText;
       }
 
       if (pt.higherFrmation) {
@@ -153,15 +154,16 @@ export function buildBlueForceElements(
         bottomDescText = 'sss';
       }
 
-      if (ptApp6dType === 'Стик (між частинами та підрозділами)') {
+      if (pt.isHQ) {
         bottomLabelText = pt.name ?? '';
+        bottomDescText = 'dfwefwf ' + leftDescText;
         rightLabelText = '';
         rightDescText = '';
         leftLabelText = '';
         leftDescText = '';
       }
 
-      if (pt.isHQ) {
+      if (ptApp6dType === 'Стик (між частинами та підрозділами)') {
         bottomLabelText = pt.name ?? '';
         rightLabelText = '';
         rightDescText = '';
@@ -238,7 +240,7 @@ export function buildBlueForceElements(
         0,
         0,
         bottomDescText,
-        'bottom-center',
+        'bottom-left',
         2.822,
         0.9,
         0.05,
