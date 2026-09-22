@@ -90,7 +90,7 @@ export interface MapObjectLayout {
 
 export function buildMapObjects(
   csvData: CsvRow[],
-  iconRenderedSizes: [number, number][],
+  iconRenderedSizes: { width: number; height: number }[],
   inWindow: (lon: number, lat: number) => boolean,
   geoToSvg: (pt: Point) => { x: number; y: number },
 ) {
@@ -106,9 +106,13 @@ export function buildMapObjects(
     );
 
     if (mappingIdx !== -1) {
-      const [iconW, iconH] = iconRenderedSizes[mappingIdx] ?? [8.0, 8.0];
-      const xPos = Number((anchorPoint.x - iconW / 2).toFixed(3));
-      const yPos = Number((anchorPoint.y - iconH / 2).toFixed(3));
+      const iconSize = iconRenderedSizes[mappingIdx] ?? {
+        width: 8.0,
+        height: 8.0,
+      };
+
+      const xPos = Number((anchorPoint.x - iconSize.width / 2).toFixed(3));
+      const yPos = Number((anchorPoint.y - iconSize.height / 2).toFixed(3));
 
       let leftLabelText = '';
       let leftDescText = '';
@@ -178,10 +182,9 @@ export function buildMapObjects(
         'right',
         rightLabelBg,
         'md',
-        //////////////////////////////
+        'label',
         anchorPoint,
-        iconW,
-        iconH,
+        iconSize,
       );
 
       const leftLabel = computeLabelLayout(
@@ -189,14 +192,13 @@ export function buildMapObjects(
         'left',
         leftLabelBg,
         'md',
-        //////////////////////////////
+        'label',
         anchorPoint,
-        iconW,
-        iconH,
+        iconSize,
       );
 
       // leftDesc sits below the leftLabel rect, centered on it
-      const leftDescOrigin = {
+      const leftLabelBottomCenterAnchor = {
         x: leftLabel.rectX + leftLabel.rectW / 2,
         y: leftLabel.rectY + leftLabel.rectH,
       };
@@ -206,10 +208,9 @@ export function buildMapObjects(
         'bottom-center',
         leftDescBg,
         'sm',
-        //////////////////////////////
-        leftDescOrigin,
-        0,
-        0,
+        'desc',
+        leftLabelBottomCenterAnchor,
+        iconSize,
       );
 
       // bottomLabel sits centered below the icon
@@ -218,14 +219,13 @@ export function buildMapObjects(
         isHQ ? 'bottom-left' : 'bottom-center',
         bottomLabelBg,
         'md',
-        //////////////////////////////
+        'label',
         anchorPoint,
-        iconW,
-        iconH,
+        iconSize,
       );
 
       // bottomDesc sits below the bottomLabel rect
-      const bottomDescOrigin = {
+      const bottomLabelBottomCenterAnchor = {
         x: anchorPoint.x,
         y: bottomLabel.rectY + bottomLabel.rectH,
       };
@@ -234,13 +234,17 @@ export function buildMapObjects(
         'bottom-left',
         bottomDescBg,
         'sm',
-        //////////////////////////////
-        bottomDescOrigin,
-        iconW, // use iconW to align with left edge of the icon
-        0,
+        'desc',
+        bottomLabelBottomCenterAnchor,
+        iconSize,
       );
 
-      const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
+      const iconRect: Rect = {
+        x: xPos,
+        y: yPos,
+        width: iconSize.width,
+        height: iconSize.height,
+      };
       const parts: Rect[] = [iconRect];
 
       const addLabelRect = (label: {
@@ -275,8 +279,8 @@ export function buildMapObjects(
         bbox,
         status: 'idle',
         iconDetails: {
-          iconW,
-          iconH,
+          iconW: iconSize.width,
+          iconH: iconSize.height,
           xPos,
           yPos,
           leftLabel,

@@ -234,21 +234,21 @@ export interface LabelLayout {
  * For `left` / `right` anchors, `marginOffset` shifts the label outward along
  * the horizontal axis (negative = further left for `left`).
  * For `bottom-*` anchors, `marginOffset` is the vertical gap between the
- * bottom of the icon (svgPt.y + iconH/2) and the top of the background rect.
+ * bottom of the icon (svgPt.y + icon.height/2) and the top of the background rect.
  *
  * When computing a secondary label (desc) that sits below another label rather
  * than below the icon, pass the label's rect-bottom as `svgPt.y` with
- * `iconH = 0` and set `marginOffset` to the desired gap.
+ * `icon.height = 0` and set `marginOffset` to the desired gap.
  */
 function computeLabelLayout(
   rawName: string,
   anchor: LabelAnchor,
   bgColor: string,
   size: 'sm' | 'md',
+  type: 'label' | 'desc',
   //////////////////////////////
-  svgPt: { x: number; y: number },
-  iconW: number,
-  iconH: number,
+  anchorPoint: { x: number; y: number },
+  iconSize: { width: number; height: number },
 ): LabelLayout {
   let fontSizeMm = 3.526; // matches font-size="3.526" in CorelDraw
   let rectHeight = 2.917; // mm — matches text height in CorelDraw
@@ -272,14 +272,16 @@ function computeLabelLayout(
 
   // Vertical baseline for left/right labels: icon bottom edge + a small inward nudge
   const leftRightSidesBaselineY = Number(
-    (svgPt.y + iconH / 2 - 0.2).toFixed(3),
+    (anchorPoint.y + iconSize.height / 2 - 0.2).toFixed(3),
   );
 
   switch (anchor) {
     case 'left': {
       textAnchor = 'end';
       const marginOffsetX = -0.5;
-      textX = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
+      textX = Number(
+        (anchorPoint.x - iconSize.width / 2 + marginOffsetX).toFixed(3),
+      );
       textY = leftRightSidesBaselineY;
       rectX = Number((textX - textWidth - rectPadX).toFixed(3));
       rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
@@ -289,7 +291,9 @@ function computeLabelLayout(
     case 'right': {
       textAnchor = 'start';
       const marginOffsetX = 0.5;
-      textX = Number((svgPt.x + iconW / 2 + marginOffsetX).toFixed(3));
+      textX = Number(
+        (anchorPoint.x + iconSize.width / 2 + marginOffsetX).toFixed(3),
+      );
       textY = leftRightSidesBaselineY;
       rectX = Number((textX - rectPadX).toFixed(3));
       rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
@@ -299,8 +303,11 @@ function computeLabelLayout(
     case 'bottom-center': {
       textAnchor = 'middle';
       const marginOffsetY = 0.1;
-      textX = Number(svgPt.x.toFixed(3));
-      rectY = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
+      const verticalShift = type === 'desc' ? 0 : iconSize.height / 2;
+      textX = Number(anchorPoint.x.toFixed(3));
+      rectY = Number(
+        (anchorPoint.y + verticalShift + marginOffsetY).toFixed(3),
+      );
       textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
       rectX = Number((textX - textWidth / 2 - rectPadX).toFixed(3));
       break;
@@ -310,8 +317,13 @@ function computeLabelLayout(
       textAnchor = 'start';
       const marginOffsetX = 1.5;
       const marginOffsetY = 0.2;
-      textX = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
-      rectY = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
+      const verticalShift = type === 'desc' ? 0 : iconSize.height / 2;
+      textX = Number(
+        (anchorPoint.x - iconSize.width / 2 + marginOffsetX).toFixed(3),
+      );
+      rectY = Number(
+        (anchorPoint.y + verticalShift + marginOffsetY).toFixed(3),
+      );
       textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
       rectX = Number((textX - rectPadX).toFixed(3));
       break;

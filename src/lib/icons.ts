@@ -59,7 +59,7 @@ export const mappingSVGs: Record<
 const ICON_VIEWBOX_PADDING = 0;
 
 export function buildIconsDefs() {
-  const iconRenderedSizes: [number, number][] = [];
+  const iconRenderedSizes: { width: number; height: number }[] = [];
   let iconsDefsContent = '';
   let iconsSymbolsContent = '';
   let customIconCount = 0;
@@ -72,7 +72,10 @@ export function buildIconsDefs() {
         console.warn(
           `Warning: Icon not found for prefix '${prefix}': ${iconPathRelative}`,
         );
-        iconRenderedSizes.push([targetHeightMm, targetHeightMm]); // fallback square
+        iconRenderedSizes.push({
+          width: targetHeightMm,
+          height: targetHeightMm,
+        }); // fallback square
         return;
       }
 
@@ -108,7 +111,10 @@ export function buildIconsDefs() {
       const scaledContentH = contentH * scale; // == targetHeightMm
 
       // Record actual CONTENT dimensions for centering during placement
-      iconRenderedSizes.push([scaledContentW, scaledContentH]);
+      iconRenderedSizes.push({
+        width: scaledContentW,
+        height: scaledContentH,
+      });
 
       const symbolId = `icon-mapping-${idx}`;
 
