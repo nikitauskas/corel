@@ -216,9 +216,9 @@ export type LabelAnchor = 'left' | 'right' | 'bottom-center' | 'bottom-left';
 export interface LabelLayout {
   cleanText: string;
   /** SVG text x anchor point. */
-  xPos: number;
+  textX: number;
   /** SVG text baseline y. */
-  yPos: number;
+  textY: number;
   /** SVG text-anchor attribute value. */
   textAnchor: 'end' | 'start' | 'middle';
   rectX: number;
@@ -263,8 +263,8 @@ function computeLabelLayout(
   const cleanText = rawName ?? '';
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
 
-  let xPos: number;
-  let yPos: number;
+  let textX: number;
+  let textY: number;
   let rectX: number;
   let rectY: number;
   let textAnchor: 'end' | 'start' | 'middle';
@@ -275,43 +275,43 @@ function computeLabelLayout(
   switch (anchor) {
     case 'left':
       textAnchor = 'end';
-      xPos = Number((svgPt.x - iconW / 2 + marginOffset).toFixed(3));
-      yPos = sideBaselineY;
-      rectX = Number((xPos - textWidth - rectPadX).toFixed(3));
-      rectY = Number((yPos - rectHeight + rectPadY).toFixed(3));
+      textX = Number((svgPt.x - iconW / 2 + marginOffset).toFixed(3));
+      textY = sideBaselineY;
+      rectX = Number((textX - textWidth - rectPadX).toFixed(3));
+      rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
       break;
 
     case 'right':
       textAnchor = 'start';
-      xPos = Number((svgPt.x + iconW / 2 + marginOffset).toFixed(3));
-      yPos = sideBaselineY;
-      rectX = Number((xPos - rectPadX).toFixed(3));
-      rectY = Number((yPos - rectHeight + rectPadY).toFixed(3));
+      textX = Number((svgPt.x + iconW / 2 + marginOffset).toFixed(3));
+      textY = sideBaselineY;
+      rectX = Number((textX - rectPadX).toFixed(3));
+      rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
       break;
 
     case 'bottom-center':
       textAnchor = 'middle';
-      xPos = Number(svgPt.x.toFixed(3));
+      textX = Number(svgPt.x.toFixed(3));
       rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
-      yPos = Number((rectY + rectHeight - rectPadY).toFixed(3));
-      rectX = Number((xPos - textWidth / 2 - rectPadX).toFixed(3));
+      textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
+      rectX = Number((textX - textWidth / 2 - rectPadX).toFixed(3));
       break;
 
     case 'bottom-left': {
       textAnchor = 'start';
       const marginOffsetX = 1.5;
-      xPos = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
+      textX = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
       rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
-      yPos = Number((rectY + rectHeight - rectPadY).toFixed(3));
-      rectX = Number((xPos - rectPadX).toFixed(3));
+      textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
+      rectX = Number((textX - rectPadX).toFixed(3));
       break;
     }
   }
 
   return {
     cleanText,
-    xPos,
-    yPos,
+    textX,
+    textY,
     textAnchor,
     rectX,
     rectY,
