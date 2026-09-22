@@ -110,8 +110,6 @@ export function buildMapObjects(
       const xPos = Number((anchorPoint.x - iconW / 2).toFixed(3));
       const yPos = Number((anchorPoint.y - iconH / 2).toFixed(3));
 
-      const leftLabelMargin = -0.5;
-
       let leftLabelText = '';
       let leftDescText = '';
       let rightLabelText = '';
@@ -195,7 +193,6 @@ export function buildMapObjects(
         anchorPoint,
         iconW,
         iconH,
-        leftLabelMargin,
       );
 
       // leftDesc sits below the leftLabel rect, centered on it
@@ -223,7 +220,6 @@ export function buildMapObjects(
         bottomLabelBg,
         'md',
         //////////////////////////////
-
         anchorPoint,
         iconW,
         iconH,

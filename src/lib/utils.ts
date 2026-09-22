@@ -250,11 +250,12 @@ function computeLabelLayout(
   iconW: number,
   iconH: number,
   marginOffset = 0.0, ///////////
-  rectPadX = 0.9,
-  rectPadY = 0.05,
 ): LabelLayout {
   let fontSizeMm = 3.526; // matches font-size="3.526" in CorelDraw
   let rectHeight = 2.917; // mm — matches text height in CorelDraw
+
+  const rectPadX = 0.9;
+  const rectPadY = 0.05;
 
   if (size === 'sm') {
     fontSizeMm = 2.822;
