@@ -227,8 +227,9 @@ export function buildMapObjects(
       // bottomDesc sits below the bottomLabel rect
       const bottomLabelBottomCenterAnchor = {
         x: anchorPoint.x,
-        y: bottomLabel.rectY + bottomLabel.rectH,
+        y: bottomLabel.rectY - bottomLabel.rectH / 2,
       };
+
       const bottomDesc = computeLabelLayout(
         bottomDescText,
         'headquarter',

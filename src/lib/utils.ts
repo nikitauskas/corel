@@ -274,6 +274,8 @@ function computeLabelLayout(
     (anchorPoint.y + iconSize.height / 2 - 0.2).toFixed(3),
   );
 
+  const bottomBaselineY = Number((anchorPoint.y + iconSize.height).toFixed(3));
+
   switch (anchor) {
     case 'left': {
       textAnchor = 'end';
@@ -315,16 +317,12 @@ function computeLabelLayout(
     case 'headquarter': {
       textAnchor = 'start';
       const marginOffsetX = 1.5;
-      const marginOffsetY = type === 'desc' ? 0 : 1.2;
-      const verticalShift = type === 'desc' ? 0 : iconSize.height / 2;
       textX = Number(
         (anchorPoint.x - iconSize.width / 2 + marginOffsetX).toFixed(3),
       );
-      rectY = Number(
-        (anchorPoint.y + verticalShift + marginOffsetY).toFixed(3),
-      );
-      textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
+      textY = bottomBaselineY;
       rectX = Number((textX - rectPadX).toFixed(3));
+      rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
       break;
     }
   }
