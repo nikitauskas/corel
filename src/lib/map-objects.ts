@@ -205,7 +205,7 @@ export function buildMapObjects(
 
       const leftDesc = computeLabelLayout(
         leftDescText,
-        'bottom-center',
+        'bottom',
         leftDescBg,
         'sm',
         'desc',
@@ -216,7 +216,7 @@ export function buildMapObjects(
       // bottomLabel sits centered below the icon
       const bottomLabel = computeLabelLayout(
         bottomLabelText,
-        isHQ ? 'bottom-left' : 'bottom-center',
+        isHQ ? 'headquarter' : 'bottom',
         bottomLabelBg,
         'md',
         'label',
@@ -231,7 +231,7 @@ export function buildMapObjects(
       };
       const bottomDesc = computeLabelLayout(
         bottomDescText,
-        'bottom-left',
+        'headquarter',
         bottomDescBg,
         'sm',
         'desc',

@@ -207,10 +207,10 @@ function measureTextWidthMm(text: string, fontSizeMm: number): number {
  *
  * - `left`          – text-anchor="end",    text sits to the left of the icon
  * - `right`         – text-anchor="start",  text sits to the right of the icon
- * - `bottom-center` – text-anchor="middle", text is horizontally centered below the icon
- * - `bottom-left`   – text-anchor="start",  text starts from the icon's left edge, grows right
+ * - `bottom` – text-anchor="middle", text is horizontally centered below the icon
+ * - `headquarter`   – text-anchor="start",  text starts from the icon's left edge, grows right
  */
-export type LabelAnchor = 'left' | 'right' | 'bottom-center' | 'bottom-left';
+export type LabelAnchor = 'left' | 'right' | 'bottom' | 'headquarter';
 
 /** All geometric + content data needed to render a label + its background rect. */
 export interface LabelLayout {
@@ -246,7 +246,6 @@ function computeLabelLayout(
   bgColor: string,
   size: 'sm' | 'md',
   type: 'label' | 'desc',
-  //////////////////////////////
   anchorPoint: { x: number; y: number },
   iconSize: { width: number; height: number },
 ): LabelLayout {
@@ -300,7 +299,7 @@ function computeLabelLayout(
       break;
     }
 
-    case 'bottom-center': {
+    case 'bottom': {
       textAnchor = 'middle';
       const marginOffsetY = 0.1;
       const verticalShift = type === 'desc' ? 0 : iconSize.height / 2;
@@ -313,10 +312,10 @@ function computeLabelLayout(
       break;
     }
 
-    case 'bottom-left': {
+    case 'headquarter': {
       textAnchor = 'start';
       const marginOffsetX = 1.5;
-      const marginOffsetY = 0.2;
+      const marginOffsetY = type === 'desc' ? 0 : 1.2;
       const verticalShift = type === 'desc' ? 0 : iconSize.height / 2;
       textX = Number(
         (anchorPoint.x - iconSize.width / 2 + marginOffsetX).toFixed(3),
