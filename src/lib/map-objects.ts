@@ -17,7 +17,7 @@ const mgrs =
 
 import { CsvRow } from './csv.js';
 
-export function filterElementsInsideWindow(
+export function filterMapObjectsInsideWindow(
   csvData: CsvRow[],
   inWindow: (lon: number, lat: number) => boolean,
 ): Point[] {
@@ -62,7 +62,7 @@ export function filterElementsInsideWindow(
   return bluePointMarkers;
 }
 
-export interface BlueForceElementLayout {
+export interface MapObjectLayout {
   pt: Point;
   idx: number;
   anchorPoint: { x: number; y: number };
@@ -94,10 +94,10 @@ export function buildMapObjects(
   inWindow: (lon: number, lat: number) => boolean,
   geoToSvg: (pt: Point) => { x: number; y: number },
 ) {
-  const points = filterElementsInsideWindow(csvData, inWindow);
+  const points = filterMapObjectsInsideWindow(csvData, inWindow);
 
   // 1. Calculate bounding polygon / rectangles for each element
-  const preparedElements: BlueForceElementLayout[] = points.map((pt, idx) => {
+  const preparedElements: MapObjectLayout[] = points.map((pt, idx) => {
     const anchorPoint = geoToSvg(pt);
     const ptApp6dType = pt.app6dType ?? '';
     const isHQ = pt.isHQ;

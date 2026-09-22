@@ -1,4 +1,4 @@
-import { BlueForceElementLayout } from './map-objects.js';
+import { MapObjectLayout } from './map-objects.js';
 
 const CONNECTOR_STUB_MM = 4.5;
 
@@ -32,7 +32,7 @@ function renderConnector(
 }
 
 export function renderElementsSVG(
-  preparedElements: BlueForceElementLayout[],
+  preparedElements: MapObjectLayout[],
 ): string[] {
   const blueForceElements: string[] = [];
   const connectorLines: string[] = [];

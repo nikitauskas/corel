@@ -1,4 +1,4 @@
-import { BlueForceElementLayout } from './map-objects.js';
+import { MapObjectLayout } from './map-objects.js';
 
 /** Search grid step size in mm */
 const STEP_MM = 1.5;
@@ -24,7 +24,7 @@ function aabbsOverlap(a: AABB, b: AABB): boolean {
   );
 }
 
-function bboxAt(el: BlueForceElementLayout, cx: number, cy: number): AABB {
+function bboxAt(el: MapObjectLayout, cx: number, cy: number): AABB {
   const dx = cx - el.anchorPoint.x;
   const dy = cy - el.anchorPoint.y;
   return {
@@ -95,7 +95,7 @@ class UnionFind {
  * Main resolution function.
  */
 export function resolveOverlappingRenderPoints(
-  elements: BlueForceElementLayout[],
+  elements: MapObjectLayout[],
 ): void {
   const displacedElements = elements.filter((el) => el.status === 'displaced');
   if (displacedElements.length === 0) return;
@@ -127,7 +127,7 @@ export function resolveOverlappingRenderPoints(
   }
 
   // 3. Group elements into clusters
-  const clustersMap = new Map<number, BlueForceElementLayout[]>();
+  const clustersMap = new Map<number, MapObjectLayout[]>();
   for (let i = 0; i < displacedElements.length; i++) {
     const root = uf.find(i);
     let clusterElements = clustersMap.get(root);
@@ -140,8 +140,7 @@ export function resolveOverlappingRenderPoints(
   const clusters = Array.from(clustersMap.values());
 
   // 4. Calculate Centers of Mass (CoM) and process clusters
-  const processedQueue: Array<{ el: BlueForceElementLayout; vector: Point2D }> =
-    [];
+  const processedQueue: Array<{ el: MapObjectLayout; vector: Point2D }> = [];
 
   for (const cluster of clusters) {
     const com = cluster.reduce(
