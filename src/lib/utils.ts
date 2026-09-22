@@ -245,10 +245,11 @@ function computeLabelLayout(
   anchor: LabelAnchor,
   bgColor: string,
   size: 'sm' | 'md',
+  //////////////////////////////
   svgPt: { x: number; y: number },
   iconW: number,
   iconH: number,
-  marginOffset = 0.0,
+  marginOffset = 0.0, ///////////
   rectPadX = 0.9,
   rectPadY = 0.05,
 ): LabelLayout {
@@ -273,29 +274,34 @@ function computeLabelLayout(
   const sideBaselineY = Number((svgPt.y + iconH / 2 - 0.2).toFixed(3));
 
   switch (anchor) {
-    case 'left':
+    case 'left': {
       textAnchor = 'end';
-      textX = Number((svgPt.x - iconW / 2 + marginOffset).toFixed(3));
+      const marginOffsetX = -0.5;
+      textX = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
       textY = sideBaselineY;
       rectX = Number((textX - textWidth - rectPadX).toFixed(3));
       rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
       break;
+    }
 
-    case 'right':
+    case 'right': {
       textAnchor = 'start';
-      textX = Number((svgPt.x + iconW / 2 + marginOffset).toFixed(3));
+      const marginOffsetX = 0.5;
+      textX = Number((svgPt.x + iconW / 2 + marginOffsetX).toFixed(3));
       textY = sideBaselineY;
       rectX = Number((textX - rectPadX).toFixed(3));
       rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
       break;
+    }
 
-    case 'bottom-center':
+    case 'bottom-center': {
       textAnchor = 'middle';
       textX = Number(svgPt.x.toFixed(3));
       rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
       textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
       rectX = Number((textX - textWidth / 2 - rectPadX).toFixed(3));
       break;
+    }
 
     case 'bottom-left': {
       textAnchor = 'start';

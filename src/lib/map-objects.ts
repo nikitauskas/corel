@@ -111,7 +111,6 @@ export function buildMapObjects(
       const yPos = Number((anchorPoint.y - iconH / 2).toFixed(3));
 
       const leftLabelMargin = -0.5;
-      const rightLabelMargin = 0.5;
 
       let leftLabelText = '';
       let leftDescText = '';
@@ -181,10 +180,10 @@ export function buildMapObjects(
         'right',
         rightLabelBg,
         'md',
+        //////////////////////////////
         anchorPoint,
         iconW,
         iconH,
-        rightLabelMargin,
       );
 
       const leftLabel = computeLabelLayout(
@@ -192,6 +191,7 @@ export function buildMapObjects(
         'left',
         leftLabelBg,
         'md',
+        //////////////////////////////
         anchorPoint,
         iconW,
         iconH,
@@ -209,6 +209,7 @@ export function buildMapObjects(
         'bottom-center',
         leftDescBg,
         'sm',
+        //////////////////////////////
         leftDescOrigin,
         0,
         0,
@@ -221,6 +222,8 @@ export function buildMapObjects(
         isHQ ? 'bottom-left' : 'bottom-center',
         bottomLabelBg,
         'md',
+        //////////////////////////////
+
         anchorPoint,
         iconW,
         iconH,
@@ -237,6 +240,7 @@ export function buildMapObjects(
         'bottom-left',
         bottomDescBg,
         'sm',
+        //////////////////////////////
         bottomDescOrigin,
         iconW, // use iconW to align with left edge of the icon
         0,
