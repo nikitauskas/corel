@@ -2,10 +2,10 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 import { CsvRow, parseCSV } from './lib/csv.js';
+import { buildBlueForceElements } from './lib/elements.js';
 import { MapFormatConfig, createMapContext } from './lib/geo.js';
 import { buildIconsDefs } from './lib/icons.js';
 import { buildLUnitsSpearationLinesSVGs } from './lib/lines.js';
-import { buildBlueForceElements } from './lib/points.js';
 import { renderBlueForceSVG } from './lib/render-points-svg.js';
 import { resolveOverlappingRenderPoints } from './lib/resolve-overlaps.js';
 import { buildFinalSvg } from './lib/svg.js';

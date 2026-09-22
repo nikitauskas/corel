@@ -1,4 +1,4 @@
-import { BlueForceElementLayout } from './points.js';
+import { BlueForceElementLayout } from './elements.js';
 
 const CONNECTOR_STUB_MM = 4.5;
 

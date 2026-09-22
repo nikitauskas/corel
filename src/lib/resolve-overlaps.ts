@@ -1,4 +1,4 @@
-import { BlueForceElementLayout } from './points.js';
+import { BlueForceElementLayout } from './elements.js';
 
 /** Search grid step size in mm */
 const STEP_MM = 1.5;
