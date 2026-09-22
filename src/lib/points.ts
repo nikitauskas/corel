@@ -341,11 +341,11 @@ export function buildBlueForceElements(
           elB.parts.some((pB) => rectsOverlap(pA, pB)),
         );
         if (partsOverlap) {
-          const priorityA = mappingSVGs[elA.ptApp6dType]?.priority ?? 0;
-          const priorityB = mappingSVGs[elB.ptApp6dType]?.priority ?? 0;
+          let priorityA = mappingSVGs[elA.ptApp6dType]?.priority ?? 0;
+          let priorityB = mappingSVGs[elB.ptApp6dType]?.priority ?? 0;
 
-          // if (elA.pt.isHQ) priorityA -= 5;
-          // if (elB.pt.isHQ) priorityB -= 5;
+          if (elA.pt.isHQ) priorityA -= 1;
+          if (elB.pt.isHQ) priorityB -= 1;
 
           if (priorityA === 10 && priorityB === 10) {
             elA.status = 'conflict';
