@@ -241,15 +241,14 @@ export interface LabelLayout {
  * `iconH = 0` and set `marginOffset` to the desired gap.
  */
 function computeLabelLayout(
+  rawName: string,
+  anchor: LabelAnchor,
+  bgColor: string,
+  size: 'sm' | 'md',
   svgPt: { x: number; y: number },
   iconW: number,
   iconH: number,
-  rawName: string,
-  anchor: LabelAnchor,
-  bgColor = '#92B4EC',
-  size = 'md',
   marginOffset = 0.0,
-  marginOffsetX = 0.0,
   rectPadX = 0.9,
   rectPadY = 0.05,
 ): LabelLayout {
@@ -298,13 +297,15 @@ function computeLabelLayout(
       rectX = Number((xPos - textWidth / 2 - rectPadX).toFixed(3));
       break;
 
-    case 'bottom-left':
+    case 'bottom-left': {
       textAnchor = 'start';
+      const marginOffsetX = 1.5;
       xPos = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
       rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
       yPos = Number((rectY + rectHeight - rectPadY).toFixed(3));
       rectX = Number((xPos - rectPadX).toFixed(3));
       break;
+    }
   }
 
   return {

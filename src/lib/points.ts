@@ -112,7 +112,6 @@ export function buildBlueForceElements(
 
       const leftLabelMargin = -0.5;
       const rightLabelMargin = 0.5;
-      const bottomLeftMargin = 1.5;
 
       let leftLabelText = '';
       let leftDescText = '';
@@ -177,27 +176,26 @@ export function buildBlueForceElements(
         leftLabelText = '';
         leftDescText = '';
       }
-
-      const leftLabel = computeLabelLayout(
-        anchorPoint,
-        iconW,
-        iconH,
-        leftLabelText,
-        'left',
-        leftLabelBg,
-        'md',
-        leftLabelMargin,
-      );
-
       const rightLabel = computeLabelLayout(
-        anchorPoint,
-        iconW,
-        iconH,
         rightLabelText,
         'right',
         rightLabelBg,
         'md',
+        anchorPoint,
+        iconW,
+        iconH,
         rightLabelMargin,
+      );
+
+      const leftLabel = computeLabelLayout(
+        leftLabelText,
+        'left',
+        leftLabelBg,
+        'md',
+        anchorPoint,
+        iconW,
+        iconH,
+        leftLabelMargin,
       );
 
       // leftDesc sits below the leftLabel rect, centered on it
@@ -207,27 +205,26 @@ export function buildBlueForceElements(
       };
 
       const leftDesc = computeLabelLayout(
-        leftDescOrigin,
-        0,
-        0,
         leftDescText,
         'bottom-center',
         leftDescBg,
         'sm',
+        leftDescOrigin,
+        0,
+        0,
         0.1, // small gap below leftLabel rect
       );
 
       // bottomLabel sits centered below the icon
       const bottomLabel = computeLabelLayout(
-        anchorPoint,
-        iconW,
-        iconH,
         bottomLabelText,
         isHQ ? 'bottom-left' : 'bottom-center',
         bottomLabelBg,
         'md',
+        anchorPoint,
+        iconW,
+        iconH,
         0.05, // gap between icon bottom and label rect top
-        isHQ ? bottomLeftMargin : 0.0, // marginOffsetX
       );
 
       // bottomDesc sits below the bottomLabel rect
@@ -236,15 +233,14 @@ export function buildBlueForceElements(
         y: bottomLabel.rectY + bottomLabel.rectH,
       };
       const bottomDesc = computeLabelLayout(
-        bottomDescOrigin,
-        iconW, // use iconW to align with left edge of the icon
-        0,
         bottomDescText,
         'bottom-left',
         bottomDescBg,
         'sm',
+        bottomDescOrigin,
+        iconW, // use iconW to align with left edge of the icon
+        0,
         0.5, // gap between bottomLabel rect and bottomDesc rect
-        bottomLeftMargin, // marginOffsetX
       );
 
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };
