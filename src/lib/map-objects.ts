@@ -210,7 +210,6 @@ export function buildMapObjects(
         leftDescOrigin,
         0,
         0,
-        0.1, // small gap below leftLabel rect
       );
 
       // bottomLabel sits centered below the icon
@@ -223,7 +222,6 @@ export function buildMapObjects(
         anchorPoint,
         iconW,
         iconH,
-        0.05, // gap between icon bottom and label rect top
       );
 
       // bottomDesc sits below the bottomLabel rect
@@ -240,7 +238,6 @@ export function buildMapObjects(
         bottomDescOrigin,
         iconW, // use iconW to align with left edge of the icon
         0,
-        0.5, // gap between bottomLabel rect and bottomDesc rect
       );
 
       const iconRect: Rect = { x: xPos, y: yPos, width: iconW, height: iconH };

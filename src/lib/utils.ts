@@ -249,7 +249,6 @@ function computeLabelLayout(
   svgPt: { x: number; y: number },
   iconW: number,
   iconH: number,
-  marginOffset = 0.0, ///////////
 ): LabelLayout {
   let fontSizeMm = 3.526; // matches font-size="3.526" in CorelDraw
   let rectHeight = 2.917; // mm — matches text height in CorelDraw
@@ -272,14 +271,16 @@ function computeLabelLayout(
   let textAnchor: 'end' | 'start' | 'middle';
 
   // Vertical baseline for left/right labels: icon bottom edge + a small inward nudge
-  const sideBaselineY = Number((svgPt.y + iconH / 2 - 0.2).toFixed(3));
+  const leftRightSidesBaselineY = Number(
+    (svgPt.y + iconH / 2 - 0.2).toFixed(3),
+  );
 
   switch (anchor) {
     case 'left': {
       textAnchor = 'end';
       const marginOffsetX = -0.5;
       textX = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
-      textY = sideBaselineY;
+      textY = leftRightSidesBaselineY;
       rectX = Number((textX - textWidth - rectPadX).toFixed(3));
       rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
       break;
@@ -289,7 +290,7 @@ function computeLabelLayout(
       textAnchor = 'start';
       const marginOffsetX = 0.5;
       textX = Number((svgPt.x + iconW / 2 + marginOffsetX).toFixed(3));
-      textY = sideBaselineY;
+      textY = leftRightSidesBaselineY;
       rectX = Number((textX - rectPadX).toFixed(3));
       rectY = Number((textY - rectHeight + rectPadY).toFixed(3));
       break;
@@ -297,8 +298,9 @@ function computeLabelLayout(
 
     case 'bottom-center': {
       textAnchor = 'middle';
+      const marginOffsetY = 0.1;
       textX = Number(svgPt.x.toFixed(3));
-      rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
+      rectY = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
       textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
       rectX = Number((textX - textWidth / 2 - rectPadX).toFixed(3));
       break;
@@ -307,8 +309,9 @@ function computeLabelLayout(
     case 'bottom-left': {
       textAnchor = 'start';
       const marginOffsetX = 1.5;
+      const marginOffsetY = 0.2;
       textX = Number((svgPt.x - iconW / 2 + marginOffsetX).toFixed(3));
-      rectY = Number((svgPt.y + iconH / 2 + marginOffset).toFixed(3));
+      rectY = Number((svgPt.y + iconH / 2 + marginOffsetY).toFixed(3));
       textY = Number((rectY + rectHeight - rectPadY).toFixed(3));
       rectX = Number((textX - rectPadX).toFixed(3));
       break;
