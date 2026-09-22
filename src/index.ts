@@ -2,11 +2,11 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 import { CsvRow, parseCSV } from './lib/csv.js';
-import { buildBlueForceElements } from './lib/elements.js';
 import { MapFormatConfig, createMapContext } from './lib/geo.js';
 import { buildIconsDefs } from './lib/icons.js';
 import { buildLUnitsSpearationLinesSVGs } from './lib/lines.js';
-import { renderBlueForceSVG } from './lib/render-points-svg.js';
+import { buildMapObjects } from './lib/map-objects.js';
+import { renderElementsSVG } from './lib/render-objects-svg.js';
 import { resolveOverlappingRenderPoints } from './lib/resolve-overlaps.js';
 import { buildFinalSvg } from './lib/svg.js';
 
@@ -70,7 +70,7 @@ for (const format of MAP_FORMATS) {
   ); //
 
   // Generate SVG elements for Blue Force points (marker + labels grouped per element)
-  const preparedElements = buildBlueForceElements(
+  const preparedObjects = buildMapObjects(
     blueCsvData,
     iconRenderedSizes,
     map.inWindow,
@@ -80,13 +80,13 @@ for (const format of MAP_FORMATS) {
   // calculat new renderPoint due to overlapping
   //step 1: find overlapping
   //step 2: move elements to avoid overlapping
-  resolveOverlappingRenderPoints(preparedElements);
+  resolveOverlappingRenderPoints(preparedObjects);
 
   // step to generate svg
-  const blueForceElements = renderBlueForceSVG(preparedElements);
+  const blueForceObjects = renderElementsSVG(preparedObjects);
 
   //count overlapping
-  const overlappingCount = preparedElements.filter(
+  const overlappingCount = preparedObjects.filter(
     (el) => el.status !== 'idle',
   ).length;
 
@@ -95,7 +95,7 @@ for (const format of MAP_FORMATS) {
     map,
     generatedIconsDefs,
     unitsSpearationLinesSVGs,
-    blueForceElements,
+    blueForceObjects,
   );
 
   const filename =
@@ -110,7 +110,7 @@ for (const format of MAP_FORMATS) {
   );
   console.log(`Output: ${outputPath}`);
   console.log(`- Top-Left MGRS: ${map.mgrsTL}`);
-  console.log(`- Blue Force points in window: ${blueForceElements.length}`);
+  console.log(`- Blue Force points in window: ${blueForceObjects.length}`);
   console.log(`- Overlapping elements marked red: ${overlappingCount}`);
   console.log(`- Custom mapped icons: ${customIconCount}`);
   console.log(

@@ -1,4 +1,4 @@
-import { BlueForceElementLayout } from './elements.js';
+import { BlueForceElementLayout } from './map-objects.js';
 
 /** Search grid step size in mm */
 const STEP_MM = 1.5;

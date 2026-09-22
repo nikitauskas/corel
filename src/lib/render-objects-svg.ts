@@ -1,4 +1,4 @@
-import { BlueForceElementLayout } from './elements.js';
+import { BlueForceElementLayout } from './map-objects.js';
 
 const CONNECTOR_STUB_MM = 4.5;
 
@@ -31,7 +31,7 @@ function renderConnector(
   stroke-width="0.4" />`;
 }
 
-export function renderBlueForceSVG(
+export function renderElementsSVG(
   preparedElements: BlueForceElementLayout[],
 ): string[] {
   const blueForceElements: string[] = [];

@@ -88,7 +88,7 @@ export interface BlueForceElementLayout {
   };
 }
 
-export function buildBlueForceElements(
+export function buildMapObjects(
   csvData: CsvRow[],
   iconRenderedSizes: [number, number][],
   inWindow: (lon: number, lat: number) => boolean,
