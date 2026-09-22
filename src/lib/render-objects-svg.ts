@@ -97,12 +97,20 @@ export function renderElementsSVG(
         yPos,
         leftLabel,
         rightLabel,
+        topLabel,
         leftDesc,
         bottomLabel,
         bottomDesc,
       } = el.iconDetails;
 
       const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
+
+      if (topLabel.cleanText) {
+        elementLines.push(
+          `      <rect x="${topLabel.rectX}" y="${topLabel.rectY}" width="${topLabel.rectW}" height="${topLabel.rectH}" fill="${topLabel.bgColor}" />`,
+          `      <text id="blue-label-top-${idx + 1}" x="${topLabel.textX.toFixed(3)}" y="${topLabel.textY.toFixed(3)}" text-anchor="${topLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${topLabel.cleanText}</text>`,
+        );
+      }
 
       if (leftLabel.cleanText) {
         elementLines.push(

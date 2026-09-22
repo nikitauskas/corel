@@ -82,6 +82,7 @@ export interface MapObjectLayout {
     leftDesc: LabelLayout;
     bottomLabel: LabelLayout;
     bottomDesc: LabelLayout;
+    topLabel: LabelLayout;
   };
   circleDetails?: {
     cleanText: string;
@@ -120,6 +121,7 @@ export function buildMapObjects(
       let rightDescText = '';
       let bottomLabelText = '';
       let bottomDescText = '';
+      const topLabelText = 'o';
 
       const leftLabelBg = '#92B4EC';
       const leftDescBg = 'none';
@@ -205,7 +207,7 @@ export function buildMapObjects(
 
       const leftDesc = computeLabelLayout(
         leftDescText,
-        'bottom',
+        'center',
         leftDescBg,
         'sm',
         'desc',
@@ -216,11 +218,21 @@ export function buildMapObjects(
       // bottomLabel sits centered below the icon
       const bottomLabel = computeLabelLayout(
         bottomLabelText,
-        isHQ ? 'headquarter' : 'bottom',
+        isHQ ? 'headquarter' : 'center',
         bottomLabelBg,
         'md',
         'label',
         anchorPoint,
+        iconSize,
+      );
+
+      const topLabel = computeLabelLayout(
+        topLabelText,
+        'center',
+        bottomLabelBg,
+        'md',
+        'label',
+        { x: anchorPoint.x, y: anchorPoint.y - iconSize.height },
         iconSize,
       );
 
@@ -264,9 +276,14 @@ export function buildMapObjects(
           });
         }
       };
-      [leftLabel, leftDesc, bottomLabel, bottomDesc, rightLabel].forEach(
-        addLabelRect,
-      );
+      [
+        leftLabel,
+        leftDesc,
+        bottomLabel,
+        bottomDesc,
+        rightLabel,
+        topLabel,
+      ].forEach(addLabelRect);
 
       const bbox = computeBoundingBox(parts);
 
@@ -285,10 +302,11 @@ export function buildMapObjects(
           xPos,
           yPos,
           leftLabel,
-          rightLabel,
           leftDesc,
+          rightLabel,
           bottomLabel,
           bottomDesc,
+          topLabel,
         },
       };
     }

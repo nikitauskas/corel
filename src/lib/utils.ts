@@ -210,7 +210,6 @@ function measureTextWidthMm(text: string, fontSizeMm: number): number {
  * - `bottom` – text-anchor="middle", text is horizontally centered below the icon
  * - `headquarter`   – text-anchor="start",  text starts from the icon's left edge, grows right
  */
-export type LabelAnchor = 'left' | 'right' | 'bottom' | 'headquarter';
 
 /** All geometric + content data needed to render a label + its background rect. */
 export interface LabelLayout {
@@ -242,7 +241,7 @@ export interface LabelLayout {
  */
 function computeLabelLayout(
   rawName: string,
-  anchor: LabelAnchor,
+  anchor: 'left' | 'right' | 'center' | 'headquarter',
   bgColor: string,
   size: 'sm' | 'md',
   type: 'label' | 'desc',
@@ -301,7 +300,7 @@ function computeLabelLayout(
       break;
     }
 
-    case 'bottom': {
+    case 'center': {
       textAnchor = 'middle';
       const marginOffsetY = 0.1;
       const verticalShift = type === 'desc' ? 0 : iconSize.height / 2;
