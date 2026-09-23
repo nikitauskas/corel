@@ -28,6 +28,10 @@ export const mappingSVGs: Record<
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
+  'Безпілотний наземний транспортний засіб': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
 
   Антена: {
     height: STANDARD_ICON_SIZE_MM,
