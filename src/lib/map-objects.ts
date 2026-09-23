@@ -3,12 +3,9 @@ import { Point } from './geo.js';
 import { mappingSVGs } from './icons.js';
 import {
   BoundingBox,
-  LabelLayout,
   Rect,
   boundingBoxesOverlap,
   computeBoundingBox,
-  computeLabelLayout,
-  measureTextWidthMm,
   rectsOverlap,
 } from './utils.js';
 
@@ -16,7 +13,11 @@ const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
 
 import { CsvRow } from './csv.js';
-import { labelBuilder } from './label-builder.js';
+import {
+  LabelLayout,
+  labelBuilder,
+  measureTextWidthMm,
+} from './label-builder.js';
 
 export function filterMapObjectsInsideWindow(
   csvData: CsvRow[],
@@ -122,7 +123,7 @@ export function buildMapObjects(
       let rightDescText = '';
       let bottomLabelText = '';
       let bottomDescText = '';
-      const topLabelText = 'o';
+      const topLabelText = '';
 
       const blueBg = '#92B4EC';
       const leftLabelBg = '#92B4EC';
@@ -221,14 +222,13 @@ export function buildMapObjects(
         'sm',
       );
 
-      const topLabel = computeLabelLayout(
+      const topLabel = labelBuilder(
         topLabelText,
-        'center',
-        bottomLabelBg,
-        'md',
-        'label',
-        { x: anchorPoint.x, y: anchorPoint.y - iconSize.height },
-        iconSize,
+        [xIconCenter, yIconTop],
+        'middle',
+        'up',
+        'sm',
+        'none',
       );
 
       const bottomLabel = labelBuilder(
@@ -237,6 +237,7 @@ export function buildMapObjects(
         isHQ ? 'start' : 'middle',
         'down',
         'sm',
+        'red',
       );
 
       const bottomLabelAnchor = {
