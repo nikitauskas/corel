@@ -35,6 +35,16 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
+  'Важкий міномет': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Важкий кулемет': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
   Радіоретрансляція: {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
