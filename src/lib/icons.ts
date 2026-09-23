@@ -24,6 +24,17 @@ export const mappingSVGs: Record<
     height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
+
+  РЛС: {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 3,
+  },
+
+  'Підрозділ польової артилерії': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  }, ///
+
   'Підрозділ безпілотних літальних апаратів (БпЛА)': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
