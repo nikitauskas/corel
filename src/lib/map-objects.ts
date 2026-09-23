@@ -103,204 +103,171 @@ export function buildMapObjects(
       (key) => key === ptApp6dType,
     );
 
-    if (mappingIdx !== -1) {
-      const iconSize = iconRenderedSizes[mappingIdx] ?? {
-        width: 8.0,
-        height: 8.0,
-      };
+    const iconSize = iconRenderedSizes[mappingIdx === -1 ? 0 : mappingIdx] ?? {
+      width: 8.0,
+      height: 8.0,
+    };
 
-      const xPos = Number((anchorPoint.x - iconSize.width / 2).toFixed(3));
-      const yPos = Number((anchorPoint.y - iconSize.height / 2).toFixed(3));
+    const xPos = Number((anchorPoint.x - iconSize.width / 2).toFixed(3));
+    const yPos = Number((anchorPoint.y - iconSize.height / 2).toFixed(3));
 
-      let leftLabelText = '';
-      let leftDescText = '';
-      let rightLabelText = '';
-      let rightDescText = '';
-      let bottomLabelText = '';
-      let bottomDescText = '';
-      const topLabelText = '';
+    let leftLabelText = '';
+    let leftDescText = '';
+    let rightLabelText = '';
+    let rightDescText = '';
+    let bottomLabelText = '';
+    let bottomDescText = '';
+    const topLabelText = '';
 
-      const blueBg = '#92B4EC';
+    const blueBg = '#92B4EC';
 
-      if (pt.name) {
-        leftLabelText = pt.name;
-      } else {
-        leftLabelText = 'Left Label';
-      }
-
-      if (pt.count) {
-        const countNum = pt.count;
-        const rifleType = pt.comments?.toLowerCase().includes('colt')
-          ? 'ColtM4A1'
-          : 'AK74';
-        leftDescText =
-          rifleType && countNum
-            ? `${rifleType}-${countNum}од`
-            : 'XXXXXXXXXXXXX од.';
-        leftDescText;
-      }
-
-      if (pt.isHQ) {
-        bottomLabelText = pt.name ?? '';
-        bottomDescText = leftDescText;
-        rightLabelText = '';
-        rightDescText = '';
-        leftLabelText = '';
-        leftDescText = '';
-      }
-
-      if (ptApp6dType === 'Стик (між частинами та підрозділами)') {
-        bottomLabelText = pt.name ?? '';
-        rightLabelText = '';
-        rightDescText = '';
-        leftLabelText = '';
-        leftDescText = '';
-      }
-
-      const margin = 0.5;
-      const xIconLeft = anchorPoint.x - iconSize.width / 2;
-      const xIconRight = anchorPoint.x + iconSize.width / 2;
-      const xIconCenter = anchorPoint.x;
-      const yIconTop = anchorPoint.y - iconSize.height / 2;
-      const yIconBottom = anchorPoint.y + iconSize.height / 2;
-
-      const rightLabel = labelBuilder(
-        rightLabelText,
-        [xIconRight, yIconBottom],
-        'start',
-        'up',
-        'md',
-        blueBg,
-      );
-
-      const leftLabel = labelBuilder(
-        leftLabelText,
-        [xIconLeft, yIconBottom],
-        'end',
-        'up',
-        'md',
-        blueBg,
-      );
-
-      // leftDesc sits below the leftLabel rect, centered on it
-      const leftLabelBottomCenterAnchor = {
-        x: leftLabel.rectX + leftLabel.rectW / 2,
-        y: leftLabel.rectY + leftLabel.rectH,
-      };
-
-      const leftDesc = labelBuilder(
-        leftDescText,
-        [leftLabelBottomCenterAnchor.x, leftLabelBottomCenterAnchor.y],
-        'middle',
-        'down',
-        'sm',
-      );
-
-      const topLabel = labelBuilder(
-        topLabelText,
-        [xIconCenter, yIconTop],
-        'middle',
-        'up',
-        'sm',
-      );
-
-      const bottomLabel = labelBuilder(
-        bottomLabelText,
-        isHQ ? [xIconLeft, yIconBottom] : [xIconCenter, yIconBottom],
-        isHQ ? 'start' : 'middle',
-        'down',
-        'md',
-      );
-
-      const bottomLabelAnchor = {
-        x: bottomLabel.rectX,
-        y: bottomLabel.rectY + bottomLabel.rectH,
-      };
-
-      const bottomDesc = labelBuilder(
-        bottomDescText,
-        [bottomLabelAnchor.x, bottomLabelAnchor.y],
-        isHQ ? 'start' : 'middle',
-        'down',
-        'sm',
-      );
-
-      const labels: LabelLayout[] = [
-        leftLabel,
-        leftDesc,
-        rightLabel,
-        bottomLabel,
-        bottomDesc,
-        topLabel,
-      ].filter((l) => l.cleanText !== '');
-
-      const iconRect: Rect = {
-        x: xPos,
-        y: yPos,
-        width: iconSize.width,
-        height: iconSize.height,
-      };
-      const parts: Rect[] = [iconRect];
-
-      const addLabelRect = (label: {
-        cleanText: string;
-        rectX: number;
-        rectY: number;
-        rectW: number;
-        rectH: number;
-      }) => {
-        if (label.cleanText) {
-          parts.push({
-            x: label.rectX,
-            y: label.rectY,
-            width: label.rectW,
-            height: label.rectH,
-          });
-        }
-      };
-      labels.forEach(addLabelRect);
-
-      const bbox = computeBoundingBox(parts);
-
-      return {
-        pt,
-        idx,
-        anchorPoint,
-        mappingIdx,
-        ptApp6dType,
-        parts,
-        bbox,
-        status: 'idle',
-        iconDetails: {
-          iconW: iconSize.width,
-          iconH: iconSize.height,
-          xPos,
-          yPos,
-          labels,
-        },
-      };
+    if (pt.name) {
+      leftLabelText = pt.name;
+    } else {
+      leftLabelText = 'Left Label';
     }
 
-    // Fallback circular marker
-    let labelText = pt.name && pt.name !== '●' ? pt.name : pt.desc || '';
-    if (!labelText || labelText === '●') {
-      labelText = `Blue #${idx + 1}`;
+    if (pt.count) {
+      const countNum = pt.count;
+      const rifleType = pt.comments?.toLowerCase().includes('colt')
+        ? 'ColtM4A1'
+        : 'AK74';
+      leftDescText =
+        rifleType && countNum
+          ? `${rifleType}-${countNum}од`
+          : 'XXXXXXXXXXXXX од.';
+      leftDescText;
     }
-    const cleanText = labelText;
-    const circleRect: Rect = {
-      x: anchorPoint.x - 2.0,
-      y: anchorPoint.y - 2.0,
-      width: 4.0,
-      height: 4.0,
+
+    if (pt.isHQ) {
+      bottomLabelText = pt.name ?? '';
+      bottomDescText = leftDescText;
+      rightLabelText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
+    }
+
+    if (ptApp6dType === 'Стик (між частинами та підрозділами)') {
+      bottomLabelText = pt.name ?? '';
+      rightLabelText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
+    }
+
+    if (mappingIdx === -1) {
+      bottomLabelText = pt.name ?? '';
+      bottomDescText = `Error - ${pt.app6dType}`;
+      rightLabelText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
+    }
+
+    const margin = 0.5;
+    const xIconLeft = anchorPoint.x - iconSize.width / 2;
+    const xIconRight = anchorPoint.x + iconSize.width / 2;
+    const xIconCenter = anchorPoint.x;
+    const yIconTop = anchorPoint.y - iconSize.height / 2;
+    const yIconBottom = anchorPoint.y + iconSize.height / 2;
+
+    const rightLabel = labelBuilder(
+      rightLabelText,
+      [xIconRight, yIconBottom],
+      'start',
+      'up',
+      'md',
+      blueBg,
+    );
+
+    const leftLabel = labelBuilder(
+      leftLabelText,
+      [xIconLeft, yIconBottom],
+      'end',
+      'up',
+      'md',
+      blueBg,
+    );
+
+    // leftDesc sits below the leftLabel rect, centered on it
+    const leftLabelBottomCenterAnchor = {
+      x: leftLabel.rectX + leftLabel.rectW / 2,
+      y: leftLabel.rectY + leftLabel.rectH,
     };
-    const textW = measureTextWidthMm(cleanText, 1.6);
-    const textRect: Rect = {
-      x: anchorPoint.x - textW / 2,
-      y: anchorPoint.y + 4.2 - 1.6,
-      width: textW,
-      height: 1.6,
+
+    const leftDesc = labelBuilder(
+      leftDescText,
+      [leftLabelBottomCenterAnchor.x, leftLabelBottomCenterAnchor.y],
+      'middle',
+      'down',
+      'sm',
+    );
+
+    const topLabel = labelBuilder(
+      topLabelText,
+      [xIconCenter, yIconTop],
+      'middle',
+      'up',
+      'sm',
+    );
+
+    const bottomLabel = labelBuilder(
+      bottomLabelText,
+      isHQ ? [xIconLeft, yIconBottom] : [xIconCenter, yIconBottom],
+      isHQ ? 'start' : 'middle',
+      'down',
+      'md',
+    );
+
+    const bottomLabelAnchor = {
+      x: bottomLabel.rectX,
+      y: bottomLabel.rectY + bottomLabel.rectH,
     };
-    const parts = [circleRect, textRect];
+
+    const bottomDesc = labelBuilder(
+      bottomDescText,
+      [bottomLabelAnchor.x, bottomLabelAnchor.y],
+      isHQ ? 'start' : 'middle',
+      'down',
+      'sm',
+    );
+
+    const labels: LabelLayout[] = [
+      leftLabel,
+      leftDesc,
+      rightLabel,
+      bottomLabel,
+      bottomDesc,
+      topLabel,
+    ].filter((l) => l.cleanText !== '');
+
+    const iconRect: Rect = {
+      x: xPos,
+      y: yPos,
+      width: iconSize.width,
+      height: iconSize.height,
+    };
+    const parts: Rect[] = [iconRect];
+
+    const addLabelRect = (label: {
+      cleanText: string;
+      rectX: number;
+      rectY: number;
+      rectW: number;
+      rectH: number;
+    }) => {
+      if (label.cleanText) {
+        parts.push({
+          x: label.rectX,
+          y: label.rectY,
+          width: label.rectW,
+          height: label.rectH,
+        });
+      }
+    };
+    labels.forEach(addLabelRect);
+
     const bbox = computeBoundingBox(parts);
 
     return {
@@ -312,8 +279,12 @@ export function buildMapObjects(
       parts,
       bbox,
       status: 'idle',
-      circleDetails: {
-        cleanText,
+      iconDetails: {
+        iconW: iconSize.width,
+        iconH: iconSize.height,
+        xPos,
+        yPos,
+        labels,
       },
     };
   });

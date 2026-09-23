@@ -92,8 +92,10 @@ export function renderElementsSVG(
       );
     }
 
-    if (el.mappingIdx !== -1 && el.iconDetails) {
+    if (el.iconDetails) {
       const { xPos, yPos, labels } = el.iconDetails;
+
+      if (el.mappingIdx === -1) el.mappingIdx = 0;
 
       const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
 

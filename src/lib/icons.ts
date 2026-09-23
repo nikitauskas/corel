@@ -10,6 +10,11 @@ export const mappingSVGs: Record<
     priority: number;
   }
 > = {
+  Error: {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 10,
+  },
+
   'Точка злету БпЛА літакового типу': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,
