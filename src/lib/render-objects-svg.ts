@@ -1,3 +1,4 @@
+import { LAYOUT_CONFIG } from './label-builder.js';
 import { MapObjectLayout } from './map-objects.js';
 
 const CONNECTOR_STUB_MM = 4.5;
@@ -92,58 +93,14 @@ export function renderElementsSVG(
     }
 
     if (el.mappingIdx !== -1 && el.iconDetails) {
-      const {
-        xPos,
-        yPos,
-        leftLabel,
-        rightLabel,
-        topLabel,
-        leftDesc,
-        bottomLabel,
-        bottomDesc,
-      } = el.iconDetails;
+      const { xPos, yPos, labels } = el.iconDetails;
 
       const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
 
-      if (topLabel.cleanText) {
+      for (let i = 0; i < labels.length; i++) {
         elementLines.push(
-          `      <rect x="${topLabel.rectX}" y="${topLabel.rectY}" width="${topLabel.rectW}" height="${topLabel.rectH}" fill="${topLabel.bgColor}" />`,
-          `      <text id="blue-label-top-${idx + 1}" x="${topLabel.textX.toFixed(3)}" y="${topLabel.textY.toFixed(3)}" text-anchor="${topLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${topLabel.cleanText}</text>`,
-        );
-      }
-
-      if (leftLabel.cleanText) {
-        elementLines.push(
-          `      <rect x="${leftLabel.rectX}" y="${leftLabel.rectY}" width="${leftLabel.rectW}" height="${leftLabel.rectH}" fill="${leftLabel.bgColor}" />`,
-          `      <text id="blue-label-${idx + 1}" x="${leftLabel.textX}" y="${leftLabel.textY.toFixed(3)}" text-anchor="${leftLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${leftLabel.cleanText}</text>`,
-        );
-      }
-
-      if (rightLabel.cleanText) {
-        elementLines.push(
-          `      <rect x="${rightLabel.rectX}" y="${rightLabel.rectY}" width="${rightLabel.rectW}" height="${rightLabel.rectH}"  fill="${rightLabel.bgColor}" />`,
-          `      <text id="blue-label-right-${idx + 1}" x="${rightLabel.textX}" y="${rightLabel.textY.toFixed(3)}" text-anchor="${rightLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${rightLabel.cleanText}</text>`,
-        );
-      }
-
-      if (bottomLabel.cleanText) {
-        elementLines.push(
-          `      <rect x="${bottomLabel.rectX}" y="${bottomLabel.rectY}" width="${bottomLabel.rectW}" height="${bottomLabel.rectH}" fill="${bottomLabel.bgColor}" />`,
-          `      <text id="blue-label-bottom-${idx + 1}" x="${bottomLabel.textX.toFixed(3)}" y="${bottomLabel.textY.toFixed(3)}" text-anchor="${bottomLabel.textAnchor}" font-family="ArialBI, sans-serif" font-size="3.526" fill="#000000">${bottomLabel.cleanText}</text>`,
-        );
-      }
-
-      if (bottomDesc.cleanText) {
-        elementLines.push(
-          `      <rect x="${bottomDesc.rectX}" y="${bottomDesc.rectY}" width="${bottomDesc.rectW}" height="${bottomDesc.rectH}" fill="${bottomDesc.bgColor}"/>`,
-          `      <text id="blue-label-bottom-desc-${idx + 1}" x="${bottomDesc.textX.toFixed(3)}" y="${bottomDesc.textY.toFixed(3)}" text-anchor="${bottomDesc.textAnchor}" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${bottomDesc.cleanText}</text>`,
-        );
-      }
-
-      if (leftDesc.cleanText) {
-        elementLines.push(
-          `      <rect x="${leftDesc.rectX}" y="${leftDesc.rectY}" width="${leftDesc.rectW}" height="${leftDesc.rectH}" fill="${leftDesc.bgColor}"/>`,
-          `      <text id="blue-label-desc-${idx + 1}" x="${leftDesc.textX.toFixed(3)}" y="${leftDesc.textY.toFixed(3)}" text-anchor="${leftDesc.textAnchor}" font-family="ArialBI, sans-serif" font-size="2.822" fill="#000000">${leftDesc.cleanText}</text>`,
+          `      <rect x="${labels[i].rectX}" y="${labels[i].rectY}" width="${labels[i].rectW}" height="${labels[i].rectH}" fill="${labels[i].bgColor}" />`,
+          `      <text id="blue-label-top-${idx + 1}-${i + 1}" x="${labels[i].textX.toFixed(3)}" y="${labels[i].textY.toFixed(3)}" text-anchor="${labels[i].textAnchor}" font-family="ArialBI, sans-serif" font-size="${LAYOUT_CONFIG.fontSize[labels[i].fontSize]}" fill="#000000">${labels[i].cleanText}</text>`,
         );
       }
 

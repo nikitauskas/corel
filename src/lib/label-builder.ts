@@ -7,6 +7,7 @@ export interface LabelLayout {
   textY: number;
   /** SVG text-anchor attribute value. */
   textAnchor: 'end' | 'start' | 'middle';
+  fontSize: 'sm' | 'md';
   fontStyle: 'normal' | 'italic' | 'bold' | 'bold-italic';
   rectX: number;
   rectY: number;
@@ -15,6 +16,14 @@ export interface LabelLayout {
   bgColor: string;
 }
 
+export const LAYOUT_CONFIG = {
+  rectPadX: 0.9,
+  rectPadY: 0.05,
+  spacing: 0.2, // Gap between stacked labels
+  fontSize: { sm: 2.822, md: 3.526 },
+  rectHeight: { sm: 2.822, md: 2.917 },
+} as const;
+
 const round = (val: number, decimals = 3) => Number(val.toFixed(decimals));
 
 export const labelBuilder = (
@@ -22,28 +31,25 @@ export const labelBuilder = (
   anchor: [anchorX: number, anchorY: number],
   textAnchor: 'start' | 'middle' | 'end',
   dir: 'down' | 'up' = 'down',
-  textSize: 'sm' | 'md' = 'md',
+  fontSize: 'sm' | 'md' = 'md',
   bgColor = 'none',
   fontStyle: 'normal' | 'italic' | 'bold' | 'bold-italic' = 'bold-italic',
 ): LabelLayout => {
   const [anchorX, anchorY] = anchor;
 
-  let fontSizeMm = 3.526; // matches font-size="3.526" in CorelDraw
-  let rectHeight = 2.917; // mm — matches text height in CorelDraw
+  let fontSizeMm = LAYOUT_CONFIG.fontSize[fontSize];
+  let rectHeight = LAYOUT_CONFIG.rectHeight[fontSize];
   let currentY = anchorY;
-
-  const rectPadX = 0.9;
-  const rectPadY = 0.05;
 
   const cleanText = rawName ?? '';
 
-  if (textSize === 'sm') {
+  if (fontSize === 'sm') {
     fontSizeMm = 2.822;
     rectHeight = 2.822;
   }
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
-  const rectW = textWidth + rectPadX * 2;
+  const rectW = textWidth + LAYOUT_CONFIG.rectPadX * 2;
   const rectH = rectHeight;
 
   let rectX: number;
@@ -66,18 +72,19 @@ export const labelBuilder = (
 
   const textX =
     textAnchor === 'start'
-      ? rectX + rectPadX
+      ? rectX + LAYOUT_CONFIG.rectPadX
       : textAnchor === 'end'
-        ? rectX + rectW - rectPadX
+        ? rectX + rectW - LAYOUT_CONFIG.rectPadX
         : anchorX;
 
-  const textY = rectY + rectH - rectPadY;
+  const textY = rectY + rectH - LAYOUT_CONFIG.rectPadY;
 
   return {
     cleanText,
     textX: round(textX),
     textY: round(textY),
     textAnchor,
+    fontSize,
     fontStyle,
     rectX: round(rectX),
     rectY: round(rectY),
@@ -95,7 +102,7 @@ export const labelBuilder = (
 
 const CHAR_WIDTHS_1000: Record<string, number> = {
   // space & basic punctuation
-  ' ': 678,
+  ' ': 278,
   '!': 333,
   '"': 474,
   '#': 556,
@@ -212,14 +219,14 @@ const CHAR_WIDTHS_1000: Record<string, number> = {
   І: 278,
   Ї: 278,
   Й: 722,
-  К: 822,
+  К: 722,
   Л: 722,
   М: 833,
   Н: 722,
   О: 778,
-  П: 822,
+  П: 722,
   Р: 667,
-  С: 822,
+  С: 722,
   Т: 611,
   У: 667,
   Ф: 833,

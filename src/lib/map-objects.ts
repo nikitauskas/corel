@@ -79,12 +79,7 @@ export interface MapObjectLayout {
     iconH: number;
     xPos: number;
     yPos: number;
-    leftLabel: LabelLayout;
-    rightLabel: LabelLayout;
-    leftDesc: LabelLayout;
-    bottomLabel: LabelLayout;
-    bottomDesc: LabelLayout;
-    topLabel: LabelLayout;
+    labels: LabelLayout[];
   };
   circleDetails?: {
     cleanText: string;
@@ -235,7 +230,8 @@ export function buildMapObjects(
         isHQ ? [xIconLeft, yIconBottom] : [xIconCenter, yIconBottom],
         isHQ ? 'start' : 'middle',
         'down',
-        'sm',
+        'md',
+        'red',
       );
 
       const bottomLabelAnchor = {
@@ -300,12 +296,14 @@ export function buildMapObjects(
           iconH: iconSize.height,
           xPos,
           yPos,
-          leftLabel,
-          leftDesc,
-          rightLabel,
-          bottomLabel,
-          bottomDesc,
-          topLabel,
+          labels: [
+            leftLabel,
+            leftDesc,
+            rightLabel,
+            bottomLabel,
+            bottomDesc,
+            topLabel,
+          ],
         },
       };
     }
