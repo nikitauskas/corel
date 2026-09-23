@@ -16,6 +16,7 @@ export interface Point {
   higherFrmation?: string;
   comments?: string;
   isHQ?: boolean;
+  echelon?: string;
 }
 
 export interface MapFormatConfig {

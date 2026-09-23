@@ -38,6 +38,8 @@ export function filterMapObjectsInsideWindow(
     const higherFrmation = row['Вище формування']?.trim() || '';
     const comments = row.comments?.trim() || '';
 
+    const echelon = row.Ешелон?.trim() || '';
+
     if (mgrsStr) {
       try {
         const [lon, lat] = mgrs.toPoint(mgrsStr);
@@ -53,6 +55,7 @@ export function filterMapObjectsInsideWindow(
             app6dType,
             higherFrmation,
             comments,
+            echelon,
           });
         }
       } catch (e) {
@@ -117,7 +120,7 @@ export function buildMapObjects(
     let rightDescText = '';
     let bottomLabelText = '';
     let bottomDescText = '';
-    const topLabelText = '';
+    let topLabelText = '';
 
     const blueBg = '#92B4EC';
 
@@ -125,6 +128,16 @@ export function buildMapObjects(
       leftLabelText = pt.name;
     } else {
       leftLabelText = 'Left Label';
+    }
+
+    if (pt.higherFrmation) {
+      rightLabelText = pt.higherFrmation;
+    }
+
+    if (pt.echelon === 'Батальйон / дивізіон') {
+      topLabelText = 'II';
+    } else if (pt.echelon === 'Рота / батарея') {
+      topLabelText = 'I';
     }
 
     if (pt.count) {
@@ -142,7 +155,7 @@ export function buildMapObjects(
     if (pt.isHQ) {
       bottomLabelText = pt.name ?? '';
       bottomDescText = leftDescText;
-      rightLabelText = '';
+      //rightLabelText = '';
       rightDescText = '';
       leftLabelText = '';
       leftDescText = '';
@@ -209,7 +222,9 @@ export function buildMapObjects(
       [xIconCenter, yIconTop],
       'middle',
       'up',
-      'sm',
+      'md',
+      'none',
+      'normal',
     );
 
     const bottomLabel = labelBuilder(

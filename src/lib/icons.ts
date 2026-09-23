@@ -20,7 +20,21 @@ export const mappingSVGs: Record<
     priority: 6,
   },
 
+  'Радіоелектронна боротьба - Створення перешкод': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 3,
+  },
+  'Підрозділ безпілотних літальних апаратів (БпЛА)': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
   Антена: {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Середня польова гармата': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
