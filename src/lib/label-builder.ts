@@ -43,16 +43,11 @@ export const labelBuilder = (
 ): LabelLayout => {
   const [anchorX, anchorY] = anchor;
 
-  let fontSizeMm = LAYOUT_CONFIG.fontSize[fontSize];
-  let rectHeight = LAYOUT_CONFIG.rectHeight[fontSize];
+  const fontSizeMm = LAYOUT_CONFIG.fontSize[fontSize];
+  const rectHeight = LAYOUT_CONFIG.rectHeight[fontSize];
   let currentY = anchorY;
 
   const cleanText = rawName ?? '';
-
-  if (fontSize === 'sm') {
-    fontSizeMm = 2.822;
-    rectHeight = 2.822;
-  }
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
   const rectW = textWidth + LAYOUT_CONFIG.rectPadX * 2;
