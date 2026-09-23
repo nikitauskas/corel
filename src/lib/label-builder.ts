@@ -1,5 +1,7 @@
 import { LabelLayout, measureTextWidthMm } from './utils.js';
 
+const round = (val: number, decimals = 3) => Number(val.toFixed(decimals));
+
 export const labelBuilder = (
   rawName: string,
   anchor: [anchorX: number, anchorY: number],
@@ -57,13 +59,13 @@ export const labelBuilder = (
 
   return {
     cleanText,
-    textX,
-    textY,
+    textX: round(textX),
+    textY: round(textY),
     textAnchor,
-    rectX,
-    rectY,
-    rectW,
-    rectH,
+    rectX: round(rectX),
+    rectY: round(rectY),
+    rectW: round(rectW),
+    rectH: round(rectH),
     bgColor,
   };
 };
