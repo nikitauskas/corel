@@ -33,12 +33,12 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
-  'Підрозділ безпілотних наземних апаратів': {
+  'Мінометний підрозділ': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Мінометний підрозділ': {
+  'Підрозділ безпілотних наземних апаратів': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
