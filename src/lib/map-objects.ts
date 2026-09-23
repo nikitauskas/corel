@@ -228,7 +228,6 @@ export function buildMapObjects(
         'middle',
         'up',
         'sm',
-        'none',
       );
 
       const bottomLabel = labelBuilder(
@@ -237,17 +236,16 @@ export function buildMapObjects(
         isHQ ? 'start' : 'middle',
         'down',
         'sm',
-        'red',
       );
 
       const bottomLabelAnchor = {
-        x: 0,
+        x: bottomLabel.rectX,
         y: bottomLabel.rectY + bottomLabel.rectH,
       };
 
       const bottomDesc = labelBuilder(
         bottomDescText,
-        [xIconLeft, bottomLabelAnchor.y],
+        [bottomLabelAnchor.x, bottomLabelAnchor.y],
         isHQ ? 'start' : 'middle',
         'down',
         'sm',

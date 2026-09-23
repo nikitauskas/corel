@@ -1,3 +1,92 @@
+/** All geometric + content data needed to render a label + its background rect. */
+export interface LabelLayout {
+  cleanText: string;
+  /** SVG text x anchor point. */
+  textX: number;
+  /** SVG text baseline y. */
+  textY: number;
+  /** SVG text-anchor attribute value. */
+  textAnchor: 'end' | 'start' | 'middle';
+  fontStyle: 'normal' | 'italic' | 'bold' | 'bold-italic';
+  rectX: number;
+  rectY: number;
+  rectW: number;
+  rectH: number;
+  bgColor: string;
+}
+
+const round = (val: number, decimals = 3) => Number(val.toFixed(decimals));
+
+export const labelBuilder = (
+  rawName: string,
+  anchor: [anchorX: number, anchorY: number],
+  textAnchor: 'start' | 'middle' | 'end',
+  dir: 'down' | 'up' = 'down',
+  textSize: 'sm' | 'md' = 'md',
+  bgColor = 'none',
+  fontStyle: 'normal' | 'italic' | 'bold' | 'bold-italic' = 'bold-italic',
+): LabelLayout => {
+  const [anchorX, anchorY] = anchor;
+
+  let fontSizeMm = 3.526; // matches font-size="3.526" in CorelDraw
+  let rectHeight = 2.917; // mm — matches text height in CorelDraw
+  let currentY = anchorY;
+
+  const rectPadX = 0.9;
+  const rectPadY = 0.05;
+
+  const cleanText = rawName ?? '';
+
+  if (textSize === 'sm') {
+    fontSizeMm = 2.822;
+    rectHeight = 2.822;
+  }
+
+  const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
+  const rectW = textWidth + rectPadX * 2;
+  const rectH = rectHeight;
+
+  let rectX: number;
+  if (textAnchor === 'start') {
+    rectX = anchorX;
+  } else if (textAnchor === 'end') {
+    rectX = anchorX - rectW;
+  } else {
+    rectX = anchorX - rectW / 2;
+  }
+
+  let rectY: number;
+  if (dir === 'down') {
+    rectY = currentY;
+    currentY += rectH;
+  } else {
+    rectY = currentY - rectH;
+    currentY -= rectH;
+  }
+
+  const textX =
+    textAnchor === 'start'
+      ? rectX + rectPadX
+      : textAnchor === 'end'
+        ? rectX + rectW - rectPadX
+        : anchorX;
+
+  const textY = rectY + rectH - rectPadY;
+
+  return {
+    cleanText,
+    textX: round(textX),
+    textY: round(textY),
+    textAnchor,
+    fontStyle,
+    rectX: round(rectX),
+    rectY: round(rectY),
+    rectW: round(rectW),
+    rectH: round(rectH),
+    bgColor,
+  };
+};
+
 // ─────────────────────────────────────────────────────────────
 // Arial Bold(Italic) glyph width table, units per 1000 em.
 // Italic transform is a skew, not a width change, so Bold metrics apply.
@@ -6,7 +95,7 @@
 
 const CHAR_WIDTHS_1000: Record<string, number> = {
   // space & basic punctuation
-  ' ': 278,
+  ' ': 678,
   '!': 333,
   '"': 474,
   '#': 556,
@@ -123,14 +212,14 @@ const CHAR_WIDTHS_1000: Record<string, number> = {
   І: 278,
   Ї: 278,
   Й: 722,
-  К: 722,
+  К: 822,
   Л: 722,
   М: 833,
   Н: 722,
   О: 778,
-  П: 722,
+  П: 822,
   Р: 667,
-  С: 722,
+  С: 822,
   Т: 611,
   У: 667,
   Ф: 833,
@@ -197,102 +286,3 @@ export function measureTextWidthMm(text: string, fontSizeMm: number): number {
   }
   return (totalUnits / 1000) * fontSizeMm;
 }
-
-// ─────────────────────────────────────────────────────────────
-// Unified label layout
-// ─────────────────────────────────────────────────────────────
-
-/**
- * Placement strategy for a label relative to its parent icon.
- *
- * - `left`          – text-anchor="end",    text sits to the left of the icon
- * - `right`         – text-anchor="start",  text sits to the right of the icon
- * - `bottom` – text-anchor="middle", text is horizontally centered below the icon
- * - `headquarter`   – text-anchor="start",  text starts from the icon's left edge, grows right
- */
-
-/** All geometric + content data needed to render a label + its background rect. */
-export interface LabelLayout {
-  cleanText: string;
-  /** SVG text x anchor point. */
-  textX: number;
-  /** SVG text baseline y. */
-  textY: number;
-  /** SVG text-anchor attribute value. */
-  textAnchor: 'end' | 'start' | 'middle';
-  rectX: number;
-  rectY: number;
-  rectW: number;
-  rectH: number;
-  bgColor: string;
-}
-
-const round = (val: number, decimals = 3) => Number(val.toFixed(decimals));
-
-export const labelBuilder = (
-  rawName: string,
-  anchor: [anchorX: number, anchorY: number],
-  textAnchor: 'start' | 'middle' | 'end',
-  dir: 'down' | 'up' = 'down',
-  textSize: 'sm' | 'md' = 'md',
-  bgColor = 'none',
-): LabelLayout => {
-  const [anchorX, anchorY] = anchor;
-
-  let fontSizeMm = 3.526; // matches font-size="3.526" in CorelDraw
-  let rectHeight = 2.917; // mm — matches text height in CorelDraw
-  let currentY = anchorY;
-
-  const rectPadX = 0.9;
-  const rectPadY = 0.05;
-
-  const cleanText = rawName ?? '';
-
-  if (textSize === 'sm') {
-    fontSizeMm = 2.822;
-    rectHeight = 2.822;
-  }
-
-  const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
-  const rectW = textWidth + rectPadX * 2;
-  const rectH = rectHeight;
-
-  let rectX: number;
-  if (textAnchor === 'start') {
-    rectX = anchorX;
-  } else if (textAnchor === 'end') {
-    rectX = anchorX - rectW;
-  } else {
-    rectX = anchorX - rectW / 2;
-  }
-
-  let rectY: number;
-  if (dir === 'down') {
-    rectY = currentY;
-    currentY += rectH;
-  } else {
-    rectY = currentY - rectH;
-    currentY -= rectH;
-  }
-
-  const textX =
-    textAnchor === 'start'
-      ? rectX + rectPadX
-      : textAnchor === 'end'
-        ? rectX + rectW - rectPadX
-        : anchorX;
-
-  const textY = rectY + rectH - rectPadY;
-
-  return {
-    cleanText,
-    textX: round(textX),
-    textY: round(textY),
-    textAnchor,
-    rectX: round(rectX),
-    rectY: round(rectY),
-    rectW: round(rectW),
-    rectH: round(rectH),
-    bgColor,
-  };
-};
