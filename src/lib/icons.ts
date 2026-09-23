@@ -40,6 +40,11 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
+  "Підрозділ зв'язку": {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
   'Важкий кулемет': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
