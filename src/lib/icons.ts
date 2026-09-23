@@ -38,6 +38,16 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
+  'Мінометний підрозділ': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Інженерний підрозділ': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
   'Спільне вогневе забезпечення': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
