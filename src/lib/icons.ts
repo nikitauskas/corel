@@ -33,6 +33,16 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
+  'Підрозділ безпілотних наземних апаратів': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Спільне вогневе забезпечення': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
   Антена: {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
