@@ -140,22 +140,6 @@ export function buildMapObjects(
         leftDescText;
       }
 
-      if (pt.higherFrmation) {
-        rightLabelText = pt.higherFrmation;
-      } else {
-        rightLabelText = 'Right Label';
-      }
-
-      if (pt.higherFrmation === 'xxx') {
-        rightDescText = 'sss';
-      }
-      if (pt.higherFrmation === 'xxx2') {
-        bottomLabelText = 'sss';
-      }
-      if (pt.higherFrmation === 'xxx3') {
-        bottomDescText = 'sss';
-      }
-
       if (pt.isHQ) {
         bottomLabelText = pt.name ?? '';
         bottomDescText = leftDescText;
@@ -210,8 +194,6 @@ export function buildMapObjects(
         'middle',
         'down',
         'sm',
-        'none',
-        'normal',
       );
 
       const topLabel = labelBuilder(
@@ -243,6 +225,15 @@ export function buildMapObjects(
         'sm',
       );
 
+      const labels: LabelLayout[] = [
+        leftLabel,
+        leftDesc,
+        rightLabel,
+        bottomLabel,
+        bottomDesc,
+        topLabel,
+      ].filter((l) => l.cleanText !== '');
+
       const iconRect: Rect = {
         x: xPos,
         y: yPos,
@@ -267,14 +258,7 @@ export function buildMapObjects(
           });
         }
       };
-      [
-        leftLabel,
-        leftDesc,
-        bottomLabel,
-        bottomDesc,
-        rightLabel,
-        topLabel,
-      ].forEach(addLabelRect);
+      labels.forEach(addLabelRect);
 
       const bbox = computeBoundingBox(parts);
 
@@ -292,14 +276,7 @@ export function buildMapObjects(
           iconH: iconSize.height,
           xPos,
           yPos,
-          labels: [
-            leftLabel,
-            leftDesc,
-            rightLabel,
-            bottomLabel,
-            bottomDesc,
-            topLabel,
-          ],
+          labels,
         },
       };
     }
