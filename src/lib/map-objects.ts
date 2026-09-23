@@ -16,6 +16,7 @@ const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
 
 import { CsvRow } from './csv.js';
+import { labelBuilder } from './label-builder.js';
 
 export function filterMapObjectsInsideWindow(
   csvData: CsvRow[],
@@ -123,6 +124,7 @@ export function buildMapObjects(
       let bottomDescText = '';
       const topLabelText = 'o';
 
+      const blueBg = '#92B4EC';
       const leftLabelBg = '#92B4EC';
       const leftDescBg = 'none';
       const rightLabelBg = '#92B4EC';
@@ -179,24 +181,30 @@ export function buildMapObjects(
         leftLabelText = '';
         leftDescText = '';
       }
-      const rightLabel = computeLabelLayout(
+
+      const margin = 0.5;
+      const xIconLeft = anchorPoint.x - iconSize.width / 2;
+      const xIconRight = anchorPoint.x + iconSize.width / 2;
+      const xIconCenter = anchorPoint.x;
+      const yIconTop = anchorPoint.y - iconSize.height / 2;
+      const yIconBottom = anchorPoint.y + iconSize.height / 2;
+
+      const rightLabel = labelBuilder(
         rightLabelText,
-        'right',
-        rightLabelBg,
+        [xIconRight, yIconBottom],
+        'start',
+        'up',
         'md',
-        'label',
-        anchorPoint,
-        iconSize,
+        blueBg,
       );
 
-      const leftLabel = computeLabelLayout(
+      const leftLabel = labelBuilder(
         leftLabelText,
-        'left',
-        leftLabelBg,
+        [xIconLeft, yIconBottom],
+        'end',
+        'up',
         'md',
-        'label',
-        anchorPoint,
-        iconSize,
+        blueBg,
       );
 
       // leftDesc sits below the leftLabel rect, centered on it
@@ -205,25 +213,12 @@ export function buildMapObjects(
         y: leftLabel.rectY + leftLabel.rectH,
       };
 
-      const leftDesc = computeLabelLayout(
+      const leftDesc = labelBuilder(
         leftDescText,
-        'center',
-        leftDescBg,
+        [leftLabelBottomCenterAnchor.x, leftLabelBottomCenterAnchor.y],
+        'middle',
+        'down',
         'sm',
-        'desc',
-        leftLabelBottomCenterAnchor,
-        iconSize,
-      );
-
-      // bottomLabel sits centered below the icon
-      const bottomLabel = computeLabelLayout(
-        bottomLabelText,
-        isHQ ? 'headquarter' : 'center',
-        bottomLabelBg,
-        'md',
-        'label',
-        anchorPoint,
-        iconSize,
       );
 
       const topLabel = computeLabelLayout(
@@ -236,20 +231,25 @@ export function buildMapObjects(
         iconSize,
       );
 
-      // bottomDesc sits below the bottomLabel rect
-      const bottomLabelBottomCenterAnchor = {
-        x: anchorPoint.x,
-        y: bottomLabel.rectY - bottomLabel.rectH / 2,
+      const bottomLabel = labelBuilder(
+        bottomLabelText,
+        isHQ ? [xIconLeft, yIconBottom] : [xIconCenter, yIconBottom],
+        isHQ ? 'start' : 'middle',
+        'down',
+        'sm',
+      );
+
+      const bottomLabelAnchor = {
+        x: 0,
+        y: bottomLabel.rectY + bottomLabel.rectH,
       };
 
-      const bottomDesc = computeLabelLayout(
+      const bottomDesc = labelBuilder(
         bottomDescText,
-        'headquarter',
-        bottomDescBg,
+        [xIconLeft, bottomLabelAnchor.y],
+        isHQ ? 'start' : 'middle',
+        'down',
         'sm',
-        'desc',
-        bottomLabelBottomCenterAnchor,
-        iconSize,
       );
 
       const iconRect: Rect = {
