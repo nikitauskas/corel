@@ -22,6 +22,12 @@ export const LAYOUT_CONFIG = {
   spacing: 0.2, // Gap between stacked labels
   fontSize: { sm: 2.822, md: 3.526 },
   rectHeight: { sm: 2.822, md: 2.917 },
+  fontStyle: {
+    normal: 'Arial',
+    'bold-italic': 'ArialBI',
+    italic: 'ArialI',
+    bold: 'ArialBI',
+  },
 } as const;
 
 const round = (val: number, decimals = 3) => Number(val.toFixed(decimals));

@@ -121,11 +121,6 @@ export function buildMapObjects(
       const topLabelText = '';
 
       const blueBg = '#92B4EC';
-      const leftLabelBg = '#92B4EC';
-      const leftDescBg = 'none';
-      const rightLabelBg = '#92B4EC';
-      const bottomLabelBg = 'none';
-      const bottomDescBg = 'none';
 
       if (pt.name) {
         leftLabelText = pt.name;
@@ -215,6 +210,8 @@ export function buildMapObjects(
         'middle',
         'down',
         'sm',
+        'none',
+        'normal',
       );
 
       const topLabel = labelBuilder(
@@ -231,7 +228,6 @@ export function buildMapObjects(
         isHQ ? 'start' : 'middle',
         'down',
         'md',
-        'red',
       );
 
       const bottomLabelAnchor = {

@@ -100,7 +100,7 @@ export function renderElementsSVG(
       for (let i = 0; i < labels.length; i++) {
         elementLines.push(
           `      <rect x="${labels[i].rectX}" y="${labels[i].rectY}" width="${labels[i].rectW}" height="${labels[i].rectH}" fill="${labels[i].bgColor}" />`,
-          `      <text id="blue-label-top-${idx + 1}-${i + 1}" x="${labels[i].textX.toFixed(3)}" y="${labels[i].textY.toFixed(3)}" text-anchor="${labels[i].textAnchor}" font-family="ArialBI, sans-serif" font-size="${LAYOUT_CONFIG.fontSize[labels[i].fontSize]}" fill="#000000">${labels[i].cleanText}</text>`,
+          `      <text id="blue-label-top-${idx + 1}-${i + 1}" x="${labels[i].textX.toFixed(3)}" y="${labels[i].textY.toFixed(3)}" text-anchor="${labels[i].textAnchor}" font-family="${LAYOUT_CONFIG.fontStyle[labels[i].fontStyle]}, sans-serif" font-size="${LAYOUT_CONFIG.fontSize[labels[i].fontSize]}" fill="#000000">${labels[i].cleanText}</text>`,
         );
       }
 
