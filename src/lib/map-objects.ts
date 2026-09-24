@@ -1,3 +1,16 @@
+// enemy - #FF1E00 - icon bg
+// 1bat - #FECC00
+// 2bat - #834E98
+// 3bat - #009846
+//----------------
+// 109 -  #A76281
+// 156 - #7690C9
+// мпб/100 - #A8D4AF
+// ЗПМ(78) - #EF7F1A
+//
+// 210 - #F5B2B6
+
+
 import * as m from 'mgrs';
 import { Point } from './geo.js';
 import { mappingSVGs } from './icons.js';
@@ -42,6 +55,7 @@ export function filterMapObjectsInsideWindow(
     const comments = row.comments?.trim() || '';
 
     const echelon = row.Ешелон?.trim() || '';
+    const objectId = row['object id']?.trim() || '';
 
     if (mgrsStr) {
       try {
@@ -59,6 +73,7 @@ export function filterMapObjectsInsideWindow(
             higherFrmation,
             comments,
             echelon,
+            objectId,
           });
         }
       } catch (e) {
