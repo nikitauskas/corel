@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="35" height="34" fill="none" viewBox="0 0 35 34">
-  <path stroke="red" stroke-width="1.5" d="m1.591.53 32 32m-33.061 0 32-32"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
+  <path
+    d="M3 3L31 31M31 3L3 31"
+    stroke="red"
+    stroke-width="1.5"
+  />
 </svg>

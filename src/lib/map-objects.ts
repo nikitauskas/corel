@@ -247,7 +247,11 @@ export function buildMapObjects(
       leftLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
       rightLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
       leftDescText = 'Знищено 06.09.2026';
-      isDestroyed = true;
+      isDestroyed = true; //
+    }
+
+    if (status === CombatEffectiveness.PartiallyCapable) {
+      isDamaged = true; //
     }
 
     const margin = 0.5;
