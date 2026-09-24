@@ -111,16 +111,20 @@ export function renderElementsSVG(
         `        <use xlink:href="#icon-mapping-${renderMappingIdx}" />`,
       );
 
-      if (el.iconDetails.isDestroyed) {
+      if (el.iconDetails.damageOverlay) {
+        const isDestroyed = el.iconDetails.damageOverlay === 'destroyed';
         const scale = el.iconDetails.iconH / 28;
-        const destW = 35 * scale;
+        const destW = 34 * scale;
         const destH = 34 * scale;
         const offsetX = (el.iconDetails.iconW - destW) / 2;
         const offsetY = (el.iconDetails.iconH - destH) / 2;
 
+        const pathData = isDestroyed ? 'M3 3L31 31M31 3L3 31' : 'M31 3L3 31';
+        const strokeColor = isDestroyed ? 'red' : '#000';
+
         elementLines.push(
           `        <g transform="translate(${offsetX.toFixed(3)}, ${offsetY.toFixed(3)}) scale(${scale.toFixed(3)})">`,
-          `          <path stroke="red" stroke-width="1.5" d="m1.591.53 32 32m-33.061 0 32-32"/>`,
+          `          <path d="${pathData}" stroke="${strokeColor}" stroke-width="1.5"/>`,
           '        </g>',
         );
       }
