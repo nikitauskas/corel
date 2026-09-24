@@ -99,6 +99,16 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
+  'Перехоплення (пошук та запис)': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  Пошук: {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
   'Середня польова гармата': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
