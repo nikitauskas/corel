@@ -10,7 +10,6 @@
 //
 // 210 - #F5B2B6
 
-
 import * as m from 'mgrs';
 import { Point } from './geo.js';
 import { mappingSVGs } from './icons.js';
@@ -32,6 +31,12 @@ import {
   measureTextWidthMm,
 } from './label-builder.js';
 import { LineType, typesOfLines } from './lines.js';
+import {
+  CombatEffectiveness,
+  IdentificationStatus,
+  parseCombatEffectiveness,
+  parseStandardIdentity,
+} from './types.js';
 
 export function filterMapObjectsInsideWindow(
   csvData: CsvRow[],
@@ -57,6 +62,14 @@ export function filterMapObjectsInsideWindow(
     const echelon = row.Ешелон?.trim() || '';
     const objectId = row['object id']?.trim() || '';
 
+    const identificationStatus =
+      parseStandardIdentity(row.Ідентифікація?.trim() || '') ??
+      IdentificationStatus.Unknown;
+
+    const combatEffectiveness =
+      parseCombatEffectiveness(row['status of presence']?.trim() || '') ??
+      CombatEffectiveness.FullyCapable;
+
     if (mgrsStr) {
       try {
         const [lon, lat] = mgrs.toPoint(mgrsStr);
@@ -74,6 +87,8 @@ export function filterMapObjectsInsideWindow(
             comments,
             echelon,
             objectId,
+            identificationStatus,
+            combatEffectiveness,
           });
         }
       } catch (e) {
@@ -123,6 +138,8 @@ export function buildMapObjects(
     const mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
     );
+
+    const isEnemy = pt.identificationStatus === IdentificationStatus.Hostile;
 
     const iconSize = iconRenderedSizes[mappingIdx === -1 ? 0 : mappingIdx] ?? {
       width: 8.0,
@@ -194,6 +211,9 @@ export function buildMapObjects(
       rightDescText = '';
       leftLabelText = '';
       leftDescText = '';
+    }
+
+    if (isEnemy) {
     }
 
     const margin = 0.5;

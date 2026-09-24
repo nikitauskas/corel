@@ -5,7 +5,7 @@ export interface CsvRow {
   'app6d sidc'?: string;
   'objects count'?: string;
   name?: string;
-  // 'status of presence'?: string;
+  'status of presence'?: string;
   'coordinates(mgrs)'?: string;
   // 'observation date/time'?: string;
   // 'updating datetime'?: string;
@@ -16,7 +16,7 @@ export interface CsvRow {
   // 'object last editor'?: string;
   // 'object creation date/time'?: string;
   // 'Додаткова інформація'?: string;
-  // 'Ідентифікація'?: string;
+  Ідентифікація?: string;
   // 'Час виявлення'?: string;
   'Вище формування'?: string;
   'Штаб / тактична група / індикатор хибності'?: string;

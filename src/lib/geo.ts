@@ -16,6 +16,8 @@ export interface Point {
   isHQ?: boolean;
   echelon?: string;
   objectId?: string;
+  identificationStatus?: string;
+  combatEffectiveness?: string;
 }
 
 export interface MapFormatConfig {
