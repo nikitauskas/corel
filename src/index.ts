@@ -14,7 +14,7 @@ import { buildFinalSvg } from './lib/svg.js';
 // Map Settings & Formats Configuration
 // Starting top-left coordinate used for maps unless overridden
 // ====================================================
-export const STARTING_MGRS_TL = '37UBP9708043769';
+export const STARTING_MGRS_TL = '37UBP9708043769'; // '37UCP6621499963'; //
 
 export const MAP_FORMATS: MapFormatConfig[] = [
   {
@@ -119,7 +119,9 @@ for (const format of MAP_FORMATS) {
   const overlayNames = new Set(
     blueCsvData.map((r) => r['overlay name']).filter(Boolean),
   );
-  console.log(`- Overlay names: ${Array.from(overlayNames).join(', ') || 'None'}`);
+  console.log(
+    `- Overlay names: \n    ${Array.from(overlayNames).join('\n    ')}`,
+  );
 
   const usedIcons = new Set<string>();
   const missedIcons = new Set<string>();
