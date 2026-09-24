@@ -128,6 +128,7 @@ export interface MapObjectLayout {
     xPos: number;
     yPos: number;
     labels: LabelLayout[];
+    isDestroyed?: boolean;
   };
   circleDetails?: {
     cleanText: string;
@@ -239,13 +240,14 @@ export function buildMapObjects(
       console.log('!!!!!!');
     }
 
-    console.log(' status', status);
+    let isDestroyed = false;
     if (status === CombatEffectiveness.NotCapable) {
       console.log(' combatEffectiveness.NotCapable');
       topLabelText = '';
       leftLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
       rightLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
       leftDescText = 'Знищено 06.09.2026';
+      isDestroyed = true;
     }
 
     const margin = 0.5;
@@ -370,6 +372,7 @@ export function buildMapObjects(
         xPos,
         yPos,
         labels,
+        isDestroyed,
       },
     };
   });

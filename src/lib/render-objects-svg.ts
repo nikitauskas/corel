@@ -109,8 +109,23 @@ export function renderElementsSVG(
       elementLines.push(
         `      <g transform="translate(${xPos} ${yPos})" data-status="${el.status}" data-anchor-point="${anchorPt.x} ${anchorPt.y}" data-render-point="${renderPt?.x} ${renderPt?.y}" data-ptapp6d-type="${el.ptApp6dType}" data-object-id="${el.pt.objectId}">`,
         `        <use xlink:href="#icon-mapping-${renderMappingIdx}" />`,
-        '      </g>',
       );
+
+      if (el.iconDetails.isDestroyed) {
+        const scale = el.iconDetails.iconH / 28;
+        const destW = 35 * scale;
+        const destH = 34 * scale;
+        const offsetX = (el.iconDetails.iconW - destW) / 2;
+        const offsetY = (el.iconDetails.iconH - destH) / 2;
+
+        elementLines.push(
+          `        <g transform="translate(${offsetX.toFixed(3)}, ${offsetY.toFixed(3)}) scale(${scale.toFixed(3)})">`,
+          `          <path stroke="red" stroke-width="1.5" d="m1.591.53 32 32m-33.061 0 32-32"/>`,
+          '        </g>',
+        );
+      }
+
+      elementLines.push('      </g>');
     }
 
     if (isDisplaced) {
