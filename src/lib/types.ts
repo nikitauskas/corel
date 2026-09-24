@@ -23,12 +23,14 @@ export enum CombatEffectiveness {
   PartiallyCapable = 'PARTIALLY_COMBAT_CAPABLE',
   NotCapable = 'NOT_COMBAT_CAPABLE',
   RestoredToFullCapability = 'RESTORED_TO_FULL_CAPABILITY',
-}
+} //
 
 const UK_EFFECTIVENESS_MAP: Record<string, CombatEffectiveness> = {
-  'повністю боєздатні': CombatEffectiveness.FullyCapable,
+  'повністю боєздатний': CombatEffectiveness.FullyCapable,
   'частково боєздатні': CombatEffectiveness.PartiallyCapable,
-  небоєздатні: CombatEffectiveness.NotCapable,
+  'помірно пошкоджено': CombatEffectiveness.PartiallyCapable,
+  небоєздатний: CombatEffectiveness.NotCapable,
+  знищений: CombatEffectiveness.NotCapable,
   'відновлений до повної боєздатності':
     CombatEffectiveness.RestoredToFullCapability,
   //   // Можлива варіація в множині

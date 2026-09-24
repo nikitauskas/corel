@@ -10,6 +10,11 @@
 //
 // 210 - #F5B2B6
 
+const CONFIG_BG_COLORS = {
+  CLASSIC_BLUE: '#92B4EC',
+  NOT_CAPABLE: '#FF1E00',
+};
+
 import * as m from 'mgrs';
 import { Point } from './geo.js';
 import { mappingSVGs } from './icons.js';
@@ -70,12 +75,12 @@ export function filterMapObjectsInsideWindow(
       parseCombatEffectiveness(row['status of presence']?.trim() || '') ??
       CombatEffectiveness.FullyCapable;
 
-    console.log('Ідентифікація', row.Ідентифікація);
-    console.log('combatEffectiveness', combatEffectiveness);
-    console.log('status of presence - ', row['status of presence']);
-    console.log('combatEffectiveness', combatEffectiveness);
+    // console.log('Ідентифікація', row.Ідентифікація);
+    // console.log('combatEffectiveness', combatEffectiveness);
+    // console.log('status of presence - ', row['status of presence']);
+    // console.log('combatEffectiveness', combatEffectiveness);
 
-    console.log('--------------------------------------');
+    // console.log('--------------------------------------');
 
     if (mgrsStr) {
       try {
@@ -143,6 +148,10 @@ export function buildMapObjects(
     const ptApp6dType = pt.app6dType ?? '';
     const isEnemy = pt.identificationStatus === IdentificationStatus.Hostile;
     const isHQ = pt.isHQ;
+    const status = pt.combatEffectiveness;
+    let leftLabelBgColor = CONFIG_BG_COLORS.CLASSIC_BLUE;
+    let rightLabelBgColor = CONFIG_BG_COLORS.CLASSIC_BLUE;
+
     let mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
     );
@@ -166,8 +175,6 @@ export function buildMapObjects(
     let bottomLabelText = '';
     let bottomDescText = '';
     let topLabelText = '';
-
-    const blueBg = '#92B4EC';
 
     if (pt.name) {
       leftLabelText = pt.name;
@@ -229,6 +236,15 @@ export function buildMapObjects(
       rightDescText = '';
       leftLabelText = '';
       leftDescText = '';
+      console.log('!!!!!!');
+    }
+
+    console.log(' status', status);
+    if (status === CombatEffectiveness.NotCapable) {
+      console.log(' combatEffectiveness.NotCapable');
+      topLabelText = '';
+      leftLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
+      rightLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
     }
 
     const margin = 0.5;
@@ -244,7 +260,7 @@ export function buildMapObjects(
       'start',
       'up',
       'md',
-      blueBg,
+      rightLabelBgColor,
     );
 
     const leftLabel = labelBuilder(
@@ -253,7 +269,7 @@ export function buildMapObjects(
       'end',
       'up',
       'md',
-      blueBg,
+      leftLabelBgColor,
     );
 
     // leftDesc sits below the leftLabel rect, centered on it
