@@ -107,14 +107,9 @@ export function renderElementsSVG(
       }
 
       elementLines.push(
-        `      <g transform="translate(${xPos} ${yPos})" data-status="${el.status}" data-anchor-point="${anchorPt.x} ${anchorPt.y}" data-render-point="${renderPt?.x} ${renderPt?.y}">`,
+        `      <g transform="translate(${xPos} ${yPos})" data-status="${el.status}" data-anchor-point="${anchorPt.x} ${anchorPt.y}" data-render-point="${renderPt?.x} ${renderPt?.y}" data-ptapp6d-type="${el.ptApp6dType}">`,
         `        <use xlink:href="#icon-mapping-${el.mappingIdx}" />`,
         '      </g>',
-      );
-    } else if (el.circleDetails) {
-      elementLines.push(
-        `      <circle id="blue-point-${idx + 1}" cx="${anchorPt.x}" cy="${anchorPt.y}" r="2.0" fill="#ff0000" stroke="#000000" stroke-width="0.3" />`,
-        `      <text id="blue-label-${idx + 1}" x="${anchorPt.x}" y="${(anchorPt.y + 4.2).toFixed(3)}" text-anchor="middle" font-family="Arial, sans-serif" font-size="1.6" font-weight="bold" fill="#cc0000">${el.circleDetails.cleanText}</text>`,
       );
     }
 

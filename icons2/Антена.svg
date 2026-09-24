@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 30 30">
-  <g clip-path="url(#a)">
-    <path fill="#C4F2F7" stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M14.931 29.69c8.088 0 14.644-6.556 14.644-14.643S23.019.404 14.93.404C6.844.404.288 6.96.288 15.047s6.556 14.644 14.643 14.644Z"/>
-    <path fill="none" stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="m14.93 24.099.002-17.943m-3.705.123 1.848 2.082 1.847 2.083 1.847-2.083 1.848-2.082"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" fill="none" viewBox="0 0 31 31">
+  <g clip-path="url(#a1231)">
+    <path fill="#C4F2F7" stroke="#000" stroke-miterlimit="22.926" stroke-width=".667" d="M15.323 30.313c8.279 0 14.99-6.711 14.99-14.99S23.602.333 15.323.333.333 7.044.333 15.323s6.711 14.99 14.99 14.99Z"/>
+    <path stroke="#000" fill="none" stroke-miterlimit="22.926" stroke-width=".667" d="M15.303 24.243 15.305 6.3m-3.705.123 1.848 2.082 1.847 2.083 1.847-2.083 1.848-2.082"/>
   </g>
   <defs>
-    <clipPath id="a">
-      <path fill="#fff" d="M0 0h29.979v29.979H0z"/>
+    <clipPath id="a1231">
+      <path fill="#fff" d="M0 0h31v31H0z"/>
     </clipPath>
   </defs>
 </svg>
