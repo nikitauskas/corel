@@ -3,8 +3,6 @@ import * as m from 'mgrs';
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
 
-export const DEFAULT_MGRS_TL = '37UBP9708043769';
-
 export interface Point {
   lon: number;
   lat: number;
@@ -46,7 +44,7 @@ export interface MapContext {
 
 export function createMapContext(
   config: MapFormatConfig,
-  fallbackMgrsTL: string = DEFAULT_MGRS_TL,
+  fallbackMgrsTL: string,
 ): MapContext {
   const mgrsTL = config.mgrsTL || fallbackMgrsTL;
   const [TL_LON, TL_LAT] = mgrs.toPoint(mgrsTL);
