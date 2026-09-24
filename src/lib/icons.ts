@@ -15,6 +15,11 @@ export const mappingSVGs: Record<
     priority: 10,
   },
 
+  Enemy: {
+    height: STANDARD_ICON_SIZE_MM + 3,
+    priority: 8,
+  },
+
   'Точка злету БпЛА літакового типу': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,

@@ -70,6 +70,13 @@ export function filterMapObjectsInsideWindow(
       parseCombatEffectiveness(row['status of presence']?.trim() || '') ??
       CombatEffectiveness.FullyCapable;
 
+    console.log('Ідентифікація', row.Ідентифікація);
+    console.log('combatEffectiveness', combatEffectiveness);
+    console.log('status of presence - ', row['status of presence']);
+    console.log('combatEffectiveness', combatEffectiveness);
+
+    console.log('--------------------------------------');
+
     if (mgrsStr) {
       try {
         const [lon, lat] = mgrs.toPoint(mgrsStr);
@@ -134,12 +141,15 @@ export function buildMapObjects(
   const preparedElements: MapObjectLayout[] = points.map((pt, idx) => {
     const anchorPoint = geoToSvg(pt);
     const ptApp6dType = pt.app6dType ?? '';
+    const isEnemy = pt.identificationStatus === IdentificationStatus.Hostile;
     const isHQ = pt.isHQ;
-    const mappingIdx = Object.keys(mappingSVGs).findIndex(
+    let mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
     );
 
-    const isEnemy = pt.identificationStatus === IdentificationStatus.Hostile;
+    if (isEnemy) {
+      mappingIdx = 1;
+    }
 
     const iconSize = iconRenderedSizes[mappingIdx === -1 ? 0 : mappingIdx] ?? {
       width: 8.0,
