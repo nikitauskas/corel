@@ -27,7 +27,7 @@ export enum CombatEffectiveness {
 
 const UK_EFFECTIVENESS_MAP: Record<string, CombatEffectiveness> = {
   'повністю боєздатний': CombatEffectiveness.FullyCapable,
-  'частково боєздатні': CombatEffectiveness.PartiallyCapable,
+  'частково боєздатний': CombatEffectiveness.PartiallyCapable,
   'помірно пошкоджено': CombatEffectiveness.PartiallyCapable,
   небоєздатний: CombatEffectiveness.NotCapable,
   знищений: CombatEffectiveness.NotCapable,

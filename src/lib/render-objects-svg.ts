@@ -113,7 +113,7 @@ export function renderElementsSVG(
 
       if (el.iconDetails.damageOverlay) {
         const isDestroyed = el.iconDetails.damageOverlay === 'destroyed';
-        const scale = el.iconDetails.iconH / 28;
+        const scale = el.iconDetails.iconH / 28 + 0.05;
         const destW = 34 * scale;
         const destH = 34 * scale;
         const offsetX = (el.iconDetails.iconW - destW) / 2;
