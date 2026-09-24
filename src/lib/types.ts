@@ -9,13 +9,13 @@ export enum IdentificationStatus {
 }
 
 const UK_IDENTITY_MAP: Record<string, IdentificationStatus> = {
-  дружні: IdentificationStatus.Friend,
-  'очікувано дружні': IdentificationStatus.AssumedFriend,
-  ворожі: IdentificationStatus.Hostile,
-  підозрілі: IdentificationStatus.Suspect,
-  нейтральні: IdentificationStatus.Neutral,
-  невідомі: IdentificationStatus.Unknown,
-  невизначені: IdentificationStatus.Pending,
+  дружній: IdentificationStatus.Friend,
+  'очікувано дружній': IdentificationStatus.AssumedFriend,
+  ворожий: IdentificationStatus.Hostile,
+  підозрілий: IdentificationStatus.Suspect,
+  нейтральний: IdentificationStatus.Neutral,
+  невідомий: IdentificationStatus.Unknown,
+  невизначений: IdentificationStatus.Pending,
 };
 
 export enum CombatEffectiveness {
@@ -31,9 +31,9 @@ const UK_EFFECTIVENESS_MAP: Record<string, CombatEffectiveness> = {
   небоєздатні: CombatEffectiveness.NotCapable,
   'відновлений до повної боєздатності':
     CombatEffectiveness.RestoredToFullCapability,
-  // Можлива варіація в множині
-  'відновлені до повної боєздатності':
-    CombatEffectiveness.RestoredToFullCapability,
+  //   // Можлива варіація в множині
+  //   'відновлені до повної боєздатності':
+  //     CombatEffectiveness.RestoredToFullCapability,
 };
 
 /**
