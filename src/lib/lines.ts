@@ -21,6 +21,8 @@ interface Point {
  * @param geoToSvg   - Converts a {lon, lat} point to SVG {x, y} coordinates (in mm)
  * @returns           A string of SVG <path> elements joined by newlines
  */
+
+export const typesOfLines = ['Горизонтальна (між підрозділами)'];
 import { CsvRow } from './csv.js';
 
 export function buildLUnitsSpearationLinesSVGs(
@@ -32,7 +34,7 @@ export function buildLUnitsSpearationLinesSVGs(
 
   for (const row of csvData) {
     const app6dType = row['app6d type']?.trim() || '';
-    if (app6dType !== 'Горизонтальна (між підрозділами)') continue;
+    if (!typesOfLines.includes(app6dType)) continue;
 
     // col[7] — semicolon-separated MGRS coords for the line
     const mgrsRaw = row['coordinates(mgrs)']?.trim() || '';

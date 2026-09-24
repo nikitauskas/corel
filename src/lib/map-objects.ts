@@ -18,6 +18,7 @@ import {
   labelBuilder,
   measureTextWidthMm,
 } from './label-builder.js';
+import { typesOfLines } from './lines.js';
 
 export function filterMapObjectsInsideWindow(
   csvData: CsvRow[],
@@ -27,6 +28,8 @@ export function filterMapObjectsInsideWindow(
 
   for (const row of csvData) {
     const app6dType = row['app6d type']?.trim() || '';
+    if (typesOfLines.includes(app6dType)) continue;
+
     const sidc = row['app6d sidc']?.trim() || '';
     const count = row['objects count']?.trim() || '';
     const name = row.name?.trim() || '';
