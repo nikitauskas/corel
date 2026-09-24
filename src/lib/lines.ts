@@ -1,4 +1,5 @@
 import * as m from 'mgrs';
+import { CsvRow } from './csv.js';
 
 const mgrs =
   'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
@@ -8,81 +9,81 @@ interface Point {
   lat: number;
 }
 
-// ----------------------------------------------------
-// Lines Parsing - "Горизонтальна (між підрозділами)" rows
-//     col[7] contains semicolon-separated MGRS coordinates
-// ----------------------------------------------------
+export const typesOfLines = {
+  'Горизонтальна (між підрозділами)': {
+    color: '#171796',
+    strokeWidth: 1.0583,
+  },
+  'Рубіж узгодженого вогню': {
+    color: 'red',
+    strokeWidth: 1.0583,
+  },
+} as const;
 
-/**
- * Parses line segments from a CSV string and generates SVG <path> elements.
- *
- * @param csvContent - Raw CSV file content (full_data.csv)
- * @param inWindow   - Predicate that returns true when (lon, lat) is inside the map window
- * @param geoToSvg   - Converts a {lon, lat} point to SVG {x, y} coordinates (in mm)
- * @returns           A string of SVG <path> elements joined by newlines
- */
+export type LineType = keyof typeof typesOfLines;
 
-export const typesOfLines = ['Горизонтальна (між підрозділами)'];
-import { CsvRow } from './csv.js';
+interface LineSegment {
+  type: LineType;
+  points: Point[];
+}
 
 export function buildLUnitsSpearationLinesSVGs(
   csvData: CsvRow[],
   inWindow: (lon: number, lat: number) => boolean,
   geoToSvg: (pt: Point) => { x: number; y: number },
 ): string {
-  const csvLineSegments: Point[][] = [];
+  const lineSegments: LineSegment[] = [];
 
   for (const row of csvData) {
-    const app6dType = row['app6d type']?.trim() || '';
-    if (!typesOfLines.includes(app6dType)) continue;
+    const app6dType = row['app6d type']?.trim() as LineType;
+    if (!typesOfLines[app6dType]) continue;
 
-    // col[7] — semicolon-separated MGRS coords for the line
-    const mgrsRaw = row['coordinates(mgrs)']?.trim() || '';
-    if (!mgrsRaw) continue;
-
-    const mgrsParts = mgrsRaw
-      .split(';')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const segment: Point[] = [];
+    const mgrsParts =
+      row['coordinates(mgrs)']
+        ?.split(';')
+        .map((s) => s.trim())
+        .filter(Boolean) ?? [];
+    let currentSegment: Point[] = [];
 
     for (const mgrsStr of mgrsParts) {
       try {
         const [lon, lat] = mgrs.toPoint(mgrsStr);
-        if (!Number.isNaN(lon) && !Number.isNaN(lat)) {
-          // Include point even if outside window so lines clip naturally;
-          // split segment at window boundary as before.
-          if (inWindow(lon, lat)) {
-            segment.push({ lon, lat });
-          } else {
-            if (segment.length > 0) {
-              csvLineSegments.push([...segment]);
-              segment.length = 0;
-            }
-          }
+        if (Number.isNaN(lon) || Number.isNaN(lat)) continue;
+
+        if (inWindow(lon, lat)) {
+          currentSegment.push({ lon, lat });
+        } else if (currentSegment.length > 0) {
+          lineSegments.push({ type: app6dType, points: [...currentSegment] });
+          currentSegment = [];
         }
-      } catch (_) {
-        // Ignore invalid MGRS strings
+      } catch {
+        // Skip invalid MGRS strings
       }
     }
-    if (segment.length > 0) {
-      csvLineSegments.push(segment);
+
+    if (currentSegment.length > 0) {
+      lineSegments.push({ type: app6dType, points: currentSegment });
     }
   }
 
-  // Generate SVG <path> elements for the lines layer
-  return csvLineSegments
-    .map((seg, idx) => {
-      if (seg.length < 2) return '';
-      const start = geoToSvg(seg[0]);
-      let d = `M ${start.x},${start.y}`;
-      for (let i = 1; i < seg.length; i++) {
-        const pt = geoToSvg(seg[i]);
-        d += ` L ${pt.x},${pt.y}`;
-      }
-      return `    <path id="Горизонтальна (між підрозділами)" d="${d}" stroke="#171796" stroke-width="4.2333" stroke-miterlimit="22.9256" stroke-opacity="0.301961" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-    <path id="Горизонтальна (між підрозділами)" d="${d}" stroke="#171796" stroke-width="1.0583" stroke-miterlimit="22.9256" fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
+  return lineSegments
+    .filter((seg) => seg.points.length >= 2)
+    .map(({ type, points }) => {
+      const { color, strokeWidth } = typesOfLines[type];
+      const pathData = points
+        .map((pt, idx) => {
+          const { x, y } = geoToSvg(pt);
+          return `${idx === 0 ? 'M' : 'L'} ${x},${y}`;
+        })
+        .join(' ');
+
+      const opacityAttr = (opacity?: number) =>
+        opacity !== undefined ? ` stroke-opacity="${opacity}"` : '';
+
+      const createPath = (width: number, opacity?: number) =>
+        `<path class="${type}" d="${pathData}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${opacityAttr(opacity)} fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
+
+      return `${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}`;
     })
-    .filter(Boolean)
     .join('\n');
 }
