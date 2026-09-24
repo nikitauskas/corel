@@ -116,4 +116,26 @@ for (const format of MAP_FORMATS) {
   console.log(
     `- CSV lines rendered: ${unitsSpearationLinesSVGs.split('<path').length - 1}`,
   );
+  const overlayNames = new Set(
+    blueCsvData.map((r) => r['overlay name']).filter(Boolean),
+  );
+  console.log(`- Overlay names: ${Array.from(overlayNames).join(', ') || 'None'}`);
+
+  const usedIcons = new Set<string>();
+  const missedIcons = new Set<string>();
+
+  for (const obj of preparedObjects) {
+    if (obj.mappingIdx === -1) {
+      missedIcons.add(obj.ptApp6dType);
+    } else {
+      usedIcons.add(obj.ptApp6dType);
+    }
+  }
+
+  console.log(
+    `- Used icons on map (${usedIcons.size}):\n    ${Array.from(usedIcons).join('\n    ') || 'None'}`,
+  );
+  console.log(
+    `- Missed icons (${missedIcons.size}):\n    ${Array.from(missedIcons).join('\n    ') || 'None'}`,
+  );
 }

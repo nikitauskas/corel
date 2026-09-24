@@ -95,7 +95,7 @@ export function renderElementsSVG(
     if (el.iconDetails) {
       const { xPos, yPos, labels } = el.iconDetails;
 
-      if (el.mappingIdx === -1) el.mappingIdx = 0;
+      const renderMappingIdx = el.mappingIdx === -1 ? 0 : el.mappingIdx;
 
       const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
 
@@ -108,7 +108,7 @@ export function renderElementsSVG(
 
       elementLines.push(
         `      <g transform="translate(${xPos} ${yPos})" data-status="${el.status}" data-anchor-point="${anchorPt.x} ${anchorPt.y}" data-render-point="${renderPt?.x} ${renderPt?.y}" data-ptapp6d-type="${el.ptApp6dType}">`,
-        `        <use xlink:href="#icon-mapping-${el.mappingIdx}" />`,
+        `        <use xlink:href="#icon-mapping-${renderMappingIdx}" />`,
         '      </g>',
       );
     }
