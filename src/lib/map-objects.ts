@@ -12,7 +12,7 @@
 
 const CONFIG_BG_COLORS = {
   CLASSIC_BLUE: '#92B4EC',
-  NOT_CAPABLE: '#FF1E00',
+  NOT_CAPABLE: '#e31e24',
 };
 
 import * as m from 'mgrs';
@@ -245,6 +245,7 @@ export function buildMapObjects(
       topLabelText = '';
       leftLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
       rightLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
+      leftDescText = 'Знищено 06.09.2026';
     }
 
     const margin = 0.5;
