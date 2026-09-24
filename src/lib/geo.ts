@@ -15,6 +15,7 @@ export interface Point {
   comments?: string;
   isHQ?: boolean;
   echelon?: string;
+  objectId?: string;
 }
 
 export interface MapFormatConfig {

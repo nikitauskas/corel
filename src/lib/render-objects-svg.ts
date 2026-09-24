@@ -107,7 +107,7 @@ export function renderElementsSVG(
       }
 
       elementLines.push(
-        `      <g transform="translate(${xPos} ${yPos})" data-status="${el.status}" data-anchor-point="${anchorPt.x} ${anchorPt.y}" data-render-point="${renderPt?.x} ${renderPt?.y}" data-ptapp6d-type="${el.ptApp6dType}">`,
+        `      <g transform="translate(${xPos} ${yPos})" data-status="${el.status}" data-anchor-point="${anchorPt.x} ${anchorPt.y}" data-render-point="${renderPt?.x} ${renderPt?.y}" data-ptapp6d-type="${el.ptApp6dType}" data-object-id="${el.pt.objectId}">`,
         `        <use xlink:href="#icon-mapping-${renderMappingIdx}" />`,
         '      </g>',
       );
