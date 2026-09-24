@@ -224,6 +224,11 @@ export function buildMapObjects(
     }
 
     if (isEnemy) {
+      bottomLabelText = '';
+      bottomDescText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
     }
 
     const margin = 0.5;
