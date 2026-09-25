@@ -24,7 +24,10 @@ export const mappingSVGs: Record<
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,
   },
-  //
+  'Бойова броньована машина (ББМ, БМП)': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 6,
+  },
   'Точка злету БпЛА літакового типу': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,
