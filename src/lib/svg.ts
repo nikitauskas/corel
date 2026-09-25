@@ -3,7 +3,7 @@ import { MapContext } from './geo.js';
 export function buildFinalSvg(
   map: MapContext,
   generatedIconsDefs: string,
-  pathElements: string,
+  pathElementsByLayer: string[],
   blueForceElements: string[],
 ): string {
   const { widthMm, heightMm, centerX, centerY, scale, mgrsTL } = map;
@@ -36,11 +36,11 @@ ${generatedIconsDefs}
 
   <!-- Lines Layer (Горизонтальна між підрозділами) -->
   <g id="KMLLines">
-${pathElements}
+${pathElementsByLayer.join('\n')}
   </g>
 
-  <!-- Blue Force Layer (Units with Markers & Labels) -->
-  <g id="BlueForce">
+  <!-- Map Objects and Connectors Layer -->
+  <g id="Map Objects and Connectors">
 ${blueForceElements.join('\n')}
   </g>
 

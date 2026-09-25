@@ -114,7 +114,7 @@ for (const format of MAP_FORMATS) {
   console.log(`- Overlapping elements marked red: ${overlappingCount}`);
   console.log(`- Custom mapped icons: ${customIconCount}`);
   console.log(
-    `- CSV lines rendered: ${unitsSpearationLinesSVGs.split('<path').length - 1}`,
+    `- CSV lines rendered: ${unitsSpearationLinesSVGs.join('\n').split('<path').length - 1}`,
   );
   const overlayNames = new Set(
     blueCsvData.map((r) => r['overlay name']).filter(Boolean),
