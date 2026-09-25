@@ -149,6 +149,11 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
+  'Легка гаубиця': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
   'Особа з гвинтівкою': {
     height: 6, // 8.249
     priority: 2,
