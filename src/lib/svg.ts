@@ -3,8 +3,8 @@ import { MapContext } from './geo.js';
 export function buildFinalSvg(
   map: MapContext,
   generatedIconsDefs: string,
-  pathElementsByLayer: string[],
-  blueForceElements: string[],
+  unitsSpearationLinesSVGs: string[],
+  mapObjectsSVGs: string[],
 ): string {
   const { widthMm, heightMm, centerX, centerY, scale, mgrsTL } = map;
 
@@ -35,13 +35,13 @@ ${generatedIconsDefs}
   </g>
 
   <!-- Lines Layer (Горизонтальна між підрозділами) -->
-  <g id="KMLLines">
-${pathElementsByLayer.join('\n')}
+  <g id="Units Separation Lines">
+${unitsSpearationLinesSVGs.join('\n')}
   </g>
 
   <!-- Map Objects and Connectors Layer -->
   <g id="Map Objects and Connectors">
-${blueForceElements.join('\n')}
+${mapObjectsSVGs.join('\n')}
   </g>
 
 </svg>

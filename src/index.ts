@@ -83,7 +83,7 @@ for (const format of MAP_FORMATS) {
   resolveOverlappingRenderPoints(preparedObjects);
 
   // step to generate svg
-  const blueForceObjects = renderElementsSVG(preparedObjects);
+  const mapObjectsSVGs = renderElementsSVG(preparedObjects);
 
   //count overlapping
   const overlappingCount = preparedObjects.filter(
@@ -95,7 +95,7 @@ for (const format of MAP_FORMATS) {
     map,
     generatedIconsDefs,
     unitsSpearationLinesSVGs,
-    blueForceObjects,
+    mapObjectsSVGs,
   );
 
   const filename =
@@ -110,7 +110,7 @@ for (const format of MAP_FORMATS) {
   );
   console.log(`Output: ${outputPath}`);
   console.log(`- Top-Left MGRS: ${map.mgrsTL}`);
-  console.log(`- Blue Force points in window: ${blueForceObjects.length}`);
+  console.log(`- Blue Force points in window: ${mapObjectsSVGs.length}`);
   console.log(`- Overlapping elements marked red: ${overlappingCount}`);
   console.log(`- Custom mapped icons: ${customIconCount}`);
   console.log(
