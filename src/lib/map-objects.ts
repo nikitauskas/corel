@@ -144,6 +144,9 @@ export const objectsToExclude = [
   'Підземне укриття',
   'Вибух',
   'Автомобіль (вантажний або легковий)',
+  'Мотоцикл',
+  'Споруда',
+  'Схованка',
 ];
 
 export function buildMapObjects(
