@@ -218,9 +218,10 @@ export function buildMapObjects(
       topLabelText = 'II';
     } else if (pt.echelon === 'Рота / батарея') {
       topLabelText = 'I';
-    } else if (){
-      topLabelText = 'ø';
     }
+    // else if (){
+    //   topLabelText = 'ø';
+    // }
 
     if (pt.count) {
       const countNum = pt.count;
