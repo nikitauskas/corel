@@ -74,6 +74,20 @@ export const mappingSVGs: Record<
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
+  'Розвідувальний артилерійський підрозділ': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Механізований підрозділ': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  'Середній кулемет': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
 
   "Підрозділ зв'язку": {
     height: STANDARD_ICON_SIZE_MM,
