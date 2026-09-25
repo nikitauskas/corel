@@ -20,6 +20,11 @@ export const mappingSVGs: Record<
     priority: 8,
   },
 
+  'Точка старту НРК': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 6,
+  },
+  //
   'Точка злету БпЛА літакового типу': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,

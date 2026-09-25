@@ -139,6 +139,7 @@ export interface MapObjectLayout {
 
 export const objectsToExclude = [
   'Підземне укриття',
+  'Вибух',
   'Автомобіль (вантажний або легковий)',
 ];
 
@@ -180,7 +181,7 @@ export function buildMapObjects(
     let mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
     );
-    
+
     const hasSpecificIcon = mappingIdx !== -1;
 
     if (isEnemy) {
@@ -217,6 +218,8 @@ export function buildMapObjects(
       topLabelText = 'II';
     } else if (pt.echelon === 'Рота / батарея') {
       topLabelText = 'I';
+    } else if (){
+      topLabelText = 'ø';
     }
 
     if (pt.count) {
@@ -382,7 +385,7 @@ export function buildMapObjects(
       }
     };
     labels.forEach(addLabelRect);
-    
+
     const bbox = computeBoundingBox(parts);
 
     return {
