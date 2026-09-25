@@ -30,7 +30,27 @@ export const mappingSVGs: Record<
     priority: 6,
   },
 
+  'Радіоелектронна боротьба': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 3,
+  },
+
   'Радіоелектронна боротьба - Створення перешкод': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 3,
+  },
+
+  'Радіоелектронна боротьба - Перехоплення': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 3,
+  },
+
+  'Радіоелектронна боротьба - Радіопеленгація': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 3,
+  },
+
+  'Постачання ресурсів': {
     height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
