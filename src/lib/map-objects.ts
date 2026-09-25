@@ -133,7 +133,13 @@ export interface MapObjectLayout {
   circleDetails?: {
     cleanText: string;
   };
+  isExcluded?: boolean;
 }
+
+export const objectsToExclude = [
+  'Підземне укриття',
+  'Автомобіль (вантажний або легковий)',
+];
 
 export function buildMapObjects(
   csvData: CsvRow[],
@@ -147,6 +153,22 @@ export function buildMapObjects(
   const preparedElements: MapObjectLayout[] = points.map((pt, idx) => {
     const anchorPoint = geoToSvg(pt);
     const ptApp6dType = pt.app6dType ?? '';
+    const isExcluded = objectsToExclude.includes(ptApp6dType);
+
+    if (isExcluded) {
+      return {
+        pt,
+        idx,
+        anchorPoint,
+        mappingIdx: -1,
+        ptApp6dType,
+        parts: [],
+        bbox: { minX: 0, minY: 0, maxX: 0, maxY: 0 },
+        status: 'idle',
+        isExcluded: true,
+      };
+    }
+
     const isEnemy = pt.identificationStatus === IdentificationStatus.Hostile;
     const isHQ = pt.isHQ;
     const status = pt.combatEffectiveness;
@@ -356,7 +378,7 @@ export function buildMapObjects(
       }
     };
     labels.forEach(addLabelRect);
-
+    
     const bbox = computeBoundingBox(parts);
 
     return {

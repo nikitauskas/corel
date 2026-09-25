@@ -127,7 +127,9 @@ for (const format of MAP_FORMATS) {
   const missedIcons = new Set<string>();
 
   for (const obj of preparedObjects) {
-    if (obj.mappingIdx === -1) {
+    if (obj.isExcluded) {
+      missedIcons.add(`- [excluded] ${obj.ptApp6dType}`);
+    } else if (obj.mappingIdx === -1) {
       missedIcons.add(obj.ptApp6dType);
     } else {
       usedIcons.add(obj.ptApp6dType);

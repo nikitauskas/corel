@@ -39,6 +39,10 @@ export function renderElementsSVG(
   const connectorLines: string[] = [];
 
   preparedElements.forEach((el, idx) => {
+    if (el.isExcluded) {
+      return;
+    }
+    
     const renderPt = el.renderPoint;
     const anchorPt = el.anchorPoint;
     const isDisplaced =
