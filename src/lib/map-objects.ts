@@ -134,6 +134,7 @@ export interface MapObjectLayout {
     cleanText: string;
   };
   isExcluded?: boolean;
+  hasSpecificIcon: boolean;
 }
 
 export const objectsToExclude = [
@@ -166,6 +167,7 @@ export function buildMapObjects(
         bbox: { minX: 0, minY: 0, maxX: 0, maxY: 0 },
         status: 'idle',
         isExcluded: true,
+        hasSpecificIcon: false,
       };
     }
 
@@ -178,6 +180,8 @@ export function buildMapObjects(
     let mappingIdx = Object.keys(mappingSVGs).findIndex(
       (key) => key === ptApp6dType,
     );
+    
+    const hasSpecificIcon = mappingIdx !== -1;
 
     if (isEnemy) {
       mappingIdx = 1;
@@ -390,6 +394,7 @@ export function buildMapObjects(
       parts,
       bbox,
       status: 'idle',
+      hasSpecificIcon,
       iconDetails: {
         iconW: iconSize.width,
         iconH: iconSize.height,
