@@ -88,6 +88,15 @@ export const mappingSVGs: Record<
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
+  'Легкий кулемет': {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  Кулемет: {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
 
   "Підрозділ зв'язку": {
     height: STANDARD_ICON_SIZE_MM,
