@@ -18,6 +18,7 @@ export interface Point {
   objectId?: string;
   identificationStatus?: string;
   combatEffectiveness?: string;
+  overlayName?: string;
 }
 
 export interface MapFormatConfig {

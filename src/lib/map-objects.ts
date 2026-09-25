@@ -66,6 +66,7 @@ export function filterMapObjectsInsideWindow(
 
     const echelon = row.Ешелон?.trim() || '';
     const objectId = row['object id']?.trim() || '';
+    const overlayName = row['overlay name']?.trim() || 'Default Overlay';
 
     const identificationStatus =
       parseStandardIdentity(row.Ідентифікація?.trim() || '') ??
@@ -101,6 +102,7 @@ export function filterMapObjectsInsideWindow(
             objectId,
             identificationStatus,
             combatEffectiveness,
+            overlayName,
           });
         }
       } catch (e) {
@@ -135,6 +137,7 @@ export interface MapObjectLayout {
   };
   isExcluded?: boolean;
   hasSpecificIcon: boolean;
+  overlayName: string;
 }
 
 export const objectsToExclude = [
@@ -169,6 +172,7 @@ export function buildMapObjects(
         status: 'idle',
         isExcluded: true,
         hasSpecificIcon: false,
+        overlayName: pt.overlayName ?? 'Default Overlay',
       };
     }
 
@@ -399,6 +403,7 @@ export function buildMapObjects(
       bbox,
       status: 'idle',
       hasSpecificIcon,
+      overlayName: pt.overlayName ?? 'Default Overlay',
       iconDetails: {
         iconW: iconSize.width,
         iconH: iconSize.height,

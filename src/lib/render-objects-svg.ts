@@ -35,14 +35,23 @@ function renderConnector(
 export function renderElementsSVG(
   preparedElements: MapObjectLayout[],
 ): string[] {
-  const blueForceElements: string[] = [];
-  const connectorLines: string[] = [];
+  const layers = new Map<
+    string,
+    { elements: string[]; connectors: string[] }
+  >();
 
   preparedElements.forEach((el, idx) => {
     if (el.isExcluded) {
       return;
     }
-    
+
+    const layerName = el.overlayName || 'Default Overlay';
+    let layer = layers.get(layerName);
+    if (!layer) {
+      layer = { elements: [], connectors: [] };
+      layers.set(layerName, layer);
+    }
+
     const renderPt = el.renderPoint;
     const anchorPt = el.anchorPoint;
     const isDisplaced =
@@ -63,7 +72,7 @@ export function renderElementsSVG(
         el.iconDetails != null
           ? renderPt.y + el.iconDetails.iconH / 2
           : renderPt.y;
-      connectorLines.push(
+      layer.connectors.push(
         renderConnector(
           anchorPt,
           renderPt,
@@ -77,7 +86,7 @@ export function renderElementsSVG(
         el.iconDetails != null
           ? anchorPt.y + el.iconDetails.iconH / 2
           : anchorPt.y;
-      connectorLines.push(
+      layer.connectors.push(
         renderConnector(
           anchorPt,
           anchorPt,
@@ -141,14 +150,28 @@ export function renderElementsSVG(
     }
 
     elementLines.push('    </g>');
-    blueForceElements.push(elementLines.join('\n'));
+    layer.elements.push(elementLines.join('\n'));
   });
 
-  if (connectorLines.length > 0) {
-    blueForceElements.unshift(
-      `    <g id="connectors">\n${connectorLines.join('\n')}\n    </g>`,
-    );
-  }
+  const connectorLines: string[] = ['  <g id="connectors">'];
+  const objectLines: string[] = ['  <g id="map-objects">'];
 
-  return blueForceElements;
+  layers.forEach((layer, layerName) => {
+    // Connectors group (only emit if layer has connectors)
+    if (layer.connectors.length > 0) {
+      connectorLines.push(`    <g id="${layerName}">`);
+      connectorLines.push(...layer.connectors);
+      connectorLines.push('    </g>');
+    }
+
+    // Objects group (always emit)
+    objectLines.push(`    <g id="${layerName}">`);
+    objectLines.push(...layer.elements);
+    objectLines.push('    </g>');
+  });
+
+  connectorLines.push('  </g>');
+  objectLines.push('  </g>');
+
+  return [...connectorLines, ...objectLines];
 }
