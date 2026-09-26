@@ -1,6 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { type GenerateResult, generateSVGFromCSV, STARTING_MGRS_TL } from './generator';
+import {
+  type GenerateResult,
+  STARTING_MGRS_TL,
+  generateSVGFromCSV,
+} from './generator';
 
 type State =
   | { status: 'idle' }
@@ -41,11 +45,15 @@ export default function App() {
 
   const download = () => {
     if (state.status !== 'done') return;
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const timestamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}.svg`;
+
     const blob = new Blob([state.result.svgContent], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = state.result.filename;
+    a.download = timestamp;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -101,7 +109,9 @@ export default function App() {
           </p>
           <p className="text-gray-500 text-xs mt-1">or click to browse</p>
           {state.status === 'error' && (
-            <p className="mt-4 text-red-400 text-sm text-center">{state.message}</p>
+            <p className="mt-4 text-red-400 text-sm text-center">
+              {state.message}
+            </p>
           )}
         </div>
       )}
@@ -123,10 +133,22 @@ export default function App() {
               ✅ Generated — {state.result.stats.format}
             </h2>
             <dl className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-              <StatRow label="Points in window" value={state.result.stats.pointsInWindow} />
-              <StatRow label="Overlapping" value={state.result.stats.overlapping} />
-              <StatRow label="Custom icons" value={state.result.stats.customIconCount} />
-              <StatRow label="Lines rendered" value={state.result.stats.linesCount} />
+              <StatRow
+                label="Points in window"
+                value={state.result.stats.pointsInWindow}
+              />
+              <StatRow
+                label="Overlapping"
+                value={state.result.stats.overlapping}
+              />
+              <StatRow
+                label="Custom icons"
+                value={state.result.stats.customIconCount}
+              />
+              <StatRow
+                label="Lines rendered"
+                value={state.result.stats.linesCount}
+              />
             </dl>
 
             {state.result.stats.overlayNames.length > 0 && (
