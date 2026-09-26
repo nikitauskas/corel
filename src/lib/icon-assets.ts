@@ -1,7 +1,7 @@
-// Auto-imported: all SVG icons in public/icons2 bundled as raw strings (Vite import.meta.glob ?raw)
+// Auto-imported: all SVG icons in src/assets/icons2 bundled as raw strings (Vite import.meta.glob ?raw)
 // This avoids fetch() which doesn't work on file:// protocol.
 
-const svgModules = import.meta.glob<string>("../../public/icons2/*.svg", {
+const svgModules = import.meta.glob<string>("../assets/icons2/*.svg", {
   query: "?raw",
   import: "default",
   eager: true,
@@ -9,7 +9,7 @@ const svgModules = import.meta.glob<string>("../../public/icons2/*.svg", {
 
 /**
  * Maps icon prefix name → raw SVG string.
- * Automatically populated from public/icons2/*.svg
+ * Automatically populated from src/assets/icons2/*.svg
  */
 export const ICON_RAW_SVGS: Record<string, string> = {};
 
