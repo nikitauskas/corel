@@ -357,7 +357,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center px-4 py-8">
       {/* Top Header & Settings Row (1200px) */}
-      <div className="w-full max-w-[1200px] mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="w-full max-w-[1200px] mb-8 flex flex-col md:flex-row items-start justify-between gap-6">
         {/* Left Side: Title & Subtitle */}
         <div className="text-left shrink-0">
           <h1 className="text-4xl font-bold tracking-tight text-white">

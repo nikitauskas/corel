@@ -18,6 +18,23 @@ export const typesOfLines = {
     color: "red",
     strokeWidth: 1.0583,
   },
+
+  "Рубіж переходу в наступ": {
+    color: "purple",
+    strokeWidth: 1.0583,
+  },
+  Район: {
+    color: "#c58025",
+    strokeWidth: 1.0583,
+  },
+  "Зайнятий район зосередження": {
+    color: "#31bfea",
+    strokeWidth: 1.0583,
+  },
+  "Вірогідний рубіж розгортання": {
+    color: "#108b4b",
+    strokeWidth: 1.0583,
+  },
 } as const;
 
 export type LineType = keyof typeof typesOfLines;
