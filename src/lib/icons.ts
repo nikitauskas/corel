@@ -1,16 +1,18 @@
 import { ICON_RAW_SVGS } from "./icon-assets";
 
-const STANDARD_ICON_SIZE_MM = 7.932;
+export const STANDARD_ICON_SIZE_MM = 7.932;
 
-export const mappingSVGs: Record<
+/**
+ * Icons that differ from the default size (7.932 mm) or default priority (5).
+ */
+export const ICON_CONFIG_OVERRIDES: Record<
   string,
   {
-    height: number;
-    priority: number;
+    height?: number;
+    priority?: number;
   }
 > = {
   Error: {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 10,
   },
 
@@ -20,188 +22,36 @@ export const mappingSVGs: Record<
   },
 
   "Точка старту НРК": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 6,
   },
   "Бойова броньована машина (ББМ, БМП)": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 6,
   },
   "Точка злету БпЛА літакового типу": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 6,
   },
 
   "Радіоелектронна боротьба": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
-
   "Радіоелектронна боротьба - Створення перешкод": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
-
   "Радіоелектронна боротьба - Перехоплення": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
-
   "Радіоелектронна боротьба - Радіопеленгація": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
-
   "Постачання ресурсів": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
-
   РЛС: {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 3,
-  },
-
-  "Підрозділ польової артилерії": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Важкий міномет": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Середній міномет": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-  "Розвідувальний артилерійський підрозділ": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Механізований підрозділ": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Середній кулемет": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-  "Легкий кулемет": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  Кулемет: {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Підрозділ зв'язку": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Важкий кулемет": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  Радіоретрансляція: {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Радіоелектронна боротьба - Аналіз": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  Радіопеленгація: {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Підрозділ безпілотних літальних апаратів (БпЛА)": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-  "Безпілотний наземний транспортний засіб": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Мінометний підрозділ": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Підрозділ безпілотних наземних апаратів": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Інженерний підрозділ": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Спільне вогневе забезпечення": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  Антена: {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Перехоплення (пошук та запис)": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  Пошук: {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Середня польова гармата": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  Гвинтівка: {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Радіоелектронна боротьба - Пошук": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Точка злету БпЛА вертикального зльоту / посадки": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
   },
 
   "Піхотний підрозділ": {
-    height: STANDARD_ICON_SIZE_MM,
     priority: 8,
-  },
-
-  "Середня гаубиця": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  "Легка гаубиця": {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
   },
 
   "Особа з гвинтівкою": {
@@ -214,6 +64,90 @@ export const mappingSVGs: Record<
     priority: 10,
   },
 };
+
+/**
+ * Standard icon ordering to maintain fixed index mappings (#icon-mapping-${idx}).
+ */
+export const KNOWN_ICON_ORDER = [
+  "Error",
+  "Enemy",
+  "Точка старту НРК",
+  "Бойова броньована машина (ББМ, БМП)",
+  "Точка злету БпЛА літакового типу",
+  "Радіоелектронна боротьба",
+  "Радіоелектронна боротьба - Створення перешкод",
+  "Радіоелектронна боротьба - Перехоплення",
+  "Радіоелектронна боротьба - Радіопеленгація",
+  "Постачання ресурсів",
+  "РЛС",
+  "Підрозділ польової артилерії",
+  "Важкий міномет",
+  "Середній міномет",
+  "Розвідувальний артилерійський підрозділ",
+  "Механізований підрозділ",
+  "Середній кулемет",
+  "Легкий кулемет",
+  "Кулемет",
+  "Підрозділ зв'язку",
+  "Важкий кулемет",
+  "Радіоретрансляція",
+  "Радіоелектронна боротьба - Аналіз",
+  "Радіопеленгація",
+  "Підрозділ безпілотних літальних апаратів (БпЛА)",
+  "Безпілотний наземний транспортний засіб",
+  "Мінометний підрозділ",
+  "Підрозділ безпілотних наземних апаратів",
+  "Інженерний підрозділ",
+  "Спільне вогневе забезпечення",
+  "Антена",
+  "Перехоплення (пошук та запис)",
+  "Пошук",
+  "Середня польова гармата",
+  "Гвинтівка",
+  "Радіоелектронна боротьба - Пошук",
+  "Точка злету БпЛА вертикального зльоту / посадки",
+  "Піхотний підрозділ",
+  "Середня гаубиця",
+  "Легка гаубиця",
+  "Особа з гвинтівкою",
+  "Стик (між частинами та підрозділами)",
+];
+
+/**
+ * Programmatically generated mapping dictionary.
+ * Combines KNOWN_ICON_ORDER & any auto-discovered icons from ICON_RAW_SVGS,
+ * applying default height/priority unless overridden in ICON_CONFIG_OVERRIDES.
+ */
+export const mappingSVGs: Record<
+  string,
+  {
+    height: number;
+    priority: number;
+  }
+> = {};
+
+for (const key of KNOWN_ICON_ORDER) {
+  const override = ICON_CONFIG_OVERRIDES[key];
+  mappingSVGs[key] = {
+    height: override?.height ?? STANDARD_ICON_SIZE_MM,
+    priority: override?.priority ?? 5,
+  };
+}
+
+for (const key of Object.keys(ICON_RAW_SVGS)) {
+  if (
+    !mappingSVGs[key] &&
+    key !== "Damaged" &&
+    key !== "Destroyed" &&
+    !key.startsWith("!")
+  ) {
+    const override = ICON_CONFIG_OVERRIDES[key];
+    mappingSVGs[key] = {
+      height: override?.height ?? STANDARD_ICON_SIZE_MM,
+      priority: override?.priority ?? 5,
+    };
+  }
+}
 
 const ICON_VIEWBOX_PADDING = 0;
 
