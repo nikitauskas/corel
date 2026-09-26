@@ -406,7 +406,10 @@ export default function App() {
               onClick={download}
               className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition-colors cursor-pointer"
             >
-              ⬇ Download SVG ({state.result.filename})
+              ⬇ Download SVG <br />
+              <span className="text-xs font-normal">
+                {state.result.filename}
+              </span>
             </button>
             <button
               type="button"
