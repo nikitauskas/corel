@@ -355,102 +355,108 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center px-4 py-12">
-      <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-white">
-          Delta<span className="text-blue-400">2</span>Corel
-        </h1>
-        <p className="mt-2 text-gray-400 text-sm">CSV → SVG map generator</p>
-      </header>
-
-      {/* Control Panel (Wider: 1200px) */}
-      <div className="w-full max-w-[1200px] mb-6 bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
-        <div>
-          <label
-            htmlFor="mgrs-tl"
-            className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
-          >
-            Top-Left MGRS
-          </label>
-          <input
-            id="mgrs-tl"
-            type="text"
-            value={mgrsTL}
-            onChange={(e) => handleMgrsChange(e.target.value)}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="e.g. 37UBP9708043769"
-          />
+    <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center px-4 py-8">
+      {/* Top Header & Settings Row (1200px) */}
+      <div className="w-full max-w-[1200px] mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Left Side: Title & Subtitle */}
+        <div className="text-left shrink-0">
+          <h1 className="text-4xl font-bold tracking-tight text-white">
+            Delta<span className="text-blue-400">2</span>Corel
+          </h1>
+          <p className="mt-1.5 text-gray-400 text-sm">
+            CSV → SVG map generator
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* Right Side: Control Panel (MGRS, Scale, Width, Height) */}
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4 max-w-xl w-full">
           <div>
             <label
-              htmlFor="map-scale"
+              htmlFor="mgrs-tl"
               className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
             >
-              Scale
-            </label>
-            <select
-              id="map-scale"
-              value={scale}
-              onChange={(e) => handleScaleChange(Number(e.target.value))}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
-            >
-              <option value={10000}>1:10000</option>
-              <option value={15000}>1:15000</option>
-              <option value={25000}>1:25000</option>
-              <option value={50000}>1:50000</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="map-width"
-              className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
-            >
-              Width (mm)
+              Top-Left MGRS
             </label>
             <input
-              id="map-width"
-              type="number"
-              value={width}
-              onChange={(e) => handleWidthChange(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="1810"
-              min="1"
+              id="mgrs-tl"
+              type="text"
+              value={mgrsTL}
+              onChange={(e) => handleMgrsChange(e.target.value)}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="e.g. 37UBP9708043769"
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="map-height"
-              className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
-            >
-              Height (mm)
-            </label>
-            <input
-              id="map-height"
-              type="number"
-              value={height}
-              onChange={(e) => handleHeightChange(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="1810"
-              min="1"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label
+                htmlFor="map-scale"
+                className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
+              >
+                Scale
+              </label>
+              <select
+                id="map-scale"
+                value={scale}
+                onChange={(e) => handleScaleChange(Number(e.target.value))}
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              >
+                <option value={10000}>1:10000</option>
+                <option value={15000}>1:15000</option>
+                <option value={25000}>1:25000</option>
+                <option value={50000}>1:50000</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                htmlFor="map-width"
+                className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
+              >
+                Width (mm)
+              </label>
+              <input
+                id="map-width"
+                type="number"
+                value={width}
+                onChange={(e) => handleWidthChange(e.target.value)}
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="1810"
+                min="1"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="map-height"
+                className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
+              >
+                Height (mm)
+              </label>
+              <input
+                id="map-height"
+                type="number"
+                value={height}
+                onChange={(e) => handleHeightChange(e.target.value)}
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="1810"
+                min="1"
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Drop zone (Wider: 1200px) */}
+      {/* Drop zone (Full Width 1200px & Full Height) */}
       {(state.status === "idle" || state.status === "error") && (
         <div
           {...getRootProps()}
-          className={`w-full max-w-[1200px] border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer transition-colors
+          className={`w-full max-w-[1200px] min-h-[420px] flex-1 border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer transition-colors
             ${isDragActive ? "border-blue-400 bg-blue-950/30" : "border-gray-700 hover:border-blue-600 bg-gray-900"}`}
         >
           <input {...getInputProps()} />
           <svg
-            className={`w-12 h-12 mb-4 ${isDragActive ? "text-blue-400" : "text-gray-600"}`}
+            className={`w-16 h-16 mb-4 ${isDragActive ? "text-blue-400" : "text-gray-600"}`}
             fill="none"
             stroke="currentColor"
             strokeWidth={1.5}
@@ -462,10 +468,10 @@ export default function App() {
               d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
             />
           </svg>
-          <p className="text-gray-300 font-medium">
+          <p className="text-gray-200 text-lg font-medium">
             {isDragActive ? "Drop the CSV here…" : "Drop CSV file here"}
           </p>
-          <p className="text-gray-500 text-xs mt-1">or click to browse</p>
+          <p className="text-gray-400 text-sm mt-2">or click to browse</p>
           {state.status === "error" && (
             <p className="mt-4 text-red-400 text-sm text-center">
               {state.message}
@@ -476,7 +482,7 @@ export default function App() {
 
       {/* Loading */}
       {state.status === "loading" && (
-        <div className="flex flex-col items-center gap-4 py-16">
+        <div className="flex flex-col items-center gap-4 py-24">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
           <p className="text-gray-400">Generating SVG…</p>
         </div>
