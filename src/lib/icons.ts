@@ -1,5 +1,4 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
+import { ICON_RAW_SVGS } from "./icon-assets";
 
 const STANDARD_ICON_SIZE_MM = 7.932;
 
@@ -20,40 +19,40 @@ export const mappingSVGs: Record<
     priority: 8,
   },
 
-  'Точка старту НРК': {
+  "Точка старту НРК": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,
   },
-  'Бойова броньована машина (ББМ, БМП)': {
+  "Бойова броньована машина (ББМ, БМП)": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,
   },
-  'Точка злету БпЛА літакового типу': {
+  "Точка злету БпЛА літакового типу": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 6,
   },
 
-  'Радіоелектронна боротьба': {
+  "Радіоелектронна боротьба": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
 
-  'Радіоелектронна боротьба - Створення перешкод': {
+  "Радіоелектронна боротьба - Створення перешкод": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
 
-  'Радіоелектронна боротьба - Перехоплення': {
+  "Радіоелектронна боротьба - Перехоплення": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
 
-  'Радіоелектронна боротьба - Радіопеленгація': {
+  "Радіоелектронна боротьба - Радіопеленгація": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
 
-  'Постачання ресурсів': {
+  "Постачання ресурсів": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 3,
   },
@@ -63,35 +62,35 @@ export const mappingSVGs: Record<
     priority: 3,
   },
 
-  'Підрозділ польової артилерії': {
+  "Підрозділ польової артилерії": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Важкий міномет': {
+  "Важкий міномет": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Середній міномет': {
+  "Середній міномет": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
-  'Розвідувальний артилерійський підрозділ': {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  'Механізований підрозділ': {
+  "Розвідувальний артилерійський підрозділ": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Середній кулемет': {
+  "Механізований підрозділ": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
-  'Легкий кулемет': {
+
+  "Середній кулемет": {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+  "Легкий кулемет": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
@@ -106,7 +105,7 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
-  'Важкий кулемет': {
+  "Важкий кулемет": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
@@ -116,7 +115,7 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
-  'Радіоелектронна боротьба - Аналіз': {
+  "Радіоелектронна боротьба - Аналіз": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
@@ -126,31 +125,31 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
-  'Підрозділ безпілотних літальних апаратів (БпЛА)': {
+  "Підрозділ безпілотних літальних апаратів (БпЛА)": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
-  'Безпілотний наземний транспортний засіб': {
-    height: STANDARD_ICON_SIZE_MM,
-    priority: 5,
-  },
-
-  'Мінометний підрозділ': {
+  "Безпілотний наземний транспортний засіб": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Підрозділ безпілотних наземних апаратів': {
+  "Мінометний підрозділ": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Інженерний підрозділ': {
+  "Підрозділ безпілотних наземних апаратів": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Спільне вогневе забезпечення': {
+  "Інженерний підрозділ": {
+    height: STANDARD_ICON_SIZE_MM,
+    priority: 5,
+  },
+
+  "Спільне вогневе забезпечення": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
@@ -160,7 +159,7 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
-  'Перехоплення (пошук та запис)': {
+  "Перехоплення (пошук та запис)": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
@@ -170,7 +169,7 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
-  'Середня польова гармата': {
+  "Середня польова гармата": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
@@ -180,37 +179,37 @@ export const mappingSVGs: Record<
     priority: 5,
   },
 
-  'Радіоелектронна боротьба - Пошук': {
+  "Радіоелектронна боротьба - Пошук": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Точка злету БпЛА вертикального зльоту / посадки': {
+  "Точка злету БпЛА вертикального зльоту / посадки": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Піхотний підрозділ': {
+  "Піхотний підрозділ": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 8,
   },
 
-  'Середня гаубиця': {
+  "Середня гаубиця": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Легка гаубиця': {
+  "Легка гаубиця": {
     height: STANDARD_ICON_SIZE_MM,
     priority: 5,
   },
 
-  'Особа з гвинтівкою': {
-    height: 6, // 8.249
+  "Особа з гвинтівкою": {
+    height: 6,
     priority: 2,
   },
 
-  'Стик (між частинами та підрозділами)': {
+  "Стик (між частинами та підрозділами)": {
     height: 6.84,
     priority: 10,
   },
@@ -218,32 +217,37 @@ export const mappingSVGs: Record<
 
 const ICON_VIEWBOX_PADDING = 0;
 
-export function buildIconsDefs() {
+/**
+ * Synchronous — reads SVG content from the bundled ICON_RAW_SVGS registry.
+ * Works on file:// protocol (no fetch needed).
+ */
+export function buildIconsDefs(): {
+  generatedIconsDefs: string;
+  iconRenderedSizes: { width: number; height: number }[];
+  customIconCount: number;
+} {
   const iconRenderedSizes: { width: number; height: number }[] = [];
-  let iconsDefsContent = '';
-  let iconsSymbolsContent = '';
+  let iconsDefsContent = "";
+  let iconsSymbolsContent = "";
   let customIconCount = 0;
 
   Object.entries(mappingSVGs).forEach(
     ([prefix, { height: targetHeightMm }], idx) => {
-      const iconPathRelative = `icons2/${prefix.replace(/\//g, '-')}.svg`;
-      const iconPath = path.resolve(process.cwd(), iconPathRelative);
-      if (!fs.existsSync(iconPath)) {
-        console.warn(
-          `Warning: Icon not found for prefix '${prefix}': ${iconPathRelative}`,
-        );
+      const iconContent = ICON_RAW_SVGS[prefix];
+
+      if (!iconContent) {
+        console.warn(`Warning: Icon not found for prefix '${prefix}'`);
         iconRenderedSizes.push({
           width: targetHeightMm,
           height: targetHeightMm,
-        }); // fallback square
+        });
         return;
       }
 
       customIconCount++;
-      const iconContent = fs.readFileSync(iconPath, 'utf-8');
 
       const viewBoxMatch = iconContent.match(/viewBox="([^"]+)"/);
-      const viewBoxStr = viewBoxMatch ? viewBoxMatch[1] : '0 0 100 100';
+      const viewBoxStr = viewBoxMatch ? viewBoxMatch[1] : "0 0 100 100";
       const parts = viewBoxStr
         .trim()
         .split(/[\s,]+/)
@@ -254,23 +258,22 @@ export function buildIconsDefs() {
       const svgHeight = parts[3] || 100;
 
       const innerSvgMatch = iconContent.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
-      const innerSvg = innerSvgMatch ? innerSvgMatch[1] : '';
+      const innerSvg = innerSvgMatch ? innerSvgMatch[1] : "";
 
       const defsMatch = innerSvg.match(/<defs>([\s\S]*?)<\/defs>/i);
       if (defsMatch) {
         iconsDefsContent += `\n    <!-- Hoisted defs for ${prefix} -->\n    ${defsMatch[1]}`;
       }
-      const geometry = innerSvg.replace(/<defs>[\s\S]*?<\/defs>/i, '');
+      const geometry = innerSvg.replace(/<defs>[\s\S]*?<\/defs>/i, "");
 
       const contentH = svgHeight - 2 * ICON_VIEWBOX_PADDING;
       const contentW = svgWidth - 2 * ICON_VIEWBOX_PADDING;
       const scale = targetHeightMm / (contentH > 0 ? contentH : svgHeight);
-      const scaledW = svgWidth * scale; // total rendered width including padding
-      const scaledH = svgHeight * scale; // total rendered height including padding
-      const scaledContentW = contentW * scale; // == targetHeightMm * (contentW / contentH)
-      const scaledContentH = contentH * scale; // == targetHeightMm
+      const scaledW = svgWidth * scale;
+      const scaledH = svgHeight * scale;
+      const scaledContentW = contentW * scale;
+      const scaledContentH = contentH * scale;
 
-      // Record actual CONTENT dimensions for centering during placement
       iconRenderedSizes.push({
         width: scaledContentW,
         height: scaledContentH,

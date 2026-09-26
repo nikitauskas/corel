@@ -1,7 +1,7 @@
-import * as m from 'mgrs';
+import * as m from "mgrs";
 
 const mgrs =
-  'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
+  "toPoint" in m ? m : (m as unknown as { default: typeof m }).default;
 
 export interface Point {
   lon: number;

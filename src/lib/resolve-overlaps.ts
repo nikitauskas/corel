@@ -1,4 +1,4 @@
-import { MapObjectLayout } from './map-objects.js';
+import type { MapObjectLayout } from "./map-objects";
 
 /** Search grid step size in mm */
 const STEP_MM = 1.5;
@@ -97,7 +97,7 @@ class UnionFind {
 export function resolveOverlappingRenderPoints(
   elements: MapObjectLayout[],
 ): void {
-  const displacedElements = elements.filter((el) => el.status === 'displaced');
+  const displacedElements = elements.filter((el) => el.status === "displaced");
   if (displacedElements.length === 0) return;
 
   // 1. Initial sorting for determinism (Top-to-bottom, Left-to-right)
@@ -180,7 +180,7 @@ export function resolveOverlappingRenderPoints(
 
   // Define static obstacles
   const occupied: AABB[] = elements
-    .filter((el) => el.status !== 'displaced')
+    .filter((el) => el.status !== "displaced")
     .map((el) => bboxAt(el, el.anchorPoint.x, el.anchorPoint.y));
 
   // 5. Place elements using the constrained scoring search

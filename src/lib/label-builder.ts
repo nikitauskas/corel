@@ -6,9 +6,9 @@ export interface LabelLayout {
   /** SVG text baseline y. */
   textY: number;
   /** SVG text-anchor attribute value. */
-  textAnchor: 'end' | 'start' | 'middle';
-  fontSize: 'sm' | 'md';
-  fontStyle: 'normal' | 'italic' | 'bold' | 'bold-italic';
+  textAnchor: "end" | "start" | "middle";
+  fontSize: "sm" | "md";
+  fontStyle: "normal" | "italic" | "bold" | "bold-italic";
   rectX: number;
   rectY: number;
   rectW: number;
@@ -23,10 +23,10 @@ export const LAYOUT_CONFIG = {
   fontSize: { sm: 2.822, md: 3.526 },
   rectHeight: { sm: 2.822, md: 2.917 },
   fontStyle: {
-    normal: 'Arial',
-    'bold-italic': 'ArialBI',
-    italic: 'ArialI',
-    bold: 'ArialBI',
+    normal: "Arial",
+    "bold-italic": "ArialBI",
+    italic: "ArialI",
+    bold: "ArialBI",
   },
 } as const;
 
@@ -35,11 +35,11 @@ const round = (val: number, decimals = 3) => Number(val.toFixed(decimals));
 export const labelBuilder = (
   rawName: string,
   anchor: [anchorX: number, anchorY: number],
-  textAnchor: 'start' | 'middle' | 'end',
-  dir: 'down' | 'up' = 'down',
-  fontSize: 'sm' | 'md' = 'md',
-  bgColor = 'none',
-  fontStyle: 'normal' | 'italic' | 'bold' | 'bold-italic' = 'bold-italic',
+  textAnchor: "start" | "middle" | "end",
+  dir: "down" | "up" = "down",
+  fontSize: "sm" | "md" = "md",
+  bgColor = "none",
+  fontStyle: "normal" | "italic" | "bold" | "bold-italic" = "bold-italic",
 ): LabelLayout => {
   const [anchorX, anchorY] = anchor;
 
@@ -47,23 +47,23 @@ export const labelBuilder = (
   const rectHeight = LAYOUT_CONFIG.rectHeight[fontSize];
   let currentY = anchorY;
 
-  const cleanText = rawName ?? '';
+  const cleanText = rawName ?? "";
 
   const textWidth = measureTextWidthMm(cleanText, fontSizeMm);
   const rectW = textWidth + LAYOUT_CONFIG.rectPadX * 2;
   const rectH = rectHeight;
 
   let rectX: number;
-  if (textAnchor === 'start') {
+  if (textAnchor === "start") {
     rectX = anchorX;
-  } else if (textAnchor === 'end') {
+  } else if (textAnchor === "end") {
     rectX = anchorX - rectW;
   } else {
     rectX = anchorX - rectW / 2;
   }
 
   let rectY: number;
-  if (dir === 'down') {
+  if (dir === "down") {
     rectY = currentY;
     currentY += rectH;
   } else {
@@ -72,9 +72,9 @@ export const labelBuilder = (
   }
 
   const textX =
-    textAnchor === 'start'
+    textAnchor === "start"
       ? rectX + LAYOUT_CONFIG.rectPadX
-      : textAnchor === 'end'
+      : textAnchor === "end"
         ? rectX + rectW - LAYOUT_CONFIG.rectPadX
         : anchorX;
 
@@ -103,51 +103,51 @@ export const labelBuilder = (
 
 const CHAR_WIDTHS_1000: Record<string, number> = {
   // space & basic punctuation
-  ' ': 278,
-  '!': 333,
+  " ": 278,
+  "!": 333,
   '"': 474,
-  '#': 556,
+  "#": 556,
   $: 556,
-  '%': 889,
-  '&': 722,
+  "%": 889,
+  "&": 722,
   "'": 238,
-  '(': 333,
-  ')': 333,
-  '*': 389,
-  '+': 584,
-  ',': 278,
-  '-': 333,
-  '.': 278,
-  '/': 278,
-  ':': 333,
-  ';': 333,
-  '<': 584,
-  '=': 584,
-  '>': 584,
-  '?': 611,
-  '@': 975,
-  '[': 333,
-  '\\': 278,
-  ']': 333,
-  '^': 584,
+  "(": 333,
+  ")": 333,
+  "*": 389,
+  "+": 584,
+  ",": 278,
+  "-": 333,
+  ".": 278,
+  "/": 278,
+  ":": 333,
+  ";": 333,
+  "<": 584,
+  "=": 584,
+  ">": 584,
+  "?": 611,
+  "@": 975,
+  "[": 333,
+  "\\": 278,
+  "]": 333,
+  "^": 584,
   _: 556,
-  '`': 333,
-  '{': 389,
-  '|': 280,
-  '}': 389,
-  '~': 584,
+  "`": 333,
+  "{": 389,
+  "|": 280,
+  "}": 389,
+  "~": 584,
 
   // digits (Arial digits are tabular — all equal width)
-  '0': 556,
-  '1': 556,
-  '2': 556,
-  '3': 556,
-  '4': 556,
-  '5': 556,
-  '6': 556,
-  '7': 556,
-  '8': 556,
-  '9': 556,
+  "0": 556,
+  "1": 556,
+  "2": 556,
+  "3": 556,
+  "4": 556,
+  "5": 556,
+  "6": 556,
+  "7": 556,
+  "8": 556,
+  "9": 556,
 
   // Latin uppercase
   A: 722,
@@ -275,10 +275,10 @@ const CHAR_WIDTHS_1000: Record<string, number> = {
   ю: 833,
   я: 556,
 
-  '’': 238,
-  '–': 556,
-  '—': 1000,
-  '№': 900,
+  "’": 238,
+  "–": 556,
+  "—": 1000,
+  "№": 900,
 };
 
 const DEFAULT_CHAR_WIDTH_1000 = 611; // fallback for anything unmapped (e.g. emoji, rare symbols)

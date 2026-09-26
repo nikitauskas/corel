@@ -1,5 +1,5 @@
-import { LAYOUT_CONFIG } from './label-builder.js';
-import { MapObjectLayout } from './map-objects.js';
+import { LAYOUT_CONFIG } from "./label-builder";
+import type { MapObjectLayout } from "./map-objects";
 
 const CONNECTOR_STUB_MM = 4.5;
 
@@ -26,7 +26,7 @@ function renderConnector(
   return `      <path
   d="M ${startX.toFixed(3)},${iconBottomY.toFixed(3)}
      V ${stubBottomY.toFixed(3)}
-     ${isJustVertical ? '' : `L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}`}"
+     ${isJustVertical ? "" : `L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}`}"
   fill="none"
   stroke="#333333"
   stroke-width="0.4" />`;
@@ -45,7 +45,7 @@ export function renderElementsSVG(
       return;
     }
 
-    const layerName = el.overlayName || 'Default Overlay';
+    const layerName = el.overlayName || "Default Overlay";
     let layer = layers.get(layerName);
     if (!layer) {
       layer = { elements: [], connectors: [] };
@@ -55,7 +55,7 @@ export function renderElementsSVG(
     const renderPt = el.renderPoint;
     const anchorPt = el.anchorPoint;
     const isDisplaced =
-      el.status === 'displaced' &&
+      el.status === "displaced" &&
       renderPt &&
       (renderPt.x !== anchorPt.x || renderPt.y !== anchorPt.y);
 
@@ -125,32 +125,32 @@ export function renderElementsSVG(
       );
 
       if (el.iconDetails.damageOverlay) {
-        const isDestroyed = el.iconDetails.damageOverlay === 'destroyed';
+        const isDestroyed = el.iconDetails.damageOverlay === "destroyed";
         const scale = el.iconDetails.iconH / 28 + 0.05;
         const destW = 34 * scale;
         const destH = 34 * scale;
         const offsetX = (el.iconDetails.iconW - destW) / 2;
         const offsetY = (el.iconDetails.iconH - destH) / 2;
 
-        const pathData = isDestroyed ? 'M3 3L31 31M31 3L3 31' : 'M31 3L3 31';
-        const strokeColor = isDestroyed ? 'red' : '#000';
+        const pathData = isDestroyed ? "M3 3L31 31M31 3L3 31" : "M31 3L3 31";
+        const strokeColor = isDestroyed ? "red" : "#000";
 
         elementLines.push(
           `        <g transform="translate(${offsetX.toFixed(3)}, ${offsetY.toFixed(3)}) scale(${scale.toFixed(3)})">`,
           `          <path d="${pathData}" stroke="${strokeColor}" stroke-width="1.5"/>`,
-          '        </g>',
+          "        </g>",
         );
       }
 
-      elementLines.push('      </g>');
+      elementLines.push("      </g>");
     }
 
     if (isDisplaced) {
-      elementLines.push('      </g>');
+      elementLines.push("      </g>");
     }
 
-    elementLines.push('    </g>');
-    layer.elements.push(elementLines.join('\n'));
+    elementLines.push("    </g>");
+    layer.elements.push(elementLines.join("\n"));
   });
 
   const connectorLines: string[] = ['  <g id="connectors">'];
@@ -161,17 +161,17 @@ export function renderElementsSVG(
     if (layer.connectors.length > 0) {
       connectorLines.push(`    <g id="${layerName}">`);
       connectorLines.push(...layer.connectors);
-      connectorLines.push('    </g>');
+      connectorLines.push("    </g>");
     }
 
     // Objects group (always emit)
     objectLines.push(`    <g id="${layerName}">`);
     objectLines.push(...layer.elements);
-    objectLines.push('    </g>');
+    objectLines.push("    </g>");
   });
 
-  connectorLines.push('  </g>');
-  objectLines.push('  </g>');
+  connectorLines.push("  </g>");
+  objectLines.push("  </g>");
 
   return [...connectorLines, ...objectLines];
 }

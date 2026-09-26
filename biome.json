@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.7/schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
@@ -17,26 +17,32 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": {
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off",
+        "noSvgWithoutTitle": "off",
+        "useValidAnchor": "off"
+      },
       "suspicious": {
-        "noImplicitAnyLet": "off"
+        "noArrayIndexKey": "off"
       },
       "correctness": {
-        "noUnusedImports": "off"
-      },
-      "style": {
-        "useImportType": "off"
+        "useUniqueElementIds": "off",
+        "useExhaustiveDependencies": "off"
       }
     }
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single"
-    },
-    "parser": {
-      "unsafeParameterDecoratorsEnabled": true
+      "quoteStyle": "double"
     }
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   }
 }
