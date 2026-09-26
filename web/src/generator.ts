@@ -1,21 +1,21 @@
-import { parseCSV } from './lib/csv';
-import { type MapFormatConfig, createMapContext } from './lib/geo';
-import { buildIconsDefs } from './lib/icons';
-import { buildLUnitsSpearationLinesSVGs } from './lib/lines';
-import { buildMapObjects } from './lib/map-objects';
-import { renderElementsSVG } from './lib/render-objects-svg';
-import { resolveOverlappingRenderPoints } from './lib/resolve-overlaps';
-import { buildFinalSvg } from './lib/svg';
+import { parseCSV } from "./lib/csv";
+import { createMapContext, type MapFormatConfig } from "./lib/geo";
+import { buildIconsDefs } from "./lib/icons";
+import { buildLUnitsSpearationLinesSVGs } from "./lib/lines";
+import { buildMapObjects } from "./lib/map-objects";
+import { renderElementsSVG } from "./lib/render-objects-svg";
+import { resolveOverlappingRenderPoints } from "./lib/resolve-overlaps";
+import { buildFinalSvg } from "./lib/svg";
 
-export const STARTING_MGRS_TL = '37UCQ7566503788';
+export const STARTING_MGRS_TL = "37UCQ7566503788";
 
 export const MAP_FORMATS: MapFormatConfig[] = [
   {
-    name: '1:25000',
+    name: "1:25000",
     scale: 25_000,
     widthMm: 1810,
     heightMm: 1810,
-    outputFilename: 'layout_1810x1810_25k.svg',
+    outputFilename: "layout_1810x1810_25k.svg",
   },
 ];
 
@@ -69,7 +69,7 @@ export async function generateSVGFromCSV(
   const mapObjectsSVGs = renderElementsSVG(preparedObjects);
 
   const overlappingCount = preparedObjects.filter(
-    (el) => el.status !== 'idle',
+    (el) => el.status !== "idle",
   ).length;
 
   // 6. Final SVG
@@ -86,7 +86,7 @@ export async function generateSVGFromCSV(
 
   // Stats
   const overlayNames = Array.from(
-    new Set(csvData.map((r) => r['overlay name']).filter(Boolean) as string[]),
+    new Set(csvData.map((r) => r["overlay name"]).filter(Boolean) as string[]),
   );
 
   const usedIcons = new Set<string>();
@@ -110,7 +110,7 @@ export async function generateSVGFromCSV(
       pointsInWindow: mapObjectsSVGs.length,
       overlapping: overlappingCount,
       customIconCount,
-      linesCount: unitsSpearationLinesSVGs.join('\n').split('<path').length - 1,
+      linesCount: unitsSpearationLinesSVGs.join("\n").split("<path").length - 1,
       overlayNames,
       usedIcons: Array.from(usedIcons),
       missedIcons: Array.from(missedIcons),

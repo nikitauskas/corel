@@ -1,8 +1,8 @@
-import * as m from 'mgrs';
-import type { CsvRow } from './csv';
+import * as m from "mgrs";
+import type { CsvRow } from "./csv";
 
 const mgrs =
-  'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
+  "toPoint" in m ? m : (m as unknown as { default: typeof m }).default;
 
 interface Point {
   lon: number;
@@ -10,12 +10,12 @@ interface Point {
 }
 
 export const typesOfLines = {
-  'Горизонтальна (між підрозділами)': {
-    color: '#171796',
+  "Горизонтальна (між підрозділами)": {
+    color: "#171796",
     strokeWidth: 1.0583,
   },
-  'Рубіж узгодженого вогню': {
-    color: 'red',
+  "Рубіж узгодженого вогню": {
+    color: "red",
     strokeWidth: 1.0583,
   },
 } as const;
@@ -36,13 +36,13 @@ export function buildLUnitsSpearationLinesSVGs(
   const lineSegments: LineSegment[] = [];
 
   for (const row of csvData) {
-    const app6dType = row['app6d type']?.trim() as LineType;
+    const app6dType = row["app6d type"]?.trim() as LineType;
     if (!typesOfLines[app6dType]) continue;
-    const overlayName = row['overlay name']?.trim() || 'Default Overlay';
+    const overlayName = row["overlay name"]?.trim() || "Default Overlay";
 
     const mgrsParts =
-      row['coordinates(mgrs)']
-        ?.split(';')
+      row["coordinates(mgrs)"]
+        ?.split(";")
         .map((s) => s.trim())
         .filter(Boolean) ?? [];
     let currentSegment: Point[] = [];
@@ -55,7 +55,11 @@ export function buildLUnitsSpearationLinesSVGs(
         if (inWindow(lon, lat)) {
           currentSegment.push({ lon, lat });
         } else if (currentSegment.length > 0) {
-          lineSegments.push({ type: app6dType, overlayName, points: [...currentSegment] });
+          lineSegments.push({
+            type: app6dType,
+            overlayName,
+            points: [...currentSegment],
+          });
           currentSegment = [];
         }
       } catch {
@@ -64,7 +68,11 @@ export function buildLUnitsSpearationLinesSVGs(
     }
 
     if (currentSegment.length > 0) {
-      lineSegments.push({ type: app6dType, overlayName, points: currentSegment });
+      lineSegments.push({
+        type: app6dType,
+        overlayName,
+        points: currentSegment,
+      });
     }
   }
 
@@ -77,12 +85,12 @@ export function buildLUnitsSpearationLinesSVGs(
     const pathData = points
       .map((pt, idx) => {
         const { x, y } = geoToSvg(pt);
-        return `${idx === 0 ? 'M' : 'L'} ${x},${y}`;
+        return `${idx === 0 ? "M" : "L"} ${x},${y}`;
       })
-      .join(' ');
+      .join(" ");
 
     const opacityAttr = (opacity?: number) =>
-      opacity !== undefined ? ` stroke-opacity="${opacity}"` : '';
+      opacity !== undefined ? ` stroke-opacity="${opacity}"` : "";
 
     const createPath = (width: number, opacity?: number) =>
       `<path class="${type}" d="${pathData}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${opacityAttr(opacity)} fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
@@ -101,8 +109,8 @@ export function buildLUnitsSpearationLinesSVGs(
   const result: string[] = [];
   layerMap.forEach((paths, name) => {
     result.push(`  <g id="${name}">`);
-    result.push(paths.join('\n'));
-    result.push('  </g>');
+    result.push(paths.join("\n"));
+    result.push("  </g>");
   });
   return result;
 }

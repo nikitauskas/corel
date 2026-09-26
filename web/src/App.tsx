@@ -1,30 +1,30 @@
-import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import {
   type GenerateResult,
-  STARTING_MGRS_TL,
   generateSVGFromCSV,
-} from './generator';
+  STARTING_MGRS_TL,
+} from "./generator";
 
 type State =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'done'; result: GenerateResult }
-  | { status: 'error'; message: string };
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "done"; result: GenerateResult }
+  | { status: "error"; message: string };
 
 export default function App() {
-  const [state, setState] = useState<State>({ status: 'idle' });
+  const [state, setState] = useState<State>({ status: "idle" });
   const [mgrsTL, setMgrsTL] = useState(STARTING_MGRS_TL);
 
   const processFile = useCallback(
     async (file: File) => {
-      setState({ status: 'loading' });
+      setState({ status: "loading" });
       try {
         const text = await file.text();
         const result = await generateSVGFromCSV(text, mgrsTL);
-        setState({ status: 'done', result });
+        setState({ status: "done", result });
       } catch (err) {
-        setState({ status: 'error', message: String(err) });
+        setState({ status: "error", message: String(err) });
       }
     },
     [mgrsTL],
@@ -39,26 +39,26 @@ export default function App() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'text/csv': ['.csv'], 'text/plain': ['.csv', '.txt'] },
+    accept: { "text/csv": [".csv"], "text/plain": [".csv", ".txt"] },
     multiple: false,
   });
 
   const download = () => {
-    if (state.status !== 'done') return;
+    if (state.status !== "done") return;
     const now = new Date();
-    const pad = (n: number) => String(n).padStart(2, '0');
+    const pad = (n: number) => String(n).padStart(2, "0");
     const timestamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}.svg`;
 
-    const blob = new Blob([state.result.svgContent], { type: 'image/svg+xml' });
+    const blob = new Blob([state.result.svgContent], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = timestamp;
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  const reset = () => setState({ status: 'idle' });
+  const reset = () => setState({ status: "idle" });
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center px-4 py-12">
@@ -71,10 +71,14 @@ export default function App() {
 
       {/* MGRS Input */}
       <div className="w-full max-w-md mb-6">
-        <label className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">
+        <label
+          htmlFor="mgrs-tl"
+          className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest"
+        >
           Top-Left MGRS
         </label>
         <input
+          id="mgrs-tl"
           type="text"
           value={mgrsTL}
           onChange={(e) => setMgrsTL(e.target.value)}
@@ -84,15 +88,15 @@ export default function App() {
       </div>
 
       {/* Drop zone */}
-      {(state.status === 'idle' || state.status === 'error') && (
+      {(state.status === "idle" || state.status === "error") && (
         <div
           {...getRootProps()}
           className={`w-full max-w-md border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer transition-colors
-            ${isDragActive ? 'border-blue-400 bg-blue-950/30' : 'border-gray-700 hover:border-blue-600 bg-gray-900'}`}
+            ${isDragActive ? "border-blue-400 bg-blue-950/30" : "border-gray-700 hover:border-blue-600 bg-gray-900"}`}
         >
           <input {...getInputProps()} />
           <svg
-            className={`w-12 h-12 mb-4 ${isDragActive ? 'text-blue-400' : 'text-gray-600'}`}
+            className={`w-12 h-12 mb-4 ${isDragActive ? "text-blue-400" : "text-gray-600"}`}
             fill="none"
             stroke="currentColor"
             strokeWidth={1.5}
@@ -105,10 +109,10 @@ export default function App() {
             />
           </svg>
           <p className="text-gray-300 font-medium">
-            {isDragActive ? 'Drop the CSV here…' : 'Drop CSV file here'}
+            {isDragActive ? "Drop the CSV here…" : "Drop CSV file here"}
           </p>
           <p className="text-gray-500 text-xs mt-1">or click to browse</p>
-          {state.status === 'error' && (
+          {state.status === "error" && (
             <p className="mt-4 text-red-400 text-sm text-center">
               {state.message}
             </p>
@@ -117,7 +121,7 @@ export default function App() {
       )}
 
       {/* Loading */}
-      {state.status === 'loading' && (
+      {state.status === "loading" && (
         <div className="flex flex-col items-center gap-4 py-16">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
           <p className="text-gray-400">Generating SVG…</p>
@@ -125,7 +129,7 @@ export default function App() {
       )}
 
       {/* Result */}
-      {state.status === 'done' && (
+      {state.status === "done" && (
         <div className="w-full max-w-2xl flex flex-col gap-6">
           {/* Stats */}
           <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
@@ -185,6 +189,7 @@ export default function App() {
           {/* SVG Preview */}
           <div className="bg-white rounded-2xl overflow-auto max-h-[60vh] p-4">
             <div
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: rendering generated SVG preview
               dangerouslySetInnerHTML={{ __html: state.result.svgContent }}
               className="w-full"
             />
@@ -193,12 +198,14 @@ export default function App() {
           {/* Actions */}
           <div className="flex gap-3">
             <button
+              type="button"
               onClick={download}
               className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition-colors"
             >
               ⬇ Download SVG
             </button>
             <button
+              type="button"
               onClick={reset}
               className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold py-3 rounded-xl transition-colors"
             >

@@ -1,16 +1,16 @@
 export enum IdentificationStatus {
-  Friend = 'FRIEND',
-  AssumedFriend = 'ASSUMED_FRIEND',
-  Hostile = 'HOSTILE',
-  Suspect = 'SUSPECT',
-  Neutral = 'NEUTRAL',
-  Unknown = 'UNKNOWN',
-  Pending = 'PENDING',
+  Friend = "FRIEND",
+  AssumedFriend = "ASSUMED_FRIEND",
+  Hostile = "HOSTILE",
+  Suspect = "SUSPECT",
+  Neutral = "NEUTRAL",
+  Unknown = "UNKNOWN",
+  Pending = "PENDING",
 }
 
 const UK_IDENTITY_MAP: Record<string, IdentificationStatus> = {
   дружній: IdentificationStatus.Friend,
-  'очікувано дружній': IdentificationStatus.AssumedFriend,
+  "очікувано дружній": IdentificationStatus.AssumedFriend,
   ворожий: IdentificationStatus.Hostile,
   підозрілий: IdentificationStatus.Suspect,
   нейтральний: IdentificationStatus.Neutral,
@@ -19,19 +19,19 @@ const UK_IDENTITY_MAP: Record<string, IdentificationStatus> = {
 };
 
 export enum CombatEffectiveness {
-  FullyCapable = 'FULLY_COMBAT_CAPABLE',
-  PartiallyCapable = 'PARTIALLY_COMBAT_CAPABLE',
-  NotCapable = 'NOT_COMBAT_CAPABLE',
-  RestoredToFullCapability = 'RESTORED_TO_FULL_CAPABILITY',
+  FullyCapable = "FULLY_COMBAT_CAPABLE",
+  PartiallyCapable = "PARTIALLY_COMBAT_CAPABLE",
+  NotCapable = "NOT_COMBAT_CAPABLE",
+  RestoredToFullCapability = "RESTORED_TO_FULL_CAPABILITY",
 } //
 
 const UK_EFFECTIVENESS_MAP: Record<string, CombatEffectiveness> = {
-  'повністю боєздатний': CombatEffectiveness.FullyCapable,
-  'частково боєздатний': CombatEffectiveness.PartiallyCapable,
-  'помірно пошкоджено': CombatEffectiveness.PartiallyCapable,
+  "повністю боєздатний": CombatEffectiveness.FullyCapable,
+  "частково боєздатний": CombatEffectiveness.PartiallyCapable,
+  "помірно пошкоджено": CombatEffectiveness.PartiallyCapable,
   небоєздатний: CombatEffectiveness.NotCapable,
   знищений: CombatEffectiveness.NotCapable,
-  'відновлений до повної боєздатності':
+  "відновлений до повної боєздатності":
     CombatEffectiveness.RestoredToFullCapability,
   //   // Можлива варіація в множині
   //   'відновлені до повної боєздатності':
@@ -44,7 +44,7 @@ const UK_EFFECTIVENESS_MAP: Record<string, CombatEffectiveness> = {
 export function parseCombatEffectiveness(
   input: string,
 ): CombatEffectiveness | null {
-  const normalized = input.trim().toLowerCase().replaceAll(/\s+/g, ' ');
+  const normalized = input.trim().toLowerCase().replaceAll(/\s+/g, " ");
 
   return UK_EFFECTIVENESS_MAP[normalized] ?? null;
 }
@@ -55,7 +55,7 @@ export function parseCombatEffectiveness(
 export function parseStandardIdentity(
   input: string,
 ): IdentificationStatus | null {
-  const normalized = input.trim().toLowerCase().replaceAll(/\s+/g, ' ');
+  const normalized = input.trim().toLowerCase().replaceAll(/\s+/g, " ");
 
   return UK_IDENTITY_MAP[normalized] ?? null;
 }

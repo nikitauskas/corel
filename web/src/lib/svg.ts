@@ -1,4 +1,4 @@
-import type { MapContext } from './geo';
+import type { MapContext } from "./geo";
 
 export function buildFinalSvg(
   map: MapContext,
@@ -36,12 +36,12 @@ ${generatedIconsDefs}
 
   <!-- Lines Layer (Горизонтальна між підрозділами) -->
   <g id="Units Separation Lines">
-${unitsSpearationLinesSVGs.join('\n')}
+${unitsSpearationLinesSVGs.join("\n")}
   </g>
 
   <!-- Map Objects and Connectors Layer -->
   <g id="Map Objects and Connectors">
-${mapObjectsSVGs.join('\n')}
+${mapObjectsSVGs.join("\n")}
   </g>
 
 </svg>
