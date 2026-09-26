@@ -149,6 +149,7 @@ export function buildMapObjects(
   iconRenderedSizes: { width: number; height: number }[],
   inWindow: (lon: number, lat: number) => boolean,
   geoToSvg: (pt: Point) => { x: number; y: number },
+  layerColors: Record<string, string> = {},
 ) {
   const points = filterMapObjectsInsideWindow(csvData, inWindow);
 
@@ -177,8 +178,10 @@ export function buildMapObjects(
     const isEnemy = pt.identificationStatus === IdentificationStatus.Hostile;
     const isHQ = pt.isHQ;
     const status = pt.combatEffectiveness;
-    let leftLabelBgColor = CONFIG_BG_COLORS.CLASSIC_BLUE;
-    let rightLabelBgColor = CONFIG_BG_COLORS.CLASSIC_BLUE;
+    const overlayName = pt.overlayName ?? "Default Overlay";
+    const customBgColor = layerColors[overlayName];
+    let leftLabelBgColor = customBgColor || CONFIG_BG_COLORS.CLASSIC_BLUE;
+    let rightLabelBgColor = customBgColor || CONFIG_BG_COLORS.CLASSIC_BLUE;
 
     let mappingIdx = Object.keys(mappingSVGs).indexOf(ptApp6dType);
 

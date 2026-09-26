@@ -18,7 +18,36 @@ const STORAGE_KEYS = {
   WIDTH: "delta2corel_Width",
   HEIGHT: "delta2corel_Height",
   MGRS: "delta2corel_MGRS",
+  LAYER_COLORS: "delta2corel_LayerColors",
 } as const;
+
+export const LABEL_BG_COLORS = [
+  { label: "Default Blue", value: "#92B4EC" },
+  { label: "1 (Gold Yellow)", value: "#FECC00" },
+  { label: "2 (Purple)", value: "#834E98" },
+  { label: "3 (Green)", value: "#009846" },
+  { label: "4 (Mauve Rose)", value: "#A76281" },
+  { label: "5 (Soft Slate)", value: "#7690C9" },
+  { label: "6 (Mint Green)", value: "#A8D4AF" },
+  { label: "7 (Orange)", value: "#EF7F1A" },
+  { label: "8 (Coral Pink)", value: "#F5B2B6" },
+  { label: "9 (Steel Blue)", value: "#4682B4" },
+  { label: "10 (Warm Sand)", value: "#E5C07B" },
+  { label: "11 (Lavender)", value: "#B57EDC" },
+  { label: "12 (Teal)", value: "#36B5B0" },
+  { label: "13 (Crimson)", value: "#E06C75" },
+] as const;
+
+const DEFAULT_LAYER_COLORS: Record<string, string> = {
+  "1bat": "#FECC00",
+  "2bat": "#834E98",
+  "3bat": "#009846",
+  "109": "#A76281",
+  "156": "#7690C9",
+  "мпб/100": "#A8D4AF",
+  "ЗПМ(78)": "#EF7F1A",
+  "210": "#F5B2B6",
+};
 
 const DEFAULT_SCALE = 25000;
 const DEFAULT_WIDTH = "1810";
@@ -75,6 +104,24 @@ function getInitialMgrs(): string {
   return STARTING_MGRS_TL;
 }
 
+function getInitialLayerColors(): Record<string, string> {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.LAYER_COLORS);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (typeof parsed === "object" && parsed !== null) {
+        return { ...DEFAULT_LAYER_COLORS, ...parsed };
+      }
+    }
+  } catch (e) {
+    console.error(
+      "Failed to read delta2corel_LayerColors from localStorage",
+      e,
+    );
+  }
+  return DEFAULT_LAYER_COLORS;
+}
+
 export default function App() {
   const [state, setState] = useState<State>({ status: "idle" });
   const [mgrsTL, setMgrsTL] = useState<string>(getInitialMgrs);
@@ -82,6 +129,9 @@ export default function App() {
   const [width, setWidth] = useState<string>(getInitialWidth);
   const [height, setHeight] = useState<string>(getInitialHeight);
   const [csvContent, setCsvContent] = useState<string | null>(null);
+  const [layerColors, setLayerColors] = useState<Record<string, string>>(
+    getInitialLayerColors,
+  );
 
   const generateMap = useCallback(
     async (
@@ -90,6 +140,7 @@ export default function App() {
       scaleVal: number,
       widthVal: string,
       heightVal: string,
+      colorsVal: Record<string, string>,
     ) => {
       setState({ status: "loading" });
       try {
@@ -105,7 +156,12 @@ export default function App() {
           heightMm,
         };
 
-        const result = await generateSVGFromCSV(csv, mgrsVal, formatConfig);
+        const result = await generateSVGFromCSV(
+          csv,
+          mgrsVal,
+          formatConfig,
+          colorsVal,
+        );
         setState({ status: "done", result });
       } catch (err) {
         setState({ status: "error", message: String(err) });
@@ -119,12 +175,12 @@ export default function App() {
       try {
         const text = await file.text();
         setCsvContent(text);
-        await generateMap(text, mgrsTL, scale, width, height);
+        await generateMap(text, mgrsTL, scale, width, height, layerColors);
       } catch (err) {
         setState({ status: "error", message: String(err) });
       }
     },
-    [generateMap, mgrsTL, scale, width, height],
+    [generateMap, mgrsTL, scale, width, height, layerColors],
   );
 
   const onDrop = useCallback(
@@ -148,7 +204,7 @@ export default function App() {
       console.error("Failed to save delta2corel_Scale", e);
     }
     if (csvContent) {
-      generateMap(csvContent, mgrsTL, newScale, width, height);
+      generateMap(csvContent, mgrsTL, newScale, width, height, layerColors);
     }
   };
 
@@ -160,7 +216,7 @@ export default function App() {
       console.error("Failed to save delta2corel_Width", e);
     }
     if (csvContent) {
-      generateMap(csvContent, mgrsTL, scale, newWidth, height);
+      generateMap(csvContent, mgrsTL, scale, newWidth, height, layerColors);
     }
   };
 
@@ -172,7 +228,7 @@ export default function App() {
       console.error("Failed to save delta2corel_Height", e);
     }
     if (csvContent) {
-      generateMap(csvContent, mgrsTL, scale, width, newHeight);
+      generateMap(csvContent, mgrsTL, scale, width, newHeight, layerColors);
     }
   };
 
@@ -184,7 +240,23 @@ export default function App() {
       console.error("Failed to save delta2corel_MGRS", e);
     }
     if (csvContent) {
-      generateMap(csvContent, newMgrs, scale, width, height);
+      generateMap(csvContent, newMgrs, scale, width, height, layerColors);
+    }
+  };
+
+  const handleLayerColorChange = (layerName: string, newColor: string) => {
+    const updatedColors = { ...layerColors, [layerName]: newColor };
+    setLayerColors(updatedColors);
+    try {
+      localStorage.setItem(
+        STORAGE_KEYS.LAYER_COLORS,
+        JSON.stringify(updatedColors),
+      );
+    } catch (e) {
+      console.error("Failed to save delta2corel_LayerColors", e);
+    }
+    if (csvContent) {
+      generateMap(csvContent, mgrsTL, scale, width, height, updatedColors);
     }
   };
 
@@ -290,6 +362,57 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* Layer Label BG Colors Panel */}
+      {state.status === "done" &&
+        state.result.stats.overlayNames.length > 0 && (
+          <div className="w-full max-w-xl mb-6 bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+              Layer Label Background Colors (
+              {state.result.stats.overlayNames.length})
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1">
+              {state.result.stats.overlayNames.map((layerName) => {
+                const currentColor =
+                  layerColors[layerName] ||
+                  DEFAULT_LAYER_COLORS[layerName] ||
+                  "#92B4EC";
+                return (
+                  <div
+                    key={layerName}
+                    className="bg-gray-800/70 border border-gray-700/60 rounded-xl p-2.5 flex items-center justify-between gap-3"
+                  >
+                    <span
+                      className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
+                      title={layerName}
+                    >
+                      {layerName}
+                    </span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span
+                        className="w-5 h-5 rounded-md border border-gray-600 shadow-sm shrink-0"
+                        style={{ backgroundColor: currentColor }}
+                      />
+                      <select
+                        value={currentColor}
+                        onChange={(e) =>
+                          handleLayerColorChange(layerName, e.target.value)
+                        }
+                        className="bg-gray-900 border border-gray-700 rounded-lg px-2 py-1 text-xs font-mono text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                      >
+                        {LABEL_BG_COLORS.map((c) => (
+                          <option key={c.value} value={c.value}>
+                            {c.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
       {/* Drop zone */}
       {(state.status === "idle" || state.status === "error") && (

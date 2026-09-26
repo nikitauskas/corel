@@ -55,6 +55,7 @@ export async function generateSVGFromCSV(
   csvContent: string,
   mgrsTL = STARTING_MGRS_TL,
   formatConfig: MapFormatConfig = MAP_FORMATS[2],
+  layerColors: Record<string, string> = {},
 ): Promise<GenerateResult> {
   // 1. Load icon defs (bundled at build time — sync, no fetch)
   const { generatedIconsDefs, iconRenderedSizes, customIconCount } =
@@ -79,6 +80,7 @@ export async function generateSVGFromCSV(
     iconRenderedSizes,
     map.inWindow,
     map.geoToSvg,
+    layerColors,
   );
 
   resolveOverlappingRenderPoints(preparedObjects);
