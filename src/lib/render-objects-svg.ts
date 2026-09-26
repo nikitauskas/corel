@@ -110,7 +110,7 @@ export function renderElementsSVG(
 
       const renderMappingIdx = el.mappingIdx === -1 ? 0 : el.mappingIdx;
 
-      const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
+      //const rectBgColor = el.status !== 'idle' ? '#ff0000' : '#92B4EC';
 
       for (let i = 0; i < labels.length; i++) {
         elementLines.push(

@@ -14,7 +14,7 @@ import { buildFinalSvg } from './lib/svg.js';
 // Map Settings & Formats Configuration
 // Starting top-left coordinate used for maps unless overridden
 // ====================================================
-export const STARTING_MGRS_TL = '37UBP9708043769'; // '37UCP6621499963'; //
+export const STARTING_MGRS_TL = '37UBP9708043769'; // '37UCQ7566503788'; //
 
 export const MAP_FORMATS: MapFormatConfig[] = [
   {

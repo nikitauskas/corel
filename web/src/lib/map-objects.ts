@@ -1,0 +1,457 @@
+// enemy - #FF1E00 - icon bg
+// 1bat - #FECC00
+// 2bat - #834E98
+// 3bat - #009846
+//----------------
+// 109 -  #A76281
+// 156 - #7690C9
+// мпб/100 - #A8D4AF
+// ЗПМ(78) - #EF7F1A
+//
+// 210 - #F5B2B6
+
+const CONFIG_BG_COLORS = {
+  CLASSIC_BLUE: '#92B4EC',
+  NOT_CAPABLE: '#e31e24',
+};
+
+import * as m from 'mgrs';
+import type { Point } from './geo';
+import { mappingSVGs } from './icons';
+import type { BoundingBox, Rect } from './utils';
+import {
+  boundingBoxesOverlap,
+  computeBoundingBox,
+  rectsOverlap,
+} from './utils';
+
+const mgrs =
+  'toPoint' in m ? m : (m as unknown as { default: typeof m }).default;
+
+import type { CsvRow } from './csv';
+import { type LabelLayout, labelBuilder } from './label-builder';
+import { type LineType, typesOfLines } from './lines';
+import {
+  CombatEffectiveness,
+  IdentificationStatus,
+  parseCombatEffectiveness,
+  parseStandardIdentity,
+} from './types';
+
+export function filterMapObjectsInsideWindow(
+  csvData: CsvRow[],
+  inWindow: (lon: number, lat: number) => boolean,
+): Point[] {
+  const bluePointMarkers: Point[] = [];
+
+  for (const row of csvData) {
+    const app6dType = row['app6d type']?.trim() || '';
+    if (typesOfLines[app6dType as LineType]) continue;
+
+    const sidc = row['app6d sidc']?.trim() || '';
+    const count = row['objects count']?.trim() || '';
+    const name = row.name?.trim() || '';
+    const mgrsStr = row['coordinates(mgrs)']?.trim() || '';
+    const desc = row['object creator']?.trim() || '';
+    const isHQ =
+      (row['Штаб / тактична група / індикатор хибності']?.trim() || '') ===
+      'Штаб';
+    const higherFrmation = row['Вище формування']?.trim() || '';
+    const comments = row.comments?.trim() || '';
+
+    const echelon = row.Ешелон?.trim() || '';
+    const objectId = row['object id']?.trim() || '';
+    const overlayName = row['overlay name']?.trim() || 'Default Overlay';
+
+    const identificationStatus =
+      parseStandardIdentity(row.Ідентифікація?.trim() || '') ??
+      IdentificationStatus.Unknown;
+
+    const combatEffectiveness =
+      parseCombatEffectiveness(row['status of presence']?.trim() || '') ??
+      CombatEffectiveness.FullyCapable;
+
+    // console.log('Ідентифікація', row.Ідентифікація);
+    // console.log('combatEffectiveness', combatEffectiveness);
+    // console.log('status of presence - ', row['status of presence']);
+    // console.log('combatEffectiveness', combatEffectiveness);
+
+    // console.log('--------------------------------------');
+
+    if (mgrsStr) {
+      try {
+        const [lon, lat] = mgrs.toPoint(mgrsStr);
+        if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
+          bluePointMarkers.push({
+            lon,
+            lat,
+            isHQ,
+            name,
+            desc,
+            sidc,
+            count,
+            app6dType,
+            higherFrmation,
+            comments,
+            echelon,
+            objectId,
+            identificationStatus,
+            combatEffectiveness,
+            overlayName,
+          });
+        }
+      } catch (e) {
+        // Ignore invalid MGRS strings
+      }
+    }
+  }
+
+  return bluePointMarkers;
+}
+
+export interface MapObjectLayout {
+  pt: Point;
+  idx: number;
+  anchorPoint: { x: number; y: number };
+  renderPoint?: { x: number; y: number };
+  mappingIdx: number;
+  ptApp6dType: string;
+  parts: Rect[];
+  bbox: BoundingBox;
+  status: 'idle' | 'displaced' | 'conflict';
+  iconDetails?: {
+    iconW: number;
+    iconH: number;
+    xPos: number;
+    yPos: number;
+    labels: LabelLayout[];
+    damageOverlay?: 'destroyed' | 'damaged';
+  };
+  circleDetails?: {
+    cleanText: string;
+  };
+  isExcluded?: boolean;
+  hasSpecificIcon: boolean;
+  overlayName: string;
+}
+
+export const objectsToExclude = [
+  'Підземне укриття',
+  'Вибух',
+  'Автомобіль (вантажний або легковий)',
+  'Мотоцикл',
+  'Споруда',
+  'Схованка',
+];
+
+export function buildMapObjects(
+  csvData: CsvRow[],
+  iconRenderedSizes: { width: number; height: number }[],
+  inWindow: (lon: number, lat: number) => boolean,
+  geoToSvg: (pt: Point) => { x: number; y: number },
+) {
+  const points = filterMapObjectsInsideWindow(csvData, inWindow);
+
+  // 1. Calculate bounding polygon / rectangles for each element
+  const preparedElements: MapObjectLayout[] = points.map((pt, idx) => {
+    const anchorPoint = geoToSvg(pt);
+    const ptApp6dType = pt.app6dType ?? '';
+    const isExcluded = objectsToExclude.includes(ptApp6dType);
+
+    if (isExcluded) {
+      return {
+        pt,
+        idx,
+        anchorPoint,
+        mappingIdx: -1,
+        ptApp6dType,
+        parts: [],
+        bbox: { minX: 0, minY: 0, maxX: 0, maxY: 0 },
+        status: 'idle',
+        isExcluded: true,
+        hasSpecificIcon: false,
+        overlayName: pt.overlayName ?? 'Default Overlay',
+      };
+    }
+
+    const isEnemy = pt.identificationStatus === IdentificationStatus.Hostile;
+    const isHQ = pt.isHQ;
+    const status = pt.combatEffectiveness;
+    let leftLabelBgColor = CONFIG_BG_COLORS.CLASSIC_BLUE;
+    let rightLabelBgColor = CONFIG_BG_COLORS.CLASSIC_BLUE;
+
+    let mappingIdx = Object.keys(mappingSVGs).findIndex(
+      (key) => key === ptApp6dType,
+    );
+
+    const hasSpecificIcon = mappingIdx !== -1;
+
+    if (isEnemy) {
+      mappingIdx = 1;
+    }
+
+    const iconSize = iconRenderedSizes[mappingIdx === -1 ? 0 : mappingIdx] ?? {
+      width: 8.0,
+      height: 8.0,
+    };
+
+    const xPos = Number((anchorPoint.x - iconSize.width / 2).toFixed(3));
+    const yPos = Number((anchorPoint.y - iconSize.height / 2).toFixed(3));
+
+    let leftLabelText = '';
+    let leftDescText = '';
+    let rightLabelText = '';
+    let rightDescText = '';
+    let bottomLabelText = '';
+    let bottomDescText = '';
+    let topLabelText = '';
+
+    if (pt.name) {
+      leftLabelText = pt.name;
+    } else {
+      leftLabelText = 'Left Label';
+    }
+
+    if (pt.higherFrmation) {
+      rightLabelText = pt.higherFrmation;
+    }
+
+    if (pt.echelon === 'Батальйон / дивізіон') {
+      topLabelText = 'II';
+    } else if (pt.echelon === 'Рота / батарея') {
+      topLabelText = 'I';
+    }
+    // else if (){
+    //   topLabelText = 'ø';
+    // }
+
+    if (pt.count) {
+      const countNum = pt.count;
+      const rifleType = pt.comments?.toLowerCase().includes('colt')
+        ? 'ColtM4A1'
+        : 'AK74';
+      leftDescText =
+        rifleType && countNum
+          ? `${rifleType}-${countNum}од`
+          : 'XXXXXXXXXXXXX од.';
+      leftDescText;
+    }
+
+    if (pt.isHQ) {
+      bottomLabelText = pt.name ?? '';
+      bottomDescText = leftDescText;
+      //rightLabelText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
+    }
+
+    if (ptApp6dType === 'Стик (між частинами та підрозділами)') {
+      bottomLabelText = pt.name ?? '';
+      rightLabelText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
+    }
+
+    if (mappingIdx === -1) {
+      bottomLabelText = pt.name ?? '';
+      bottomDescText = `Error - ${pt.app6dType}`;
+      rightLabelText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
+    }
+
+    if (isEnemy) {
+      bottomLabelText = '';
+      bottomDescText = '';
+      rightDescText = '';
+      leftLabelText = '';
+      leftDescText = '';
+      console.log('!!!!!!');
+    }
+
+    let damageOverlay: 'destroyed' | 'damaged' | undefined;
+    if (status === CombatEffectiveness.NotCapable) {
+      console.log(' combatEffectiveness.NotCapable');
+      topLabelText = '';
+      leftLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
+      rightLabelBgColor = CONFIG_BG_COLORS.NOT_CAPABLE;
+      leftDescText = 'Знищено 06.09.2026';
+      damageOverlay = 'destroyed';
+    } else if (status === CombatEffectiveness.PartiallyCapable) {
+      damageOverlay = 'damaged';
+    }
+
+    //const margin = 0.5;
+    const xIconLeft = anchorPoint.x - iconSize.width / 2;
+    const xIconRight = anchorPoint.x + iconSize.width / 2;
+    const xIconCenter = anchorPoint.x;
+    const yIconTop = anchorPoint.y - iconSize.height / 2;
+    const yIconBottom = anchorPoint.y + iconSize.height / 2;
+
+    const rightLabel = labelBuilder(
+      rightLabelText,
+      [xIconRight, yIconBottom],
+      'start',
+      'up',
+      'md',
+      rightLabelBgColor,
+    );
+
+    const leftLabel = labelBuilder(
+      leftLabelText,
+      [xIconLeft, yIconBottom],
+      'end',
+      'up',
+      'md',
+      leftLabelBgColor,
+    );
+
+    // leftDesc sits below the leftLabel rect, centered on it
+    const leftLabelBottomCenterAnchor = {
+      x: leftLabel.rectX + leftLabel.rectW / 2,
+      y: leftLabel.rectY + leftLabel.rectH,
+    };
+
+    const leftDesc = labelBuilder(
+      leftDescText,
+      [leftLabelBottomCenterAnchor.x, leftLabelBottomCenterAnchor.y],
+      'middle',
+      'down',
+      'sm',
+    );
+
+    const topLabel = labelBuilder(
+      topLabelText,
+      [xIconCenter, yIconTop],
+      'middle',
+      'up',
+      'md',
+      'none',
+      'normal',
+    );
+
+    const bottomLabel = labelBuilder(
+      bottomLabelText,
+      isHQ ? [xIconLeft, yIconBottom] : [xIconCenter, yIconBottom],
+      isHQ ? 'start' : 'middle',
+      'down',
+      'md',
+    );
+
+    const bottomLabelAnchor = {
+      x: bottomLabel.rectX,
+      y: bottomLabel.rectY + bottomLabel.rectH,
+    };
+
+    const bottomDesc = labelBuilder(
+      bottomDescText,
+      [bottomLabelAnchor.x, bottomLabelAnchor.y],
+      isHQ ? 'start' : 'middle',
+      'down',
+      'sm',
+    );
+
+    const labels: LabelLayout[] = [
+      leftLabel,
+      leftDesc,
+      rightLabel,
+      bottomLabel,
+      bottomDesc,
+      topLabel,
+    ].filter((l) => l.cleanText !== '');
+
+    const iconRect: Rect = {
+      x: xPos,
+      y: yPos,
+      width: iconSize.width,
+      height: iconSize.height,
+    };
+    const parts: Rect[] = [iconRect];
+
+    const addLabelRect = (label: {
+      cleanText: string;
+      rectX: number;
+      rectY: number;
+      rectW: number;
+      rectH: number;
+    }) => {
+      if (label.cleanText) {
+        parts.push({
+          x: label.rectX,
+          y: label.rectY,
+          width: label.rectW,
+          height: label.rectH,
+        });
+      }
+    };
+    labels.forEach(addLabelRect);
+
+    console.log(rightDescText);
+
+    const bbox = computeBoundingBox(parts);
+
+    return {
+      pt,
+      idx,
+      anchorPoint,
+      mappingIdx,
+      ptApp6dType,
+      parts,
+      bbox,
+      status: 'idle',
+      hasSpecificIcon,
+      overlayName: pt.overlayName ?? 'Default Overlay',
+      iconDetails: {
+        iconW: iconSize.width,
+        iconH: iconSize.height,
+        xPos,
+        yPos,
+        labels,
+        damageOverlay,
+      },
+    };
+  });
+
+  for (let i = 0; i < preparedElements.length; i++) {
+    const elA = preparedElements[i];
+    for (let j = i + 1; j < preparedElements.length; j++) {
+      const elB = preparedElements[j];
+      if (boundingBoxesOverlap(elA.bbox, elB.bbox)) {
+        const partsOverlap = elA.parts.some((pA) =>
+          elB.parts.some((pB) => rectsOverlap(pA, pB)),
+        );
+        if (partsOverlap) {
+          let priorityA = mappingSVGs[elA.ptApp6dType]?.priority ?? 0;
+          let priorityB = mappingSVGs[elB.ptApp6dType]?.priority ?? 0;
+
+          if (elA.pt.isHQ) priorityA -= 1;
+          if (elB.pt.isHQ) priorityB -= 1;
+
+          if (priorityA === 10 && priorityB === 10) {
+            elA.status = 'conflict';
+            elB.status = 'conflict';
+          } else if (priorityA > priorityB) {
+            if (priorityB !== 10 && elB.status !== 'conflict') {
+              elB.status = 'displaced';
+            }
+          } else if (priorityB > priorityA) {
+            if (priorityA !== 10 && elA.status !== 'conflict') {
+              elA.status = 'displaced';
+            }
+          } else {
+            // Equal priority  < 10
+            // Keep the first element (elA) in its original position and only displace the second (elB)
+            if (priorityB !== 10 && elB.status !== 'conflict') {
+              elB.status = 'displaced';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return preparedElements;
+}

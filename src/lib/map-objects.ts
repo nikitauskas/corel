@@ -277,6 +277,10 @@ export function buildMapObjects(
       console.log('!!!!!!');
     }
 
+    if (bottomLabelText === 'wedefwf') {
+      rightDescText = 'xxxxx';
+    }
+
     let damageOverlay: 'destroyed' | 'damaged' | undefined;
     if (status === CombatEffectiveness.NotCapable) {
       console.log(' combatEffectiveness.NotCapable');
@@ -289,7 +293,7 @@ export function buildMapObjects(
       damageOverlay = 'damaged';
     }
 
-    const margin = 0.5;
+    //const margin = 0.5;
     const xIconLeft = anchorPoint.x - iconSize.width / 2;
     const xIconRight = anchorPoint.x + iconSize.width / 2;
     const xIconCenter = anchorPoint.x;
