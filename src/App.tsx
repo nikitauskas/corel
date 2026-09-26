@@ -22,20 +22,20 @@ const STORAGE_KEYS = {
 } as const;
 
 export const LABEL_BG_COLORS = [
-  { label: "Default Blue", value: "#92B4EC" },
-  { label: "1 (Gold Yellow)", value: "#FECC00" },
-  { label: "2 (Purple)", value: "#834E98" },
-  { label: "3 (Green)", value: "#009846" },
-  { label: "4 (Mauve Rose)", value: "#A76281" },
-  { label: "5 (Soft Slate)", value: "#7690C9" },
-  { label: "6 (Mint Green)", value: "#A8D4AF" },
-  { label: "7 (Orange)", value: "#EF7F1A" },
-  { label: "8 (Coral Pink)", value: "#F5B2B6" },
-  { label: "9 (Steel Blue)", value: "#4682B4" },
-  { label: "10 (Warm Sand)", value: "#E5C07B" },
-  { label: "11 (Lavender)", value: "#B57EDC" },
-  { label: "12 (Teal)", value: "#36B5B0" },
-  { label: "13 (Crimson)", value: "#E06C75" },
+  { label: "default", value: "#92B4EC" },
+  { label: "1", value: "#FECC00" },
+  { label: "2", value: "#834E98" },
+  { label: "3", value: "#009846" },
+  { label: "4", value: "#A76281" },
+  { label: "5", value: "#7690C9" },
+  { label: "6", value: "#A8D4AF" },
+  { label: "7", value: "#EF7F1A" },
+  { label: "8", value: "#F5B2B6" },
+  { label: "9", value: "#4682B4" },
+  { label: "10", value: "#E5C07B" },
+  { label: "11", value: "#B57EDC" },
+  { label: "12", value: "#36B5B0" },
+  { label: "13", value: "#E06C75" },
 ] as const;
 
 const DEFAULT_LAYER_COLORS: Record<string, string> = {
@@ -120,6 +120,84 @@ function getInitialLayerColors(): Record<string, string> {
     );
   }
   return DEFAULT_LAYER_COLORS;
+}
+
+interface CustomColorDropdownProps {
+  value: string;
+  onChange: (color: string) => void;
+}
+
+function CustomColorDropdown({ value, onChange }: CustomColorDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const activeOption =
+    LABEL_BG_COLORS.find(
+      (c) => c.value.toLowerCase() === value.toLowerCase(),
+    ) || LABEL_BG_COLORS[0];
+
+  return (
+    <div className="relative inline-block text-left shrink-0">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="bg-gray-900 border border-gray-700 rounded-lg px-2.5 py-1 flex items-center gap-2 text-xs font-mono text-gray-100 hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer transition-colors"
+      >
+        <span>{activeOption.label}</span>
+        <span
+          className="w-4 h-4 rounded border border-gray-600 shadow-sm shrink-0 inline-block"
+          style={{ backgroundColor: activeOption.value }}
+        />
+        <svg
+          className={`w-3 h-3 text-gray-400 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setIsOpen(false)}
+          />
+
+          <div className="absolute right-0 mt-1 w-32 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl z-20 py-1 max-h-56 overflow-y-auto">
+            {LABEL_BG_COLORS.map((c) => (
+              <button
+                key={c.value}
+                type="button"
+                onClick={() => {
+                  onChange(c.value);
+                  setIsOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer hover:bg-gray-800 ${
+                  c.value.toLowerCase() === value.toLowerCase()
+                    ? "text-blue-400 font-semibold bg-blue-950/40"
+                    : "text-gray-200"
+                }`}
+              >
+                <span>{c.label}</span>
+                <span
+                  className="w-4 h-4 rounded border border-gray-600 shadow-sm shrink-0 inline-block"
+                  style={{ backgroundColor: c.value }}
+                />
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default function App() {
@@ -278,15 +356,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center px-4 py-12">
-      <header className="mb-10 text-center">
+      <header className="mb-8 text-center">
         <h1 className="text-4xl font-bold tracking-tight text-white">
           Delta<span className="text-blue-400">2</span>Corel
         </h1>
         <p className="mt-2 text-gray-400 text-sm">CSV → SVG map generator</p>
       </header>
 
-      {/* Control Panel */}
-      <div className="w-full max-w-xl mb-6 bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
+      {/* Control Panel (Wider: 1200px) */}
+      <div className="w-full max-w-[1200px] mb-6 bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
         <div>
           <label
             htmlFor="mgrs-tl"
@@ -363,62 +441,11 @@ export default function App() {
         </div>
       </div>
 
-      {/* Layer Label BG Colors Panel */}
-      {state.status === "done" &&
-        state.result.stats.overlayNames.length > 0 && (
-          <div className="w-full max-w-xl mb-6 bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
-              Layer Label Background Colors (
-              {state.result.stats.overlayNames.length})
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1">
-              {state.result.stats.overlayNames.map((layerName) => {
-                const currentColor =
-                  layerColors[layerName] ||
-                  DEFAULT_LAYER_COLORS[layerName] ||
-                  "#92B4EC";
-                return (
-                  <div
-                    key={layerName}
-                    className="bg-gray-800/70 border border-gray-700/60 rounded-xl p-2.5 flex items-center justify-between gap-3"
-                  >
-                    <span
-                      className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
-                      title={layerName}
-                    >
-                      {layerName}
-                    </span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span
-                        className="w-5 h-5 rounded-md border border-gray-600 shadow-sm shrink-0"
-                        style={{ backgroundColor: currentColor }}
-                      />
-                      <select
-                        value={currentColor}
-                        onChange={(e) =>
-                          handleLayerColorChange(layerName, e.target.value)
-                        }
-                        className="bg-gray-900 border border-gray-700 rounded-lg px-2 py-1 text-xs font-mono text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-                      >
-                        {LABEL_BG_COLORS.map((c) => (
-                          <option key={c.value} value={c.value}>
-                            {c.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-      {/* Drop zone */}
+      {/* Drop zone (Wider: 1200px) */}
       {(state.status === "idle" || state.status === "error") && (
         <div
           {...getRootProps()}
-          className={`w-full max-w-xl border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer transition-colors
+          className={`w-full max-w-[1200px] border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer transition-colors
             ${isDragActive ? "border-blue-400 bg-blue-950/30" : "border-gray-700 hover:border-blue-600 bg-gray-900"}`}
         >
           <input {...getInputProps()} />
@@ -455,66 +482,108 @@ export default function App() {
         </div>
       )}
 
-      {/* Result */}
+      {/* Result Section (Split Screen 1/2: 1200px) */}
       {state.status === "done" && (
-        <div className="w-full max-w-2xl flex flex-col gap-6">
-          {/* Stats */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-lg font-semibold mb-4 text-white">
-              ✅ Generated — {state.result.stats.format}
-            </h2>
-            <dl className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-              <StatRow
-                label="Points in window"
-                value={state.result.stats.pointsInWindow}
-              />
-              <StatRow
-                label="Overlapping"
-                value={state.result.stats.overlapping}
-              />
-              <StatRow
-                label="Custom icons"
-                value={state.result.stats.customIconCount}
-              />
-              <StatRow
-                label="Lines rendered"
-                value={state.result.stats.linesCount}
-              />
-            </dl>
+        <div className="w-full max-w-[1200px] flex flex-col gap-6">
+          {/* Split Screen 1/2 Row: Colors on Left, Log / Stats on Right */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-start">
+            {/* Left Column (1/2): Layer Label Background Colors (No inner scroll, all visible) */}
+            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
+                Layer Label Background Colors (
+                {state.result.stats.overlayNames.length})
+              </h3>
+              {state.result.stats.overlayNames.length > 0 ? (
+                <div className="space-y-2.5 w-full">
+                  {state.result.stats.overlayNames.map((layerName) => {
+                    const currentColor =
+                      layerColors[layerName] ||
+                      DEFAULT_LAYER_COLORS[layerName] ||
+                      "#92B4EC";
+                    return (
+                      <div
+                        key={layerName}
+                        className="bg-gray-800/80 border border-gray-700/60 rounded-xl p-2.5 flex items-center justify-between gap-3"
+                      >
+                        <span
+                          className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
+                          title={layerName}
+                        >
+                          {layerName}
+                        </span>
+                        <CustomColorDropdown
+                          value={currentColor}
+                          onChange={(newColor) =>
+                            handleLayerColorChange(layerName, newColor)
+                          }
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="text-xs text-gray-500">No layers detected</p>
+              )}
+            </div>
 
-            {state.result.stats.overlayNames.length > 0 && (
-              <div className="mt-4">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">
-                  Overlays
-                </p>
-                <ul className="text-sm text-gray-300 space-y-0.5">
-                  {state.result.stats.overlayNames.map((n) => (
-                    <li key={n} className="font-mono">
-                      {n}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {/* Right Column (1/2): Generated Log / Stats */}
+            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col">
+              <h2 className="text-lg font-semibold mb-4 text-white">
+                ✅ Generated — {state.result.stats.format}
+              </h2>
+              <dl className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm mb-4">
+                <StatRow
+                  label="Points in window"
+                  value={state.result.stats.pointsInWindow}
+                />
+                <StatRow
+                  label="Overlapping"
+                  value={state.result.stats.overlapping}
+                />
+                <StatRow
+                  label="Custom icons"
+                  value={state.result.stats.customIconCount}
+                />
+                <StatRow
+                  label="Lines rendered"
+                  value={state.result.stats.linesCount}
+                />
+              </dl>
 
-            {state.result.stats.missedIcons.length > 0 && (
-              <div className="mt-4">
-                <p className="text-xs font-semibold text-yellow-500 uppercase tracking-widest mb-1">
-                  Missing icons ({state.result.stats.missedIcons.length})
-                </p>
-                <ul className="text-xs text-yellow-400/80 space-y-0.5 max-h-32 overflow-auto">
-                  {state.result.stats.missedIcons.map((n) => (
-                    <li key={n} className="font-mono">
-                      {n}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              {state.result.stats.overlayNames.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">
+                    Overlays
+                  </p>
+                  <ul className="text-sm text-gray-300 space-y-0.5">
+                    {state.result.stats.overlayNames.map((n) => (
+                      <li key={n} className="font-mono">
+                        {n}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {state.result.stats.missedIcons.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold text-yellow-500 uppercase tracking-widest mb-1">
+                    Missing icons ({state.result.stats.missedIcons.length})
+                  </p>
+                  <ul className="text-xs text-yellow-400/80 space-y-0.5 max-h-32 overflow-auto">
+                    {state.result.stats.missedIcons.map((n) => (
+                      <li key={n} className="font-mono">
+                        {n}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* SVG Preview */}
-          <div className="bg-white rounded-2xl overflow-auto max-h-[60vh] p-4">
+          {/* SVG Preview (Full Width: 1200px) */}
+          <div className="bg-white rounded-2xl overflow-auto max-h-[70vh] p-4">
             <div
               // biome-ignore lint/security/noDangerouslySetInnerHtml: rendering generated SVG preview
               dangerouslySetInnerHTML={{ __html: state.result.svgContent }}
@@ -522,7 +591,7 @@ export default function App() {
             />
           </div>
 
-          {/* Actions */}
+          {/* Actions (Full Width: 1200px) */}
           <div className="flex gap-3">
             <button
               type="button"
