@@ -27,4 +27,12 @@ for (const [path, content] of Object.entries(svgModules)) {
   if (filename === "Точка злету БпЛА вертикального зльоту - посадки") {
     ICON_RAW_SVGS["Точка злету БпЛА вертикального зльоту / посадки"] = content;
   }
+  if (
+    filename ===
+    "Пункт проведення медичної евакуації (MEDEVAC) Пункт прийому о-с на борт"
+  ) {
+    ICON_RAW_SVGS[
+      "Пункт проведення медичної евакуації (MEDEVAC) Пункт прийому о/с на борт"
+    ] = content;
+  }
 }
