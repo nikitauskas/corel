@@ -22,7 +22,7 @@ const STORAGE_KEYS = {
 } as const;
 
 export const LABEL_BG_COLORS = [
-  { label: "default", value: "#92B4EC" },
+  { label: "-", value: "#92B4EC" },
   { label: "1", value: "#FECC00" },
   { label: "2", value: "#834E98" },
   { label: "3", value: "#009846" },
@@ -171,7 +171,7 @@ function CustomColorDropdown({ value, onChange }: CustomColorDropdownProps) {
             onClick={() => setIsOpen(false)}
           />
 
-          <div className="absolute right-0 mt-1 w-32 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl z-20 py-1 max-h-56 overflow-y-auto">
+          <div className="absolute right-0 mt-1 w-20 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl z-20 py-1 max-h-56 overflow-y-auto">
             {LABEL_BG_COLORS.map((c) => (
               <button
                 key={c.value}
