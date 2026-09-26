@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2026 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="50.36mm" height="50.866mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 5036 5086.6"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#D8D8D8;stroke-width:50;stroke-miterlimit:22.9256}
+    .str1 {stroke:black;stroke-width:17.64;stroke-miterlimit:22.9256}
+    .fil2 {fill:none}
+    .fil1 {fill:#C4F2F7}
+    .fil0 {fill:#FFD0C9}
+   ]]>
+  </style>
+ </defs>
+<symbol id="zzz" viewBox="1740.34 1765.63 1555.33 1555.34">
+ <polygon class="fil0 str0" points="2522.67,1800.99 3260.31,2547.97 2513.34,3285.61 1775.7,2538.64 "/>
+</symbol>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <circle class="fil1 str1" cx="2358.05" cy="2273.32" r="396.6"/>
+  <g id="_36974334304">
+   <line class="fil2 str1" x1="2258.71" y1="2142.96" x2="2258.64" y2= "2333.7" />
+   <line class="fil2 str1" x1="2457.5" y1="2142.99" x2="2457.43" y2= "2333.73" />
+   <line class="fil2 str1" x1="2358.12" y1="2043.58" x2="2358.02" y2= "2399.67" />
+   <ellipse class="fil2 str1" transform="matrix(0.751427 0.000126913 -1.35017E-004 0.799413 2358.02 2439.43)" rx="66.14" ry="62.17"/>
+   <line class="fil2 str1" x1="2262.69" y1="2266.75" x2="2453.43" y2= "2266.83" />
+   <line class="fil2 str1" x1="2262.7" y1="2207.11" x2="2453.44" y2= "2207.19" />
+  </g>
+ </g>
+</svg>

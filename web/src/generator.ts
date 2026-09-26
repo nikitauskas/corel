@@ -7,7 +7,7 @@ import { renderElementsSVG } from './lib/render-objects-svg';
 import { resolveOverlappingRenderPoints } from './lib/resolve-overlaps';
 import { buildFinalSvg } from './lib/svg';
 
-export const STARTING_MGRS_TL = '37UBP9708043769';
+export const STARTING_MGRS_TL = '37UCQ7566503788';
 
 export const MAP_FORMATS: MapFormatConfig[] = [
   {
