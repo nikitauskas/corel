@@ -39,9 +39,9 @@ export async function generateSVGFromCSV(
   mgrsTL = STARTING_MGRS_TL,
   formatConfig: MapFormatConfig = MAP_FORMATS[0],
 ): Promise<GenerateResult> {
-  // 1. Load icon defs (async fetch from public/)
+  // 1. Load icon defs (bundled at build time — sync, no fetch)
   const { generatedIconsDefs, iconRenderedSizes, customIconCount } =
-    await buildIconsDefs();
+    buildIconsDefs();
 
   // 2. Parse CSV
   const csvData = parseCSV(csvContent);

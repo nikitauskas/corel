@@ -1,7 +1,31 @@
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
+import { viteSingleFile } from 'vite-plugin-singlefile';
+import fs from 'fs';
+import path from 'path';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  base: './',
+  build: {
+    modulePreload: false,
+  },
+  plugins: [
+    react(),
+    tailwindcss(),
+    viteSingleFile(),
+    {
+      name: 'remove-module-type-after-build',
+      closeBundle() {
+        const htmlPath = path.resolve(import.meta.dirname, 'dist/index.html');
+        if (fs.existsSync(htmlPath)) {
+          let html = fs.readFileSync(htmlPath, 'utf-8');
+          html = html.replace(/<script\s+type="module"\s*crossorigin>/gi, '<script>');
+          html = html.replace(/<script\s+type="module">/gi, '<script>');
+          fs.writeFileSync(htmlPath, html, 'utf-8');
+          console.log('[remove-module-type] Stripped module attributes from dist/index.html');
+        }
+      },
+    },
+  ],
 });
