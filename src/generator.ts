@@ -11,11 +11,28 @@ export const STARTING_MGRS_TL = "37UCQ7566503788";
 
 export const MAP_FORMATS: MapFormatConfig[] = [
   {
+    name: "1:10000",
+    scale: 10_000,
+    widthMm: 1810,
+    heightMm: 1810,
+  },
+  {
+    name: "1:15000",
+    scale: 15_000,
+    widthMm: 1810,
+    heightMm: 1810,
+  },
+  {
     name: "1:25000",
     scale: 25_000,
     widthMm: 1810,
     heightMm: 1810,
-    outputFilename: "layout_1810x1810_25k.svg",
+  },
+  {
+    name: "1:50000",
+    scale: 50_000,
+    widthMm: 1810,
+    heightMm: 1810,
   },
 ];
 
@@ -37,7 +54,7 @@ export interface GenerateResult {
 export async function generateSVGFromCSV(
   csvContent: string,
   mgrsTL = STARTING_MGRS_TL,
-  formatConfig: MapFormatConfig = MAP_FORMATS[0],
+  formatConfig: MapFormatConfig = MAP_FORMATS[2],
 ): Promise<GenerateResult> {
   // 1. Load icon defs (bundled at build time — sync, no fetch)
   const { generatedIconsDefs, iconRenderedSizes, customIconCount } =
