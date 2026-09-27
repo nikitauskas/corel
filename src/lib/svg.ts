@@ -28,7 +28,7 @@ ${generatedIconsDefs}
   </clipPath>
 
   <!-- Background / Canvas -->
-  <rect id="background" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="#aeaeae" />
+  <rect id="background" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="#e5e5e5" />
   <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="none" />
 
   <!-- Center Crosshair Lines -->
