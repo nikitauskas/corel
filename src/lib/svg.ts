@@ -9,8 +9,7 @@ export function buildFinalSvg(
   const { widthMm, heightMm, centerX, centerY, scale, mgrsTL } = map;
 
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="${widthMm}mm" height="${heightMm}mm" viewBox="0 0 ${widthMm} ${heightMm}" style="width: ${widthMm}mm; height: ${heightMm}mm;" version="1.1">
-  <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:document-units="mm" showgrid="false" units="mm" width="${widthMm}mm" height="${heightMm}mm" inkscape:zoom="1" inkscape:cx="${centerX}" inkscape:cy="${centerY}" />
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${widthMm}mm" height="${heightMm}mm" viewBox="0 0 ${widthMm} ${heightMm}" style="width: ${widthMm}mm; height: ${heightMm}mm;" version="1.1">
   <metadata id="metadata1">
     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
       <cc:Work xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -23,8 +22,13 @@ export function buildFinalSvg(
 
 ${generatedIconsDefs}
 
+  <!-- Clip Path to lock bounding box to exact canvas dimensions in vector editors -->
+  <clipPath id="canvas-clip">
+    <rect x="0" y="0" width="${widthMm}" height="${heightMm}" />
+  </clipPath>
+
   <!-- Background / Canvas -->
-  <rect id="background" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="#a6a6a6" />
+  <rect id="background" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="#aeaeae" />
   <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="none" />
 
   <!-- Center Crosshair Lines -->
@@ -36,12 +40,12 @@ ${generatedIconsDefs}
   </g>
 
   <!-- Lines Layer (Горизонтальна між підрозділами) -->
-  <g id="Units Separation Lines">
+  <g id="Units Separation Lines" clip-path="url(#canvas-clip)">
 ${unitsSpearationLinesSVGs.join("\n")}
   </g>
 
   <!-- Map Objects and Connectors Layer -->
-  <g id="Map Objects and Connectors">
+  <g id="Map Objects and Connectors" clip-path="url(#canvas-clip)">
 ${mapObjectsSVGs.join("\n")}
   </g>
 

@@ -6,6 +6,7 @@ const mgrs =
 export interface Point {
   lon: number;
   lat: number;
+  mgrsStr?: string;
   name?: string;
   desc?: string;
   sidc?: string;
@@ -255,7 +256,23 @@ export function createMapContext(
 
   /** Convert a geographic point to SVG user-units (= mm in the viewBox). */
   const geoToSvg = (pt: Point): { x: number; y: number } => {
-    const { easting, northing } = latLonToUtm(pt.lat, pt.lon, zoneNumber);
+    let easting: number;
+    let northing: number;
+    if (pt.mgrsStr) {
+      try {
+        const utm = mgrsToUtm(pt.mgrsStr);
+        easting = utm.easting;
+        northing = utm.northing;
+      } catch {
+        const utm = latLonToUtm(pt.lat, pt.lon, zoneNumber);
+        easting = utm.easting;
+        northing = utm.northing;
+      }
+    } else {
+      const utm = latLonToUtm(pt.lat, pt.lon, zoneNumber);
+      easting = utm.easting;
+      northing = utm.northing;
+    }
     const x = ((easting - TL_E) / scale) * 1000;
     const y = ((TL_N - northing) / scale) * 1000;
     return { x: Number(x.toFixed(3)), y: Number(y.toFixed(3)) };

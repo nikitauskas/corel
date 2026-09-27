@@ -7,6 +7,7 @@ const mgrs =
 interface Point {
   lon: number;
   lat: number;
+  mgrsStr?: string;
 }
 
 export const typesOfLines = {
@@ -70,7 +71,7 @@ export function buildLUnitsSpearationLinesSVGs(
         if (Number.isNaN(lon) || Number.isNaN(lat)) continue;
 
         if (inWindow(lon, lat)) {
-          currentSegment.push({ lon, lat });
+          currentSegment.push({ lon, lat, mgrsStr });
         } else if (currentSegment.length > 0) {
           lineSegments.push({
             type: app6dType,

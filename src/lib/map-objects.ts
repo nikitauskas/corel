@@ -85,6 +85,7 @@ export function filterMapObjectsInsideWindow(
           bluePointMarkers.push({
             lon,
             lat,
+            mgrsStr,
             isHQ,
             name,
             desc,
