@@ -117,8 +117,9 @@ function mgrsToUtm(mgrsRaw: string): {
   // Equal-split easting / northing digits
   const digits = s.substring(i);
   const half = digits.length / 2;
-  const eInSquare = Number.parseInt(digits.substring(0, half), 10);
-  const nInSquare = Number.parseInt(digits.substring(half), 10);
+  const mult = Math.pow(10, 5 - half);
+  const eInSquare = Number.parseInt(digits.substring(0, half), 10) * mult;
+  const nInSquare = Number.parseInt(digits.substring(half), 10) * mult;
 
   // Column letter → UTM easting
   const mod = ((zoneNumber % 3) + 3) % 3; // 0, 1, or 2

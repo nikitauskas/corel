@@ -24,7 +24,8 @@ export function buildFinalSvg(
 ${generatedIconsDefs}
 
   <!-- Background / Canvas -->
-  <rect id="background" width="100%" height="100%" fill="#ffffff" />
+  <rect id="background" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="#a6a6a6" />
+  <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="none" />
 
   <!-- Center Crosshair Lines -->
   <g id="CenterLines" stroke="#000000" stroke-width="0.5" stroke-linecap="square">
