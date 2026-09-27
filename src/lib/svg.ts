@@ -22,11 +22,6 @@ export function buildFinalSvg(
 
 ${generatedIconsDefs}
 
-  <!-- Clip Path to lock bounding box to exact canvas dimensions in vector editors -->
-  <clipPath id="canvas-clip">
-    <rect x="0" y="0" width="${widthMm}" height="${heightMm}" />
-  </clipPath>
-
   <!-- Background / Canvas -->
   <rect id="background" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="#e5e5e5" />
   <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="none" />
@@ -40,12 +35,12 @@ ${generatedIconsDefs}
   </g>
 
   <!-- Lines Layer (Горизонтальна між підрозділами) -->
-  <g id="Units Separation Lines" clip-path="url(#canvas-clip)">
+  <g id="Units Separation Lines">
 ${unitsSpearationLinesSVGs.join("\n")}
   </g>
 
   <!-- Map Objects and Connectors Layer -->
-  <g id="Map Objects and Connectors" clip-path="url(#canvas-clip)">
+  <g id="Map Objects and Connectors">
 ${mapObjectsSVGs.join("\n")}
   </g>
 
