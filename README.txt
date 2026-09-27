@@ -6,4 +6,10 @@ Missing icons (5):
 Зенітний ракетний підрозділ
 
 -----------------
+убрать белую подложку в свг
+--------
+each connector must have name
+---------
+each element id must have number
+---------
 add bg colors based on the layer;
