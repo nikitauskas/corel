@@ -24,6 +24,13 @@ export const typesOfLines = {
     color: "purple",
     strokeWidth: 1.0583,
   },
+  "Вірогідний рубіж розгортання": {
+    color: "#108b4b",
+    strokeWidth: 1.0583,
+  },
+} as const;
+
+export const typesOfAreas = {
   Район: {
     color: "#c58025",
     strokeWidth: 1.0583,
@@ -32,16 +39,14 @@ export const typesOfLines = {
     color: "#31bfea",
     strokeWidth: 1.0583,
   },
-  "Вірогідний рубіж розгортання": {
-    color: "#108b4b",
-    strokeWidth: 1.0583,
-  },
 } as const;
 
 export type LineType = keyof typeof typesOfLines;
+export type AreaType = keyof typeof typesOfAreas;
 
 interface LineSegment {
-  type: LineType;
+  type: LineType | AreaType;
+  isArea: boolean;
   overlayName: string;
   name: string;
   points: Point[];
@@ -55,8 +60,12 @@ export function buildLUnitsSpearationLinesSVGs(
   const lineSegments: LineSegment[] = [];
 
   for (const row of csvData) {
-    const app6dType = row["app6d type"]?.trim() as LineType;
-    if (!typesOfLines[app6dType]) continue;
+    const rawType = row["app6d type"]?.trim() as string;
+    const isLine = rawType in typesOfLines;
+    const isArea = rawType in typesOfAreas;
+    if (!isLine && !isArea) continue;
+    
+    const app6dType = rawType as LineType | AreaType;
     const overlayName = row["overlay name"]?.trim() || "Default Overlay";
 
     const mgrsParts =
@@ -76,6 +85,7 @@ export function buildLUnitsSpearationLinesSVGs(
         } else if (currentSegment.length > 0) {
           lineSegments.push({
             type: app6dType,
+            isArea,
             overlayName,
             name: row["name"]?.trim() || app6dType,
             points: [...currentSegment],
@@ -90,6 +100,7 @@ export function buildLUnitsSpearationLinesSVGs(
     if (currentSegment.length > 0) {
       lineSegments.push({
         type: app6dType,
+        isArea,
         overlayName,
         name: row["name"]?.trim() || app6dType,
         points: currentSegment,
@@ -101,14 +112,22 @@ export function buildLUnitsSpearationLinesSVGs(
 
   for (const seg of lineSegments) {
     if (seg.points.length < 2) continue;
-    const { type, overlayName, points } = seg;
-    const { color, strokeWidth } = typesOfLines[type];
-    const pathData = points
+    const { type, isArea, overlayName, points } = seg;
+    const style = isArea
+      ? typesOfAreas[type as AreaType]
+      : typesOfLines[type as LineType];
+    const { color, strokeWidth } = style;
+
+    let pathData = points
       .map((pt, idx) => {
         const { x, y } = geoToSvg(pt);
         return `${idx === 0 ? "M" : "L"} ${x},${y}`;
       })
       .join(" ");
+
+    if (isArea) {
+      pathData += " Z";
+    }
 
     const opacityAttr = (opacity?: number) =>
       opacity !== undefined ? ` stroke-opacity="${opacity}"` : "";
