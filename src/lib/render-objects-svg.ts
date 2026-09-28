@@ -63,7 +63,7 @@ export function renderElementsSVG(
     const dy = isDisplaced && renderPt ? renderPt.y - anchorPt.y : 0;
 
     const elementLines: string[] = [];
-    elementLines.push(`    <g id="${el.ptApp6dType}">`);
+    elementLines.push(`    <g id="${el.pt.name}">`);
 
     // Draw connector: vertical stub from icon bottom, then diagonal to anchorPoint
     if (isDisplaced && renderPt) {

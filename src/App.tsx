@@ -207,6 +207,7 @@ export default function App() {
   const [width, setWidth] = useState<string>(getInitialWidth);
   const [height, setHeight] = useState<string>(getInitialHeight);
   const [csvContent, setCsvContent] = useState<string | null>(null);
+  const [csvFilename, setCsvFilename] = useState<string | null>(null);
   const [layerColors, setLayerColors] = useState<Record<string, string>>(
     getInitialLayerColors,
   );
@@ -253,6 +254,7 @@ export default function App() {
       try {
         const text = await file.text();
         setCsvContent(text);
+        setCsvFilename(file.name);
         await generateMap(text, mgrsTL, scale, width, height, layerColors);
       } catch (err) {
         setState({ status: "error", message: String(err) });
@@ -351,6 +353,7 @@ export default function App() {
 
   const reset = () => {
     setCsvContent(null);
+    setCsvFilename(null);
     setState({ status: "idle" });
   };
 
@@ -540,9 +543,10 @@ export default function App() {
               <div className="flex-1 overflow-auto bg-black/50 rounded-xl p-4 border border-gray-800 font-mono text-[11px] leading-relaxed text-gray-300 whitespace-pre-wrap">
                 {`========================================
 Map: ${state.result.stats.format} (${state.result.stats.widthMm}mm × ${state.result.stats.heightMm}mm)
-Output: ${state.result.filename}
+Input CSV: ${csvFilename || "unknown"}
+Output SVG: ${state.result.filename}
 - Top-Left MGRS: ${state.result.stats.mgrsTL}
-- Blue Force points in window: ${state.result.stats.pointsInWindow}
+- Points in window: ${state.result.stats.pointsInWindow}
 - Overlapping elements: ${state.result.stats.overlapping}
 - Custom mapped icons: ${state.result.stats.customIconCount}
 - CSV lines rendered: ${state.result.stats.linesCount}
