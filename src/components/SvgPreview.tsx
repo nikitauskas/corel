@@ -2,9 +2,10 @@ import { useState, MouseEvent, WheelEvent } from "react";
 
 interface SvgPreviewProps {
   svgContent: string;
+  className?: string;
 }
 
-export function SvgPreview({ svgContent }: SvgPreviewProps) {
+export function SvgPreview({ svgContent, className = "h-[70vh] rounded-2xl" }: SvgPreviewProps) {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -58,7 +59,7 @@ export function SvgPreview({ svgContent }: SvgPreviewProps) {
   };
 
   return (
-    <div className="relative bg-white rounded-2xl overflow-hidden border border-gray-200 select-none" style={{ height: "70vh" }}>
+    <div className={`relative bg-white overflow-hidden border border-gray-200 select-none ${className}`}>
       {/* Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-md p-1 border border-gray-200">
         <button type="button" onClick={zoomIn} className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xl font-bold cursor-pointer text-gray-700 transition-colors" title="Zoom In">+</button>
