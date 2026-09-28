@@ -2,7 +2,6 @@ import {
   type MouseEvent,
   type WheelEvent,
   useCallback,
-  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -13,14 +12,29 @@ interface SvgPreviewProps {
   className?: string;
 }
 
-/** Parse width/height (px) from an SVG string's root attributes. */
-function parseSvgSize(svg: string): { w: number; h: number } | null {
-  const wMatch = svg.match(/<svg[^>]*\swidth="([^"]+)"/);
-  const hMatch = svg.match(/<svg[^>]*\sheight="([^"]+)"/);
-  if (!wMatch || !hMatch) return null;
-  const w = parseFloat(wMatch[1]);
-  const h = parseFloat(hMatch[1]);
-  return Number.isFinite(w) && Number.isFinite(h) ? { w, h } : null;
+const MM_TO_PX = 96 / 25.4; // CSS standard: 96 dpi
+
+/**
+ * Parse the root SVG width/height in CSS pixels.
+ * Handles plain numbers (assumed px) and mm / cm / in units.
+ */
+function parseSvgSizePx(svg: string): { w: number; h: number } | null {
+  const wRaw = svg.match(/<svg[^>]*\swidth="([^"]+)"/)?.[1];
+  const hRaw = svg.match(/<svg[^>]*\sheight="([^"]+)"/)?.[1];
+  if (!wRaw || !hRaw) return null;
+
+  const toPx = (val: string): number => {
+    const n = parseFloat(val);
+    if (!Number.isFinite(n)) return 0;
+    if (val.endsWith("mm")) return n * MM_TO_PX;
+    if (val.endsWith("cm")) return n * MM_TO_PX * 10;
+    if (val.endsWith("in")) return n * 96;
+    return n; // bare number → px
+  };
+
+  const w = toPx(wRaw);
+  const h = toPx(hRaw);
+  return w > 0 && h > 0 ? { w, h } : null;
 }
 
 export function SvgPreview({
@@ -28,37 +42,39 @@ export function SvgPreview({
   className = "h-[70vh] rounded-2xl",
 }: SvgPreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isFirstLoad = useRef(true);
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
-  /** Compute the scale that makes the SVG fill the container (with padding). */
+  /**
+   * Compute the scale that makes the full SVG visible inside the container
+   * with a 10 px margin on every side.
+   */
   const calcFitScale = useCallback((): number => {
     const container = containerRef.current;
     if (!container) return 1;
-    const size = parseSvgSize(svgContent);
+    const size = parseSvgSizePx(svgContent);
     if (!size) return 1;
-    const pad = 32; // pixels of breathing room
-    const scaleW = (container.clientWidth - pad) / size.w;
-    const scaleH = (container.clientHeight - pad) / size.h;
-    return Math.min(scaleW, scaleH, 1); // never upscale past 1
+    const margin = 10;
+    const scaleW = (container.clientWidth - margin * 2) / size.w;
+    const scaleH = (container.clientHeight - margin * 2) / size.h;
+    return Math.min(scaleW, scaleH); // no upper cap — always fit-to-container
   }, [svgContent]);
 
-  /** Apply fit-to-container (used on mount and reset). */
+  /** Apply fit-to-container transform. */
   const fitToContainer = useCallback(() => {
     setScale(calcFitScale());
     setPosition({ x: 0, y: 0 });
   }, [calcFitScale]);
 
-  // Fit on first render (layout effect so dimensions are ready).
+  // Fit on first render only — subsequent svgContent changes keep zoom/position.
   useLayoutEffect(() => {
-    fitToContainer();
-  }, [fitToContainer]);
-
-  // Re-fit when svgContent changes (new map generated).
-  useEffect(() => {
-    fitToContainer();
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      fitToContainer();
+    }
   }, [fitToContainer]);
 
   const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
@@ -77,7 +93,7 @@ export function SvgPreview({
   // Wheel: zoom toward mouse pointer
   const handleWheel = (e: WheelEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    const newScale = Math.min(Math.max(0.05, scale + -e.deltaY * 0.001), 10);
+    const newScale = Math.min(Math.max(0.01, scale + -e.deltaY * 0.001), 10);
     if (newScale === scale) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
@@ -96,7 +112,7 @@ export function SvgPreview({
 
   // Buttons: zoom toward screen center
   const zoomAtCenter = (delta: number) => {
-    const newScale = Math.min(Math.max(0.05, scale + delta), 10);
+    const newScale = Math.min(Math.max(0.01, scale + delta), 10);
     if (newScale === scale) return;
     const r = newScale / scale;
     setPosition({ x: position.x * r, y: position.y * r });
@@ -127,7 +143,7 @@ export function SvgPreview({
           type="button"
           onClick={fitToContainer}
           className={`${btnCls} text-xs`}
-          title="Reset View"
+          title="Reset View — fit full map"
         >
           R
         </button>
