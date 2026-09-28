@@ -43,6 +43,7 @@ export type LineType = keyof typeof typesOfLines;
 interface LineSegment {
   type: LineType;
   overlayName: string;
+  name: string;
   points: Point[];
 }
 
@@ -76,6 +77,7 @@ export function buildLUnitsSpearationLinesSVGs(
           lineSegments.push({
             type: app6dType,
             overlayName,
+            name: row["name"]?.trim() || app6dType,
             points: [...currentSegment],
           });
           currentSegment = [];
@@ -89,6 +91,7 @@ export function buildLUnitsSpearationLinesSVGs(
       lineSegments.push({
         type: app6dType,
         overlayName,
+        name: row["name"]?.trim() || app6dType,
         points: currentSegment,
       });
     }
@@ -113,7 +116,7 @@ export function buildLUnitsSpearationLinesSVGs(
     const createPath = (width: number, opacity?: number) =>
       `<path class="${type}" d="${pathData}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${opacityAttr(opacity)} fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
 
-    const pathSvg = `${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}`;
+    const pathSvg = `<g id="${seg.name}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
 
     let bucket = layerMap.get(overlayName);
     if (!bucket) {
