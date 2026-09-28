@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { MapSettingsForm } from "./components/MapSettingsForm";
 import { SvgPreview } from "./components/SvgPreview";
 import {
   type GenerateResult,
@@ -392,31 +393,17 @@ export default function App() {
             
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               {/* Settings */}
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="mgrs-tl" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Top-Left MGRS</label>
-                  <input id="mgrs-tl" type="text" value={mgrsTL} onChange={(e) => handleMgrsChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. 37UBP9708043769" />
-                </div>
-                <div>
-                  <label htmlFor="map-scale" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Scale</label>
-                  <select id="map-scale" value={scale} onChange={(e) => handleScaleChange(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                    <option value={10000}>1:10000</option>
-                    <option value={15000}>1:15000</option>
-                    <option value={25000}>1:25000</option>
-                    <option value={50000}>1:50000</option>
-                  </select>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label htmlFor="map-width" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Width (mm)</label>
-                    <input id="map-width" type="number" value={width} onChange={(e) => handleWidthChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1810" min="1" />
-                  </div>
-                  <div>
-                    <label htmlFor="map-height" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Height (mm)</label>
-                    <input id="map-height" type="number" value={height} onChange={(e) => handleHeightChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1810" min="1" />
-                  </div>
-                </div>
-              </div>
+              <MapSettingsForm
+                idPrefix="sidebar"
+                mgrsTL={mgrsTL}
+                scale={scale}
+                width={width}
+                height={height}
+                onMgrsChange={handleMgrsChange}
+                onScaleChange={handleScaleChange}
+                onWidthChange={handleWidthChange}
+                onHeightChange={handleHeightChange}
+              />
 
               {/* Layer Colors */}
               {(state.status === "done" || (state.status === "loading" && state.result)) && state.result && (
@@ -506,31 +493,19 @@ ${state.result.stats.missedIcons.length > 0 ? "Missing icons (" + state.result.s
           <p className="mt-1.5 text-gray-400 text-sm">CSV → SVG map generator</p>
         </div>
 
-        {/* Right Side: Control Panel (MGRS, Scale, Width, Height) */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4 max-w-xl w-full">
-          <div>
-            <label htmlFor="mgrs-tl-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Top-Left MGRS</label>
-            <input id="mgrs-tl-main" type="text" value={mgrsTL} onChange={(e) => handleMgrsChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. 37UBP9708043769" />
-          </div>
-          <div>
-            <label htmlFor="map-scale-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Scale</label>
-            <select id="map-scale-main" value={scale} onChange={(e) => handleScaleChange(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-              <option value={10000}>1:10000</option>
-              <option value={15000}>1:15000</option>
-              <option value={25000}>1:25000</option>
-              <option value={50000}>1:50000</option>
-            </select>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label htmlFor="map-width-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Width (mm)</label>
-              <input id="map-width-main" type="number" value={width} onChange={(e) => handleWidthChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1810" min="1" />
-            </div>
-            <div>
-              <label htmlFor="map-height-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Height (mm)</label>
-              <input id="map-height-main" type="number" value={height} onChange={(e) => handleHeightChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1810" min="1" />
-            </div>
-          </div>
+        {/* Right Side: Control Panel */}
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 max-w-xl w-full">
+          <MapSettingsForm
+            idPrefix="landing"
+            mgrsTL={mgrsTL}
+            scale={scale}
+            width={width}
+            height={height}
+            onMgrsChange={handleMgrsChange}
+            onScaleChange={handleScaleChange}
+            onWidthChange={handleWidthChange}
+            onHeightChange={handleHeightChange}
+          />
         </div>
       </div>
 
