@@ -64,7 +64,7 @@ export function buildLUnitsSpearationLinesSVGs(
     const isLine = rawType in typesOfLines;
     const isArea = rawType in typesOfAreas;
     if (!isLine && !isArea) continue;
-    
+
     const app6dType = rawType as LineType | AreaType;
     const overlayName = row["overlay name"]?.trim() || "Default Overlay";
 
@@ -110,7 +110,7 @@ export function buildLUnitsSpearationLinesSVGs(
 
   const layerMap = new Map<string, string[]>();
 
-  for (const seg of lineSegments) {
+  for (const [idx, seg] of lineSegments.entries()) {
     if (seg.points.length < 2) continue;
     const { type, isArea, overlayName, points } = seg;
     const style = isArea
@@ -133,9 +133,9 @@ export function buildLUnitsSpearationLinesSVGs(
       opacity !== undefined ? ` stroke-opacity="${opacity}"` : "";
 
     const createPath = (width: number, opacity?: number) =>
-      `<path class="${type}" d="${pathData}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${opacityAttr(opacity)} fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
+      `<path id="${type}" d="${pathData}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${opacityAttr(opacity)} fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
 
-    const pathSvg = `<g id="${seg.name}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
+    const pathSvg = `<g id="[${idx + 1}] ${seg.name}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
 
     let bucket = layerMap.get(overlayName);
     if (!bucket) {
