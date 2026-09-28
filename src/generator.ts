@@ -41,6 +41,9 @@ export interface GenerateResult {
   filename: string;
   stats: {
     format: string;
+    widthMm: number;
+    heightMm: number;
+    mgrsTL: string;
     pointsInWindow: number;
     overlapping: number;
     customIconCount: number;
@@ -134,6 +137,9 @@ export async function generateSVGFromCSV(
     filename,
     stats: {
       format: formatConfig.name ?? `1:${formatConfig.scale}`,
+      widthMm: formatConfig.widthMm,
+      heightMm: formatConfig.heightMm,
+      mgrsTL,
       pointsInWindow: mapObjectsSVGs.length,
       overlapping: overlappingCount,
       customIconCount,

@@ -534,57 +534,24 @@ export default function App() {
 
             {/* Right Column (1/2): Generated Log / Stats */}
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col">
-              <h2 className="text-lg font-semibold mb-4 text-white">
-                ✅ Generated — {state.result.stats.format}
-              </h2>
-              <dl className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm mb-4">
-                <StatRow
-                  label="Points in window"
-                  value={state.result.stats.pointsInWindow}
-                />
-                <StatRow
-                  label="Overlapping"
-                  value={state.result.stats.overlapping}
-                />
-                <StatRow
-                  label="Custom icons"
-                  value={state.result.stats.customIconCount}
-                />
-                <StatRow
-                  label="Lines rendered"
-                  value={state.result.stats.linesCount}
-                />
-              </dl>
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
+                Generation Log
+              </h3>
+              <div className="flex-1 overflow-auto bg-black/50 rounded-xl p-4 border border-gray-800 font-mono text-[11px] leading-relaxed text-gray-300 whitespace-pre-wrap">
+                {`========================================
+Map: ${state.result.stats.format} (${state.result.stats.widthMm}mm × ${state.result.stats.heightMm}mm)
+Output: ${state.result.filename}
+- Top-Left MGRS: ${state.result.stats.mgrsTL}
+- Blue Force points in window: ${state.result.stats.pointsInWindow}
+- Overlapping elements: ${state.result.stats.overlapping}
+- Custom mapped icons: ${state.result.stats.customIconCount}
+- CSV lines rendered: ${state.result.stats.linesCount}
+- Overlay names: 
+    ${state.result.stats.overlayNames.join("\n    ")}
 
-              {state.result.stats.overlayNames.length > 0 && (
-                <div className="mb-4">
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">
-                    Overlays
-                  </p>
-                  <ul className="text-sm text-gray-300 space-y-0.5">
-                    {state.result.stats.overlayNames.map((n) => (
-                      <li key={n} className="font-mono">
-                        {n}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {state.result.stats.missedIcons.length > 0 && (
-                <div>
-                  <p className="text-xs font-semibold text-yellow-500 uppercase tracking-widest mb-1">
-                    Missing icons ({state.result.stats.missedIcons.length})
-                  </p>
-                  <ul className="text-xs text-yellow-400/80 space-y-0.5 max-h-32 overflow-auto">
-                    {state.result.stats.missedIcons.map((n) => (
-                      <li key={n} className="font-mono">
-                        {n}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+========================================
+${state.result.stats.missedIcons.length > 0 ? `Missing icons (${state.result.stats.missedIcons.length}):\n${state.result.stats.missedIcons.map((n) => `  - ${n}`).join("\n")}` : "All icons successfully mapped."}`}
+              </div>
             </div>
           </div>
 
@@ -620,14 +587,5 @@ export default function App() {
         </div>
       )}
     </div>
-  );
-}
-
-function StatRow({ label, value }: { label: string; value: number }) {
-  return (
-    <>
-      <dt className="text-gray-400">{label}</dt>
-      <dd className="text-white font-mono font-semibold">{value}</dd>
-    </>
   );
 }
