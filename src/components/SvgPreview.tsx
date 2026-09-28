@@ -1,8 +1,26 @@
-import { type MouseEvent, useRef, useState, type WheelEvent } from "react";
+import {
+  type MouseEvent,
+  type WheelEvent,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 interface SvgPreviewProps {
   svgContent: string;
   className?: string;
+}
+
+/** Parse width/height (px) from an SVG string's root attributes. */
+function parseSvgSize(svg: string): { w: number; h: number } | null {
+  const wMatch = svg.match(/<svg[^>]*\swidth="([^"]+)"/);
+  const hMatch = svg.match(/<svg[^>]*\sheight="([^"]+)"/);
+  if (!wMatch || !hMatch) return null;
+  const w = parseFloat(wMatch[1]);
+  const h = parseFloat(hMatch[1]);
+  return Number.isFinite(w) && Number.isFinite(h) ? { w, h } : null;
 }
 
 export function SvgPreview({
@@ -14,6 +32,34 @@ export function SvgPreview({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  /** Compute the scale that makes the SVG fill the container (with padding). */
+  const calcFitScale = useCallback((): number => {
+    const container = containerRef.current;
+    if (!container) return 1;
+    const size = parseSvgSize(svgContent);
+    if (!size) return 1;
+    const pad = 32; // pixels of breathing room
+    const scaleW = (container.clientWidth - pad) / size.w;
+    const scaleH = (container.clientHeight - pad) / size.h;
+    return Math.min(scaleW, scaleH, 1); // never upscale past 1
+  }, [svgContent]);
+
+  /** Apply fit-to-container (used on mount and reset). */
+  const fitToContainer = useCallback(() => {
+    setScale(calcFitScale());
+    setPosition({ x: 0, y: 0 });
+  }, [calcFitScale]);
+
+  // Fit on first render (layout effect so dimensions are ready).
+  useLayoutEffect(() => {
+    fitToContainer();
+  }, [fitToContainer]);
+
+  // Re-fit when svgContent changes (new map generated).
+  useEffect(() => {
+    fitToContainer();
+  }, [fitToContainer]);
 
   const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
@@ -31,7 +77,7 @@ export function SvgPreview({
   // Wheel: zoom toward mouse pointer
   const handleWheel = (e: WheelEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    const newScale = Math.min(Math.max(0.1, scale + -e.deltaY * 0.001), 10);
+    const newScale = Math.min(Math.max(0.05, scale + -e.deltaY * 0.001), 10);
     if (newScale === scale) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
@@ -50,7 +96,7 @@ export function SvgPreview({
 
   // Buttons: zoom toward screen center
   const zoomAtCenter = (delta: number) => {
-    const newScale = Math.min(Math.max(0.1, scale + delta), 10);
+    const newScale = Math.min(Math.max(0.05, scale + delta), 10);
     if (newScale === scale) return;
     const r = newScale / scale;
     setPosition({ x: position.x * r, y: position.y * r });
@@ -59,12 +105,6 @@ export function SvgPreview({
 
   const zoomIn = () => zoomAtCenter(0.2);
   const zoomOut = () => zoomAtCenter(-0.2);
-
-  // Reset: recenter with scale=1 (SVG fills container via flex centering)
-  const reset = () => {
-    setScale(1);
-    setPosition({ x: 0, y: 0 });
-  };
 
   const btnCls =
     "w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded font-bold cursor-pointer text-gray-300 transition-colors";
@@ -76,26 +116,16 @@ export function SvgPreview({
     >
       {/* Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-1 bg-gray-900/90 backdrop-blur-sm rounded-lg shadow-md p-1 border border-gray-700">
-        <button
-          type="button"
-          onClick={zoomIn}
-          className={btnCls}
-          title="Zoom In"
-        >
+        <button type="button" onClick={zoomIn} className={btnCls} title="Zoom In">
           +
         </button>
-        <button
-          type="button"
-          onClick={zoomOut}
-          className={btnCls}
-          title="Zoom Out"
-        >
+        <button type="button" onClick={zoomOut} className={btnCls} title="Zoom Out">
           −
         </button>
         <div className="h-px bg-gray-700 mx-1" />
         <button
           type="button"
-          onClick={reset}
+          onClick={fitToContainer}
           className={`${btnCls} text-xs`}
           title="Reset View"
         >
