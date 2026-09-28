@@ -157,8 +157,8 @@ export function renderElementsSVG(
     layer.elements.push(elementLines.join("\n"));
   });
 
-  const connectorLines: string[] = ['  <g id="connectors">'];
-  const objectLines: string[] = ['  <g id="map-objects">'];
+  const connectorLines: string[] = ['  <g id="Connectors">'];
+  const objectLines: string[] = ['  <g id="Map Objects">'];
 
   layers.forEach((layer, layerName) => {
     // Connectors group (only emit if layer has connectors)
