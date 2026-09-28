@@ -16,6 +16,7 @@ function renderConnector(
   el: MapObjectLayout,
   anchorPt: { x: number; y: number },
   renderPt: { x: number; y: number },
+  idx: number,
   iconBottomY: number,
   iconW = 0,
   isHQ = false,
@@ -25,7 +26,7 @@ function renderConnector(
   const startX = isHQ ? renderPt.x - iconW / 2 + 0.2 : renderPt.x;
 
   return `      <path
-  id="${el.pt.name}"
+  id="[${idx + 1}] ${el.pt.name}"
   d="M ${startX.toFixed(3)},${iconBottomY.toFixed(3)}
      V ${stubBottomY.toFixed(3)}
      ${isJustVertical ? "" : `L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}`}"
@@ -65,7 +66,7 @@ export function renderElementsSVG(
     const dy = isDisplaced && renderPt ? renderPt.y - anchorPt.y : 0;
 
     const elementLines: string[] = [];
-    elementLines.push(`    <g id="${el.pt.name}">`);
+    elementLines.push(`    <g id="[${idx + 1}] ${el.pt.name}">`);
 
     // Draw connector: vertical stub from icon bottom, then diagonal to anchorPoint
     if (isDisplaced && renderPt) {
@@ -79,6 +80,7 @@ export function renderElementsSVG(
           el,
           anchorPt,
           renderPt,
+          idx,
           iconBottomY,
           el.iconDetails?.iconW,
           el.pt.isHQ,
@@ -94,6 +96,7 @@ export function renderElementsSVG(
           el,
           anchorPt,
           anchorPt,
+          idx,
           iconBottomY,
           el.iconDetails?.iconW,
           el.pt.isHQ,
