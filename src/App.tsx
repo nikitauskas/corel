@@ -224,9 +224,14 @@ export default function App() {
       heightVal: string,
       colorsVal: Record<string, string>,
     ) => {
-      setState((prev) => ({ 
-        status: "loading", 
-        result: prev.status === "done" ? prev.result : (prev.status === "loading" ? prev.result : undefined) 
+      setState((prev) => ({
+        status: "loading",
+        result:
+          prev.status === "done"
+            ? prev.result
+            : prev.status === "loading"
+              ? prev.result
+              : undefined,
       }));
       try {
         const parsedW = Number(widthVal);
@@ -367,30 +372,70 @@ export default function App() {
     return (
       <div className="w-screen h-screen overflow-hidden bg-gray-900 relative">
         {/* Map (SvgPreview takes full width/height) */}
-        {((state.status === "done" || state.status === "loading") && state.result) && (
-          <SvgPreview svgContent={state.result.svgContent} className="w-full h-full border-none rounded-none" />
-        )}
-        
+        {(state.status === "done" || state.status === "loading") &&
+          state.result && (
+            <SvgPreview
+              svgContent={state.result.svgContent}
+              className="w-full h-full border-none rounded-none"
+            />
+          )}
+
         {/* Settings Button */}
-        <button 
+        <button
           type="button"
           onClick={() => setIsSidebarOpen(true)}
           className="absolute top-4 left-4 z-20 bg-gray-900/90 backdrop-blur-sm border border-gray-700 hover:bg-gray-800 text-white p-2.5 rounded-lg shadow-lg transition-colors flex items-center gap-2 cursor-pointer"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
           <span className="text-sm font-semibold">Settings</span>
         </button>
-        
+
         {/* Sidebar overlay */}
         {isSidebarOpen && (
           <div className="absolute top-0 left-0 h-full w-96 bg-gray-900 border-r border-gray-800 z-30 shadow-2xl flex flex-col">
             <div className="flex justify-between items-center p-5 border-b border-gray-800 shrink-0">
-              <h2 className="text-white font-bold text-lg tracking-tight">Map Settings</h2>
-              <button type="button" onClick={() => setIsSidebarOpen(false)} className="text-gray-400 hover:text-white p-1 cursor-pointer transition-colors">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              <h2 className="text-white font-bold text-lg tracking-tight">
+                Map Settings
+              </h2>
+              <button
+                type="button"
+                onClick={() => setIsSidebarOpen(false)}
+                className="text-gray-400 hover:text-white p-1 cursor-pointer transition-colors"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
             </div>
-            
+
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               {/* Settings */}
               <MapSettingsForm
@@ -406,33 +451,60 @@ export default function App() {
               />
 
               {/* Layer Colors */}
-              {(state.status === "done" || (state.status === "loading" && state.result)) && state.result && (
-                <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Layer Label Background Colors ({state.result.stats.overlayNames.length})</h3>
-                  {state.result.stats.overlayNames.length > 0 ? (
-                    <div className="space-y-2">
-                      {state.result.stats.overlayNames.map((layerName) => {
-                        const currentColor = layerColors[layerName] || DEFAULT_LAYER_COLORS[layerName] || "#92B4EC";
-                        return (
-                          <div key={layerName} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex items-center justify-between gap-3">
-                            <span className="text-xs font-mono font-medium text-gray-200 truncate flex-1" title={layerName}>{layerName}</span>
-                            <CustomColorDropdown value={currentColor} onChange={(newColor) => handleLayerColorChange(layerName, newColor)} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-gray-500">No layers detected</p>
-                  )}
-                </div>
-              )}
+              {(state.status === "done" ||
+                (state.status === "loading" && state.result)) &&
+                state.result && (
+                  <div>
+                    <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                      Layer Label Background Colors (
+                      {state.result.stats.overlayNames.length})
+                    </h3>
+                    {state.result.stats.overlayNames.length > 0 ? (
+                      <div className="space-y-2">
+                        {state.result.stats.overlayNames.map((layerName) => {
+                          const currentColor =
+                            layerColors[layerName] ||
+                            DEFAULT_LAYER_COLORS[layerName] ||
+                            "#92B4EC";
+                          return (
+                            <div
+                              key={layerName}
+                              className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex items-center justify-between gap-3"
+                            >
+                              <span
+                                className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
+                                title={layerName}
+                              >
+                                {layerName}
+                              </span>
+                              <CustomColorDropdown
+                                value={currentColor}
+                                onChange={(newColor) =>
+                                  handleLayerColorChange(layerName, newColor)
+                                }
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-500">
+                        No layers detected
+                      </p>
+                    )}
+                  </div>
+                )}
 
               {/* Console Log */}
-              {(state.status === "done" || (state.status === "loading" && state.result)) && state.result && (
-                <div className="flex flex-col shrink-0">
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Generation Log</h3>
-                  <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[10px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
-{`========================================
+              {(state.status === "done" ||
+                (state.status === "loading" && state.result)) &&
+                state.result && (
+                  <div className="flex flex-col shrink-0">
+                    <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                      Generation Log
+                    </h3>
+                    <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[13px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
+                      {`========================================
 Map: ${state.result.stats.format} (${state.result.stats.widthMm}mm × ${state.result.stats.heightMm}mm)
 Input CSV: ${csvFilename || "unknown"}
 Output SVG: ${state.result.filename}
@@ -446,28 +518,39 @@ Output SVG: ${state.result.filename}
 
 ========================================
 ${state.result.stats.missedIcons.length > 0 ? "Missing icons (" + state.result.stats.missedIcons.length + "):\n  - " + state.result.stats.missedIcons.join("\n  - ") : "All icons successfully mapped."}`}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         )}
 
         {/* Start Over Button (bottom left) */}
         <div className="absolute bottom-4 left-4 z-20">
-          <button type="button" onClick={reset} className="bg-gray-900/90 backdrop-blur-sm border border-gray-700 hover:bg-gray-800 text-gray-200 font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-colors cursor-pointer text-sm">
+          <button
+            type="button"
+            onClick={reset}
+            className="bg-gray-900/90 backdrop-blur-sm border border-gray-700 hover:bg-gray-800 text-gray-200 font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-colors cursor-pointer text-sm"
+          >
             ↩ Start Over
           </button>
         </div>
 
         {/* Download Button (bottom right, shrinking width) */}
         <div className="absolute bottom-4 right-4 z-20">
-          {((state.status === "done" || state.status === "loading") && state.result) && (
-            <button type="button" onClick={download} className="bg-blue-600/90 backdrop-blur-sm hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-colors cursor-pointer text-sm flex flex-col items-center">
-              <span>⬇ Download SVG</span>
-              <span className="text-xs font-normal opacity-70 mt-0.5">{state.result.filename}</span>
-            </button>
-          )}
+          {(state.status === "done" || state.status === "loading") &&
+            state.result && (
+              <button
+                type="button"
+                onClick={download}
+                className="bg-blue-600/90 backdrop-blur-sm hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-colors cursor-pointer text-sm flex flex-col items-center"
+              >
+                <span>⬇ Download SVG</span>
+                <span className="text-xs font-normal opacity-70 mt-0.5">
+                  {state.result.filename}
+                </span>
+              </button>
+            )}
         </div>
 
         {/* Loading Overlay */}
@@ -489,8 +572,12 @@ ${state.result.stats.missedIcons.length > 0 ? "Missing icons (" + state.result.s
       {/* Top Header & Settings Row (1200px) */}
       <div className="w-full max-w-[1200px] mb-8 flex flex-col md:flex-row items-start justify-between gap-6">
         <div className="text-left shrink-0">
-          <h1 className="text-4xl font-bold tracking-tight text-white">Delta<span className="text-blue-400">2</span>Corel</h1>
-          <p className="mt-1.5 text-gray-400 text-sm">CSV → SVG map generator</p>
+          <h1 className="text-4xl font-bold tracking-tight text-white">
+            Delta<span className="text-blue-400">2</span>Corel
+          </h1>
+          <p className="mt-1.5 text-gray-400 text-sm">
+            CSV → SVG map generator
+          </p>
         </div>
 
         {/* Right Side: Control Panel */}
@@ -517,10 +604,28 @@ ${state.result.stats.missedIcons.length > 0 ? "Missing icons (" + state.result.s
             ${isDragActive ? "border-blue-400 bg-blue-950/30" : "border-gray-700 hover:border-blue-600 bg-gray-900"}`}
         >
           <input {...getInputProps()} />
-          <svg className={`w-16 h-16 mb-4 ${isDragActive ? "text-blue-400" : "text-gray-600"}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
-          <p className="text-gray-200 text-lg font-medium">{isDragActive ? "Drop the CSV here…" : "Drop CSV file here"}</p>
+          <svg
+            className={`w-16 h-16 mb-4 ${isDragActive ? "text-blue-400" : "text-gray-600"}`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.5}
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+            />
+          </svg>
+          <p className="text-gray-200 text-lg font-medium">
+            {isDragActive ? "Drop the CSV here…" : "Drop CSV file here"}
+          </p>
           <p className="text-gray-400 text-sm mt-2">or click to browse</p>
-          {state.status === "error" && <p className="mt-4 text-red-400 text-sm text-center">{state.message}</p>}
+          {state.status === "error" && (
+            <p className="mt-4 text-red-400 text-sm text-center">
+              {state.message}
+            </p>
+          )}
         </div>
       )}
 
