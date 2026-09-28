@@ -32,7 +32,22 @@ export function SvgPreview({ svgContent }: SvgPreviewProps) {
     e.stopPropagation();
     const scaleAmount = -e.deltaY * 0.001;
     const newScale = Math.min(Math.max(0.1, scale + scaleAmount), 10);
-    setScale(newScale);
+    
+    if (newScale !== scale) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      const scaleRatio = newScale / scale;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      
+      setPosition({
+        x: mouseX - cx - (mouseX - cx - position.x) * scaleRatio,
+        y: mouseY - cy - (mouseY - cy - position.y) * scaleRatio,
+      });
+      setScale(newScale);
+    }
   };
 
   const zoomIn = () => setScale((s) => Math.min(s + 0.2, 10));
@@ -43,7 +58,7 @@ export function SvgPreview({ svgContent }: SvgPreviewProps) {
   };
 
   return (
-    <div className="relative bg-white rounded-2xl overflow-hidden border border-gray-200" style={{ height: "70vh" }}>
+    <div className="relative bg-white rounded-2xl overflow-hidden border border-gray-200 select-none" style={{ height: "70vh" }}>
       {/* Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-md p-1 border border-gray-200">
         <button type="button" onClick={zoomIn} className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded text-xl font-bold cursor-pointer text-gray-700 transition-colors" title="Zoom In">+</button>
