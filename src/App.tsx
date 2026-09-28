@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { SvgPreview } from "./components/SvgPreview";
 import {
   type GenerateResult,
   generateSVGFromCSV,
@@ -560,13 +561,7 @@ ${state.result.stats.missedIcons.length > 0 ? `Missing icons (${state.result.sta
           </div>
 
           {/* SVG Preview (Full Width: 1200px) */}
-          <div className="bg-white rounded-2xl overflow-auto max-h-[70vh] p-4">
-            <div
-              // biome-ignore lint/security/noDangerouslySetInnerHtml: rendering generated SVG preview
-              dangerouslySetInnerHTML={{ __html: state.result.svgContent }}
-              className="w-full"
-            />
-          </div>
+          <SvgPreview svgContent={state.result.svgContent} />
 
           {/* Actions (Full Width: 1200px) */}
           <div className="flex gap-3">
