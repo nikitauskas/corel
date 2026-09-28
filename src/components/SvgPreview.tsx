@@ -1,11 +1,14 @@
-import { type MouseEvent, type WheelEvent, useRef, useState } from "react";
+import { type MouseEvent, useRef, useState, type WheelEvent } from "react";
 
 interface SvgPreviewProps {
   svgContent: string;
   className?: string;
 }
 
-export function SvgPreview({ svgContent, className = "h-[70vh] rounded-2xl" }: SvgPreviewProps) {
+export function SvgPreview({
+  svgContent,
+  className = "h-[70vh] rounded-2xl",
+}: SvgPreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -73,10 +76,31 @@ export function SvgPreview({ svgContent, className = "h-[70vh] rounded-2xl" }: S
     >
       {/* Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-1 bg-gray-900/90 backdrop-blur-sm rounded-lg shadow-md p-1 border border-gray-700">
-        <button type="button" onClick={zoomIn} className={btnCls} title="Zoom In">+</button>
-        <button type="button" onClick={zoomOut} className={btnCls} title="Zoom Out">−</button>
+        <button
+          type="button"
+          onClick={zoomIn}
+          className={btnCls}
+          title="Zoom In"
+        >
+          +
+        </button>
+        <button
+          type="button"
+          onClick={zoomOut}
+          className={btnCls}
+          title="Zoom Out"
+        >
+          −
+        </button>
         <div className="h-px bg-gray-700 mx-1" />
-        <button type="button" onClick={reset} className={`${btnCls} text-xs`} title="Reset View">⊡</button>
+        <button
+          type="button"
+          onClick={reset}
+          className={`${btnCls} text-xs`}
+          title="Reset View"
+        >
+          R
+        </button>
       </div>
 
       {/* Canvas */}
