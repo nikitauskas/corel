@@ -10,7 +10,7 @@ import type { MapFormatConfig } from "./lib/geo";
 
 type State =
   | { status: "idle" }
-  | { status: "loading" }
+  | { status: "loading"; result?: GenerateResult }
   | { status: "done"; result: GenerateResult }
   | { status: "error"; message: string };
 
@@ -223,7 +223,10 @@ export default function App() {
       heightVal: string,
       colorsVal: Record<string, string>,
     ) => {
-      setState({ status: "loading" });
+      setState((prev) => ({ 
+        status: "loading", 
+        result: prev.status === "done" ? prev.result : (prev.status === "loading" ? prev.result : undefined) 
+      }));
       try {
         const parsedW = Number(widthVal);
         const parsedH = Number(heightVal);
@@ -363,7 +366,7 @@ export default function App() {
     return (
       <div className="w-screen h-screen overflow-hidden bg-gray-900 relative">
         {/* Map (SvgPreview takes full width/height) */}
-        {state.status === "done" && (
+        {((state.status === "done" || state.status === "loading") && state.result) && (
           <SvgPreview svgContent={state.result.svgContent} className="w-full h-full border-none rounded-none" />
         )}
         
@@ -416,7 +419,7 @@ export default function App() {
               </div>
 
               {/* Layer Colors */}
-              {state.status === "done" && (
+              {(state.status === "done" || (state.status === "loading" && state.result)) && state.result && (
                 <div>
                   <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Layer Label Background Colors ({state.result.stats.overlayNames.length})</h3>
                   {state.result.stats.overlayNames.length > 0 ? (
@@ -438,7 +441,7 @@ export default function App() {
               )}
 
               {/* Console Log */}
-              {state.status === "done" && (
+              {(state.status === "done" || (state.status === "loading" && state.result)) && state.result && (
                 <div className="flex flex-col shrink-0">
                   <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Generation Log</h3>
                   <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[10px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
@@ -463,14 +466,21 @@ ${state.result.stats.missedIcons.length > 0 ? "Missing icons (" + state.result.s
           </div>
         )}
 
-        {/* Download Button (bottom right, shrinking width) */}
-        <div className="absolute bottom-4 right-4 z-20 flex flex-col sm:flex-row gap-2 items-end">
+        {/* Start Over Button (bottom left) */}
+        <div className="absolute bottom-4 left-4 z-20">
           <button type="button" onClick={reset} className="bg-gray-900/90 backdrop-blur-sm border border-gray-700 hover:bg-gray-800 text-gray-200 font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-colors cursor-pointer text-sm">
             ↩ Start Over
           </button>
-          <button type="button" onClick={download} className="bg-blue-600/90 backdrop-blur-sm hover:bg-blue-500 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg transition-colors cursor-pointer text-sm whitespace-nowrap">
-            ⬇ Download SVG
-          </button>
+        </div>
+
+        {/* Download Button (bottom right, shrinking width) */}
+        <div className="absolute bottom-4 right-4 z-20">
+          {((state.status === "done" || state.status === "loading") && state.result) && (
+            <button type="button" onClick={download} className="bg-blue-600/90 backdrop-blur-sm hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-colors cursor-pointer text-sm flex flex-col items-center">
+              <span>⬇ Download SVG</span>
+              <span className="text-xs font-normal opacity-70 mt-0.5">{state.result.filename}</span>
+            </button>
+          )}
         </div>
 
         {/* Loading Overlay */}
@@ -490,10 +500,37 @@ ${state.result.stats.missedIcons.length > 0 ? "Missing icons (" + state.result.s
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center px-4 py-8">
       {/* Top Header & Settings Row (1200px) */}
-      <div className="w-full max-w-[1200px] mb-8 flex flex-col items-start justify-center">
+      <div className="w-full max-w-[1200px] mb-8 flex flex-col md:flex-row items-start justify-between gap-6">
         <div className="text-left shrink-0">
           <h1 className="text-4xl font-bold tracking-tight text-white">Delta<span className="text-blue-400">2</span>Corel</h1>
           <p className="mt-1.5 text-gray-400 text-sm">CSV → SVG map generator</p>
+        </div>
+
+        {/* Right Side: Control Panel (MGRS, Scale, Width, Height) */}
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4 max-w-xl w-full">
+          <div>
+            <label htmlFor="mgrs-tl-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Top-Left MGRS</label>
+            <input id="mgrs-tl-main" type="text" value={mgrsTL} onChange={(e) => handleMgrsChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. 37UBP9708043769" />
+          </div>
+          <div>
+            <label htmlFor="map-scale-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Scale</label>
+            <select id="map-scale-main" value={scale} onChange={(e) => handleScaleChange(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+              <option value={10000}>1:10000</option>
+              <option value={15000}>1:15000</option>
+              <option value={25000}>1:25000</option>
+              <option value={50000}>1:50000</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="map-width-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Width (mm)</label>
+              <input id="map-width-main" type="number" value={width} onChange={(e) => handleWidthChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1810" min="1" />
+            </div>
+            <div>
+              <label htmlFor="map-height-main" className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-widest">Height (mm)</label>
+              <input id="map-height-main" type="number" value={height} onChange={(e) => handleHeightChange(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1810" min="1" />
+            </div>
+          </div>
         </div>
       </div>
 
