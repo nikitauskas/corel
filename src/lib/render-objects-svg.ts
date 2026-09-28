@@ -13,6 +13,7 @@ const CONNECTOR_STUB_MM = 4.5;
  * @param iconBottomY - The Y coordinate of the icon's bottom edge in SVG space.
  */
 function renderConnector(
+  el: MapObjectLayout,
   anchorPt: { x: number; y: number },
   renderPt: { x: number; y: number },
   iconBottomY: number,
@@ -24,6 +25,7 @@ function renderConnector(
   const startX = isHQ ? renderPt.x - iconW / 2 + 0.2 : renderPt.x;
 
   return `      <path
+  id="${el.pt.name}"
   d="M ${startX.toFixed(3)},${iconBottomY.toFixed(3)}
      V ${stubBottomY.toFixed(3)}
      ${isJustVertical ? "" : `L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}`}"
@@ -74,6 +76,7 @@ export function renderElementsSVG(
           : renderPt.y;
       layer.connectors.push(
         renderConnector(
+          el,
           anchorPt,
           renderPt,
           iconBottomY,
@@ -88,6 +91,7 @@ export function renderElementsSVG(
           : anchorPt.y;
       layer.connectors.push(
         renderConnector(
+          el,
           anchorPt,
           anchorPt,
           iconBottomY,
