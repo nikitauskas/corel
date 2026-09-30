@@ -1,5 +1,6 @@
 import { LAYOUT_CONFIG } from "./label-builder";
 import type { MapObjectLayout } from "./map-objects";
+import { escapeXmlAttr } from "./utils";
 
 const CONNECTOR_STUB_MM = 4.5;
 
@@ -26,7 +27,7 @@ function renderConnector(
   const startX = isHQ ? renderPt.x - iconW / 2 + 0.2 : renderPt.x;
 
   return `      <path
-  id="[${idx + 1}] ${el.pt.name}"
+  id="[${idx + 1}] ${escapeXmlAttr(el.pt.name)}"
   d="M ${startX.toFixed(3)},${iconBottomY.toFixed(3)}
      V ${stubBottomY.toFixed(3)}
      ${isJustVertical ? "" : `L ${anchorPt.x.toFixed(3)},${anchorPt.y.toFixed(3)}`}"
@@ -66,7 +67,7 @@ export function renderElementsSVG(
     const dy = isDisplaced && renderPt ? renderPt.y - anchorPt.y : 0;
 
     const elementLines: string[] = [];
-    elementLines.push(`    <g id="[${idx + 1}] ${el.pt.name}">`);
+    elementLines.push(`    <g id="[${idx + 1}] ${escapeXmlAttr(el.pt.name)}">`);
 
     // Draw connector: vertical stub from icon bottom, then diagonal to anchorPoint
     if (isDisplaced && renderPt) {
@@ -166,13 +167,13 @@ export function renderElementsSVG(
   layers.forEach((layer, layerName) => {
     // Connectors group (only emit if layer has connectors)
     if (layer.connectors.length > 0) {
-      connectorLines.push(`    <g id="${layerName}">`);
+      connectorLines.push(`    <g id="${escapeXmlAttr(layerName)}">`);
       connectorLines.push(...layer.connectors);
       connectorLines.push("    </g>");
     }
 
     // Objects group (always emit)
-    objectLines.push(`    <g id="${layerName}">`);
+    objectLines.push(`    <g id="${escapeXmlAttr(layerName)}">`);
     objectLines.push(...layer.elements);
     objectLines.push("    </g>");
   });

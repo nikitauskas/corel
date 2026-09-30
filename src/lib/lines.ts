@@ -1,5 +1,6 @@
 import type { CsvRow } from "./csv";
 import type { XY } from "./geo";
+import { escapeXmlAttr } from "./utils";
 
 export const typesOfLines = {
   "Горизонтальна (між підрозділами)": {
@@ -97,11 +98,11 @@ export function buildLUnitsSpearationLinesSVGs(
       (isArea ? " Z" : "");
 
     const createPath = (width: number, opacity?: number) =>
-      `<path id="${type}" d="${d}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${
+      `<path id="${escapeXmlAttr(type)}" d="${d}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${
         opacity !== undefined ? ` stroke-opacity="${opacity}"` : ""
       } fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
 
-    const svg = `<g id="[${i + 1}] ${name}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
+    const svg = `<g id="[${i + 1}] ${escapeXmlAttr(name)}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
 
     const bucket = layers.get(overlayName);
     if (bucket) bucket.push(svg);
@@ -110,7 +111,11 @@ export function buildLUnitsSpearationLinesSVGs(
 
   const result: string[] = [];
   for (const [layerName, paths] of layers) {
-    result.push(`  <g id="${layerName}">`, paths.join("\n"), "  </g>");
+    result.push(
+      `  <g id="${escapeXmlAttr(layerName)}">`,
+      paths.join("\n"),
+      "  </g>",
+    );
   }
   return result;
 }
