@@ -175,10 +175,20 @@ export function SvgPreview({
     >
       {/* Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-1 bg-gray-900/90 backdrop-blur-sm rounded-lg shadow-md p-1 border border-gray-700">
-        <button type="button" onClick={zoomIn} className={btnCls} title="Zoom In">
+        <button
+          type="button"
+          onClick={zoomIn}
+          className={btnCls}
+          title="Zoom In"
+        >
           +
         </button>
-        <button type="button" onClick={zoomOut} className={btnCls} title="Zoom Out">
+        <button
+          type="button"
+          onClick={zoomOut}
+          className={btnCls}
+          title="Zoom Out"
+        >
           −
         </button>
         <div className="h-px bg-gray-700 mx-1" />
@@ -216,6 +226,7 @@ export function SvgPreview({
           <div
             // biome-ignore lint/security/noDangerouslySetInnerHtml: rendering generated SVG preview
             dangerouslySetInnerHTML={{ __html: svgContent }}
+            className="[&>svg]:block [&>svg]:max-w-none"
             style={{ pointerEvents: "none" }}
           />
         </div>
