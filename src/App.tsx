@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { MapSettingsForm } from "./components/MapSettingsForm";
 import { SvgPreview } from "./components/SvgPreview";
@@ -367,6 +367,23 @@ export default function App() {
     setCsvFilename(null);
     setState({ status: "idle" });
   };
+
+  useEffect(() => {
+    const isDone = state.status === "done";
+    const els = [document.documentElement, document.body];
+    els.forEach((el) => {
+      el.style.overflow = isDone ? "hidden" : "";
+      el.style.height = isDone ? "100%" : "";
+      el.style.width = isDone ? "100%" : "";
+    });
+    return () => {
+      els.forEach((el) => {
+        el.style.overflow = "";
+        el.style.height = "";
+        el.style.width = "";
+      });
+    };
+  }, [state.status]);
 
   if (state.status === "done" || (state.status === "loading" && csvContent)) {
     return (

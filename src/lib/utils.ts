@@ -12,12 +12,12 @@ export interface BoundingBox {
   maxY: number;
 }
 
-export const escapeXmlAttr = (value: string) =>
+export const escapeXmlAttr = (value?: string) =>
   value
-    .replace(/&/g, "&amp;")
+    ?.replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;") ?? "";
 
 export function rectsOverlap(r1: Rect, r2: Rect): boolean {
   return (
