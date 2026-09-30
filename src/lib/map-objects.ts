@@ -174,10 +174,14 @@ export function buildMapObjects(
       rightLabelText = pt.higherFrmation;
     }
 
-    if (pt.echelon === "Батальйон / дивізіон") {
-      topLabelText = "II";
-    } else if (pt.echelon === "Рота / батарея") {
-      topLabelText = "I";
+    if (pt.app6dType === "Піхотний підрозділ") {
+      if (pt.echelon === "Батальйон / дивізіон") {
+        topLabelText = "II";
+      } else if (pt.echelon === "Рота / батарея") {
+        topLabelText = "I";
+      } else {
+        topLabelText = "Ø";
+      }
     }
     // else if (){
     //   topLabelText = 'ø';
@@ -283,10 +287,10 @@ export function buildMapObjects(
 
     const topLabel = labelBuilder(
       topLabelText,
-      [xIconCenter, yIconTop],
+      [xIconCenter, yIconTop - 0.5],
       "middle",
       "up",
-      "md",
+      "sm",
       "none",
       "normal",
     );
