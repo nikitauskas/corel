@@ -63,6 +63,10 @@ export const ICON_CONFIG_OVERRIDES: Record<
     height: 6.84,
     priority: 10,
   },
+  "Автомобіль медичної евакуації": {
+    height: 20,
+    priority: 4,
+  },
   "Пункт проведення медичної евакуації (MEDEVAC) Пункт прийому о/с на борт": {
     height: 20,
     priority: 4,
