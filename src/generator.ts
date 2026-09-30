@@ -73,16 +73,17 @@ export async function generateSVGFromCSV(
   // 4. Lines
   const unitsSpearationLinesSVGs = buildLUnitsSpearationLinesSVGs(
     csvData,
+    map.project,
     map.inWindow,
-    map.geoToSvg,
   );
 
   // 5. Map objects
+
   const preparedObjects = buildMapObjects(
     csvData,
     iconRenderedSizes,
+    map.project,
     map.inWindow,
-    map.geoToSvg,
     layerColors,
   );
 

@@ -1,34 +1,11 @@
-// enemy - #FF1E00 - icon bg
-// 1bat - #FECC00
-// 2bat - #834E98
-// 3bat - #009846
-//----------------
-// 109 -  #A76281
-// 156 - #7690C9
-// мпб/100 - #A8D4AF
-// ЗПМ(78) - #EF7F1A
-//
-// 210 - #F5B2B6
-
 const CONFIG_BG_COLORS = {
   CLASSIC_BLUE: "#92B4EC",
   NOT_CAPABLE: "#e31e24",
 };
 
-import * as m from "mgrs";
-import type { Point } from "./geo";
-import { mappingSVGs } from "./icons";
-import type { BoundingBox, Rect } from "./utils";
-import {
-  boundingBoxesOverlap,
-  computeBoundingBox,
-  rectsOverlap,
-} from "./utils";
-
-const mgrs =
-  "toPoint" in m ? m : (m as unknown as { default: typeof m }).default;
-
 import type { CsvRow } from "./csv";
+import type { Point, XY } from "./geo";
+import { mappingSVGs } from "./icons";
 import { type LabelLayout, labelBuilder } from "./label-builder";
 import { type LineType, typesOfLines } from "./lines";
 import {
@@ -37,78 +14,12 @@ import {
   parseCombatEffectiveness,
   parseStandardIdentity,
 } from "./types";
-
-export function filterMapObjectsInsideWindow(
-  csvData: CsvRow[],
-  inWindow: (lon: number, lat: number) => boolean,
-): Point[] {
-  const bluePointMarkers: Point[] = [];
-
-  for (const row of csvData) {
-    const app6dType = row["app6d type"]?.trim() || "";
-    if (typesOfLines[app6dType as LineType]) continue;
-
-    const sidc = row["app6d sidc"]?.trim() || "";
-    const count = row["objects count"]?.trim() || "";
-    const name = row.name?.trim() || "";
-    const mgrsStr = row["coordinates(mgrs)"]?.trim() || "";
-    const desc = row["object creator"]?.trim() || "";
-    const isHQ =
-      (row["Штаб / тактична група / індикатор хибності"]?.trim() || "") ===
-      "Штаб";
-    const higherFrmation = row["Вище формування"]?.trim() || "";
-    const comments = row.comments?.trim() || "";
-
-    const echelon = row.Ешелон?.trim() || "";
-    const objectId = row["object id"]?.trim() || "";
-    const overlayName = row["overlay name"]?.trim() || "Default Overlay";
-
-    const identificationStatus =
-      parseStandardIdentity(row.Ідентифікація?.trim() || "") ??
-      IdentificationStatus.Unknown;
-
-    const combatEffectiveness =
-      parseCombatEffectiveness(row["status of presence"]?.trim() || "") ??
-      CombatEffectiveness.FullyCapable;
-
-    // console.log('Ідентифікація', row.Ідентифікація);
-    // console.log('combatEffectiveness', combatEffectiveness);
-    // console.log('status of presence - ', row['status of presence']);
-    // console.log('combatEffectiveness', combatEffectiveness);
-
-    // console.log('--------------------------------------');
-
-    if (mgrsStr) {
-      try {
-        const [lon, lat] = mgrs.toPoint(mgrsStr);
-        if (!Number.isNaN(lon) && !Number.isNaN(lat) && inWindow(lon, lat)) {
-          bluePointMarkers.push({
-            lon,
-            lat,
-            mgrsStr,
-            isHQ,
-            name,
-            desc,
-            sidc,
-            count,
-            app6dType,
-            higherFrmation,
-            comments,
-            echelon,
-            objectId,
-            identificationStatus,
-            combatEffectiveness,
-            overlayName,
-          });
-        }
-      } catch (_e) {
-        // Ignore invalid MGRS strings
-      }
-    }
-  }
-
-  return bluePointMarkers;
-}
+import type { BoundingBox, Rect } from "./utils";
+import {
+  boundingBoxesOverlap,
+  computeBoundingBox,
+  rectsOverlap,
+} from "./utils";
 
 export interface MapObjectLayout {
   pt: Point;
@@ -145,18 +56,63 @@ export const objectsToExclude = [
   "Схованка",
 ];
 
+export function filterMapObjectsInsideWindow(
+  csvData: CsvRow[],
+  project: (mgrs: string) => XY | null,
+  inWindow: (p: XY) => boolean,
+): Point[] {
+  const points: Point[] = [];
+
+  for (const row of csvData) {
+    const app6dType = row["app6d type"]?.trim() || "";
+    if (typesOfLines[app6dType as LineType]) continue;
+
+    // Cheapest checks first: skip everything else if the row is off the map.
+    const mgrsStr = row["coordinates(mgrs)"]?.trim() || "";
+    if (!mgrsStr) continue;
+    const anchor = project(mgrsStr);
+    if (!anchor || !inWindow(anchor)) continue;
+
+    points.push({
+      mgrsStr,
+      anchor,
+      app6dType,
+      sidc: row["app6d sidc"]?.trim() || "",
+      count: row["objects count"]?.trim() || "",
+      name: row.name?.trim() || "",
+      desc: row["object creator"]?.trim() || "",
+      isHQ:
+        (row["Штаб / тактична група / індикатор хибності"]?.trim() || "") ===
+        "Штаб",
+      higherFrmation: row["Вище формування"]?.trim() || "",
+      comments: row.comments?.trim() || "",
+      echelon: row.Ешелон?.trim() || "",
+      objectId: row["object id"]?.trim() || "",
+      overlayName: row["overlay name"]?.trim() || "Default Overlay",
+      identificationStatus:
+        parseStandardIdentity(row.Ідентифікація?.trim() || "") ??
+        IdentificationStatus.Unknown,
+      combatEffectiveness:
+        parseCombatEffectiveness(row["status of presence"]?.trim() || "") ??
+        CombatEffectiveness.FullyCapable,
+    });
+  }
+
+  return points;
+}
+
 export function buildMapObjects(
   csvData: CsvRow[],
   iconRenderedSizes: { width: number; height: number }[],
-  inWindow: (lon: number, lat: number) => boolean,
-  geoToSvg: (pt: Point) => { x: number; y: number },
+  project: (mgrs: string) => XY | null,
+  inWindow: (p: XY) => boolean,
   layerColors: Record<string, string> = {},
 ) {
-  const points = filterMapObjectsInsideWindow(csvData, inWindow);
+  const points = filterMapObjectsInsideWindow(csvData, project, inWindow);
 
   // 1. Calculate bounding polygon / rectangles for each element
   const preparedElements: MapObjectLayout[] = points.map((pt, idx) => {
-    const anchorPoint = geoToSvg(pt);
+    const anchorPoint = pt.anchor; // was geoToSvg(pt)
     const ptApp6dType = pt.app6dType ?? "";
     const isExcluded = objectsToExclude.includes(ptApp6dType);
 

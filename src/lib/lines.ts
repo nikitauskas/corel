@@ -1,14 +1,5 @@
-import * as m from "mgrs";
 import type { CsvRow } from "./csv";
-
-const mgrs =
-  "toPoint" in m ? m : (m as unknown as { default: typeof m }).default;
-
-interface Point {
-  lon: number;
-  lat: number;
-  mgrsStr?: string;
-}
+import type { XY } from "./geo";
 
 export const typesOfLines = {
   "Горизонтальна (між підрозділами)": {
@@ -19,7 +10,6 @@ export const typesOfLines = {
     color: "red",
     strokeWidth: 1.0583,
   },
-
   "Рубіж переходу в наступ": {
     color: "purple",
     strokeWidth: 1.0583,
@@ -49,108 +39,78 @@ interface LineSegment {
   isArea: boolean;
   overlayName: string;
   name: string;
-  points: Point[];
+  points: XY[]; // already projected to SVG mm
 }
 
 export function buildLUnitsSpearationLinesSVGs(
   csvData: CsvRow[],
-  inWindow: (lon: number, lat: number) => boolean,
-  geoToSvg: (pt: Point) => { x: number; y: number },
+  project: (mgrs: string) => XY | null,
+  inWindow: (p: XY) => boolean,
 ): string[] {
-  const lineSegments: LineSegment[] = [];
+  const segments: LineSegment[] = [];
 
   for (const row of csvData) {
-    const rawType = row["app6d type"]?.trim() as string;
+    const rawType = row["app6d type"]?.trim() ?? "";
     const isLine = rawType in typesOfLines;
     const isArea = rawType in typesOfAreas;
     if (!isLine && !isArea) continue;
 
-    const app6dType = rawType as LineType | AreaType;
+    const type = rawType as LineType | AreaType;
     const overlayName = row["overlay name"]?.trim() || "Default Overlay";
+    const name = row.name?.trim() || type;
 
-    const mgrsParts =
-      row["coordinates(mgrs)"]
-        ?.split(";")
-        .map((s) => s.trim())
-        .filter(Boolean) ?? [];
-    let currentSegment: Point[] = [];
+    const flush = (points: XY[]) => {
+      // A single point cannot form a line, so drop it here instead of at render.
+      if (points.length >= 2) {
+        segments.push({ type, isArea, overlayName, name, points });
+      }
+    };
 
-    for (const mgrsStr of mgrsParts) {
-      try {
-        const [lon, lat] = mgrs.toPoint(mgrsStr);
-        if (Number.isNaN(lon) || Number.isNaN(lat)) continue;
+    let current: XY[] = [];
+    const mgrsParts = row["coordinates(mgrs)"]?.split(";") ?? [];
 
-        if (inWindow(lon, lat)) {
-          currentSegment.push({ lon, lat, mgrsStr });
-        } else if (currentSegment.length > 0) {
-          lineSegments.push({
-            type: app6dType,
-            isArea,
-            overlayName,
-            name: row["name"]?.trim() || app6dType,
-            points: [...currentSegment],
-          });
-          currentSegment = [];
-        }
-      } catch {
-        // Skip invalid MGRS strings
+    for (const part of mgrsParts) {
+      const mgrsStr = part.trim();
+      if (!mgrsStr) continue;
+
+      const p = project(mgrsStr);
+      if (p && inWindow(p)) {
+        current.push(p);
+      } else if (current.length > 0) {
+        flush(current);
+        current = [];
       }
     }
-
-    if (currentSegment.length > 0) {
-      lineSegments.push({
-        type: app6dType,
-        isArea,
-        overlayName,
-        name: row["name"]?.trim() || app6dType,
-        points: currentSegment,
-      });
-    }
+    flush(current);
   }
 
-  const layerMap = new Map<string, string[]>();
+  const layers = new Map<string, string[]>();
 
-  for (const [idx, seg] of lineSegments.entries()) {
-    if (seg.points.length < 2) continue;
-    const { type, isArea, overlayName, points } = seg;
-    const style = isArea
+  for (const [i, seg] of segments.entries()) {
+    const { type, isArea, overlayName, name, points } = seg;
+    const { color, strokeWidth } = isArea
       ? typesOfAreas[type as AreaType]
       : typesOfLines[type as LineType];
-    const { color, strokeWidth } = style;
 
-    let pathData = points
-      .map((pt, idx) => {
-        const { x, y } = geoToSvg(pt);
-        return `${idx === 0 ? "M" : "L"} ${x},${y}`;
-      })
-      .join(" ");
-
-    if (isArea) {
-      pathData += " Z";
-    }
-
-    const opacityAttr = (opacity?: number) =>
-      opacity !== undefined ? ` stroke-opacity="${opacity}"` : "";
+    const d =
+      points.map((p, k) => `${k === 0 ? "M" : "L"} ${p.x},${p.y}`).join(" ") +
+      (isArea ? " Z" : "");
 
     const createPath = (width: number, opacity?: number) =>
-      `<path id="${type}" d="${pathData}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${opacityAttr(opacity)} fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
+      `<path id="${type}" d="${d}" stroke="${color}" stroke-width="${width}" stroke-miterlimit="22.9256"${
+        opacity !== undefined ? ` stroke-opacity="${opacity}"` : ""
+      } fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
 
-    const pathSvg = `<g id="[${idx + 1}] ${seg.name}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
+    const svg = `<g id="[${i + 1}] ${name}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
 
-    let bucket = layerMap.get(overlayName);
-    if (!bucket) {
-      bucket = [];
-      layerMap.set(overlayName, bucket);
-    }
-    bucket.push(pathSvg);
+    const bucket = layers.get(overlayName);
+    if (bucket) bucket.push(svg);
+    else layers.set(overlayName, [svg]);
   }
 
-  // Wrap each layer's paths in a named <g> group
   const result: string[] = [];
-  layerMap.forEach((paths, name) => {
-    result.push(`  <g id="${name}">`);
-    result.push(paths.join("\n"));
-    result.push("  </g>");
-  });
+  for (const [layerName, paths] of layers) {
+    result.push(`  <g id="${layerName}">`, paths.join("\n"), "  </g>");
+  }
   return result;
 }
