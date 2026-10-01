@@ -8,12 +8,11 @@ import {
   STARTING_MGRS_TL,
 } from "./generator";
 import type { MapFormatConfig } from "./lib/geo";
+import { MapSidebar, DEFAULT_LAYER_COLORS } from "./components/MapSidebar";
 import {
   type AreaType,
   type LineOverrides,
   type LineType,
-  typesOfAreas,
-  typesOfLines,
 } from "./lib/lines";
 
 type State =
@@ -31,33 +30,7 @@ const STORAGE_KEYS = {
   LINE_OVERRIDES: "delta2corel_LineOverrides",
 } as const;
 
-export const LABEL_BG_COLORS = [
-  { label: "-", value: "#92B4EC" },
-  { label: "1", value: "#FECC00" },
-  { label: "2", value: "#834E98" },
-  { label: "3", value: "#009846" },
-  { label: "4", value: "#A76281" },
-  { label: "5", value: "#7690C9" },
-  { label: "6", value: "#A8D4AF" },
-  { label: "7", value: "#EF7F1A" },
-  { label: "8", value: "#F5B2B6" },
-  { label: "9", value: "#4682B4" },
-  { label: "10", value: "#E5C07B" },
-  { label: "11", value: "#B57EDC" },
-  { label: "12", value: "#36B5B0" },
-  { label: "13", value: "#E06C75" },
-] as const;
-
-const DEFAULT_LAYER_COLORS: Record<string, string> = {
-  "1bat": "#FECC00",
-  "2bat": "#834E98",
-  "3bat": "#009846",
-  "109": "#A76281",
-  "156": "#7690C9",
-  "мпб/100": "#A8D4AF",
-  "ЗПМ(78)": "#EF7F1A",
-  "210": "#F5B2B6",
-};
+// Constants and Dropdown moved to MapSidebar.tsx and CustomColorDropdown.tsx
 
 const DEFAULT_SCALE = 25000;
 const DEFAULT_WIDTH = "1810";
@@ -153,83 +126,7 @@ function getInitialLineOverrides(): LineOverrides {
   return { lines: {}, areas: {} };
 }
 
-interface CustomColorDropdownProps {
-  value: string;
-  onChange: (color: string) => void;
-}
-
-function CustomColorDropdown({ value, onChange }: CustomColorDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const activeOption =
-    LABEL_BG_COLORS.find(
-      (c) => c.value.toLowerCase() === value.toLowerCase(),
-    ) || LABEL_BG_COLORS[0];
-
-  return (
-    <div className="relative inline-block text-left shrink-0">
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="bg-gray-900 border border-gray-700 rounded-lg px-2.5 py-1 flex items-center gap-2 text-xs font-mono text-gray-100 hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer transition-colors"
-      >
-        <span>{activeOption.label}</span>
-        <span
-          className="w-4 h-4 rounded border border-gray-600 shadow-sm shrink-0 inline-block"
-          style={{ backgroundColor: activeOption.value }}
-        />
-        <svg
-          className={`w-3 h-3 text-gray-400 transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
-
-      {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
-
-          <div className="absolute right-0 mt-1 w-20 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl z-20 py-1 max-h-56 overflow-y-auto">
-            {LABEL_BG_COLORS.map((c) => (
-              <button
-                key={c.value}
-                type="button"
-                onClick={() => {
-                  onChange(c.value);
-                  setIsOpen(false);
-                }}
-                className={`w-full flex items-center justify-between px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer hover:bg-gray-800 ${
-                  c.value.toLowerCase() === value.toLowerCase()
-                    ? "text-blue-400 font-semibold bg-blue-950/40"
-                    : "text-gray-200"
-                }`}
-              >
-                <span>{c.label}</span>
-                <span
-                  className="w-4 h-4 rounded border border-gray-600 shadow-sm shrink-0 inline-block"
-                  style={{ backgroundColor: c.value }}
-                />
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
+// CustomColorDropdown moved to src/components/CustomColorDropdown.tsx
 
 export default function App() {
   const [state, setState] = useState<State>({ status: "idle" });
@@ -629,247 +526,27 @@ export default function App() {
 
         {/* Sidebar overlay */}
         {isSidebarOpen && (
-          <div className="absolute top-0 left-0 h-full w-96 bg-gray-900 border-r border-gray-800 z-30 shadow-2xl flex flex-col">
-            <div className="flex justify-between items-center p-5 border-b border-gray-800 shrink-0">
-              <h2 className="text-white font-bold text-lg tracking-tight">
-                Map Settings
-              </h2>
-              <button
-                type="button"
-                onClick={() => setIsSidebarOpen(false)}
-                className="text-gray-400 hover:text-white p-1 cursor-pointer transition-colors"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-5 space-y-6">
-              {/* Settings */}
-              <MapSettingsForm
-                idPrefix="sidebar"
-                mgrsTL={mgrsTL}
-                scale={scale}
-                width={width}
-                height={height}
-                onMgrsChange={handleMgrsChange}
-                onScaleChange={handleScaleChange}
-                onWidthChange={handleWidthChange}
-                onHeightChange={handleHeightChange}
-              />
-
-              {/* Layer Colors */}
-              {(state.status === "done" ||
-                (state.status === "loading" && state.result)) &&
-                state.result && (
-                  <div>
-                    <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                      Layer Label Background Colors (
-                      {state.result.stats.overlayNames.length})
-                    </h3>
-                    {state.result.stats.overlayNames.length > 0 ? (
-                      <div className="space-y-2">
-                        {state.result.stats.overlayNames.map((layerName) => {
-                          const currentColor =
-                            layerColors[layerName] ||
-                            DEFAULT_LAYER_COLORS[layerName] ||
-                            "#92B4EC";
-                          return (
-                            <div
-                              key={layerName}
-                              className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex items-center justify-between gap-3"
-                            >
-                              <span
-                                className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
-                                title={layerName}
-                              >
-                                {layerName}
-                              </span>
-                              <CustomColorDropdown
-                                value={currentColor}
-                                onChange={(newColor) =>
-                                  handleLayerColorChange(layerName, newColor)
-                                }
-                              />
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <p className="text-xs text-gray-500">
-                        No layers detected
-                      </p>
-                    )}
-                  </div>
-                )}
-
-              {/* Line Type Colors */}
-              <div>
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                  Line Types ({(Object.keys(typesOfLines) as LineType[]).length}
-                  )
-                </h3>
-                <div className="space-y-2">
-                  {(
-                    Object.entries(typesOfLines) as [
-                      LineType,
-                      { color: string },
-                    ][]
-                  ).map(([type, defaults]) => {
-                    const override = lineOverrides.lines[type] ?? {};
-                    const currentColor = override.color ?? defaults.color;
-                    const showOutline = override.showOutline ?? true;
-                    return (
-                      <div
-                        key={type}
-                        className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
-                            title={type}
-                          >
-                            {type}
-                          </span>
-                          <input
-                            type="color"
-                            value={
-                              currentColor.startsWith("#")
-                                ? currentColor
-                                : defaults.color
-                            }
-                            onChange={(e) =>
-                              handleLineTypeColorChange(type, e.target.value)
-                            }
-                            className="w-7 h-7 rounded cursor-pointer border-0 bg-transparent p-0"
-                            title="Pick line color"
-                          />
-                        </div>
-                        <label className="flex items-center gap-2 cursor-pointer select-none">
-                          <input
-                            type="checkbox"
-                            checked={showOutline}
-                            onChange={(e) =>
-                              handleLineTypeOutlineChange(
-                                type,
-                                e.target.checked,
-                              )
-                            }
-                            className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
-                          />
-                          <span className="text-xs text-gray-400">
-                            Show semi-transparent outline
-                          </span>
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Area Type Colors */}
-              <div>
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                  Area Types ({(Object.keys(typesOfAreas) as AreaType[]).length}
-                  )
-                </h3>
-                <div className="space-y-2">
-                  {(
-                    Object.entries(typesOfAreas) as [
-                      AreaType,
-                      { color: string },
-                    ][]
-                  ).map(([type, defaults]) => {
-                    const override = lineOverrides.areas[type] ?? {};
-                    const currentColor = override.color ?? defaults.color;
-                    const showOutline = override.showOutline ?? true;
-                    return (
-                      <div
-                        key={type}
-                        className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
-                            title={type}
-                          >
-                            {type}
-                          </span>
-                          <input
-                            type="color"
-                            value={
-                              currentColor.startsWith("#")
-                                ? currentColor
-                                : defaults.color
-                            }
-                            onChange={(e) =>
-                              handleAreaTypeColorChange(type, e.target.value)
-                            }
-                            className="w-7 h-7 rounded cursor-pointer border-0 bg-transparent p-0"
-                            title="Pick area color"
-                          />
-                        </div>
-                        <label className="flex items-center gap-2 cursor-pointer select-none">
-                          <input
-                            type="checkbox"
-                            checked={showOutline}
-                            onChange={(e) =>
-                              handleAreaTypeOutlineChange(
-                                type,
-                                e.target.checked,
-                              )
-                            }
-                            className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
-                          />
-                          <span className="text-xs text-gray-400">
-                            Show semi-transparent outline
-                          </span>
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Console Log */}
-              {(state.status === "done" ||
-                (state.status === "loading" && state.result)) &&
-                state.result && (
-                  <div className="flex flex-col shrink-0">
-                    <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                      Generation Log
-                    </h3>
-                    <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[13px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
-                      {`========================================
-Map: ${state.result.stats.format} (${state.result.stats.widthMm}mm × ${state.result.stats.heightMm}mm)
-Input CSV: ${csvFilename || "unknown"}
-Output SVG: ${state.result.filename}
-- Top-Left MGRS: ${state.result.stats.mgrsTL}
-- Points in window: ${state.result.stats.pointsInWindow}
-- Overlapping elements: ${state.result.stats.overlapping}
-- Custom mapped icons: ${state.result.stats.customIconCount}
-- CSV lines rendered: ${state.result.stats.linesCount}
-- Overlay names: 
-    ${state.result.stats.overlayNames.join("\n    ")}
-
-========================================
-${state.result.stats.missedIcons.length > 0 ? "Missing icons (" + state.result.stats.missedIcons.length + "):\n  - " + state.result.stats.missedIcons.join("\n  - ") : "All icons successfully mapped."}`}
-                    </div>
-                  </div>
-                )}
-            </div>
-          </div>
+          <MapSidebar
+            status={state.status}
+            result={state.status === "loading" ? state.result : state.status === "done" ? state.result : undefined}
+            csvFilename={csvFilename}
+            mgrsTL={mgrsTL}
+            scale={scale}
+            width={width}
+            height={height}
+            layerColors={layerColors}
+            lineOverrides={lineOverrides}
+            onClose={() => setIsSidebarOpen(false)}
+            onMgrsChange={handleMgrsChange}
+            onScaleChange={handleScaleChange}
+            onWidthChange={handleWidthChange}
+            onHeightChange={handleHeightChange}
+            onLayerColorChange={handleLayerColorChange}
+            onLineTypeColorChange={handleLineTypeColorChange}
+            onLineTypeOutlineChange={handleLineTypeOutlineChange}
+            onAreaTypeColorChange={handleAreaTypeColorChange}
+            onAreaTypeOutlineChange={handleAreaTypeOutlineChange}
+          />
         )}
 
         {/* Start Over Button (bottom left) */}
