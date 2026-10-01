@@ -248,10 +248,10 @@ export function buildMapObjects(
 
     //const margin = 0.5;
     const xIconLeft = anchorPoint.x - iconSize.width / 2;
-    const xIconRight = anchorPoint.x + iconSize.width / 2;
+    const xIconRight = anchorPoint.x + iconSize.width / 2 - 0.1;
     const xIconCenter = anchorPoint.x;
     const yIconTop = anchorPoint.y - iconSize.height / 2;
-    const yIconBottom = anchorPoint.y + iconSize.height / 2;
+    const yIconBottom = anchorPoint.y + iconSize.height / 2 - 0.2;
 
     const rightLabel = labelBuilder(
       rightLabelText,
