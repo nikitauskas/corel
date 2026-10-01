@@ -215,7 +215,7 @@ export function SvgPreview({
           style={{
             transform: `translate(${transformRef.current.x}px, ${transformRef.current.y}px) scale(${transformRef.current.scale})`,
             transformOrigin: "center center",
-            willChange: "transform",
+            //willChange: "transform",
             width: "100%",
             height: "100%",
             display: "flex",
