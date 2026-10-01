@@ -8,6 +8,13 @@ import {
   STARTING_MGRS_TL,
 } from "./generator";
 import type { MapFormatConfig } from "./lib/geo";
+import {
+  type AreaType,
+  type LineOverrides,
+  type LineType,
+  typesOfAreas,
+  typesOfLines,
+} from "./lib/lines";
 
 type State =
   | { status: "idle" }
@@ -21,6 +28,7 @@ const STORAGE_KEYS = {
   HEIGHT: "delta2corel_Height",
   MGRS: "delta2corel_MGRS",
   LAYER_COLORS: "delta2corel_LayerColors",
+  LINE_OVERRIDES: "delta2corel_LineOverrides",
 } as const;
 
 export const LABEL_BG_COLORS = [
@@ -124,6 +132,27 @@ function getInitialLayerColors(): Record<string, string> {
   return DEFAULT_LAYER_COLORS;
 }
 
+function getInitialLineOverrides(): LineOverrides {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.LINE_OVERRIDES);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (typeof parsed === "object" && parsed !== null) {
+        return {
+          lines: parsed.lines ?? {},
+          areas: parsed.areas ?? {},
+        };
+      }
+    }
+  } catch (e) {
+    console.error(
+      "Failed to read delta2corel_LineOverrides from localStorage",
+      e,
+    );
+  }
+  return { lines: {}, areas: {} };
+}
+
 interface CustomColorDropdownProps {
   value: string;
   onChange: (color: string) => void;
@@ -213,6 +242,9 @@ export default function App() {
   const [layerColors, setLayerColors] = useState<Record<string, string>>(
     getInitialLayerColors,
   );
+  const [lineOverrides, setLineOverrides] = useState<LineOverrides>(
+    getInitialLineOverrides,
+  );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const generateMap = useCallback(
@@ -223,6 +255,7 @@ export default function App() {
       widthVal: string,
       heightVal: string,
       colorsVal: Record<string, string>,
+      lineOverridesVal: LineOverrides,
     ) => {
       setState((prev) => ({
         status: "loading",
@@ -251,6 +284,7 @@ export default function App() {
           mgrsVal,
           formatConfig,
           colorsVal,
+          lineOverridesVal,
         );
         setState({ status: "done", result });
       } catch (err) {
@@ -266,12 +300,20 @@ export default function App() {
         const text = await file.text();
         setCsvContent(text);
         setCsvFilename(file.name);
-        await generateMap(text, mgrsTL, scale, width, height, layerColors);
+        await generateMap(
+          text,
+          mgrsTL,
+          scale,
+          width,
+          height,
+          layerColors,
+          lineOverrides,
+        );
       } catch (err) {
         setState({ status: "error", message: String(err) });
       }
     },
-    [generateMap, mgrsTL, scale, width, height, layerColors],
+    [generateMap, mgrsTL, scale, width, height, layerColors, lineOverrides],
   );
 
   const onDrop = useCallback(
@@ -295,7 +337,15 @@ export default function App() {
       console.error("Failed to save delta2corel_Scale", e);
     }
     if (csvContent) {
-      generateMap(csvContent, mgrsTL, newScale, width, height, layerColors);
+      generateMap(
+        csvContent,
+        mgrsTL,
+        newScale,
+        width,
+        height,
+        layerColors,
+        lineOverrides,
+      );
     }
   };
 
@@ -307,7 +357,15 @@ export default function App() {
       console.error("Failed to save delta2corel_Width", e);
     }
     if (csvContent) {
-      generateMap(csvContent, mgrsTL, scale, newWidth, height, layerColors);
+      generateMap(
+        csvContent,
+        mgrsTL,
+        scale,
+        newWidth,
+        height,
+        layerColors,
+        lineOverrides,
+      );
     }
   };
 
@@ -319,7 +377,15 @@ export default function App() {
       console.error("Failed to save delta2corel_Height", e);
     }
     if (csvContent) {
-      generateMap(csvContent, mgrsTL, scale, width, newHeight, layerColors);
+      generateMap(
+        csvContent,
+        mgrsTL,
+        scale,
+        width,
+        newHeight,
+        layerColors,
+        lineOverrides,
+      );
     }
   };
 
@@ -331,7 +397,15 @@ export default function App() {
       console.error("Failed to save delta2corel_MGRS", e);
     }
     if (csvContent) {
-      generateMap(csvContent, newMgrs, scale, width, height, layerColors);
+      generateMap(
+        csvContent,
+        newMgrs,
+        scale,
+        width,
+        height,
+        layerColors,
+        lineOverrides,
+      );
     }
   };
 
@@ -347,7 +421,135 @@ export default function App() {
       console.error("Failed to save delta2corel_LayerColors", e);
     }
     if (csvContent) {
-      generateMap(csvContent, mgrsTL, scale, width, height, updatedColors);
+      generateMap(
+        csvContent,
+        mgrsTL,
+        scale,
+        width,
+        height,
+        updatedColors,
+        lineOverrides,
+      );
+    }
+  };
+
+  const handleLineTypeColorChange = (type: LineType, newColor: string) => {
+    const updated: LineOverrides = {
+      ...lineOverrides,
+      lines: {
+        ...lineOverrides.lines,
+        [type]: { ...lineOverrides.lines[type], color: newColor },
+      },
+    };
+    setLineOverrides(updated);
+    try {
+      localStorage.setItem(
+        STORAGE_KEYS.LINE_OVERRIDES,
+        JSON.stringify(updated),
+      );
+    } catch (e) {
+      console.error("Failed to save delta2corel_LineOverrides", e);
+    }
+    if (csvContent) {
+      generateMap(
+        csvContent,
+        mgrsTL,
+        scale,
+        width,
+        height,
+        layerColors,
+        updated,
+      );
+    }
+  };
+
+  const handleLineTypeOutlineChange = (type: LineType, show: boolean) => {
+    const updated: LineOverrides = {
+      ...lineOverrides,
+      lines: {
+        ...lineOverrides.lines,
+        [type]: { ...lineOverrides.lines[type], showOutline: show },
+      },
+    };
+    setLineOverrides(updated);
+    try {
+      localStorage.setItem(
+        STORAGE_KEYS.LINE_OVERRIDES,
+        JSON.stringify(updated),
+      );
+    } catch (e) {
+      console.error("Failed to save delta2corel_LineOverrides", e);
+    }
+    if (csvContent) {
+      generateMap(
+        csvContent,
+        mgrsTL,
+        scale,
+        width,
+        height,
+        layerColors,
+        updated,
+      );
+    }
+  };
+
+  const handleAreaTypeColorChange = (type: AreaType, newColor: string) => {
+    const updated: LineOverrides = {
+      ...lineOverrides,
+      areas: {
+        ...lineOverrides.areas,
+        [type]: { ...lineOverrides.areas[type], color: newColor },
+      },
+    };
+    setLineOverrides(updated);
+    try {
+      localStorage.setItem(
+        STORAGE_KEYS.LINE_OVERRIDES,
+        JSON.stringify(updated),
+      );
+    } catch (e) {
+      console.error("Failed to save delta2corel_LineOverrides", e);
+    }
+    if (csvContent) {
+      generateMap(
+        csvContent,
+        mgrsTL,
+        scale,
+        width,
+        height,
+        layerColors,
+        updated,
+      );
+    }
+  };
+
+  const handleAreaTypeOutlineChange = (type: AreaType, show: boolean) => {
+    const updated: LineOverrides = {
+      ...lineOverrides,
+      areas: {
+        ...lineOverrides.areas,
+        [type]: { ...lineOverrides.areas[type], showOutline: show },
+      },
+    };
+    setLineOverrides(updated);
+    try {
+      localStorage.setItem(
+        STORAGE_KEYS.LINE_OVERRIDES,
+        JSON.stringify(updated),
+      );
+    } catch (e) {
+      console.error("Failed to save delta2corel_LineOverrides", e);
+    }
+    if (csvContent) {
+      generateMap(
+        csvContent,
+        mgrsTL,
+        scale,
+        width,
+        height,
+        layerColors,
+        updated,
+      );
     }
   };
 
@@ -511,6 +713,134 @@ export default function App() {
                     )}
                   </div>
                 )}
+
+              {/* Line Type Colors */}
+              <div>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                  Line Types ({(Object.keys(typesOfLines) as LineType[]).length}
+                  )
+                </h3>
+                <div className="space-y-2">
+                  {(
+                    Object.entries(typesOfLines) as [
+                      LineType,
+                      { color: string },
+                    ][]
+                  ).map(([type, defaults]) => {
+                    const override = lineOverrides.lines[type] ?? {};
+                    const currentColor = override.color ?? defaults.color;
+                    const showOutline = override.showOutline ?? true;
+                    return (
+                      <div
+                        key={type}
+                        className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <span
+                            className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
+                            title={type}
+                          >
+                            {type}
+                          </span>
+                          <input
+                            type="color"
+                            value={
+                              currentColor.startsWith("#")
+                                ? currentColor
+                                : defaults.color
+                            }
+                            onChange={(e) =>
+                              handleLineTypeColorChange(type, e.target.value)
+                            }
+                            className="w-7 h-7 rounded cursor-pointer border-0 bg-transparent p-0"
+                            title="Pick line color"
+                          />
+                        </div>
+                        <label className="flex items-center gap-2 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={showOutline}
+                            onChange={(e) =>
+                              handleLineTypeOutlineChange(
+                                type,
+                                e.target.checked,
+                              )
+                            }
+                            className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
+                          />
+                          <span className="text-xs text-gray-400">
+                            Show semi-transparent outline
+                          </span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Area Type Colors */}
+              <div>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                  Area Types ({(Object.keys(typesOfAreas) as AreaType[]).length}
+                  )
+                </h3>
+                <div className="space-y-2">
+                  {(
+                    Object.entries(typesOfAreas) as [
+                      AreaType,
+                      { color: string },
+                    ][]
+                  ).map(([type, defaults]) => {
+                    const override = lineOverrides.areas[type] ?? {};
+                    const currentColor = override.color ?? defaults.color;
+                    const showOutline = override.showOutline ?? true;
+                    return (
+                      <div
+                        key={type}
+                        className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <span
+                            className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
+                            title={type}
+                          >
+                            {type}
+                          </span>
+                          <input
+                            type="color"
+                            value={
+                              currentColor.startsWith("#")
+                                ? currentColor
+                                : defaults.color
+                            }
+                            onChange={(e) =>
+                              handleAreaTypeColorChange(type, e.target.value)
+                            }
+                            className="w-7 h-7 rounded cursor-pointer border-0 bg-transparent p-0"
+                            title="Pick area color"
+                          />
+                        </div>
+                        <label className="flex items-center gap-2 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={showOutline}
+                            onChange={(e) =>
+                              handleAreaTypeOutlineChange(
+                                type,
+                                e.target.checked,
+                              )
+                            }
+                            className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
+                          />
+                          <span className="text-xs text-gray-400">
+                            Show semi-transparent outline
+                          </span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
 
               {/* Console Log */}
               {(state.status === "done" ||

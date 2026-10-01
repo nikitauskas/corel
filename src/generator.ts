@@ -1,7 +1,7 @@
 import { parseCSV } from "./lib/csv";
 import { createMapContext, type MapFormatConfig } from "./lib/geo";
 import { buildIconsDefs } from "./lib/icons";
-import { buildLUnitsSpearationLinesSVGs } from "./lib/lines";
+import { buildLUnitsSpearationLinesSVGs, type LineOverrides } from "./lib/lines";
 import { buildMapObjects } from "./lib/map-objects";
 import { renderElementsSVG } from "./lib/render-objects-svg";
 import { resolveOverlappingRenderPoints } from "./lib/resolve-overlaps";
@@ -59,6 +59,7 @@ export async function generateSVGFromCSV(
   mgrsTL = STARTING_MGRS_TL,
   formatConfig: MapFormatConfig = MAP_FORMATS[2],
   layerColors: Record<string, string> = {},
+  lineOverrides: LineOverrides = { lines: {}, areas: {} },
 ): Promise<GenerateResult> {
   // 1. Load icon defs (bundled at build time — sync, no fetch)
   const { generatedIconsDefs, iconRenderedSizes, customIconCount } =
@@ -75,6 +76,7 @@ export async function generateSVGFromCSV(
     csvData,
     map.project,
     map.inWindow,
+    lineOverrides,
   );
 
   // 5. Map objects

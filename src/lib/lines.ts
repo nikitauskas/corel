@@ -35,6 +35,18 @@ export const typesOfAreas = {
 export type LineType = keyof typeof typesOfLines;
 export type AreaType = keyof typeof typesOfAreas;
 
+/** Per-type override settings stored in App state / localStorage */
+export interface LineTypeSettings {
+  color?: string;
+  /** Controls the semi-transparent wide outline stroke (strokeWidth * 4, opacity ~0.30) */
+  showOutline?: boolean;
+}
+
+export interface LineOverrides {
+  lines: Partial<Record<LineType, LineTypeSettings>>;
+  areas: Partial<Record<AreaType, LineTypeSettings>>;
+}
+
 interface LineSegment {
   type: LineType | AreaType;
   isArea: boolean;
@@ -47,6 +59,7 @@ export function buildLUnitsSpearationLinesSVGs(
   csvData: CsvRow[],
   project: (mgrs: string) => XY | null,
   inWindow: (p: XY) => boolean,
+  overrides: LineOverrides = { lines: {}, areas: {} },
 ): string[] {
   const segments: LineSegment[] = [];
 
@@ -89,9 +102,18 @@ export function buildLUnitsSpearationLinesSVGs(
 
   for (const [i, seg] of segments.entries()) {
     const { type, isArea, overlayName, name, points } = seg;
-    const { color, strokeWidth } = isArea
+    const defaults = isArea
       ? typesOfAreas[type as AreaType]
       : typesOfLines[type as LineType];
+
+    const typeOverride: LineTypeSettings = isArea
+      ? (overrides.areas[type as AreaType] ?? {})
+      : (overrides.lines[type as LineType] ?? {});
+
+    const color = typeOverride.color ?? defaults.color;
+    const { strokeWidth } = defaults;
+    // showOutline defaults to true to preserve original behaviour
+    const showOutline = typeOverride.showOutline ?? true;
 
     const d =
       points.map((p, k) => `${k === 0 ? "M" : "L"} ${p.x},${p.y}`).join(" ") +
@@ -102,7 +124,11 @@ export function buildLUnitsSpearationLinesSVGs(
         opacity !== undefined ? ` stroke-opacity="${opacity}"` : ""
       } fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
 
-    const svg = `<g id="[${i + 1}] ${escapeXmlAttr(name)}">${createPath(strokeWidth * 4, 0.301961)}\n${createPath(strokeWidth)}</g>`;
+    const outlinePath = showOutline
+      ? `${createPath(strokeWidth * 4, 0.301961)}\n`
+      : "";
+
+    const svg = `<g id="[${i + 1}] ${escapeXmlAttr(name)}">${outlinePath}${createPath(strokeWidth)}</g>`;
 
     const bucket = layers.get(overlayName);
     if (bucket) bucket.push(svg);
