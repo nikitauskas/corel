@@ -121,15 +121,6 @@ export function MapSidebar({
           onHeightChange={onHeightChange}
         />
 
-        {/* Color Palette Manager */}
-        <PaletteManager
-          palette={palette}
-          onAdd={onPaletteAdd}
-          onChange={onPaletteChange}
-          onDelete={onPaletteDelete}
-          onReset={onPaletteReset}
-        />
-
         {isReady && result && (
           <>
             {/* Layer Colors */}
@@ -297,6 +288,14 @@ export function MapSidebar({
                 {`========================================\nMap: ${result.stats.format} (${result.stats.widthMm}mm × ${result.stats.heightMm}mm)\nInput CSV: ${csvFilename || "unknown"}\nOutput SVG: ${result.filename}\n- Top-Left MGRS: ${result.stats.mgrsTL}\n- Points in window: ${result.stats.pointsInWindow}\n- Overlapping elements: ${result.stats.overlapping}\n- Custom mapped icons: ${result.stats.customIconCount}\n- CSV lines rendered: ${result.stats.linesCount}\n- Overlay names: \n    ${result.stats.overlayNames.join("\n    ")}\n\n========================================\n${result.stats.missedIcons.length > 0 ? "Missing icons (" + result.stats.missedIcons.length + "):\n  - " + result.stats.missedIcons.join("\\n  - ") : "All icons successfully mapped."}`}
               </div>
             </div>
+
+            <PaletteManager
+              palette={palette}
+              onAdd={onPaletteAdd}
+              onChange={onPaletteChange}
+              onDelete={onPaletteDelete}
+              onReset={onPaletteReset}
+            />
           </>
         )}
       </div>

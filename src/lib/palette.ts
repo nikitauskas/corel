@@ -8,15 +8,21 @@ export const PALETTE_STORAGE_KEY = "delta2corel_Palette";
 
 // Replace with your existing preset list if it differs
 export const DEFAULT_PALETTE: PaletteColor[] = [
-  { id: "p1", name: "Yellow", value: "#fecc00" },
-  { id: "p2", name: "Purple", value: "#834e98" },
-  { id: "p3", name: "Green", value: "#009846" },
-  { id: "p4", name: "Mauve", value: "#a76281" },
-  { id: "p5", name: "Blue", value: "#7690c9" },
-  { id: "p6", name: "Mint", value: "#a8d4af" },
-  { id: "p7", name: "Orange", value: "#ef7f1a" },
-  { id: "p8", name: "Pink", value: "#f5b2b6" },
-  { id: "p9", name: "Light blue", value: "#92b4ec" },
+  { id: "p0", name: "Стандартний", value: "#92B4EC" },
+  { id: "p1", name: "1 батальйон", value: "#fecc00" },
+  { id: "p2", name: "2 батальйон", value: "#834e98" },
+  { id: "p3", name: "3 батальйон", value: "#009846" },
+  { id: "p4", name: "4 батальйон", value: "#a76281" },
+  { id: "p5", name: "5 батальйон", value: "#7690c9" },
+  { id: "p6", name: "Суміжники 1", value: "#a8d4af" },
+  { id: "p7", name: "Суміжники 2", value: "#ef7f1a" },
+  { id: "p8", name: "Суміжники 3", value: "#f5b2b6" },
+  { id: "p9", name: "Суміжники 4", value: "#92b4ec" },
+  { id: "p10", name: "Розмежувальні 1", value: "#92b4ec" },
+  { id: "p11", name: "Розмежувальні 2", value: "#83fe93" },
+  { id: "p12", name: "Район 1", value: "#c58025" },
+  { id: "p13", name: "Район 2", value: "#c94e59" },
+  { id: "p14", name: "Район 3", value: "#1d0be8" },
 ];
 
 export function loadPalette(): PaletteColor[] {
