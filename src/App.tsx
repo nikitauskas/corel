@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { MapSettingsForm } from "./components/MapSettingsForm";
+import { DEFAULT_LAYER_COLORS, MapSidebar } from "./components/MapSidebar";
 import { SvgPreview } from "./components/SvgPreview";
 import {
   type GenerateResult,
@@ -8,12 +9,13 @@ import {
   STARTING_MGRS_TL,
 } from "./generator";
 import type { MapFormatConfig } from "./lib/geo";
-import { MapSidebar, DEFAULT_LAYER_COLORS } from "./components/MapSidebar";
+import type { AreaType, LineOverrides, LineType } from "./lib/lines";
 import {
-  type AreaType,
-  type LineOverrides,
-  type LineType,
-} from "./lib/lines";
+  DEFAULT_PALETTE,
+  loadPalette,
+  type PaletteColor,
+  savePalette,
+} from "./lib/palette";
 
 type State =
   | { status: "idle" }
@@ -142,6 +144,7 @@ export default function App() {
   const [lineOverrides, setLineOverrides] = useState<LineOverrides>(
     getInitialLineOverrides,
   );
+  const [palette, setPalette] = useState<PaletteColor[]>(loadPalette);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const generateMap = useCallback(
@@ -450,6 +453,29 @@ export default function App() {
     }
   };
 
+  // ---- Palette management ----
+  const updatePalette = (next: PaletteColor[]) => {
+    setPalette(next);
+    savePalette(next);
+  };
+
+  const handlePaletteAdd = () =>
+    updatePalette([
+      ...palette,
+      { id: crypto.randomUUID(), name: "New color", value: "#92b4ec" },
+    ]);
+
+  const handlePaletteChange = (
+    id: string,
+    patch: Partial<Omit<PaletteColor, "id">>,
+  ) =>
+    updatePalette(palette.map((c) => (c.id === id ? { ...c, ...patch } : c)));
+
+  const handlePaletteDelete = (id: string) =>
+    updatePalette(palette.filter((c) => c.id !== id));
+
+  const handlePaletteReset = () => updatePalette(DEFAULT_PALETTE);
+
   const download = () => {
     if (state.status !== "done") return;
     const blob = new Blob([state.result.svgContent], { type: "image/svg+xml" });
@@ -528,7 +554,13 @@ export default function App() {
         {isSidebarOpen && (
           <MapSidebar
             status={state.status}
-            result={state.status === "loading" ? state.result : state.status === "done" ? state.result : undefined}
+            result={
+              state.status === "loading"
+                ? state.result
+                : state.status === "done"
+                  ? state.result
+                  : undefined
+            }
             csvFilename={csvFilename}
             mgrsTL={mgrsTL}
             scale={scale}
@@ -536,6 +568,7 @@ export default function App() {
             height={height}
             layerColors={layerColors}
             lineOverrides={lineOverrides}
+            palette={palette}
             onClose={() => setIsSidebarOpen(false)}
             onMgrsChange={handleMgrsChange}
             onScaleChange={handleScaleChange}
@@ -546,6 +579,10 @@ export default function App() {
             onLineTypeOutlineChange={handleLineTypeOutlineChange}
             onAreaTypeColorChange={handleAreaTypeColorChange}
             onAreaTypeOutlineChange={handleAreaTypeOutlineChange}
+            onPaletteAdd={handlePaletteAdd}
+            onPaletteChange={handlePaletteChange}
+            onPaletteDelete={handlePaletteDelete}
+            onPaletteReset={handlePaletteReset}
           />
         )}
 

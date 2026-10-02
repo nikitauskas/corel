@@ -6,8 +6,10 @@ import {
   typesOfAreas,
   typesOfLines,
 } from "../lib/lines";
+import type { PaletteColor } from "../lib/palette";
 import { CustomColorDropdown } from "./CustomColorDropdown";
 import { MapSettingsForm } from "./MapSettingsForm";
+import { PaletteManager } from "./PaletteManager";
 
 export const DEFAULT_LAYER_COLORS: Record<string, string> = {
   "1bat": "#FECC00",
@@ -30,6 +32,7 @@ interface MapSidebarProps {
   height: string;
   layerColors: Record<string, string>;
   lineOverrides: LineOverrides;
+  palette: PaletteColor[];
   onClose: () => void;
   onMgrsChange: (val: string) => void;
   onScaleChange: (val: number) => void;
@@ -40,6 +43,13 @@ interface MapSidebarProps {
   onLineTypeOutlineChange: (type: LineType, show: boolean) => void;
   onAreaTypeColorChange: (type: AreaType, color: string) => void;
   onAreaTypeOutlineChange: (type: AreaType, show: boolean) => void;
+  onPaletteAdd: () => void;
+  onPaletteChange: (
+    id: string,
+    patch: Partial<Omit<PaletteColor, "id">>,
+  ) => void;
+  onPaletteDelete: (id: string) => void;
+  onPaletteReset: () => void;
 }
 
 export function MapSidebar({
@@ -52,6 +62,7 @@ export function MapSidebar({
   height,
   layerColors,
   lineOverrides,
+  palette,
   onClose,
   onMgrsChange,
   onScaleChange,
@@ -62,6 +73,10 @@ export function MapSidebar({
   onLineTypeOutlineChange,
   onAreaTypeColorChange,
   onAreaTypeOutlineChange,
+  onPaletteAdd,
+  onPaletteChange,
+  onPaletteDelete,
+  onPaletteReset,
 }: MapSidebarProps) {
   const isReady = status === "done" || (status === "loading" && result);
 
@@ -106,6 +121,15 @@ export function MapSidebar({
           onHeightChange={onHeightChange}
         />
 
+        {/* Color Palette Manager */}
+        <PaletteManager
+          palette={palette}
+          onAdd={onPaletteAdd}
+          onChange={onPaletteChange}
+          onDelete={onPaletteDelete}
+          onReset={onPaletteReset}
+        />
+
         {isReady && result && (
           <>
             {/* Layer Colors */}
@@ -134,6 +158,7 @@ export function MapSidebar({
                         </span>
                         <CustomColorDropdown
                           value={currentColor}
+                          palette={palette}
                           onChange={(newColor) =>
                             onLayerColorChange(layerName, newColor)
                           }
@@ -180,6 +205,7 @@ export function MapSidebar({
                               ? currentColor
                               : defaults.color
                           }
+                          palette={palette}
                           onChange={(newColor) =>
                             onLineTypeColorChange(type, newColor)
                           }
@@ -237,6 +263,7 @@ export function MapSidebar({
                               ? currentColor
                               : defaults.color
                           }
+                          palette={palette}
                           onChange={(newColor) =>
                             onAreaTypeColorChange(type, newColor)
                           }
