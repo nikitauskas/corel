@@ -604,7 +604,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={download}
-                className="bg-blue-600/90 backdrop-blur-sm hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-colors cursor-pointer text-sm flex flex-col items-center"
+                className="bg-blue-600 backdrop-blur-sm hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl shadow-lg transition-colors cursor-pointer text-sm flex flex-col items-center"
               >
                 <span>⬇ Download SVG</span>
                 <span className="text-xs font-normal opacity-70 mt-0.5">
