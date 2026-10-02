@@ -49,17 +49,39 @@ function CollapsibleSection({
   title,
   children,
   defaultOpen = true,
+  storageKey,
 }: {
   title: React.ReactNode;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  storageKey: string;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
+  const lsKey = `delta2corel_section_${storageKey}`;
+  const [open, setOpen] = useState(() => {
+    try {
+      const saved = localStorage.getItem(lsKey);
+      if (saved !== null) return saved === "1";
+    } catch {
+      // ignore
+    }
+    return defaultOpen;
+  });
+
+  const toggle = () => {
+    const next = !open;
+    setOpen(next);
+    try {
+      localStorage.setItem(lsKey, next ? "1" : "0");
+    } catch {
+      // ignore
+    }
+  };
+
   return (
     <div>
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={toggle}
         className="w-full flex items-center gap-2 mb-3 cursor-pointer group"
       >
         <ChevronIcon open={open} />
@@ -178,6 +200,7 @@ export function MapSidebar({
             {/* Layer Colors */}
             <CollapsibleSection
               title={`Layer Label Background Colors (${result.stats.overlayNames.length})`}
+              storageKey="layers"
             >
               {result.stats.overlayNames.length > 0 ? (
                 <div className="space-y-2">
@@ -216,6 +239,7 @@ export function MapSidebar({
             {/* Line Type Colors */}
             <CollapsibleSection
               title={`Line Types (${(Object.keys(typesOfLines) as LineType[]).length})`}
+              storageKey="line-types"
             >
               <div className="space-y-2">
                 {(
@@ -273,6 +297,7 @@ export function MapSidebar({
             {/* Area Type Colors */}
             <CollapsibleSection
               title={`Area Types (${(Object.keys(typesOfAreas) as AreaType[]).length})`}
+              storageKey="area-types"
             >
               <div className="space-y-2">
                 {(
@@ -328,7 +353,7 @@ export function MapSidebar({
             </CollapsibleSection>
 
             {/* Color Palette */}
-            <CollapsibleSection title={`Color Palette (${palette.length})`}>
+            <CollapsibleSection title={`Color Palette (${palette.length})`} storageKey="palette">
               <PaletteManager
                 palette={palette}
                 onAdd={onPaletteAdd}
@@ -339,7 +364,7 @@ export function MapSidebar({
             </CollapsibleSection>
 
             {/* Console Log */}
-            <CollapsibleSection title="Generation Log" defaultOpen={false}>
+            <CollapsibleSection title="Generation Log" storageKey="log" defaultOpen={false}>
               <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[13px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
                 {`========================================\nMap: ${result.stats.format} (${result.stats.widthMm}mm × ${result.stats.heightMm}mm)\nInput CSV: ${csvFilename || "unknown"}\nOutput SVG: ${result.filename}\n- Top-Left MGRS: ${result.stats.mgrsTL}\n- Points in window: ${result.stats.pointsInWindow}\n- Overlapping elements: ${result.stats.overlapping}\n- Custom mapped icons: ${result.stats.customIconCount}\n- CSV lines rendered: ${result.stats.linesCount}\n- Overlay names: \n    ${result.stats.overlayNames.join("\n    ")}\n\n========================================\n${result.stats.missedIcons.length > 0 ? "Missing icons (" + result.stats.missedIcons.length + "):\n  - " + result.stats.missedIcons.join("\n  - ") : "All icons successfully mapped."}`}
               </div>
