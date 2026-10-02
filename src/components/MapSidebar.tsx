@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { GenerateResult } from "../generator";
 import {
   type AreaType,
@@ -21,6 +22,57 @@ export const DEFAULT_LAYER_COLORS: Record<string, string> = {
   "ЗПМ(78)": "#EF7F1A",
   "210": "#F5B2B6",
 };
+
+// ─── Collapsible section ──────────────────────────────────────────────────────
+
+function ChevronIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      className={`shrink-0 text-gray-500 transition-transform duration-200 ${open ? "rotate-0" : "-rotate-90"}`}
+    >
+      <path
+        d="M3 6l5 5 5-5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CollapsibleSection({
+  title,
+  children,
+  defaultOpen = true,
+}: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center gap-2 mb-3 cursor-pointer group"
+      >
+        <ChevronIcon open={open} />
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest group-hover:text-gray-200 transition-colors text-left">
+          {title}
+        </h3>
+      </button>
+      {open && children}
+    </div>
+  );
+}
+
+// ─── Sidebar ─────────────────────────────────────────────────────────────────
 
 interface MapSidebarProps {
   status: string;
@@ -124,11 +176,9 @@ export function MapSidebar({
         {isReady && result && (
           <>
             {/* Layer Colors */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                Layer Label Background Colors (
-                {result.stats.overlayNames.length})
-              </h3>
+            <CollapsibleSection
+              title={`Layer Label Background Colors (${result.stats.overlayNames.length})`}
+            >
               {result.stats.overlayNames.length > 0 ? (
                 <div className="space-y-2">
                   {result.stats.overlayNames.map((layerName) => {
@@ -161,13 +211,12 @@ export function MapSidebar({
               ) : (
                 <p className="text-xs text-gray-500">No layers detected</p>
               )}
-            </div>
+            </CollapsibleSection>
 
             {/* Line Type Colors */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                Line Types ({(Object.keys(typesOfLines) as LineType[]).length})
-              </h3>
+            <CollapsibleSection
+              title={`Line Types (${(Object.keys(typesOfLines) as LineType[]).length})`}
+            >
               <div className="space-y-2">
                 {(
                   Object.entries(typesOfLines) as [
@@ -219,13 +268,12 @@ export function MapSidebar({
                   );
                 })}
               </div>
-            </div>
+            </CollapsibleSection>
 
             {/* Area Type Colors */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                Area Types ({(Object.keys(typesOfAreas) as AreaType[]).length})
-              </h3>
+            <CollapsibleSection
+              title={`Area Types (${(Object.keys(typesOfAreas) as AreaType[]).length})`}
+            >
               <div className="space-y-2">
                 {(
                   Object.entries(typesOfAreas) as [
@@ -277,25 +325,25 @@ export function MapSidebar({
                   );
                 })}
               </div>
-            </div>
+            </CollapsibleSection>
 
-            <PaletteManager
-              palette={palette}
-              onAdd={onPaletteAdd}
-              onChange={onPaletteChange}
-              onDelete={onPaletteDelete}
-              onReset={onPaletteReset}
-            />
+            {/* Color Palette */}
+            <CollapsibleSection title={`Color Palette (${palette.length})`}>
+              <PaletteManager
+                palette={palette}
+                onAdd={onPaletteAdd}
+                onChange={onPaletteChange}
+                onDelete={onPaletteDelete}
+                onReset={onPaletteReset}
+              />
+            </CollapsibleSection>
 
             {/* Console Log */}
-            <div className="flex flex-col shrink-0">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                Generation Log
-              </h3>
+            <CollapsibleSection title="Generation Log" defaultOpen={false}>
               <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[13px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
-                {`========================================\nMap: ${result.stats.format} (${result.stats.widthMm}mm × ${result.stats.heightMm}mm)\nInput CSV: ${csvFilename || "unknown"}\nOutput SVG: ${result.filename}\n- Top-Left MGRS: ${result.stats.mgrsTL}\n- Points in window: ${result.stats.pointsInWindow}\n- Overlapping elements: ${result.stats.overlapping}\n- Custom mapped icons: ${result.stats.customIconCount}\n- CSV lines rendered: ${result.stats.linesCount}\n- Overlay names: \n    ${result.stats.overlayNames.join("\n    ")}\n\n========================================\n${result.stats.missedIcons.length > 0 ? "Missing icons (" + result.stats.missedIcons.length + "):\n  - " + result.stats.missedIcons.join("\\n  - ") : "All icons successfully mapped."}`}
+                {`========================================\nMap: ${result.stats.format} (${result.stats.widthMm}mm × ${result.stats.heightMm}mm)\nInput CSV: ${csvFilename || "unknown"}\nOutput SVG: ${result.filename}\n- Top-Left MGRS: ${result.stats.mgrsTL}\n- Points in window: ${result.stats.pointsInWindow}\n- Overlapping elements: ${result.stats.overlapping}\n- Custom mapped icons: ${result.stats.customIconCount}\n- CSV lines rendered: ${result.stats.linesCount}\n- Overlay names: \n    ${result.stats.overlayNames.join("\n    ")}\n\n========================================\n${result.stats.missedIcons.length > 0 ? "Missing icons (" + result.stats.missedIcons.length + "):\n  - " + result.stats.missedIcons.join("\n  - ") : "All icons successfully mapped."}`}
               </div>
-            </div>
+            </CollapsibleSection>
           </>
         )}
       </div>

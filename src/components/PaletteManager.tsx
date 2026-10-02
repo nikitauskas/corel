@@ -17,19 +17,6 @@ export function PaletteManager({
 }: PaletteManagerProps) {
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
-          Color Palette ({palette.length})
-        </h3>
-        <button
-          type="button"
-          onClick={onReset}
-          className="text-xs text-gray-500 hover:text-gray-200 cursor-pointer transition-colors"
-        >
-          Reset
-        </button>
-      </div>
-
       <div className="space-y-2">
         {palette.map((c) => (
           <div
@@ -82,6 +69,18 @@ export function PaletteManager({
         className="mt-2 w-full border border-dashed border-gray-700 hover:border-blue-500 hover:text-blue-400 text-gray-400 text-xs font-semibold rounded-lg py-2 cursor-pointer transition-colors"
       >
         + Add color
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          if (confirm("Are you sure you want to reset the color palette?")) {
+            onReset();
+          }
+        }}
+        className="mt-10 w-full border border-solid border-red-700 hover:bg-red-700/50 hover:border-red-500 hover:text-red-400 text-red-400 text-xs font-semibold rounded-lg py-2 cursor-pointer transition-colors"
+      >
+        Reset
       </button>
     </div>
   );
