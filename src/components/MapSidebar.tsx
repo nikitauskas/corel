@@ -1,13 +1,13 @@
-import { MapSettingsForm } from "./MapSettingsForm";
-import { CustomColorDropdown } from "./CustomColorDropdown";
+import type { GenerateResult } from "../generator";
 import {
-  typesOfLines,
-  typesOfAreas,
-  type LineType,
   type AreaType,
   type LineOverrides,
+  type LineType,
+  typesOfAreas,
+  typesOfLines,
 } from "../lib/lines";
-import type { GenerateResult } from "../generator";
+import { CustomColorDropdown } from "./CustomColorDropdown";
+import { MapSettingsForm } from "./MapSettingsForm";
 
 export const DEFAULT_LAYER_COLORS: Record<string, string> = {
   "1bat": "#FECC00",
@@ -111,7 +111,8 @@ export function MapSidebar({
             {/* Layer Colors */}
             <div>
               <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-                Layer Label Background Colors ({result.stats.overlayNames.length})
+                Layer Label Background Colors (
+                {result.stats.overlayNames.length})
               </h3>
               {result.stats.overlayNames.length > 0 ? (
                 <div className="space-y-2">
@@ -152,47 +153,54 @@ export function MapSidebar({
                 Line Types ({(Object.keys(typesOfLines) as LineType[]).length})
               </h3>
               <div className="space-y-2">
-                {(Object.entries(typesOfLines) as [LineType, { color: string }][]).map(
-                  ([type, defaults]) => {
-                    const override = lineOverrides.lines[type] ?? {};
-                    const currentColor = override.color ?? defaults.color;
-                    const showOutline = override.showOutline ?? true;
-                    return (
-                      <div
-                        key={type}
-                        className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
-                            title={type}
-                          >
-                            {type}
-                          </span>
-                          <CustomColorDropdown
-                            value={currentColor.startsWith("#") ? currentColor : defaults.color}
-                            onChange={(newColor) =>
-                              onLineTypeColorChange(type, newColor)
-                            }
-                          />
-                        </div>
-                        <label className="flex items-center gap-2 cursor-pointer select-none">
-                          <input
-                            type="checkbox"
-                            checked={showOutline}
-                            onChange={(e) =>
-                              onLineTypeOutlineChange(type, e.target.checked)
-                            }
-                            className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
-                          />
-                          <span className="text-xs text-gray-400">
-                            Show semi-transparent outline
-                          </span>
-                        </label>
+                {(
+                  Object.entries(typesOfLines) as [
+                    LineType,
+                    { color: string },
+                  ][]
+                ).map(([type, defaults]) => {
+                  const override = lineOverrides.lines[type] ?? {};
+                  const currentColor = override.color ?? defaults.color;
+                  const showOutline = override.showOutline ?? true;
+                  return (
+                    <div
+                      key={type}
+                      className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span
+                          className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
+                          title={type}
+                        >
+                          {type}
+                        </span>
+                        <CustomColorDropdown
+                          value={
+                            currentColor.startsWith("#")
+                              ? currentColor
+                              : defaults.color
+                          }
+                          onChange={(newColor) =>
+                            onLineTypeColorChange(type, newColor)
+                          }
+                        />
                       </div>
-                    );
-                  }
-                )}
+                      <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={showOutline}
+                          onChange={(e) =>
+                            onLineTypeOutlineChange(type, e.target.checked)
+                          }
+                          className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
+                        />
+                        <span className="text-xs text-gray-400">
+                          Show semi-transparent outline
+                        </span>
+                      </label>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -202,47 +210,54 @@ export function MapSidebar({
                 Area Types ({(Object.keys(typesOfAreas) as AreaType[]).length})
               </h3>
               <div className="space-y-2">
-                {(Object.entries(typesOfAreas) as [AreaType, { color: string }][]).map(
-                  ([type, defaults]) => {
-                    const override = lineOverrides.areas[type] ?? {};
-                    const currentColor = override.color ?? defaults.color;
-                    const showOutline = override.showOutline ?? true;
-                    return (
-                      <div
-                        key={type}
-                        className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
-                            title={type}
-                          >
-                            {type}
-                          </span>
-                          <CustomColorDropdown
-                            value={currentColor.startsWith("#") ? currentColor : defaults.color}
-                            onChange={(newColor) =>
-                              onAreaTypeColorChange(type, newColor)
-                            }
-                          />
-                        </div>
-                        <label className="flex items-center gap-2 cursor-pointer select-none">
-                          <input
-                            type="checkbox"
-                            checked={showOutline}
-                            onChange={(e) =>
-                              onAreaTypeOutlineChange(type, e.target.checked)
-                            }
-                            className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
-                          />
-                          <span className="text-xs text-gray-400">
-                            Show semi-transparent outline
-                          </span>
-                        </label>
+                {(
+                  Object.entries(typesOfAreas) as [
+                    AreaType,
+                    { color: string },
+                  ][]
+                ).map(([type, defaults]) => {
+                  const override = lineOverrides.areas[type] ?? {};
+                  const currentColor = override.color ?? defaults.color;
+                  const showOutline = override.showOutline ?? true;
+                  return (
+                    <div
+                      key={type}
+                      className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex flex-col gap-1.5"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span
+                          className="text-xs font-mono font-medium text-gray-200 truncate flex-1"
+                          title={type}
+                        >
+                          {type}
+                        </span>
+                        <CustomColorDropdown
+                          value={
+                            currentColor.startsWith("#")
+                              ? currentColor
+                              : defaults.color
+                          }
+                          onChange={(newColor) =>
+                            onAreaTypeColorChange(type, newColor)
+                          }
+                        />
                       </div>
-                    );
-                  }
-                )}
+                      <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={showOutline}
+                          onChange={(e) =>
+                            onAreaTypeOutlineChange(type, e.target.checked)
+                          }
+                          className="w-3.5 h-3.5 accent-blue-500 cursor-pointer"
+                        />
+                        <span className="text-xs text-gray-400">
+                          Show semi-transparent outline
+                        </span>
+                      </label>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -252,7 +267,7 @@ export function MapSidebar({
                 Generation Log
               </h3>
               <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[13px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
-                {`========================================\nMap: ${result.stats.format} (${result.stats.widthMm}mm × ${result.stats.heightMm}mm)\nInput CSV: ${csvFilename || "unknown"}\nOutput SVG: ${result.filename}\n- Top-Left MGRS: ${result.stats.mgrsTL}\n- Points in window: ${result.stats.pointsInWindow}\n- Overlapping elements: ${result.stats.overlapping}\n- Custom mapped icons: ${result.stats.customIconCount}\n- CSV lines rendered: ${result.stats.linesCount}\n- Overlay names: \n    ${result.stats.overlayNames.join("\n    ")}\n\n========================================\n${result.stats.missedIcons.length > 0 ? "Missing icons (" + result.stats.missedIcons.length + "):\\n  - " + result.stats.missedIcons.join("\\n  - ") : "All icons successfully mapped."}`}
+                {`========================================\nMap: ${result.stats.format} (${result.stats.widthMm}mm × ${result.stats.heightMm}mm)\nInput CSV: ${csvFilename || "unknown"}\nOutput SVG: ${result.filename}\n- Top-Left MGRS: ${result.stats.mgrsTL}\n- Points in window: ${result.stats.pointsInWindow}\n- Overlapping elements: ${result.stats.overlapping}\n- Custom mapped icons: ${result.stats.customIconCount}\n- CSV lines rendered: ${result.stats.linesCount}\n- Overlay names: \n    ${result.stats.overlayNames.join("\n    ")}\n\n========================================\n${result.stats.missedIcons.length > 0 ? "Missing icons (" + result.stats.missedIcons.length + "):\n  - " + result.stats.missedIcons.join("\\n  - ") : "All icons successfully mapped."}`}
               </div>
             </div>
           </>
