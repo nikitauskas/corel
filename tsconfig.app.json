@@ -20,5 +20,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "scripts/gen-font-widths.ts", "gen-font-widths.ts"]
+  "include": ["src", "scripts"]
 }
