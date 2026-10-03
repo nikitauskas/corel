@@ -3,7 +3,7 @@ import * as fontkit from "fontkit";
 import { writeFileSync } from "fs";
 
 const FONT_PATH = "./public/ArialBI-Regular.ttf"; // Arial Bold Italic
-const OUT_PATH = "./src/lib/charWidths.ts";
+const OUT_PATH = "./src/lib/char-widths.ts";
 
 // ── Character sets ───────────────────────────────────────────
 

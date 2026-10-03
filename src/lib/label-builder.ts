@@ -1,4 +1,4 @@
-import { CHAR_WIDTHS_1000, DEFAULT_CHAR_WIDTH_1000 } from "./charWidths";
+import { CHAR_WIDTHS_1000, DEFAULT_CHAR_WIDTH_1000 } from "./char-widths";
 
 /** All geometric + content data needed to render a label + its background rect. */
 export interface LabelLayout {
