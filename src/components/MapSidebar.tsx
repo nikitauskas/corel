@@ -50,11 +50,14 @@ function CollapsibleSection({
   children,
   defaultOpen = true,
   storageKey,
+  summary,
 }: {
   title: React.ReactNode;
   children: React.ReactNode;
   defaultOpen?: boolean;
   storageKey: string;
+  /** Shown under the title only while the section is collapsed */
+  summary?: React.ReactNode;
 }) {
   const lsKey = `delta2corel_section_${storageKey}`;
   const [open, setOpen] = useState(() => {
@@ -82,6 +85,7 @@ function CollapsibleSection({
       <button
         type="button"
         onClick={toggle}
+        aria-expanded={open}
         className="w-full flex items-center gap-2 mb-3 cursor-pointer group"
       >
         <ChevronIcon open={open} />
@@ -89,7 +93,21 @@ function CollapsibleSection({
           {title}
         </h3>
       </button>
-      {open && children}
+
+      {!open && summary && (
+        <div className="-mt-2 mb-1 ml-6 text-[11px] font-mono text-gray-500 truncate">
+          {summary}
+        </div>
+      )}
+
+      {/* Animated fold: grid row goes 1fr <-> 0fr */}
+      <div
+        className={`grid transition-[grid-template-rows,visibility] duration-200 ease-out ${
+          open ? "grid-rows-[1fr] visible" : "grid-rows-[0fr] invisible"
+        }`}
+      >
+        <div className="overflow-hidden min-h-0">{children}</div>
+      </div>
     </div>
   );
 }
@@ -183,17 +201,23 @@ export function MapSidebar({
 
       <div className="flex-1 overflow-y-auto p-5 space-y-6">
         {/* Settings */}
-        <MapSettingsForm
-          idPrefix="sidebar"
-          mgrsTL={mgrsTL}
-          scale={scale}
-          width={width}
-          height={height}
-          onMgrsChange={onMgrsChange}
-          onScaleChange={onScaleChange}
-          onWidthChange={onWidthChange}
-          onHeightChange={onHeightChange}
-        />
+        <CollapsibleSection
+          title="Settings"
+          storageKey="settings"
+          summary={`${mgrsTL} · 1:${scale} · ${width}×${height} mm`}
+        >
+          <MapSettingsForm
+            idPrefix="sidebar"
+            mgrsTL={mgrsTL}
+            scale={scale}
+            width={width}
+            height={height}
+            onMgrsChange={onMgrsChange}
+            onScaleChange={onScaleChange}
+            onWidthChange={onWidthChange}
+            onHeightChange={onHeightChange}
+          />
+        </CollapsibleSection>
 
         {isReady && result && (
           <>
@@ -353,7 +377,10 @@ export function MapSidebar({
             </CollapsibleSection>
 
             {/* Color Palette */}
-            <CollapsibleSection title={`Color Palette (${palette.length})`} storageKey="palette">
+            <CollapsibleSection
+              title={`Color Palette (${palette.length})`}
+              storageKey="palette"
+            >
               <PaletteManager
                 palette={palette}
                 onAdd={onPaletteAdd}
@@ -364,7 +391,11 @@ export function MapSidebar({
             </CollapsibleSection>
 
             {/* Console Log */}
-            <CollapsibleSection title="Generation Log" storageKey="log" defaultOpen={false}>
+            <CollapsibleSection
+              title="Generation Log"
+              storageKey="log"
+              defaultOpen={false}
+            >
               <div className="overflow-auto bg-black rounded-lg p-3 border border-gray-800 font-mono text-[13px] leading-relaxed text-gray-400 whitespace-pre-wrap max-h-64">
                 {`========================================\nMap: ${result.stats.format} (${result.stats.widthMm}mm × ${result.stats.heightMm}mm)\nInput CSV: ${csvFilename || "unknown"}\nOutput SVG: ${result.filename}\n- Top-Left MGRS: ${result.stats.mgrsTL}\n- Points in window: ${result.stats.pointsInWindow}\n- Overlapping elements: ${result.stats.overlapping}\n- Custom mapped icons: ${result.stats.customIconCount}\n- CSV lines rendered: ${result.stats.linesCount}\n- Overlay names: \n    ${result.stats.overlayNames.join("\n    ")}\n\n========================================\n${result.stats.missedIcons.length > 0 ? "Missing icons (" + result.stats.missedIcons.length + "):\n  - " + result.stats.missedIcons.join("\n  - ") : "All icons successfully mapped."}`}
               </div>
