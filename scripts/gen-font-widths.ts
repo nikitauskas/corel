@@ -1,4 +1,3 @@
-// scripts/gen-widths.ts   (npm i fontkit @types/fontkit)
 import * as fontkit from "fontkit";
 import { writeFileSync } from "fs";
 
