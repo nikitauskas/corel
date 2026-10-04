@@ -125,6 +125,7 @@ interface MapSidebarProps {
   layerColors: Record<string, string>;
   lineOverrides: LineOverrides;
   palette: PaletteColor[];
+  useRealMap: boolean;
   onClose: () => void;
   onMgrsChange: (val: string) => void;
   onScaleChange: (val: number) => void;
@@ -142,6 +143,7 @@ interface MapSidebarProps {
   ) => void;
   onPaletteDelete: (id: string) => void;
   onPaletteReset: () => void;
+  onUseRealMapChange: (val: boolean) => void;
 }
 
 export function MapSidebar({
@@ -155,6 +157,7 @@ export function MapSidebar({
   layerColors,
   lineOverrides,
   palette,
+  useRealMap,
   onClose,
   onMgrsChange,
   onScaleChange,
@@ -169,6 +172,7 @@ export function MapSidebar({
   onPaletteChange,
   onPaletteDelete,
   onPaletteReset,
+  onUseRealMapChange,
 }: MapSidebarProps) {
   const isReady = status === "done" || (status === "loading" && result);
 
@@ -178,25 +182,58 @@ export function MapSidebar({
         <h2 className="text-white font-bold text-lg tracking-tight">
           Settings
         </h2>
-        <button
-          type="button"
-          onClick={onClose}
-          className="text-gray-400 hover:text-white p-1 cursor-pointer transition-colors"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+
+        <div className="flex items-center gap-3">
+          {/* Lab ↔ Real Map toggle */}
+          <div
+            role="group"
+            aria-label="Map view mode"
+            className="flex items-center bg-gray-800 border border-gray-700 rounded-md p-0.5 text-[11px] font-semibold"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+            <button
+              type="button"
+              onClick={() => onUseRealMapChange(false)}
+              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+                !useRealMap
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              Lab
+            </button>
+            <button
+              type="button"
+              onClick={() => onUseRealMapChange(true)}
+              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+                useRealMap
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              Map
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-gray-400 hover:text-white p-1 cursor-pointer transition-colors"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-5 space-y-6">

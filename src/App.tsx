@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { MapSettingsForm } from "./components/MapSettingsForm";
 import { DEFAULT_LAYER_COLORS, MapSidebar } from "./components/MapSidebar";
+import { SvgPreview } from "./components/SvgPreview";
 //import { SvgPreview } from "./components/SvgPreview";
 import { SvgMapOverlay } from "./components/SvgPreview2";
 import {
@@ -147,6 +148,7 @@ export default function App() {
   );
   const [palette, setPalette] = useState<PaletteColor[]>(loadPalette);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [useRealMap, setUseRealMap] = useState(true);
 
   const generateMap = useCallback(
     async (
@@ -513,20 +515,22 @@ export default function App() {
 
   if (state.status === "done" || (state.status === "loading" && csvContent)) {
     return (
-      <div className="w-screen h-screen overflow-hidden bg-gray-900 relative">
+      <div className="w-screen h-screen overflow-hidden bg-gray-600 relative">
         {/* Map (SvgPreview takes full width/height) */}
         {(state.status === "done" || state.status === "loading") &&
-          state.result && (
-            // <SvgPreview
-            //   svgContent={state.result.svgContent}
-            //   className="w-full h-full border-none rounded-none"
-            // />
+          state.result &&
+          (useRealMap ? (
             <SvgMapOverlay
               svgContent={state.result.svgContent}
               topLeftMgrs={mgrsTL}
               scaleDenominator={scale}
             />
-          )}
+          ) : (
+            <SvgPreview
+              svgContent={state.result.svgContent}
+              className="w-full h-full border-none rounded-none"
+            />
+          ))}
 
         {/* Settings Button */}
         <button
@@ -589,6 +593,8 @@ export default function App() {
             onPaletteChange={handlePaletteChange}
             onPaletteDelete={handlePaletteDelete}
             onPaletteReset={handlePaletteReset}
+            useRealMap={useRealMap}
+            onUseRealMapChange={setUseRealMap}
           />
         )}
 

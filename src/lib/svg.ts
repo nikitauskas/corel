@@ -8,6 +8,10 @@ export function buildFinalSvg(
 ): string {
   const { widthMm, heightMm, centerX, centerY, scale, mgrsTL } = map;
 
+  // For a stroke-width of 3, we offset by 1.5 to keep it perfectly within the viewBox
+  const strokeWidth = 3;
+  const offset = strokeWidth / 2;
+
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${widthMm}mm" height="${heightMm}mm" viewBox="0 0 ${widthMm} ${heightMm}" style="width: ${widthMm}mm; height: ${heightMm}mm;" version="1.1">
   <metadata id="metadata1">
@@ -22,9 +26,19 @@ export function buildFinalSvg(
 
 ${generatedIconsDefs}
 
-  <!-- Background / Canvas -->
-<rect id="background" x="-1" y="-1" width="${widthMm + 2}" height="${heightMm + 2}" fill="none" shape-rendering="crispEdges" /> 
-  <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="red" stroke-width="2" />
+  <!-- Background / Canvas Layout -->
+  <rect 
+    id="background" 
+    x="${offset}" 
+    y="${offset}" 
+    width="${widthMm - strokeWidth}" 
+    height="${heightMm - strokeWidth}" 
+    stroke="red" 
+    stroke-width="${strokeWidth}"
+    shape-rendering="crispEdges" 
+    fill="none"
+  /> 
+  <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="none" />
 
   <!-- Center Crosshair Lines -->
   <g id="CenterLines" stroke="#000000" stroke-width="0.5" stroke-linecap="square">

@@ -103,7 +103,12 @@ export function SvgMapOverlay({
         maxNativeZoom={19}
         maxZoom={22}
       />
-      <ImageOverlay url={url} bounds={bounds} opacity={0.8} />
+      <ImageOverlay
+        url={url}
+        bounds={bounds}
+        opacity={0.8}
+        className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
+      />
       <FitOnce bounds={bounds} />
     </MapContainer>
   );
