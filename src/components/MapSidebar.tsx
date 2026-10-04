@@ -176,7 +176,7 @@ export function MapSidebar({
     <div className="absolute top-0 left-0 h-full w-96 bg-gray-900 border-r border-gray-800 z-30 shadow-2xl flex flex-col">
       <div className="flex justify-between items-center p-5 border-b border-gray-800 shrink-0">
         <h2 className="text-white font-bold text-lg tracking-tight">
-          Map Settings
+          Settings
         </h2>
         <button
           type="button"
@@ -202,7 +202,7 @@ export function MapSidebar({
       <div className="flex-1 overflow-y-auto p-5 space-y-6">
         {/* Settings */}
         <CollapsibleSection
-          title="Settings"
+          title="Map Settings"
           storageKey="settings"
           summary={`${mgrsTL} · 1:${scale} · ${width}×${height} mm`}
         >
