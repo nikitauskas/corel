@@ -26,7 +26,7 @@ export const LAYOUT_CONFIG = {
   rectHeight: { sm: 2.822, md: 2.917 },
   fontStyle: {
     normal: "Arial",
-    "bold-italic": "ArialBI",
+    "bold-italic": "ArialBI", // "LiberationSans-BoldItalic",
     italic: "ArialI",
     bold: "ArialBI",
   },
