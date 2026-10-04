@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { MapSettingsForm } from "./components/MapSettingsForm";
 import { DEFAULT_LAYER_COLORS, MapSidebar } from "./components/MapSidebar";
-import { SvgPreview } from "./components/SvgPreview";
+//import { SvgPreview } from "./components/SvgPreview";
+import { SvgMapOverlay } from "./components/SvgPreview2";
 import {
   type GenerateResult,
   generateSVGFromCSV,
@@ -516,9 +517,14 @@ export default function App() {
         {/* Map (SvgPreview takes full width/height) */}
         {(state.status === "done" || state.status === "loading") &&
           state.result && (
-            <SvgPreview
+            // <SvgPreview
+            //   svgContent={state.result.svgContent}
+            //   className="w-full h-full border-none rounded-none"
+            // />
+            <SvgMapOverlay
               svgContent={state.result.svgContent}
-              className="w-full h-full border-none rounded-none"
+              topLeftMgrs={mgrsTL}
+              scaleDenominator={scale}
             />
           )}
 

@@ -23,8 +23,8 @@ export function buildFinalSvg(
 ${generatedIconsDefs}
 
   <!-- Background / Canvas -->
-  <rect id="background" x="-1" y="-1" width="${widthMm + 2}" height="${heightMm + 2}" fill="#e5e5e5" shape-rendering="crispEdges" />
-  <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="none" />
+<rect id="background" x="-1" y="-1" width="${widthMm + 2}" height="${heightMm + 2}" fill="none" shape-rendering="crispEdges" /> 
+  <rect id="canvas-frame" x="0" y="0" width="${widthMm}" height="${heightMm}" fill="none" stroke="red" stroke-width="2" />
 
   <!-- Center Crosshair Lines -->
   <g id="CenterLines" stroke="#000000" stroke-width="0.5" stroke-linecap="square">
