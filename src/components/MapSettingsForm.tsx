@@ -49,24 +49,39 @@ export function MapSettingsForm({
         <div
           role="radiogroup"
           aria-label="Scale"
-          className="grid grid-cols-4 gap-1 bg-gray-900 border border-gray-700 rounded p-0.5"
+          className="grid grid-cols-4 bg-gray-900 border border-gray-700 rounded p-0.5"
         >
-          {SCALES.map((s) => (
-            <button
-              key={s}
-              type="button"
-              role="radio"
-              aria-checked={s === scale}
-              onClick={() => onScaleChange(s)}
-              className={`py-1 rounded text-[11px] font-mono transition-colors cursor-pointer ${
-                s === scale
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-400 hover:text-gray-100 hover:bg-gray-800"
-              }`}
-            >
-              1:{s / 1000}k
-            </button>
-          ))}
+          {SCALES.map((s, i) => {
+            const active = s === scale;
+            const prevActive = SCALES[i - 1] === scale;
+            // line on the left of every button except the first,
+            // hidden next to the selected one so the blue pill stays clean
+            const divider =
+              i === 0
+                ? ""
+                : active || prevActive
+                  ? "border-l border-transparent"
+                  : "border-l border-gray-700";
+
+            return (
+              <button
+                key={s}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={() => onScaleChange(s)}
+                className={`py-1 text-[11px] font-mono transition-colors cursor-pointer ${
+                  active
+                    ? "rounded bg-blue-600 text-white"
+                    : "text-gray-400 hover:text-gray-100 hover:bg-gray-800"
+                } ${i === 0 ? "rounded-l" : ""} ${
+                  i === SCALES.length - 1 ? "rounded-r" : ""
+                } ${divider}`}
+              >
+                1:{s / 1000}k
+              </button>
+            );
+          })}
         </div>
       </div>
 
