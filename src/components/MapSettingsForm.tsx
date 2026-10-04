@@ -43,7 +43,6 @@ export function MapSettingsForm({
           placeholder="e.g. 37UBP9708043769"
         />
       </div>
-
       <div>
         <span className={labelCls}>Scale</span>
         <div
@@ -64,13 +63,9 @@ export function MapSettingsForm({
                   : "border-l border-gray-700";
 
             return (
-              <button
+              <label
                 key={s}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => onScaleChange(s)}
-                className={`py-1 text-[11px] font-mono transition-colors cursor-pointer ${
+                className={`relative py-1 text-center text-[11px] font-mono transition-colors cursor-pointer ${
                   active
                     ? "rounded bg-blue-600 text-white"
                     : "text-gray-400 hover:text-gray-100 hover:bg-gray-800"
@@ -78,8 +73,16 @@ export function MapSettingsForm({
                   i === SCALES.length - 1 ? "rounded-r" : ""
                 } ${divider}`}
               >
+                <input
+                  type="radio"
+                  name="scale"
+                  value={s}
+                  checked={active}
+                  onChange={() => onScaleChange(s)}
+                  className="sr-only"
+                />
                 1:{s / 1000}k
-              </button>
+              </label>
             );
           })}
         </div>
