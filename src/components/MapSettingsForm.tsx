@@ -4,6 +4,7 @@ interface MapSettingsFormProps {
   scale: number;
   width: string;
   height: string;
+  padding?: string;
   onMgrsChange: (v: string) => void;
   onScaleChange: (v: number) => void;
   onWidthChange: (v: string) => void;
@@ -27,9 +28,12 @@ export function MapSettingsForm({
   onScaleChange,
   onWidthChange,
   onHeightChange,
+  padding = "px-3 py-5",
 }: MapSettingsFormProps) {
   return (
-    <div className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-3 space-y-3">
+    <div
+      className={`bg-gray-800/50 border border-gray-700/50 rounded-lg ${padding} space-y-3`}
+    >
       <div>
         <label htmlFor={`${idPrefix}-mgrs`} className={labelCls}>
           Top-Left MGRS

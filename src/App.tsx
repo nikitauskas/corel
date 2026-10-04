@@ -642,7 +642,7 @@ export default function App() {
         </div>
 
         {/* Right Side: Control Panel */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 max-w-xl w-full">
+        <div className="p-5 max-w-md w-full">
           <MapSettingsForm
             idPrefix="landing"
             mgrsTL={mgrsTL}
@@ -653,6 +653,7 @@ export default function App() {
             onScaleChange={handleScaleChange}
             onWidthChange={handleWidthChange}
             onHeightChange={handleHeightChange}
+            padding={"p-5"}
           />
         </div>
       </div>
