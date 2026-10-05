@@ -524,6 +524,8 @@ export default function App() {
               svgContent={state.result.svgContent}
               topLeftMgrs={mgrsTL}
               scaleDenominator={scale}
+              widthMm={Number(width)}
+              heightMm={Number(height)}
             />
           ) : (
             <SvgPreview
