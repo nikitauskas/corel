@@ -42,18 +42,31 @@ function computeBounds(
   const def = utmDef(topLeftMgrs);
   const { easting: e0, northing: n0 } = mgrsToUtm(topLeftMgrs);
 
-  const [lonTL, latTL] = proj4(def, "EPSG:4326", [e0, n0]);
-  const [lonTR, latTR] = proj4(def, "EPSG:4326", [e0 + widthM, n0]);
-  const [lonBL, latBL] = proj4(def, "EPSG:4326", [e0, n0 - heightM]);
-  const [lonBR, latBR] = proj4(def, "EPSG:4326", [e0 + widthM, n0 - heightM]);
+  // Geographic center in UTM
+  const eCenter = e0 + widthM / 2;
+  const nCenter = n0 - heightM / 2;
+  const [centerLon, centerLat] = proj4(def, "EPSG:4326", [eCenter, nCenter]);
+  const [xCenter, yCenter] = proj4(
+    "EPSG:4326",
+    "EPSG:3857",
+    [centerLon, centerLat],
+  );
 
-  // Compute side midpoints to maintain exact aspect ratio and eliminate projection tilt padding
-  const west = (lonTL + lonBL) / 2;
-  const east = (lonTR + lonBR) / 2;
-  const north = (latTL + latTR) / 2;
-  const south = (latBL + latBR) / 2;
+  // In Web Mercator (EPSG:3857), local scale factor k = 1 / cos(latitude)
+  // Scaling both dimensions by k preserves conformal shape and exactly matches SVG aspect ratio (widthM / heightM)
+  const k = 1 / Math.cos((centerLat * Math.PI) / 180);
+  const wMerc = widthM * k;
+  const hMerc = heightM * k;
 
-  return L.latLngBounds([south, west], [north, east]); // SW, NE
+  const xMin = xCenter - wMerc / 2;
+  const xMax = xCenter + wMerc / 2;
+  const yMin = yCenter - hMerc / 2;
+  const yMax = yCenter + hMerc / 2;
+
+  const [swLon, swLat] = proj4("EPSG:3857", "EPSG:4326", [xMin, yMin]);
+  const [neLon, neLat] = proj4("EPSG:3857", "EPSG:4326", [xMax, yMax]);
+
+  return L.latLngBounds([swLat, swLon], [neLat, neLon]); // SW, NE
 }
 
 /** Fit the map so the overlay fills the viewport width (no horizontal padding). */
@@ -114,15 +127,10 @@ export function SvgMapOverlay({
 
   const boundsKey = `${topLeftMgrs}_${widthMm}_${heightMm}_${scaleDenominator}`;
 
-  const url = useMemo(() => {
-    const withPreserve = svgContent.includes("preserveAspectRatio")
-      ? svgContent.replace(
-          /preserveAspectRatio="[^"]*"/,
-          'preserveAspectRatio="none"',
-        )
-      : svgContent.replace("<svg ", '<svg preserveAspectRatio="none" ');
-    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(withPreserve)}`;
-  }, [svgContent]);
+  const url = useMemo(
+    () => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgContent)}`,
+    [svgContent],
+  );
 
   return (
     <MapContainer
