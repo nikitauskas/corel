@@ -1,5 +1,4 @@
 import L, { type LatLngBounds, type LatLngBoundsExpression } from "leaflet";
-import * as mgrs from "mgrs";
 import proj4 from "proj4";
 import { useEffect, useMemo, useRef } from "react";
 import {
@@ -11,6 +10,8 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
+import { mgrsToUtm } from "../lib/geo";
+
 interface SvgMapOverlayProps {
   svgContent: string;
   topLeftMgrs: string; // e.g. "36UXA1234567890"
@@ -18,12 +19,6 @@ interface SvgMapOverlayProps {
   heightMm?: number;
   scaleDenominator: number; // e.g. 1000 for 1:1000 -> 1810 mm = 1810 m
   className?: string;
-}
-
-/** MGRS -> { lon, lat } of the referenced point (SW corner of the MGRS square). */
-function mgrsToLonLat(code: string) {
-  const [w, s] = mgrs.inverse(code); // [west, south, east, north]
-  return { lon: w, lat: s };
 }
 
 /** UTM proj definition derived from the MGRS string (zone + hemisphere). */
@@ -45,23 +40,57 @@ function computeBounds(
   heightM: number,
 ): LatLngBounds {
   const def = utmDef(topLeftMgrs);
-  const { lon, lat } = mgrsToLonLat(topLeftMgrs);
+  const { easting: e0, northing: n0 } = mgrsToUtm(topLeftMgrs);
 
-  const [e0, n0] = proj4("EPSG:4326", def, [lon, lat]);
+  const [lonTL, latTL] = proj4(def, "EPSG:4326", [e0, n0]);
+  const [lonTR, latTR] = proj4(def, "EPSG:4326", [e0 + widthM, n0]);
+  const [lonBL, latBL] = proj4(def, "EPSG:4326", [e0, n0 - heightM]);
   const [lonBR, latBR] = proj4(def, "EPSG:4326", [e0 + widthM, n0 - heightM]);
 
-  return L.latLngBounds([latBR, lon], [lat, lonBR]); // SW, NE
+  // Compute side midpoints to maintain exact aspect ratio and eliminate projection tilt padding
+  const west = (lonTL + lonBL) / 2;
+  const east = (lonTR + lonBR) / 2;
+  const north = (latTL + latTR) / 2;
+  const south = (latBL + latBR) / 2;
+
+  return L.latLngBounds([south, west], [north, east]); // SW, NE
 }
 
-/** Fit the map to the overlay once (not on every svgContent change). */
-function FitOnce({ bounds }: { bounds: LatLngBoundsExpression }) {
+/** Fit the map so the overlay fills the viewport width (no horizontal padding). */
+function FitOnce({
+  bounds,
+  boundsKey,
+}: {
+  bounds: LatLngBoundsExpression;
+  boundsKey: string;
+}) {
   const map = useMap();
-  const done = useRef(false);
+  const lastKey = useRef<string | null>(null);
+
   useEffect(() => {
-    if (done.current) return;
-    done.current = true;
-    map.fitBounds(bounds, { padding: [10, 10] });
-  }, [map, bounds]);
+    if (lastKey.current === boundsKey) return;
+    lastKey.current = boundsKey;
+
+    const lb = L.latLngBounds(bounds as L.LatLngBoundsLiteral);
+
+    // Step 1: standard zoom that fits the entire overlay
+    const fitZoom = map.getBoundsZoom(lb, false, L.point(0, 0));
+
+    // Step 2: at that zoom, how wide is the overlay in pixels?
+    const sw = map.project(lb.getSouthWest(), fitZoom);
+    const ne = map.project(lb.getNorthEast(), fitZoom);
+    const overlayPxW = Math.abs(ne.x - sw.x);
+    const viewportW = map.getSize().x;
+
+    // Step 3: if the overlay is narrower than the viewport, zoom in to fill width
+    const zoom =
+      overlayPxW < viewportW
+        ? fitZoom + Math.log2(viewportW / overlayPxW)
+        : fitZoom;
+
+    map.setView(lb.getCenter(), zoom);
+  }, [map, bounds, boundsKey]);
+
   return null;
 }
 
@@ -83,10 +112,17 @@ export function SvgMapOverlay({
     [topLeftMgrs, widthMm, heightMm, scaleDenominator],
   );
 
-  const url = useMemo(
-    () => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgContent)}`,
-    [svgContent],
-  );
+  const boundsKey = `${topLeftMgrs}_${widthMm}_${heightMm}_${scaleDenominator}`;
+
+  const url = useMemo(() => {
+    const withPreserve = svgContent.includes("preserveAspectRatio")
+      ? svgContent.replace(
+          /preserveAspectRatio="[^"]*"/,
+          'preserveAspectRatio="none"',
+        )
+      : svgContent.replace("<svg ", '<svg preserveAspectRatio="none" ');
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(withPreserve)}`;
+  }, [svgContent]);
 
   return (
     <MapContainer
@@ -109,7 +145,7 @@ export function SvgMapOverlay({
         opacity={0.8}
         className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
       />
-      <FitOnce bounds={bounds} />
+      <FitOnce bounds={bounds} boundsKey={boundsKey} />
     </MapContainer>
   );
 }
