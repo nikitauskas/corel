@@ -3,6 +3,16 @@ import path from "node:path";
 import sharp from "sharp";
 import { computeMercatorExtent } from "../src/lib/overlay-bounds";
 
+/*
+
+npx tsx scripts/make-tiles.ts \
+  --input /Users/nikitos/Projects/Delta2Corel/misc/myrne/bg.jpg \
+  --mgrs 37UBP9708043769 \
+  --scale 25000 --dpi 300 \
+  --min-zoom 8 --max-zoom 16
+
+*/
+
 const args: Record<string, string> = {};
 process.argv.slice(2).forEach((a, i, arr) => {
   if (a.startsWith("--")) args[a.slice(2)] = arr[i + 1];
