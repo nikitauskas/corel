@@ -100,12 +100,6 @@ export function SvgMapOverlay({
     () => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgContent)}`,
     [svgContent],
   );
-  if (useRealMap === 2) {
-    tilesUrl = `./tiles/{z}/{x}/{y}.png`;
-  } else {
-    tilesUrl =
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}";
-  }
 
   return (
     <MapContainer
@@ -117,16 +111,28 @@ export function SvgMapOverlay({
       zoomControl={false}
     >
       <ZoomControl position="topright" />
-      <TileLayer
-        url={tilesUrl}
-        bounds={bounds} // never request tiles outside the map
-        minNativeZoom={tileMinZoom}
-        maxNativeZoom={tileMaxZoom}
-        maxZoom={22}
-        noWrap
-        errorTileUrl={TRANSPARENT_PX}
-        attribution="Local map"
-      />
+      {useRealMap === 2 && (
+        <TileLayer
+          url={tilesUrl}
+          bounds={bounds} // never request tiles outside the map
+          minNativeZoom={tileMinZoom}
+          maxNativeZoom={tileMaxZoom}
+          maxZoom={22}
+          noWrap
+          errorTileUrl={TRANSPARENT_PX}
+          attribution="Local map"
+        />
+      )}
+
+      {useRealMap === 1 && (
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+          attribution="&copy; OpenStreetMap contributors"
+          maxNativeZoom={19}
+          maxZoom={22}
+        />
+      )}
+
       <ImageOverlay
         url={url}
         bounds={bounds}
