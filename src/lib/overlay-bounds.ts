@@ -1,3 +1,4 @@
+import * as mgrs from "mgrs";
 import proj4 from "proj4";
 import { mgrsToUtm } from "./geo";
 
@@ -19,18 +20,20 @@ export interface MercatorExtent {
   yMax: number;
 }
 
-/** Extent of the paper map in EPSG:3857 meters. */
+/** Extent of the paper map in EPSG:3857 meters with optional shiftX and shiftY (in meters). */
 export function computeMercatorExtent(
   topLeftMgrs: string,
   widthM: number,
   heightM: number,
+  shiftX = 0,
+  shiftY = 0,
 ): MercatorExtent {
   const def = utmDef(topLeftMgrs);
   const { easting: e0, northing: n0 } = mgrsToUtm(topLeftMgrs);
 
   const [lon, lat] = proj4(def, "EPSG:4326", [
-    e0 + widthM / 2,
-    n0 - heightM / 2,
+    e0 + shiftX + widthM / 2,
+    n0 + shiftY - heightM / 2,
   ]);
   const [xC, yC] = proj4("EPSG:4326", "EPSG:3857", [lon, lat]);
 
@@ -50,4 +53,28 @@ export function extentToLatLng(e: MercatorExtent) {
   const [west, south] = proj4("EPSG:3857", "EPSG:4326", [e.xMin, e.yMin]);
   const [east, north] = proj4("EPSG:3857", "EPSG:4326", [e.xMax, e.yMax]);
   return { south, west, north, east };
+}
+
+/**
+ * Computes the new MGRS coordinate of the top-left corner shifted by shiftX (East) and shiftY (North) in meters.
+ */
+export function computeShiftedMgrs(
+  baseMgrs: string,
+  shiftX: number,
+  shiftY: number,
+): string {
+  if (!baseMgrs) return "";
+  if (shiftX === 0 && shiftY === 0) return baseMgrs.trim().toUpperCase();
+
+  try {
+    const def = utmDef(baseMgrs);
+    const { easting: e0, northing: n0 } = mgrsToUtm(baseMgrs);
+    const shiftedE = e0 + shiftX;
+    const shiftedN = n0 + shiftY;
+    const [lon, lat] = proj4(def, "EPSG:4326", [shiftedE, shiftedN]);
+    return mgrs.forward([lon, lat] as [number, number], 5);
+  } catch (e) {
+    console.error("Failed to compute shifted MGRS", e);
+    return baseMgrs;
+  }
 }

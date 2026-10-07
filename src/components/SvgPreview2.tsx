@@ -23,14 +23,22 @@ interface SvgMapOverlayProps {
   tileMaxZoom?: number;
   className?: string;
   useRealMap?: number;
+  shiftX?: number;
+  shiftY?: number;
 }
 
 const TRANSPARENT_PX =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
-function computeBounds(topLeftMgrs: string, widthM: number, heightM: number) {
+function computeBounds(
+  topLeftMgrs: string,
+  widthM: number,
+  heightM: number,
+  shiftX = 0,
+  shiftY = 0,
+) {
   const { south, west, north, east } = extentToLatLng(
-    computeMercatorExtent(topLeftMgrs, widthM, heightM),
+    computeMercatorExtent(topLeftMgrs, widthM, heightM, shiftX, shiftY),
   );
   return L.latLngBounds([south, west], [north, east]);
 }
@@ -84,8 +92,10 @@ export function SvgMapOverlay({
   tileMaxZoom = 15,
   className = "h-[100vh] z-0 bg-neutral-900",
   useRealMap,
+  shiftX = 0,
+  shiftY = 0,
 }: SvgMapOverlayProps) {
-  const bounds = useMemo(
+  const baseBounds = useMemo(
     () =>
       computeBounds(
         topLeftMgrs,
@@ -93,6 +103,18 @@ export function SvgMapOverlay({
         (heightMm * scaleDenominator) / 1000,
       ),
     [topLeftMgrs, widthMm, heightMm, scaleDenominator],
+  );
+
+  const overlayBounds = useMemo(
+    () =>
+      computeBounds(
+        topLeftMgrs,
+        (widthMm * scaleDenominator) / 1000,
+        (heightMm * scaleDenominator) / 1000,
+        shiftX,
+        shiftY,
+      ),
+    [topLeftMgrs, widthMm, heightMm, scaleDenominator, shiftX, shiftY],
   );
 
   const boundsKey = `${topLeftMgrs}_${widthMm}_${heightMm}_${scaleDenominator}`;
@@ -103,7 +125,7 @@ export function SvgMapOverlay({
 
   return (
     <MapContainer
-      center={bounds.getCenter()}
+      center={baseBounds.getCenter()}
       zoom={tileMaxZoom}
       className={className}
       zoomControl={false}
@@ -112,7 +134,7 @@ export function SvgMapOverlay({
       {useRealMap === 2 && (
         <TileLayer
           url={tilesUrl}
-          bounds={bounds} // never request tiles outside the map
+          bounds={baseBounds} // never request tiles outside the map
           minNativeZoom={tileMinZoom}
           maxNativeZoom={tileMaxZoom}
           maxZoom={22}
@@ -135,11 +157,11 @@ export function SvgMapOverlay({
 
       <ImageOverlay
         url={url}
-        bounds={bounds}
+        bounds={overlayBounds}
         opacity={0.8}
         className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
       />
-      <FitOnce bounds={bounds} boundsKey={boundsKey} />
+      <FitOnce bounds={baseBounds} boundsKey={boundsKey} />
     </MapContainer>
   );
 }

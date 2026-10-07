@@ -1,7 +1,10 @@
 import { parseCSV } from "./lib/csv";
 import { createMapContext, type MapFormatConfig } from "./lib/geo";
 import { buildIconsDefs } from "./lib/icons";
-import { buildLUnitsSpearationLinesSVGs, type LineOverrides } from "./lib/lines";
+import {
+  buildLUnitsSpearationLinesSVGs,
+  type LineOverrides,
+} from "./lib/lines";
 import { buildMapObjects } from "./lib/map-objects";
 import { renderElementsSVG } from "./lib/render-objects-svg";
 import { resolveOverlappingRenderPoints } from "./lib/resolve-overlaps";

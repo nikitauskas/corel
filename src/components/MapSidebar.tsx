@@ -11,6 +11,7 @@ import type { PaletteColor } from "../lib/palette";
 import { CustomColorDropdown } from "./CustomColorDropdown";
 import { MapSettingsForm } from "./MapSettingsForm";
 import { PaletteManager } from "./PaletteManager";
+import { SvgShiftController } from "./SvgShiftController";
 
 export const DEFAULT_LAYER_COLORS: Record<string, string> = {
   "1bat": "#FECC00",
@@ -126,6 +127,9 @@ interface MapSidebarProps {
   lineOverrides: LineOverrides;
   palette: PaletteColor[];
   useRealMap: number;
+  shiftX: number;
+  shiftY: number;
+  shiftEnabled: boolean;
   onClose: () => void;
   onMgrsChange: (val: string) => void;
   onScaleChange: (val: number) => void;
@@ -144,6 +148,9 @@ interface MapSidebarProps {
   onPaletteDelete: (id: string) => void;
   onPaletteReset: () => void;
   onUseRealMapChange: (val: number) => void;
+  onShiftChange: (x: number, y: number, enabled?: boolean) => void;
+  onResetShift: () => void;
+  onApplyShiftedMgrs: (newMgrs: string) => void;
 }
 
 export function MapSidebar({
@@ -158,6 +165,9 @@ export function MapSidebar({
   lineOverrides,
   palette,
   useRealMap,
+  shiftX,
+  shiftY,
+  shiftEnabled,
   onClose,
   onMgrsChange,
   onScaleChange,
@@ -173,6 +183,9 @@ export function MapSidebar({
   onPaletteDelete,
   onPaletteReset,
   onUseRealMapChange,
+  onShiftChange,
+  onResetShift,
+  onApplyShiftedMgrs,
 }: MapSidebarProps) {
   const isReady = status === "done" || (status === "loading" && result);
 
@@ -264,6 +277,27 @@ export function MapSidebar({
             onScaleChange={onScaleChange}
             onWidthChange={onWidthChange}
             onHeightChange={onHeightChange}
+          />
+        </CollapsibleSection>
+
+        {/* SVG Position Shift Controller */}
+        <CollapsibleSection
+          title="SVG Position Shift"
+          storageKey="shift"
+          summary={
+            shiftX !== 0 || shiftY !== 0
+              ? `ΔX: ${shiftX > 0 ? `+${shiftX}` : shiftX}m · ΔY: ${shiftY > 0 ? `+${shiftY}` : shiftY}m`
+              : "0m · 0m"
+          }
+        >
+          <SvgShiftController
+            mgrsTL={mgrsTL}
+            shiftX={shiftX}
+            shiftY={shiftY}
+            shiftEnabled={shiftEnabled}
+            onShiftChange={onShiftChange}
+            onResetShift={onResetShift}
+            onApplyShiftedMgrs={onApplyShiftedMgrs}
           />
         </CollapsibleSection>
 

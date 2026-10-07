@@ -32,6 +32,9 @@ const STORAGE_KEYS = {
   MGRS: "delta2corel_MGRS",
   LAYER_COLORS: "delta2corel_LayerColors",
   LINE_OVERRIDES: "delta2corel_LineOverrides",
+  SHIFT_X: "delta2corel_ShiftX",
+  SHIFT_Y: "delta2corel_ShiftY",
+  SHIFT_ENABLED: "delta2corel_ShiftEnabled",
 } as const;
 
 // Constants and Dropdown moved to MapSidebar.tsx and CustomColorDropdown.tsx
@@ -130,6 +133,47 @@ function getInitialLineOverrides(): LineOverrides {
   return { lines: {}, areas: {} };
 }
 
+function getInitialShiftX(): number {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.SHIFT_X);
+    if (saved !== null) {
+      const val = Number(saved);
+      if (!Number.isNaN(val)) return val;
+    }
+  } catch (e) {
+    console.error("Failed to read delta2corel_ShiftX from localStorage", e);
+  }
+  return 0;
+}
+
+function getInitialShiftY(): number {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.SHIFT_Y);
+    if (saved !== null) {
+      const val = Number(saved);
+      if (!Number.isNaN(val)) return val;
+    }
+  } catch (e) {
+    console.error("Failed to read delta2corel_ShiftY from localStorage", e);
+  }
+  return 0;
+}
+
+function getInitialShiftEnabled(): boolean {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.SHIFT_ENABLED);
+    if (saved !== null) {
+      return saved === "1" || saved === "true";
+    }
+  } catch (e) {
+    console.error(
+      "Failed to read delta2corel_ShiftEnabled from localStorage",
+      e,
+    );
+  }
+  return true;
+}
+
 // CustomColorDropdown moved to src/components/CustomColorDropdown.tsx
 
 export default function App() {
@@ -138,6 +182,11 @@ export default function App() {
   const [scale, setScale] = useState<number>(getInitialScale);
   const [width, setWidth] = useState<string>(getInitialWidth);
   const [height, setHeight] = useState<string>(getInitialHeight);
+  const [shiftX, setShiftX] = useState<number>(getInitialShiftX);
+  const [shiftY, setShiftY] = useState<number>(getInitialShiftY);
+  const [shiftEnabled, setShiftEnabled] = useState<boolean>(
+    getInitialShiftEnabled,
+  );
   const [csvContent, setCsvContent] = useState<string | null>(null);
   const [csvFilename, setCsvFilename] = useState<string | null>(null);
   const [layerColors, setLayerColors] = useState<Record<string, string>>(
@@ -149,6 +198,32 @@ export default function App() {
   const [palette, setPalette] = useState<PaletteColor[]>(loadPalette);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [useRealMap, setUseRealMap] = useState(1);
+
+  const handleShiftChange = (x: number, y: number, enabled = true) => {
+    setShiftX(x);
+    setShiftY(y);
+    setShiftEnabled(enabled);
+    try {
+      localStorage.setItem(STORAGE_KEYS.SHIFT_X, String(x));
+      localStorage.setItem(STORAGE_KEYS.SHIFT_Y, String(y));
+      localStorage.setItem(STORAGE_KEYS.SHIFT_ENABLED, enabled ? "1" : "0");
+    } catch (e) {
+      console.error("Failed to save shift to localStorage", e);
+    }
+  };
+
+  const handleResetShift = () => {
+    setShiftX(0);
+    setShiftY(0);
+    setShiftEnabled(false);
+    try {
+      localStorage.setItem(STORAGE_KEYS.SHIFT_X, "0");
+      localStorage.setItem(STORAGE_KEYS.SHIFT_Y, "0");
+      localStorage.setItem(STORAGE_KEYS.SHIFT_ENABLED, "0");
+    } catch (e) {
+      console.error("Failed to save shift reset to localStorage", e);
+    }
+  };
 
   const generateMap = useCallback(
     async (
@@ -513,6 +588,20 @@ export default function App() {
     };
   }, [state.status]);
 
+  const handleApplyShiftedMgrs = (newMgrs: string) => {
+    handleMgrsChange(newMgrs);
+    setShiftX(0);
+    setShiftY(0);
+    setShiftEnabled(false);
+    try {
+      localStorage.setItem(STORAGE_KEYS.SHIFT_X, "0");
+      localStorage.setItem(STORAGE_KEYS.SHIFT_Y, "0");
+      localStorage.setItem(STORAGE_KEYS.SHIFT_ENABLED, "0");
+    } catch (e) {
+      console.error("Failed to reset shift on apply", e);
+    }
+  };
+
   if (state.status === "done" || (state.status === "loading" && csvContent)) {
     return (
       <div className="w-screen h-screen overflow-hidden bg-gray-600 relative">
@@ -527,6 +616,8 @@ export default function App() {
               widthMm={Number(width)}
               heightMm={Number(height)}
               useRealMap={useRealMap}
+              shiftX={shiftEnabled ? shiftX : 0}
+              shiftY={shiftEnabled ? shiftY : 0}
             />
           ) : (
             <SvgPreview
@@ -582,6 +673,9 @@ export default function App() {
             layerColors={layerColors}
             lineOverrides={lineOverrides}
             palette={palette}
+            shiftX={shiftX}
+            shiftY={shiftY}
+            shiftEnabled={shiftEnabled}
             onClose={() => setIsSidebarOpen(false)}
             onMgrsChange={handleMgrsChange}
             onScaleChange={handleScaleChange}
@@ -598,6 +692,9 @@ export default function App() {
             onPaletteReset={handlePaletteReset}
             useRealMap={useRealMap}
             onUseRealMapChange={setUseRealMap}
+            onShiftChange={handleShiftChange}
+            onResetShift={handleResetShift}
+            onApplyShiftedMgrs={handleApplyShiftedMgrs}
           />
         )}
 
