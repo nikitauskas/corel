@@ -3,64 +3,66 @@ import path from "node:path";
 import sharp from "sharp";
 import { computeMercatorExtent } from "../src/lib/overlay-bounds";
 
-// ---------- CLI ----------
-const args = Object.fromEntries(
-  process.argv.slice(2).reduce<[string, string][]>((acc, a, i, arr) => {
-    if (a.startsWith("--")) acc.push([a.slice(2), arr[i + 1]]);
-    return acc;
-  }, []),
-);
+const args: Record<string, string> = {};
+process.argv.slice(2).forEach((a, i, arr) => {
+  if (a.startsWith("--")) args[a.slice(2)] = arr[i + 1];
+});
 
 const input = args["input"];
 const mgrs = args["mgrs"];
-const widthMm = Number(args["width-mm"] ?? 1810);
-const heightMm = Number(args["height-mm"] ?? 1810);
 const scale = Number(args["scale"] ?? 25000);
+const dpi = Number(args["dpi"] ?? 300);
 const outDir = args["out"] ?? "public/tiles";
 const TILE = 256;
 
 if (!input || !mgrs) {
   console.error(
-    "Usage: tsx scripts/make-tiles.ts --input map.png --mgrs 36UXA1234567890 " +
-      "[--width-mm 1810 --height-mm 1810 --scale 25000 --min-zoom N --max-zoom N --out public/tiles]",
+    "Usage: tsx scripts/make-tiles.ts --input map.jpg --mgrs 37UBP9708043769 " +
+      "[--scale 25000 --dpi 300 --min-zoom N --max-zoom N --out public/tiles]",
   );
   process.exit(1);
 }
 
-// ---------- geometry ----------
-const ORIGIN = 20037508.342789244; // half of Web Mercator world width
-const RES0 = (2 * ORIGIN) / TILE; // meters per pixel at z0
+sharp.cache(false);
 
-const ext = computeMercatorExtent(
-  mgrs,
-  (widthMm * scale) / 1000,
-  (heightMm * scale) / 1000,
-);
-const extW = ext.xMax - ext.xMin;
-const extH = ext.yMax - ext.yMin;
+const ORIGIN = 20037508.342789244;
+const RES0 = (2 * ORIGIN) / TILE;
 
 async function main() {
-  console.log("Decoding source image...");
+  const meta = await sharp(input, { limitInputPixels: false }).metadata();
+  const srcW = meta.width!;
+  const srcH = meta.height!;
+
+  // pixels -> paper meters -> ground meters
+  const widthM = (srcW / dpi) * 0.0254 * scale;
+  const heightM = (srcH / dpi) * 0.0254 * scale;
+  const ext = computeMercatorExtent(mgrs, widthM, heightM);
+  const extW = ext.xMax - ext.xMin;
+  const extH = ext.yMax - ext.yMin;
+
+  console.log(
+    `Source ${srcW}x${srcH}px @ ${dpi}dpi = ${(widthM / 1000).toFixed(2)} km`,
+  );
+  console.log("Decoding...");
   const { data, info } = await sharp(input, { limitInputPixels: false })
-    .ensureAlpha()
+    .removeAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
-  const srcW = info.width;
-  const srcH = info.height;
+  const channels = info.channels as 3 | 4; // always use what the decoder returned
+  console.log(`Decoded: ${info.width}x${info.height}, ${channels} channels`);
 
-  // zoom at which one tile pixel ~= one source pixel
   const nativeZoom = Math.log2(RES0 / (extW / srcW));
   const maxZoom = Number(args["max-zoom"] ?? Math.ceil(nativeZoom));
   const minZoom = Number(args["min-zoom"] ?? Math.max(0, maxZoom - 3));
   console.log(
-    `Source ${srcW}x${srcH}px, native zoom ≈ ${nativeZoom.toFixed(2)}, generating z${minZoom}..z${maxZoom}`,
+    `native zoom ≈ ${nativeZoom.toFixed(2)}, generating z${minZoom}..z${maxZoom}`,
   );
 
-  const sx = srcW / extW; // source px per mercator meter
+  const sx = srcW / extW;
   const sy = srcH / extH;
 
   for (let z = minZoom; z <= maxZoom; z++) {
-    const size = (2 * ORIGIN) / 2 ** z; // tile size in mercator meters
+    const size = (2 * ORIGIN) / 2 ** z;
     const x0 = Math.floor((ext.xMin + ORIGIN) / size);
     const x1 = Math.floor((ext.xMax + ORIGIN - 1e-6) / size);
     const y0 = Math.floor((ORIGIN - ext.yMax) / size);
@@ -73,17 +75,13 @@ async function main() {
         jobs.push(async () => {
           const tLeft = -ORIGIN + x * size;
           const tTop = ORIGIN - y * size;
-          const tRight = tLeft + size;
-          const tBottom = tTop - size;
 
-          // intersection with overlay extent (mercator)
           const ix0 = Math.max(tLeft, ext.xMin);
-          const ix1 = Math.min(tRight, ext.xMax);
-          const iy0 = Math.max(tBottom, ext.yMin);
+          const ix1 = Math.min(tLeft + size, ext.xMax);
+          const iy0 = Math.max(tTop - size, ext.yMin);
           const iy1 = Math.min(tTop, ext.yMax);
           if (ix1 <= ix0 || iy1 <= iy0) return;
 
-          // destination rect inside the 256x256 tile
           const dLeft = Math.round(((ix0 - tLeft) / size) * TILE);
           const dRight = Math.round(((ix1 - tLeft) / size) * TILE);
           const dTop = Math.round(((tTop - iy1) / size) * TILE);
@@ -92,18 +90,20 @@ async function main() {
           const dH = dBottom - dTop;
           if (dW < 1 || dH < 1) return;
 
-          // source rect
-          const sLeft = Math.max(0, Math.floor((ix0 - ext.xMin) * sx));
-          const sTop = Math.max(0, Math.floor((ext.yMax - iy1) * sy));
-          const sRight = Math.min(srcW, Math.ceil((ix1 - ext.xMin) * sx));
-          const sBottom = Math.min(srcH, Math.ceil((ext.yMax - iy0) * sy));
-          const sW = sRight - sLeft;
-          const sH = sBottom - sTop;
-          if (sW < 1 || sH < 1) return;
+          const sLeft = Math.max(0, Math.round((ix0 - ext.xMin) * sx));
+          const sTop = Math.max(0, Math.round((ext.yMax - iy1) * sy));
+          const sW = Math.min(
+            srcW - sLeft,
+            Math.max(1, Math.round((ix1 - ix0) * sx)),
+          );
+          const sH = Math.min(
+            srcH - sTop,
+            Math.max(1, Math.round((iy1 - iy0) * sy)),
+          );
 
           const piece = await sharp(data, {
             limitInputPixels: false,
-            raw: { width: srcW, height: srcH, channels: 3 }, // or 4 if you didn't apply the removeAlpha edit
+            raw: { width: srcW, height: srcH, channels },
           })
             .extract({ left: sLeft, top: sTop, width: sW, height: sH })
             .resize(dW, dH, { fit: "fill", kernel: "lanczos3" })
@@ -126,17 +126,16 @@ async function main() {
               },
             })
               .composite([{ input: piece, left: dLeft, top: dTop }])
-              .png({ compressionLevel: 9 })
+              .png()
               .toFile(file);
           }
         });
       }
     }
 
-    // small concurrency pool
     let i = 0;
     await Promise.all(
-      Array.from({ length: 8 }, async () => {
+      Array.from({ length: 4 }, async () => {
         while (i < jobs.length) await jobs[i++]();
       }),
     );
@@ -144,7 +143,9 @@ async function main() {
   }
 
   console.log(`\nDone → ${outDir}`);
-  console.log(`Use: tileMinZoom={${minZoom}} tileMaxZoom={${maxZoom}}`);
+  console.log(
+    `Component: tileMinZoom={${minZoom}} tileMaxZoom={${maxZoom}} widthPx={${srcW}} heightPx={${srcH}} dpi={${dpi}}`,
+  );
 }
 
 main().catch((e) => {
