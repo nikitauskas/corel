@@ -102,7 +102,8 @@ async function main() {
           if (sW < 1 || sH < 1) return;
 
           const piece = await sharp(data, {
-            raw: { width: srcW, height: srcH, channels: 4 },
+            limitInputPixels: false,
+            raw: { width: srcW, height: srcH, channels: 3 }, // or 4 if you didn't apply the removeAlpha edit
           })
             .extract({ left: sLeft, top: sTop, width: sW, height: sH })
             .resize(dW, dH, { fit: "fill", kernel: "lanczos3" })
