@@ -1,5 +1,4 @@
-import L, { type LatLngBounds, type LatLngBoundsExpression } from "leaflet";
-import proj4 from "proj4";
+import L, { type LatLngBoundsExpression } from "leaflet";
 import { useEffect, useMemo, useRef } from "react";
 import {
   ImageOverlay,
@@ -10,63 +9,29 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-import { mgrsToUtm } from "../lib/geo";
+import { computeMercatorExtent, extentToLatLng } from "../lib/overlay-bounds";
 
 interface SvgMapOverlayProps {
   svgContent: string;
-  topLeftMgrs: string; // e.g. "36UXA1234567890"
-  widthMm?: number; // SVG size on paper
+  topLeftMgrs: string;
+  widthMm?: number;
   heightMm?: number;
-  scaleDenominator: number; // e.g. 1000 for 1:1000 -> 1810 mm = 1810 m
+  scaleDenominator: number;
+  /** Tile URL template, relative so it works on file:// and localhost */
+  tilesUrl?: string;
+  tileMinZoom?: number;
+  tileMaxZoom?: number;
   className?: string;
 }
 
-/** UTM proj definition derived from the MGRS string (zone + hemisphere). */
-function utmDef(code: string): string {
-  const m = code
-    .trim()
-    .toUpperCase()
-    .match(/^(\d{1,2})([C-X])/);
-  if (!m) throw new Error(`Invalid MGRS: ${code}`);
-  const zone = Number(m[1]);
-  const south = m[2] < "N";
-  return `+proj=utm +zone=${zone}${south ? " +south" : ""} +datum=WGS84 +units=m +no_defs`;
-}
+const TRANSPARENT_PX =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
-/** Compute Leaflet bounds [[south, west], [north, east]] for the SVG. */
-function computeBounds(
-  topLeftMgrs: string,
-  widthM: number,
-  heightM: number,
-): LatLngBounds {
-  const def = utmDef(topLeftMgrs);
-  const { easting: e0, northing: n0 } = mgrsToUtm(topLeftMgrs);
-
-  // Geographic center in UTM
-  const eCenter = e0 + widthM / 2;
-  const nCenter = n0 - heightM / 2;
-  const [centerLon, centerLat] = proj4(def, "EPSG:4326", [eCenter, nCenter]);
-  const [xCenter, yCenter] = proj4(
-    "EPSG:4326",
-    "EPSG:3857",
-    [centerLon, centerLat],
+function computeBounds(topLeftMgrs: string, widthM: number, heightM: number) {
+  const { south, west, north, east } = extentToLatLng(
+    computeMercatorExtent(topLeftMgrs, widthM, heightM),
   );
-
-  // In Web Mercator (EPSG:3857), local scale factor k = 1 / cos(latitude)
-  // Scaling both dimensions by k preserves conformal shape and exactly matches SVG aspect ratio (widthM / heightM)
-  const k = 1 / Math.cos((centerLat * Math.PI) / 180);
-  const wMerc = widthM * k;
-  const hMerc = heightM * k;
-
-  const xMin = xCenter - wMerc / 2;
-  const xMax = xCenter + wMerc / 2;
-  const yMin = yCenter - hMerc / 2;
-  const yMax = yCenter + hMerc / 2;
-
-  const [swLon, swLat] = proj4("EPSG:3857", "EPSG:4326", [xMin, yMin]);
-  const [neLon, neLat] = proj4("EPSG:3857", "EPSG:4326", [xMax, yMax]);
-
-  return L.latLngBounds([swLat, swLon], [neLat, neLon]); // SW, NE
+  return L.latLngBounds([south, west], [north, east]);
 }
 
 /** Fit the map so the overlay fills the viewport width (no horizontal padding). */
@@ -113,7 +78,10 @@ export function SvgMapOverlay({
   widthMm = 1810,
   heightMm = 1810,
   scaleDenominator,
-  className = "h-[100vh] z-0",
+  tilesUrl = `${import.meta.env.BASE_URL}tiles/{z}/{x}/{y}.png`,
+  tileMinZoom = 12,
+  tileMaxZoom = 15,
+  className = "h-[100vh] z-0 bg-neutral-900",
 }: SvgMapOverlayProps) {
   const bounds = useMemo(
     () =>
@@ -126,7 +94,6 @@ export function SvgMapOverlay({
   );
 
   const boundsKey = `${topLeftMgrs}_${widthMm}_${heightMm}_${scaleDenominator}`;
-
   const url = useMemo(
     () => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgContent)}`,
     [svgContent],
@@ -135,17 +102,22 @@ export function SvgMapOverlay({
   return (
     <MapContainer
       center={bounds.getCenter()}
-      zoom={15}
+      zoom={tileMaxZoom}
       className={className}
+      minZoom={tileMinZoom - 2}
       maxZoom={22}
       zoomControl={false}
     >
       <ZoomControl position="topright" />
       <TileLayer
-        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-        attribution="&copy; OpenStreetMap contributors"
-        maxNativeZoom={19}
+        url={tilesUrl}
+        bounds={bounds} // never request tiles outside the map
+        minNativeZoom={tileMinZoom}
+        maxNativeZoom={tileMaxZoom}
         maxZoom={22}
+        noWrap
+        errorTileUrl={TRANSPARENT_PX}
+        attribution="Local map"
       />
       <ImageOverlay
         url={url}
