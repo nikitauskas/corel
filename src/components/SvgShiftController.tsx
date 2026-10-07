@@ -11,6 +11,24 @@ interface SvgShiftControllerProps {
   onApplyShiftedMgrs: (newMgrs: string) => void;
 }
 
+const OUTER_BUTTONS = [
+  { dir: "N", label: "North 15m", rot: 0, dx: 0, dy: 15 },
+  { dir: "NE", label: "North-East 15m", rot: 45, dx: 15, dy: 15 },
+  { dir: "E", label: "East 15m", rot: 90, dx: 15, dy: 0 },
+  { dir: "SE", label: "South-East 15m", rot: 135, dx: 15, dy: -15 },
+  { dir: "S", label: "South 15m", rot: 180, dx: 0, dy: -15 },
+  { dir: "SW", label: "South-West 15m", rot: 225, dx: -15, dy: -15 },
+  { dir: "W", label: "West 15m", rot: 270, dx: -15, dy: 0 },
+  { dir: "NW", label: "North-West 15m", rot: 315, dx: -15, dy: 15 },
+] as const;
+
+const INNER_BUTTONS = [
+  { dir: "N", label: "North 5m", rot: 0, dx: 0, dy: 5 },
+  { dir: "E", label: "East 5m", rot: 90, dx: 5, dy: 0 },
+  { dir: "S", label: "South 5m", rot: 180, dx: 0, dy: -5 },
+  { dir: "W", label: "West 5m", rot: 270, dx: -5, dy: 0 },
+] as const;
+
 export function SvgShiftController({
   mgrsTL,
   shiftX,
@@ -23,14 +41,11 @@ export function SvgShiftController({
   const [copied, setCopied] = useState(false);
   const [applied, setApplied] = useState(false);
 
-  // Compute new top-left MGRS based on current base MGRS and active shift
   const effectiveX = shiftEnabled ? shiftX : 0;
   const effectiveY = shiftEnabled ? shiftY : 0;
   const shiftedMgrs = computeShiftedMgrs(mgrsTL, effectiveX, effectiveY);
-
   const hasShift = shiftX !== 0 || shiftY !== 0;
 
-  // Handle D-pad directional clicks
   const handleNudge = (dx: number, dy: number) => {
     const nextX = shiftX + dx;
     const nextY = shiftY + dy;
@@ -38,7 +53,6 @@ export function SvgShiftController({
     setApplied(false);
   };
 
-  // Check / uncheck option: unchecking resets the shift
   const handleToggleActive = (checked: boolean) => {
     if (!checked) {
       onResetShift();
@@ -67,7 +81,7 @@ export function SvgShiftController({
 
   return (
     <div className="flex flex-col items-center gap-4 bg-gray-900/60 border border-gray-800 rounded-2xl p-4">
-      {/* Top Header: Checkbox to toggle / reset shift, and Reset button */}
+      {/* Header: Checkbox to toggle / reset shift, and Reset button */}
       <div className="w-full flex items-center justify-between gap-2 border-b border-gray-800/80 pb-3">
         <label className="flex items-center gap-2 cursor-pointer select-none">
           <input
@@ -81,18 +95,16 @@ export function SvgShiftController({
           </span>
         </label>
 
-        <div className="flex items-center gap-2">
-          {hasShift && (
-            <button
-              type="button"
-              onClick={onResetShift}
-              className="text-[11px] font-mono text-gray-400 hover:text-red-400 bg-gray-800 hover:bg-gray-700/80 px-2 py-0.5 rounded border border-gray-700 transition-colors cursor-pointer"
-              title="Reset shift to 0,0"
-            >
-              Reset (0, 0)
-            </button>
-          )}
-        </div>
+        {hasShift && (
+          <button
+            type="button"
+            onClick={onResetShift}
+            className="text-[11px] font-mono text-gray-400 hover:text-red-400 bg-gray-800 hover:bg-gray-700/80 px-2 py-0.5 rounded border border-gray-700 transition-colors cursor-pointer"
+            title="Reset shift to 0,0"
+          >
+            Reset (0, 0)
+          </button>
+        )}
       </div>
 
       {/* Coordinate shift readouts */}
@@ -100,7 +112,7 @@ export function SvgShiftController({
         <div className="flex items-center gap-2">
           <span className="text-gray-400">ΔX:</span>
           <span
-            className={`font-semibold px-1.5 py-0.5 rounded ${
+            className={`font-semibold px-2 py-0.5 rounded ${
               shiftX !== 0
                 ? "bg-blue-900/50 text-blue-300 border border-blue-700/50"
                 : "bg-gray-800 text-gray-400"
@@ -112,7 +124,7 @@ export function SvgShiftController({
         <div className="flex items-center gap-2">
           <span className="text-gray-400">ΔY:</span>
           <span
-            className={`font-semibold px-1.5 py-0.5 rounded ${
+            className={`font-semibold px-2 py-0.5 rounded ${
               shiftY !== 0
                 ? "bg-blue-900/50 text-blue-300 border border-blue-700/50"
                 : "bg-gray-800 text-gray-400"
@@ -123,7 +135,7 @@ export function SvgShiftController({
         </div>
       </div>
 
-      {/* Step guide legend */}
+      {/* Legend */}
       <div className="flex items-center gap-3 text-[11px] text-gray-400">
         <span className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.6)]" />
@@ -137,315 +149,120 @@ export function SvgShiftController({
       </div>
 
       {/* ── Circular D-Pad Controller ── */}
-      <div className="relative flex items-center justify-center p-2 select-none">
-        <svg
-          width="240"
-          height="240"
-          viewBox="0 0 240 240"
-          className="drop-shadow-2xl overflow-visible"
-        >
-          <defs>
-            {/* Dial Chassis Gradient */}
-            <radialGradient
-              id="dialGrad"
-              cx="50%"
-              cy="50%"
-              r="50%"
-              fx="50%"
-              fy="45%"
-            >
-              <stop offset="0%" stopColor="#2e3440" />
-              <stop offset="65%" stopColor="#21252d" />
-              <stop offset="100%" stopColor="#16181d" />
-            </radialGradient>
+      <div className="relative my-2 select-none flex items-center justify-center">
+        {/* Chassis Dial */}
+        <div className="relative w-[240px] h-[240px] rounded-full bg-gradient-to-b from-[#2a2f3a] via-[#1f232b] to-[#15171c] border border-[#3a414f] shadow-[0_12px_30px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.12)] flex items-center justify-center overflow-hidden">
+          {/* Concentric groove */}
+          <div className="w-[146px] h-[146px] rounded-full border-2 border-[#16181e] bg-[#1a1d24] shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center pointer-events-none">
+            {/* Inner ring platform */}
+            <div className="w-[138px] h-[138px] rounded-full bg-[#20252e] border border-[#2e333d]" />
+          </div>
 
-            {/* Inner Recessed Groove Gradient */}
-            <radialGradient id="grooveGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="85%" stopColor="#181a1f" />
-              <stop offset="100%" stopColor="#252932" />
-            </radialGradient>
-
-            {/* Outer Button Gradient */}
-            <linearGradient id="outerBtnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#2f343d" />
-              <stop offset="100%" stopColor="#1a1c22" />
-            </linearGradient>
-
-            {/* Inner Blue Petal Gradient */}
-            <linearGradient
-              id="bluePetalGrad"
-              x1="0%"
-              y1="0%"
-              x2="0%"
-              y2="100%"
-            >
-              <stop offset="0%" stopColor="#38bdf8" />
-              <stop offset="100%" stopColor="#1d8cf8" />
-            </linearGradient>
-
-            {/* Center Square Gradient */}
-            <linearGradient
-              id="centerBtnGrad"
-              x1="0%"
-              y1="0%"
-              x2="0%"
-              y2="100%"
-            >
-              <stop offset="0%" stopColor="#282d36" />
-              <stop offset="100%" stopColor="#191c22" />
-            </linearGradient>
-
-            {/* Shadow Filter */}
-            <filter
-              id="controllerShadow"
-              x="-20%"
-              y="-20%"
-              width="140%"
-              height="140%"
-            >
-              <feDropShadow
-                dx="0"
-                dy="6"
-                stdDeviation="8"
-                floodColor="#000000"
-                floodOpacity="0.6"
-              />
-            </filter>
-
-            {/* Subtle Blue Glow */}
-            <filter id="blueGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow
-                dx="0"
-                dy="2"
-                stdDeviation="3"
-                floodColor="#0284c7"
-                floodOpacity="0.5"
-              />
-            </filter>
-          </defs>
-
-          {/* 1. Base Circular Dial Body */}
-          <circle
-            cx="120"
-            cy="120"
-            r="114"
-            fill="url(#dialGrad)"
-            stroke="#3a404d"
-            strokeWidth="1.5"
-            filter="url(#controllerShadow)"
-          />
-
-          {/* Concentric subtle groove */}
-          <circle
-            cx="120"
-            cy="120"
-            r="72"
-            fill="url(#grooveGrad)"
-            stroke="#17191e"
-            strokeWidth="2"
-          />
-
-          {/* Inner ring platform */}
-          <circle
-            cx="120"
-            cy="120"
-            r="69"
-            fill="#232730"
-            stroke="#323742"
-            strokeWidth="1"
-          />
-
-          {/* 2. Outer Ring: 8 Directional Buttons (15m each) */}
-          {[
-            {
-              dir: "N",
-              label: "North 15m",
-              rot: 0,
-              dx: 0,
-              dy: 15,
-            },
-            {
-              dir: "NE",
-              label: "North-East 15m",
-              rot: 45,
-              dx: 15,
-              dy: 15,
-            },
-            {
-              dir: "E",
-              label: "East 15m",
-              rot: 90,
-              dx: 15,
-              dy: 0,
-            },
-            {
-              dir: "SE",
-              label: "South-East 15m",
-              rot: 135,
-              dx: 15,
-              dy: -15,
-            },
-            {
-              dir: "S",
-              label: "South 15m",
-              rot: 180,
-              dx: 0,
-              dy: -15,
-            },
-            {
-              dir: "SW",
-              label: "South-West 15m",
-              rot: 225,
-              dx: -15,
-              dy: -15,
-            },
-            {
-              dir: "W",
-              label: "West 15m",
-              rot: 270,
-              dx: -15,
-              dy: 0,
-            },
-            {
-              dir: "NW",
-              label: "North-West 15m",
-              rot: 315,
-              dx: -15,
-              dy: 15,
-            },
-          ].map(({ dir, label, rot, dx, dy }) => (
-            <g
+          {/* 8 Outer Buttons (15m step) */}
+          {OUTER_BUTTONS.map(({ dir, label, rot, dx, dy }) => (
+            <div
               key={dir}
-              transform={`rotate(${rot} 120 120)`}
-              onClick={() => handleNudge(dx, dy)}
-              className="cursor-pointer group transition-transform duration-100 active:scale-95 origin-[120px_120px]"
-              aria-label={label}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleNudge(dx, dy);
-                }
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: `translate(-50%, -50%) rotate(${rot}deg) translateY(-87px)`,
               }}
+              className="pointer-events-auto"
             >
-              {/* Outer button pill */}
-              <rect
-                x="105"
-                y="15"
-                width="30"
-                height="26"
-                rx="8"
-                fill="url(#outerBtnGrad)"
-                stroke="#3f4552"
-                strokeWidth="1.2"
-                className="group-hover:stroke-gray-300 group-hover:brightness-125 transition-all shadow-sm"
-              />
-              {/* White arrow pointing up (relative to rotation) */}
-              <path
-                d="M 120,22 L 126,29 L 122.5,29 L 122.5,35 L 117.5,35 L 117.5,29 L 114,29 Z"
-                fill="#ffffff"
-                className="group-hover:drop-shadow-[0_0_3px_rgba(255,255,255,0.8)] transition-all pointer-events-none"
-              />
-            </g>
+              <button
+                type="button"
+                onClick={() => handleNudge(dx, dy)}
+                aria-label={label}
+                title={label}
+                className="w-[30px] h-[26px] rounded-lg bg-gradient-to-b from-[#323844] to-[#1d2026] border border-[#434b59] shadow-md flex items-center justify-center hover:border-gray-300 hover:brightness-125 active:scale-90 transition-all cursor-pointer"
+              >
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  className="text-white shrink-0 pointer-events-none drop-shadow"
+                >
+                  <path
+                    d="M6 2L10 6.5H7.2V10H4.8V6.5H2L6 2Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+            </div>
           ))}
 
-          {/* 3. Inner Ring: 4 Blue Petal Buttons (5m each) */}
-          {[
-            {
-              dir: "N",
-              label: "North 5m",
-              rot: 0,
-              dx: 0,
-              dy: 5,
-            },
-            {
-              dir: "E",
-              label: "East 5m",
-              rot: 90,
-              dx: 5,
-              dy: 0,
-            },
-            {
-              dir: "S",
-              label: "South 5m",
-              rot: 180,
-              dx: 0,
-              dy: -5,
-            },
-            {
-              dir: "W",
-              label: "West 5m",
-              rot: 270,
-              dx: -5,
-              dy: 0,
-            },
-          ].map(({ dir, label, rot, dx, dy }) => (
-            <g
+          {/* 4 Inner Blue Petal Buttons (5m step) */}
+          {INNER_BUTTONS.map(({ dir, label, rot, dx, dy }) => (
+            <div
               key={dir}
-              transform={`rotate(${rot} 120 120)`}
-              onClick={() => handleNudge(dx, dy)}
-              className="cursor-pointer group transition-transform duration-100 active:scale-95 origin-[120px_120px]"
-              aria-label={label}
-              filter="url(#blueGlow)"
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleNudge(dx, dy);
-                }
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: `translate(-50%, -50%) rotate(${rot}deg) translateY(-46px)`,
               }}
+              className="pointer-events-auto"
             >
-              {/* Curved petal wedge shape hugging center square */}
-              <path
-                d="M 103,84 C 102,69 110,55 120,55 C 130,55 138,69 137,84 C 133,87 127,88 120,88 C 113,88 107,87 103,84 Z"
-                fill="url(#bluePetalGrad)"
-                stroke="#60a5fa"
-                strokeWidth="1.2"
-                className="group-hover:brightness-110 group-hover:stroke-white transition-all"
-              />
-              {/* Subtle petal center arrow / indicator */}
-              <path
-                d="M 120,63 L 124,69 L 121.5,69 L 121.5,74 L 118.5,74 L 118.5,69 L 116,69 Z"
-                fill="#ffffff"
-                opacity="0.95"
-                className="pointer-events-none"
-              />
-            </g>
+              <button
+                type="button"
+                onClick={() => handleNudge(dx, dy)}
+                aria-label={label}
+                title={label}
+                className="w-[38px] h-[30px] rounded-t-[18px] rounded-b-[10px] bg-gradient-to-b from-sky-400 to-blue-600 border border-sky-300 shadow-[0_3px_8px_rgba(2,132,199,0.5),inset_0_1px_1px_rgba(255,255,255,0.5)] flex items-center justify-center hover:brightness-110 active:scale-90 transition-all cursor-pointer"
+              >
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  fill="none"
+                  className="text-white shrink-0 pointer-events-none"
+                >
+                  <path
+                    d="M5 1.5L8.5 5.5H6.2V8.5H3.8V5.5H1.5L5 1.5Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+            </div>
           ))}
 
-          {/* 4. Center Button: Rounded Square (Reset) */}
-          <g
-            onClick={onResetShift}
-            className="cursor-pointer group transition-transform duration-100 active:scale-90 origin-[120px_120px]"
-            aria-label="Reset shift to 0,0"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onResetShift();
-              }
+          {/* Center Square (Reset Button) */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
             }}
+            className="pointer-events-auto"
           >
-            <rect
-              x="100"
-              y="100"
-              width="40"
-              height="40"
-              rx="9"
-              fill="url(#centerBtnGrad)"
-              stroke="#3b414e"
-              strokeWidth="1.5"
-              className="group-hover:stroke-blue-400 group-hover:brightness-125 transition-all shadow-inner"
-            />
-            {/* Center Reset Icon */}
-            <path
-              d="M 120,111 A 7.5,7.5 0 1,1 113,118.5 M 111,114.5 L 113,118.5 L 117,117"
-              fill="none"
-              stroke="#94a3b8"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="group-hover:stroke-blue-300 transition-colors pointer-events-none"
-            />
-          </g>
-        </svg>
+            <button
+              type="button"
+              onClick={onResetShift}
+              aria-label="Reset shift to 0,0"
+              title="Reset shift to (0, 0)"
+              className="w-[40px] h-[40px] rounded-xl bg-gradient-to-b from-[#2a2f3a] to-[#181a20] border border-[#3d4554] shadow-inner flex items-center justify-center hover:border-blue-400 hover:text-blue-400 text-gray-400 active:scale-90 transition-all cursor-pointer"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="shrink-0 pointer-events-none"
+              >
+                <path
+                  d="M13.5 8A5.5 5.5 0 1 1 9.5 2.8M10 1L9.5 3.5L12 4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* ── New Top-Left MGRS Box & Action Buttons ── */}
@@ -494,13 +311,9 @@ export function SvgShiftController({
           }`}
         >
           {applied ? (
-            <>
-              <span>✓ Applied! SVG Regenerating…</span>
-            </>
+            <span>✓ Applied! SVG Regenerating…</span>
           ) : (
-            <>
-              <span>Apply as Base MGRS (Clear Shift)</span>
-            </>
+            <span>Apply as Base MGRS (Clear Shift)</span>
           )}
         </button>
       </div>
