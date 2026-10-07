@@ -125,7 +125,7 @@ interface MapSidebarProps {
   layerColors: Record<string, string>;
   lineOverrides: LineOverrides;
   palette: PaletteColor[];
-  useRealMap: boolean;
+  useRealMap: number;
   onClose: () => void;
   onMgrsChange: (val: string) => void;
   onScaleChange: (val: number) => void;
@@ -143,7 +143,7 @@ interface MapSidebarProps {
   ) => void;
   onPaletteDelete: (id: string) => void;
   onPaletteReset: () => void;
-  onUseRealMapChange: (val: boolean) => void;
+  onUseRealMapChange: (val: number) => void;
 }
 
 export function MapSidebar({
@@ -192,7 +192,7 @@ export function MapSidebar({
           >
             <button
               type="button"
-              onClick={() => onUseRealMapChange(false)}
+              onClick={() => onUseRealMapChange(0)}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
                 !useRealMap
                   ? "bg-blue-600 text-white"
@@ -203,9 +203,20 @@ export function MapSidebar({
             </button>
             <button
               type="button"
-              onClick={() => onUseRealMapChange(true)}
+              onClick={() => onUseRealMapChange(1)}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                useRealMap
+                useRealMap === 1
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              Map
+            </button>
+            <button
+              type="button"
+              onClick={() => onUseRealMapChange(2)}
+              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+                useRealMap === 2
                   ? "bg-blue-600 text-white"
                   : "text-gray-400 hover:text-gray-200"
               }`}

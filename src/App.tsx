@@ -148,7 +148,7 @@ export default function App() {
   );
   const [palette, setPalette] = useState<PaletteColor[]>(loadPalette);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [useRealMap, setUseRealMap] = useState(true);
+  const [useRealMap, setUseRealMap] = useState(1);
 
   const generateMap = useCallback(
     async (
@@ -526,6 +526,7 @@ export default function App() {
               scaleDenominator={scale}
               widthMm={Number(width)}
               heightMm={Number(height)}
+              useRealMap={useRealMap}
             />
           ) : (
             <SvgPreview

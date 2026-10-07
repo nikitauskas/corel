@@ -22,6 +22,7 @@ interface SvgMapOverlayProps {
   tileMinZoom?: number;
   tileMaxZoom?: number;
   className?: string;
+  useRealMap?: number;
 }
 
 const TRANSPARENT_PX =
@@ -82,6 +83,7 @@ export function SvgMapOverlay({
   tileMinZoom = 12,
   tileMaxZoom = 15,
   className = "h-[100vh] z-0 bg-neutral-900",
+  useRealMap,
 }: SvgMapOverlayProps) {
   const bounds = useMemo(
     () =>
@@ -98,6 +100,12 @@ export function SvgMapOverlay({
     () => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgContent)}`,
     [svgContent],
   );
+  if (useRealMap === 2) {
+    tilesUrl = `./tiles/{z}/{x}/{y}.png`;
+  } else {
+    tilesUrl =
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}";
+  }
 
   return (
     <MapContainer
