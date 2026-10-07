@@ -106,8 +106,6 @@ export function SvgMapOverlay({
       center={bounds.getCenter()}
       zoom={tileMaxZoom}
       className={className}
-      minZoom={tileMinZoom - 2}
-      maxZoom={22}
       zoomControl={false}
     >
       <ZoomControl position="topright" />
@@ -118,6 +116,7 @@ export function SvgMapOverlay({
           minNativeZoom={tileMinZoom}
           maxNativeZoom={tileMaxZoom}
           maxZoom={22}
+          minZoom={tileMinZoom - 2}
           noWrap
           errorTileUrl={TRANSPARENT_PX}
           attribution="Local map"
@@ -130,6 +129,7 @@ export function SvgMapOverlay({
           attribution="&copy; OpenStreetMap contributors"
           maxNativeZoom={19}
           maxZoom={22}
+          minZoom={2}
         />
       )}
 
