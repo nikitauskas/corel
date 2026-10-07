@@ -78,7 +78,7 @@ export function SvgMapOverlay({
   widthMm = 1810,
   heightMm = 1810,
   scaleDenominator,
-  tilesUrl = `/tiles/{z}/{x}/{y}.png`,
+  tilesUrl = `./tiles/{z}/{x}/{y}.png`,
   tileMinZoom = 12,
   tileMaxZoom = 15,
   className = "h-[100vh] z-0 bg-neutral-900",
