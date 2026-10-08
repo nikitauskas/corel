@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="38.4" height="38.4" viewBox="0 0 38.4 38.4">
+<desc>19 19 0 0 38.4 38.4 0 0 38.4 38.4</desc>
+<metadata>
+<symbolID>10031500001412020000</symbolID>
+<anchor>19 19</anchor>
+<symbolBounds>0 0 38.4 38.4</symbolBounds>
+<imageBounds>0 0 38.4 38.4</imageBounds>
+</metadata>
+<g transform="translate(-19.325901639344263,-30.657049180327867) scale(0.1259016393442623,0.1259016393442623)"><g id="0_330_0">        <ellipse cx="306" cy="396" fill="#80E0FF" id="_x3C_path_x3E_" rx="144" ry="144" stroke="#000000" stroke-width="17"/>    </g><g><g id="15141202">        <line fill="none" stroke="#000000" stroke-width="7" x1="226.5" x2="226.5" y1="327" y2="467"/>        <line fill="none" stroke="#000000" stroke-width="7" x1="386.5" x2="386.5" y1="327" y2="467"/>        <line fill="none" stroke="#000000" stroke-width="7" x1="226.5" x2="386.5" y1="465" y2="465"/>        <path d="M226.5,329c70,26,90,26,160,0" fill="none" stroke="#000000" stroke-width="7"/>        <path d="M384.833,463.167L276.5,367v45c0,15-20,15-20,0" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="7"/>        <g>                <line fill="none" stroke="#000000" stroke-width="7" x1="309.614" x2="347.614" y1="431" y2="387"/>                <line fill="none" stroke="#000000" stroke-width="7" x1="290.614" x2="328.614" y1="415" y2="371"/>                <line fill="none" stroke="#000000" stroke-width="7" x1="328.614" x2="366.614" y1="447" y2="402"/>            </g>    </g></g></g>
+</svg>
