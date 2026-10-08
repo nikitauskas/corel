@@ -9,7 +9,14 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-import { computeMercatorExtent, extentToLatLng } from "../lib/overlay-bounds";
+import proj4 from "proj4";
+if (typeof window !== "undefined") {
+  (window as any).proj4 = proj4;
+}
+import "proj4leaflet";
+
+import { computeUtmBoundsLatLng, utmDef } from "../lib/overlay-bounds";
+import { mgrsToUtm } from "../lib/geo";
 import { TransformedTileLayerComponent } from "./ShiftedTileLayerComponent";
 
 interface SvgMapOverlayProps {
@@ -39,10 +46,34 @@ function computeBounds(
   shiftX = 0,
   shiftY = 0,
 ) {
-  const { south, west, north, east } = extentToLatLng(
-    computeMercatorExtent(topLeftMgrs, widthM, heightM, shiftX, shiftY),
+  const { south, west, north, east } = computeUtmBoundsLatLng(
+    topLeftMgrs,
+    widthM,
+    heightM,
+    shiftX,
+    shiftY,
   );
   return L.latLngBounds([south, west], [north, east]);
+}
+
+const RES0 = 156543.03392804097;
+const UTM_RESOLUTIONS = Array.from({ length: 23 }, (_, i) => RES0 / Math.pow(2, i));
+
+function getUtmCrs(topLeftMgrs: string) {
+  try {
+    const { zone, easting, northing } = mgrsToUtm(topLeftMgrs);
+    const def = utmDef(topLeftMgrs);
+    const isSouth = def.includes("+south");
+    const epsgCode = `EPSG:${(isSouth ? 32700 : 32600) + zone}`;
+    
+    return new L.Proj.CRS(epsgCode, def, {
+      resolutions: UTM_RESOLUTIONS,
+      origin: [easting, northing],
+    });
+  } catch (e) {
+    console.error("Failed to parse CRS", e);
+    return L.CRS.EPSG3857; // fallback
+  }
 }
 
 /** Fit the map so the overlay fills the viewport width (no horizontal padding). */
@@ -126,12 +157,24 @@ export function SvgMapOverlay({
     [svgContent],
   );
 
+  const crs = useMemo(() => {
+    if (useRealMap === 2) {
+      return getUtmCrs(topLeftMgrs);
+    }
+    return L.CRS.EPSG3857;
+  }, [useRealMap, topLeftMgrs]);
+
+  // We use crs.code as part of the key so the MapContainer fully remounts when CRS changes
+  const mapKey = `${crs.code}_${useRealMap}`;
+
   return (
     <MapContainer
+      key={mapKey}
       center={baseBounds.getCenter()}
       zoom={tileMaxZoom}
       className={className}
       zoomControl={false}
+      crs={crs}
     >
       <ZoomControl position="topright" />
       {useRealMap === 2 && (

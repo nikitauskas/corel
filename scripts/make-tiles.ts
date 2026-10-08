@@ -35,8 +35,7 @@ if (!input || !mgrs) {
 
 sharp.cache(false);
 
-const ORIGIN = 20037508.342789244;
-const RES0 = (2 * ORIGIN) / TILE;
+const RES0 = 156543.03392804097;
 
 async function main() {
   const meta = await sharp(input, { limitInputPixels: false }).metadata();
@@ -46,9 +45,9 @@ async function main() {
   // pixels -> paper meters -> ground meters
   const widthM = (srcW / dpi) * 0.0254 * scale;
   const heightM = (srcH / dpi) * 0.0254 * scale;
-  const ext = computeMercatorExtent(mgrs, widthM, heightM);
-  const extW = ext.xMax - ext.xMin;
-  const extH = ext.yMax - ext.yMin;
+  
+  const extW = widthM;
+  const extH = heightM;
 
   console.log(
     `Source ${srcW}x${srcH}px @ ${dpi}dpi = ${(widthM / 1000).toFixed(2)} km`,
@@ -58,10 +57,10 @@ async function main() {
     .removeAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
-  const channels = info.channels as 3 | 4; // always use what the decoder returned
+  const channels = info.channels as 3 | 4;
   console.log(`Decoded: ${info.width}x${info.height}, ${channels} channels`);
 
-  const nativeZoom = Math.log2(RES0 / (extW / srcW));
+  const nativeZoom = Math.log2((RES0 * srcW) / extW);
   const maxZoom = Number(args["max-zoom"] ?? Math.ceil(nativeZoom));
   const minZoom = Number(args["min-zoom"] ?? Math.max(0, maxZoom - 3));
   console.log(
@@ -72,36 +71,38 @@ async function main() {
   const sy = srcH / extH;
 
   for (let z = minZoom; z <= maxZoom; z++) {
-    const size = (2 * ORIGIN) / 2 ** z;
-    const x0 = Math.floor((ext.xMin + ORIGIN) / size);
-    const x1 = Math.floor((ext.xMax + ORIGIN - 1e-6) / size);
-    const y0 = Math.floor((ORIGIN - ext.yMax) / size);
-    const y1 = Math.floor((ORIGIN - ext.yMin - 1e-6) / size);
+    const res = RES0 / Math.pow(2, z);
+    const size = TILE * res;
+
+    const x0 = 0;
+    const x1 = Math.floor((extW - 1e-6) / size);
+    const y0 = 0;
+    const y1 = Math.floor((extH - 1e-6) / size);
 
     const jobs: (() => Promise<void>)[] = [];
 
     for (let x = x0; x <= x1; x++) {
       for (let y = y0; y <= y1; y++) {
         jobs.push(async () => {
-          const tLeft = -ORIGIN + x * size;
-          const tTop = ORIGIN - y * size;
+          const tLeft = x * size;
+          const tTop = y * size;
 
-          const ix0 = Math.max(tLeft, ext.xMin);
-          const ix1 = Math.min(tLeft + size, ext.xMax);
-          const iy0 = Math.max(tTop - size, ext.yMin);
-          const iy1 = Math.min(tTop, ext.yMax);
+          const ix0 = Math.max(tLeft, 0);
+          const ix1 = Math.min(tLeft + size, extW);
+          const iy0 = Math.max(tTop, 0);
+          const iy1 = Math.min(tTop + size, extH);
           if (ix1 <= ix0 || iy1 <= iy0) return;
 
           const dLeft = Math.round(((ix0 - tLeft) / size) * TILE);
           const dRight = Math.round(((ix1 - tLeft) / size) * TILE);
-          const dTop = Math.round(((tTop - iy1) / size) * TILE);
-          const dBottom = Math.round(((tTop - iy0) / size) * TILE);
+          const dTop = Math.round(((iy0 - tTop) / size) * TILE);
+          const dBottom = Math.round(((iy1 - tTop) / size) * TILE);
           const dW = dRight - dLeft;
           const dH = dBottom - dTop;
           if (dW < 1 || dH < 1) return;
 
-          const sLeft = Math.max(0, Math.round((ix0 - ext.xMin) * sx));
-          const sTop = Math.max(0, Math.round((ext.yMax - iy1) * sy));
+          const sLeft = Math.max(0, Math.round(ix0 * sx));
+          const sTop = Math.max(0, Math.round(iy0 * sy));
           const sW = Math.min(
             srcW - sLeft,
             Math.max(1, Math.round((ix1 - ix0) * sx)),
