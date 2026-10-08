@@ -35,6 +35,7 @@ const STORAGE_KEYS = {
   SHIFT_X: "delta2corel_ShiftX",
   SHIFT_Y: "delta2corel_ShiftY",
   SHIFT_ENABLED: "delta2corel_ShiftEnabled",
+  ROTATION: "delta2corel_Rotation",
 } as const;
 
 // Constants and Dropdown moved to MapSidebar.tsx and CustomColorDropdown.tsx
@@ -174,6 +175,19 @@ function getInitialShiftEnabled(): boolean {
   return true;
 }
 
+function getInitialRotation(): number {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.ROTATION);
+    if (saved !== null) {
+      const val = Number(saved);
+      if (!Number.isNaN(val)) return val;
+    }
+  } catch (e) {
+    console.error("Failed to read delta2corel_Rotation from localStorage", e);
+  }
+  return 0;
+}
+
 // CustomColorDropdown moved to src/components/CustomColorDropdown.tsx
 
 export default function App() {
@@ -187,6 +201,7 @@ export default function App() {
   const [shiftEnabled, setShiftEnabled] = useState<boolean>(
     getInitialShiftEnabled,
   );
+  const [rotation, setRotation] = useState<number>(getInitialRotation);
   const [csvContent, setCsvContent] = useState<string | null>(null);
   const [csvFilename, setCsvFilename] = useState<string | null>(null);
   const [layerColors, setLayerColors] = useState<Record<string, string>>(
@@ -212,14 +227,25 @@ export default function App() {
     }
   };
 
+  const handleRotationChange = (rot: number) => {
+    setRotation(rot);
+    try {
+      localStorage.setItem(STORAGE_KEYS.ROTATION, String(rot));
+    } catch (e) {
+      console.error("Failed to save rotation to localStorage", e);
+    }
+  };
+
   const handleResetShift = () => {
     setShiftX(0);
     setShiftY(0);
     setShiftEnabled(false);
+    setRotation(0);
     try {
       localStorage.setItem(STORAGE_KEYS.SHIFT_X, "0");
       localStorage.setItem(STORAGE_KEYS.SHIFT_Y, "0");
       localStorage.setItem(STORAGE_KEYS.SHIFT_ENABLED, "0");
+      localStorage.setItem(STORAGE_KEYS.ROTATION, "0");
     } catch (e) {
       console.error("Failed to save shift reset to localStorage", e);
     }
@@ -588,20 +614,6 @@ export default function App() {
     };
   }, [state.status]);
 
-  const handleApplyShiftedMgrs = (newMgrs: string) => {
-    handleMgrsChange(newMgrs);
-    setShiftX(0);
-    setShiftY(0);
-    setShiftEnabled(false);
-    try {
-      localStorage.setItem(STORAGE_KEYS.SHIFT_X, "0");
-      localStorage.setItem(STORAGE_KEYS.SHIFT_Y, "0");
-      localStorage.setItem(STORAGE_KEYS.SHIFT_ENABLED, "0");
-    } catch (e) {
-      console.error("Failed to reset shift on apply", e);
-    }
-  };
-
   if (state.status === "done" || (state.status === "loading" && csvContent)) {
     return (
       <div className="w-screen h-screen overflow-hidden bg-gray-600 relative">
@@ -618,6 +630,7 @@ export default function App() {
               useRealMap={useRealMap}
               shiftX={shiftEnabled ? shiftX : 0}
               shiftY={shiftEnabled ? shiftY : 0}
+              rotation={shiftEnabled ? rotation : 0}
             />
           ) : (
             <SvgPreview
@@ -676,6 +689,7 @@ export default function App() {
             shiftX={shiftX}
             shiftY={shiftY}
             shiftEnabled={shiftEnabled}
+            rotation={rotation}
             onClose={() => setIsSidebarOpen(false)}
             onMgrsChange={handleMgrsChange}
             onScaleChange={handleScaleChange}
@@ -694,7 +708,7 @@ export default function App() {
             onUseRealMapChange={setUseRealMap}
             onShiftChange={handleShiftChange}
             onResetShift={handleResetShift}
-            onApplyShiftedMgrs={handleApplyShiftedMgrs}
+            onRotationChange={handleRotationChange}
           />
         )}
 

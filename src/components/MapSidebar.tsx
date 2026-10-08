@@ -150,7 +150,8 @@ interface MapSidebarProps {
   onUseRealMapChange: (val: number) => void;
   onShiftChange: (x: number, y: number, enabled?: boolean) => void;
   onResetShift: () => void;
-  onApplyShiftedMgrs: (newMgrs: string) => void;
+  rotation: number;
+  onRotationChange: (rot: number) => void;
 }
 
 export function MapSidebar({
@@ -168,6 +169,7 @@ export function MapSidebar({
   shiftX,
   shiftY,
   shiftEnabled,
+  rotation,
   onClose,
   onMgrsChange,
   onScaleChange,
@@ -185,7 +187,7 @@ export function MapSidebar({
   onUseRealMapChange,
   onShiftChange,
   onResetShift,
-  onApplyShiftedMgrs,
+  onRotationChange,
 }: MapSidebarProps) {
   const isReady = status === "done" || (status === "loading" && result);
 
@@ -285,9 +287,9 @@ export function MapSidebar({
           title="SVG Position Shift"
           storageKey="shift"
           summary={
-            shiftX !== 0 || shiftY !== 0
-              ? `ΔX: ${shiftX > 0 ? `+${shiftX}` : shiftX}m · ΔY: ${shiftY > 0 ? `+${shiftY}` : shiftY}m`
-              : "0m · 0m"
+            shiftX !== 0 || shiftY !== 0 || rotation !== 0
+              ? `ΔX: ${shiftX > 0 ? `+${shiftX}` : shiftX}m · ΔY: ${shiftY > 0 ? `+${shiftY}` : shiftY}m · Rot: ${rotation > 0 ? `+${rotation}` : rotation}°`
+              : "0m · 0m · 0°"
           }
         >
           <SvgShiftController
@@ -295,9 +297,10 @@ export function MapSidebar({
             shiftX={shiftX}
             shiftY={shiftY}
             shiftEnabled={shiftEnabled}
+            rotation={rotation}
             onShiftChange={onShiftChange}
             onResetShift={onResetShift}
-            onApplyShiftedMgrs={onApplyShiftedMgrs}
+            onRotationChange={onRotationChange}
           />
         </CollapsibleSection>
 

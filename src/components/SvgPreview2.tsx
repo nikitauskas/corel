@@ -10,7 +10,7 @@ import {
 import "leaflet/dist/leaflet.css";
 
 import { computeMercatorExtent, extentToLatLng } from "../lib/overlay-bounds";
-import { ShiftedTileLayerComponent } from "./ShiftedTileLayerComponent";
+import { TransformedTileLayerComponent } from "./ShiftedTileLayerComponent";
 
 interface SvgMapOverlayProps {
   svgContent: string;
@@ -26,6 +26,7 @@ interface SvgMapOverlayProps {
   useRealMap?: number;
   shiftX?: number;
   shiftY?: number;
+  rotation?: number;
 }
 
 const TRANSPARENT_PX =
@@ -95,6 +96,7 @@ export function SvgMapOverlay({
   useRealMap,
   shiftX = 0,
   shiftY = 0,
+  rotation = 0,
 }: SvgMapOverlayProps) {
   const baseBounds = useMemo(
     () =>
@@ -133,9 +135,9 @@ export function SvgMapOverlay({
     >
       <ZoomControl position="topright" />
       {useRealMap === 2 && (
-        <ShiftedTileLayerComponent
+        <TransformedTileLayerComponent
           url={tilesUrl}
-          bounds={overlayBounds} // shifted bounds, so edge tiles aren't clipped
+          bounds={baseBounds} // see note below
           minNativeZoom={tileMinZoom}
           maxNativeZoom={tileMaxZoom}
           maxZoom={22}
@@ -145,6 +147,8 @@ export function SvgMapOverlay({
           attribution="Local map"
           shiftX={shiftX}
           shiftY={shiftY}
+          rotation={rotation}
+          rotationOrigin={baseBounds.getCenter()} // or any [lat, lng]
         />
       )}
 

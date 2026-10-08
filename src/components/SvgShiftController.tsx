@@ -6,8 +6,10 @@ interface SvgShiftControllerProps {
   shiftX: number;
   shiftY: number;
   shiftEnabled: boolean;
+  rotation?: number;
   onShiftChange: (x: number, y: number, enabled?: boolean) => void;
   onResetShift: () => void;
+  onRotationChange?: (rot: number) => void;
 }
 
 const OUTER_BUTTONS = [
@@ -33,20 +35,27 @@ export function SvgShiftController({
   shiftX,
   shiftY,
   shiftEnabled,
+  rotation = 0,
   onShiftChange,
   onResetShift,
+  onRotationChange,
 }: SvgShiftControllerProps) {
   const [copied, setCopied] = useState(false);
 
   const effectiveX = shiftEnabled ? shiftX : 0;
   const effectiveY = shiftEnabled ? shiftY : 0;
   const shiftedMgrs = computeShiftedMgrs(mgrsTL, effectiveX, effectiveY);
-  const hasShift = shiftX !== 0 || shiftY !== 0;
+  const hasShift = shiftX !== 0 || shiftY !== 0 || rotation !== 0;
 
   const handleNudge = (dx: number, dy: number) => {
     const nextX = shiftX + dx;
     const nextY = shiftY + dy;
     onShiftChange(nextX, nextY, true);
+  };
+
+  const handleRotate = (deg: number) => {
+    const next = Math.round((rotation + deg) * 100) / 100;
+    onRotationChange?.(next);
   };
 
   const handleToggleActive = (checked: boolean) => {
@@ -88,37 +97,49 @@ export function SvgShiftController({
             type="button"
             onClick={onResetShift}
             className="text-[11px] font-mono text-gray-400 hover:text-red-400 bg-gray-800 hover:bg-gray-700/80 px-2 py-0.5 rounded border border-gray-700 transition-colors cursor-pointer"
-            title="Reset shift to 0,0"
+            title="Reset shift and rotation to 0"
           >
-            Reset (0, 0)
+            Reset All
           </button>
         )}
       </div>
 
-      {/* Coordinate shift readouts */}
-      <div className="w-full flex items-center justify-between text-xs font-mono px-1">
-        <div className="flex items-center gap-2">
+      {/* Coordinate & Rotation readouts */}
+      <div className="w-full grid grid-cols-3 gap-2 text-xs font-mono px-1">
+        <div className="flex items-center gap-1.5">
           <span className="text-gray-400">ΔX:</span>
           <span
-            className={`font-semibold px-2 py-0.5 rounded ${
+            className={`font-semibold px-1.5 py-0.5 rounded text-[11px] ${
               shiftX !== 0
                 ? "bg-blue-900/50 text-blue-300 border border-blue-700/50"
                 : "bg-gray-800 text-gray-400"
             }`}
           >
-            {shiftX > 0 ? `+${shiftX}` : shiftX} m
+            {shiftX > 0 ? `+${shiftX}` : shiftX}m
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <span className="text-gray-400">ΔY:</span>
           <span
-            className={`font-semibold px-2 py-0.5 rounded ${
+            className={`font-semibold px-1.5 py-0.5 rounded text-[11px] ${
               shiftY !== 0
                 ? "bg-blue-900/50 text-blue-300 border border-blue-700/50"
                 : "bg-gray-800 text-gray-400"
             }`}
           >
-            {shiftY > 0 ? `+${shiftY}` : shiftY} m
+            {shiftY > 0 ? `+${shiftY}` : shiftY}m
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5 justify-end">
+          <span className="text-gray-400">Rot:</span>
+          <span
+            className={`font-semibold px-1.5 py-0.5 rounded text-[11px] ${
+              rotation !== 0
+                ? "bg-sky-950 text-sky-300 border border-sky-800/60"
+                : "bg-gray-800 text-gray-400"
+            }`}
+          >
+            {rotation > 0 ? `+${rotation}` : rotation}°
           </span>
         </div>
       </div>
@@ -250,6 +271,90 @@ export function SvgShiftController({
               </svg>
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* ── Rotation Controls (Left / Right) ── */}
+      <div className="w-full bg-gray-950/80 border border-gray-800 rounded-xl p-3 flex flex-col gap-2">
+        <div className="flex items-center justify-between text-xs">
+          <span className="font-semibold text-gray-300 flex items-center gap-1.5">
+            <svg
+              className="w-3.5 h-3.5 text-sky-400"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M2.5 8a5.5 5.5 0 0 1 9.39-3.89M13.5 8a5.5 5.5 0 0 1-9.39 3.89"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+              <path
+                d="M12 2v2.5H9.5M4 14v-2.5H6.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Rotation
+          </span>
+          <div className="flex items-center gap-1.5 font-mono">
+            <span
+              className={`px-2 py-0.5 rounded text-xs font-semibold ${
+                rotation !== 0
+                  ? "bg-sky-950 text-sky-300 border border-sky-800/60"
+                  : "bg-gray-800 text-gray-400"
+              }`}
+            >
+              {rotation > 0 ? `+${rotation}` : rotation}°
+            </span>
+            {rotation !== 0 && (
+              <button
+                type="button"
+                onClick={() => onRotationChange?.(0)}
+                className="text-[10px] text-gray-400 hover:text-red-400 px-1.5 py-0.5 rounded bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer"
+                title="Reset rotation to 0°"
+              >
+                Reset
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-1.5">
+          <button
+            type="button"
+            onClick={() => handleRotate(-1)}
+            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-gray-200 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-1 cursor-pointer"
+            title="Rotate Left -1°"
+          >
+            ⟲ -1°
+          </button>
+          <button
+            type="button"
+            onClick={() => handleRotate(-0.1)}
+            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-sky-300 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-0.5 cursor-pointer"
+            title="Rotate Left -0.1°"
+          >
+            ⟲ -0.1°
+          </button>
+          <button
+            type="button"
+            onClick={() => handleRotate(0.1)}
+            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-sky-300 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-0.5 cursor-pointer"
+            title="Rotate Right +0.1°"
+          >
+            +0.1° ⟳
+          </button>
+          <button
+            type="button"
+            onClick={() => handleRotate(1)}
+            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-gray-200 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-1 cursor-pointer"
+            title="Rotate Right +1°"
+          >
+            +1° ⟳
+          </button>
         </div>
       </div>
 
