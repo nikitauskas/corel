@@ -8,7 +8,6 @@ interface SvgShiftControllerProps {
   shiftEnabled: boolean;
   onShiftChange: (x: number, y: number, enabled?: boolean) => void;
   onResetShift: () => void;
-  onApplyShiftedMgrs: (newMgrs: string) => void;
 }
 
 const OUTER_BUTTONS = [
@@ -36,10 +35,8 @@ export function SvgShiftController({
   shiftEnabled,
   onShiftChange,
   onResetShift,
-  onApplyShiftedMgrs,
 }: SvgShiftControllerProps) {
   const [copied, setCopied] = useState(false);
-  const [applied, setApplied] = useState(false);
 
   const effectiveX = shiftEnabled ? shiftX : 0;
   const effectiveY = shiftEnabled ? shiftY : 0;
@@ -50,7 +47,6 @@ export function SvgShiftController({
     const nextX = shiftX + dx;
     const nextY = shiftY + dy;
     onShiftChange(nextX, nextY, true);
-    setApplied(false);
   };
 
   const handleToggleActive = (checked: boolean) => {
@@ -59,7 +55,6 @@ export function SvgShiftController({
     } else {
       onShiftChange(shiftX, shiftY, true);
     }
-    setApplied(false);
   };
 
   const handleCopy = async () => {
@@ -70,13 +65,6 @@ export function SvgShiftController({
     } catch {
       // fallback
     }
-  };
-
-  const handleApply = () => {
-    if (!shiftedMgrs || shiftedMgrs === mgrsTL) return;
-    onApplyShiftedMgrs(shiftedMgrs);
-    setApplied(true);
-    setTimeout(() => setApplied(false), 2500);
   };
 
   return (
@@ -294,28 +282,6 @@ export function SvgShiftController({
             {copied ? "✓ Copied" : "Copy"}
           </button>
         </div>
-
-        <p className="text-[11px] text-gray-400 leading-snug">
-          Apply to update base coordinates and show SVG at this position without
-          shift.
-        </p>
-
-        <button
-          type="button"
-          onClick={handleApply}
-          disabled={!hasShift || applied}
-          className={`w-full py-2 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-            hasShift && !applied
-              ? "bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-900/30 active:scale-[0.98]"
-              : "bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700/50"
-          }`}
-        >
-          {applied ? (
-            <span>✓ Applied! SVG Regenerating…</span>
-          ) : (
-            <span>Apply as Base MGRS (Clear Shift)</span>
-          )}
-        </button>
       </div>
     </div>
   );
