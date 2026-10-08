@@ -31,21 +31,27 @@ export function computeMercatorExtent(
   const def = utmDef(topLeftMgrs);
   const { easting: e0, northing: n0 } = mgrsToUtm(topLeftMgrs);
 
-  const [lon, lat] = proj4(def, "EPSG:4326", [
-    e0 + shiftX + widthM / 2,
-    n0 + shiftY - heightM / 2,
-  ]);
-  const [xC, yC] = proj4("EPSG:4326", "EPSG:3857", [lon, lat]);
+  // Top-Left corner (after shift)
+  const eTL = e0 + shiftX;
+  const nTL = n0 + shiftY;
+  
+  // Bottom-Right corner
+  const eBR = eTL + widthM;
+  const nBR = nTL - heightM;
 
-  const k = 1 / Math.cos((lat * Math.PI) / 180);
-  const w = widthM * k;
-  const h = heightM * k;
+  // Convert to Lat/Lng
+  const tlLatLng = proj4(def, "EPSG:4326", [eTL, nTL]);
+  const brLatLng = proj4(def, "EPSG:4326", [eBR, nBR]);
+
+  // Convert to Web Mercator (EPSG:3857)
+  const tl3857 = proj4("EPSG:4326", "EPSG:3857", tlLatLng);
+  const br3857 = proj4("EPSG:4326", "EPSG:3857", brLatLng);
 
   return {
-    xMin: xC - w / 2,
-    xMax: xC + w / 2,
-    yMin: yC - h / 2,
-    yMax: yC + h / 2,
+    xMin: tl3857[0],
+    xMax: br3857[0],
+    yMin: br3857[1], // Note: nBR is smaller, so yMin is br3857[1]
+    yMax: tl3857[1],
   };
 }
 
