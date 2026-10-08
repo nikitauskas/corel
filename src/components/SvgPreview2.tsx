@@ -135,35 +135,39 @@ export function SvgMapOverlay({
     >
       <ZoomControl position="topright" />
       {useRealMap === 2 && (
-        <TransformedTileLayerComponent
-          url={tilesUrl}
-          bounds={baseBounds} // see note below
-          minNativeZoom={tileMinZoom}
-          maxNativeZoom={tileMaxZoom}
-          maxZoom={22}
-          minZoom={tileMinZoom - 2}
-          noWrap
-          errorTileUrl={TRANSPARENT_PX}
-          attribution="Local map"
-          shiftX={shiftX}
-          shiftY={shiftY}
-          rotation={rotation}
-          rotationOrigin={baseBounds.getCenter()} // or any [lat, lng]
-        />
-      )}
-
-      {useRealMap === 1 && (
-        // <TileLayer
-        //   url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-        //   attribution="&copy; OpenStreetMap contributors"
-        //   maxNativeZoom={19}
+        // <TransformedTileLayerComponent
+        //   url={tilesUrl}
+        //   bounds={baseBounds} // see note below
+        //   minNativeZoom={tileMinZoom}
+        //   maxNativeZoom={tileMaxZoom}
         //   maxZoom={22}
-        //   minZoom={2}
+        //   minZoom={tileMinZoom - 2}
+        //   noWrap
+        //   errorTileUrl={TRANSPARENT_PX}
+        //   attribution="Local map"
+        //   shiftX={shiftX}
+        //   shiftY={shiftY}
+        //   rotation={rotation}
+        //   rotationOrigin={baseBounds.getCenter()} // or any [lat, lng]
         // />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+      )}
+
+      {useRealMap === 1 && (
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+          attribution="&copy; OpenStreetMap contributors"
+          maxNativeZoom={19}
+          maxZoom={22}
+          minZoom={2}
+        />
+        // <TileLayer
+        //   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        //   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        // />
       )}
 
       <ImageOverlay

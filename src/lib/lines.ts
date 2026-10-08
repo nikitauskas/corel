@@ -60,6 +60,7 @@ export function buildLUnitsSpearationLinesSVGs(
   project: (mgrs: string) => XY | null,
   inWindow: (p: XY) => boolean,
   overrides: LineOverrides = { lines: {}, areas: {} },
+  projectWgs?: (lat: number, lng: number) => XY | null,
 ): string[] {
   const segments: LineSegment[] = [];
 
@@ -82,12 +83,38 @@ export function buildLUnitsSpearationLinesSVGs(
 
     let current: XY[] = [];
     const mgrsParts = row["coordinates(mgrs)"]?.split(";") ?? [];
+    const wgsParts = row["coordinates(wgs,yx)"]?.split(";") ?? [];
+    // Use whichever coordinate column is populated
+    const useWgs = mgrsParts.length === 0 && wgsParts.length > 0 && projectWgs;
 
-    for (const part of mgrsParts) {
-      const mgrsStr = part.trim();
-      if (!mgrsStr) continue;
+    const coordParts = useWgs ? wgsParts : mgrsParts;
 
-      const p = project(mgrsStr);
+    for (let ci = 0; ci < coordParts.length; ci++) {
+      const part = coordParts[ci].trim();
+      if (!part) continue;
+
+      let p: XY | null = null;
+      if (useWgs && projectWgs) {
+        // Format: "lat, lng"
+        const [latStr, lngStr] = part.split(",");
+        const lat = parseFloat(latStr ?? "");
+        const lng = parseFloat(lngStr ?? "");
+        if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+          p = projectWgs(lat, lng);
+        }
+      } else {
+        p = project(part);
+        // Fallback to WGS84 if MGRS fails and wgs data is present
+        if (!p && projectWgs && wgsParts[ci]) {
+          const [latStr, lngStr] = wgsParts[ci].trim().split(",");
+          const lat = parseFloat(latStr ?? "");
+          const lng = parseFloat(lngStr ?? "");
+          if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+            p = projectWgs(lat, lng);
+          }
+        }
+      }
+
       if (p && inWindow(p)) {
         current.push(p);
       } else if (current.length > 0) {

@@ -80,6 +80,7 @@ export async function generateSVGFromCSV(
     map.project,
     map.inWindow,
     lineOverrides,
+    map.projectWgs,
   );
 
   // 5. Map objects
@@ -90,6 +91,7 @@ export async function generateSVGFromCSV(
     map.project,
     map.inWindow,
     layerColors,
+    map.projectWgs,
   );
 
   resolveOverlappingRenderPoints(preparedObjects);

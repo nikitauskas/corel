@@ -1,3 +1,5 @@
+import proj4 from "proj4";
+
 export interface XY {
   x: number;
   y: number;
@@ -40,6 +42,8 @@ export interface MapContext {
   mgrsTL: string;
   /** MGRS → SVG mm. Returns null for invalid MGRS or a different UTM zone. */
   project: (mgrs: string) => XY | null;
+  /** WGS84 (lat, lng) → SVG mm. Returns null when in a different UTM zone or invalid. */
+  projectWgs: (lat: number, lng: number) => XY | null;
   /** True if an SVG-space point lies inside the map rectangle. */
   inWindow: (p: XY) => boolean;
 }
@@ -125,6 +129,15 @@ export function createMapContext(
   const mPerMm = scale / 1000;
   const round3 = (n: number) => Number(n.toFixed(3));
 
+  // UTM zone number and hemisphere for the map TL corner
+  const tlZone = tl.zone;
+  const tlSouth = (() => {
+    // derive south flag from the band letter embedded in mgrsTL
+    const band = mgrsTL.trim().toUpperCase().match(/^\d{1,2}([C-X])/);
+    return band ? band[1] < "N" : false;
+  })();
+  const utmDef = `+proj=utm +zone=${tlZone}${tlSouth ? " +south" : ""} +datum=WGS84 +units=m +no_defs`;
+
   const project = (mgrs: string): XY | null => {
     let utm: ReturnType<typeof mgrsToUtm>;
     try {
@@ -137,6 +150,18 @@ export function createMapContext(
       x: round3((utm.easting - tl.easting) / mPerMm),
       y: round3((tl.northing - utm.northing) / mPerMm),
     };
+  };
+
+  const projectWgs = (lat: number, lng: number): XY | null => {
+    try {
+      const [easting, northing] = proj4("EPSG:4326", utmDef, [lng, lat]);
+      return {
+        x: round3((easting - tl.easting) / mPerMm),
+        y: round3((tl.northing - northing) / mPerMm),
+      };
+    } catch {
+      return null;
+    }
   };
 
   const TOL = 0.5; // mm, includes boundary points
@@ -152,6 +177,7 @@ export function createMapContext(
     scale,
     mgrsTL,
     project,
+    projectWgs,
     inWindow,
   };
 }

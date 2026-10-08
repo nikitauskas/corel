@@ -60,6 +60,7 @@ export function filterMapObjectsInsideWindow(
   csvData: CsvRow[],
   project: (mgrs: string) => XY | null,
   inWindow: (p: XY) => boolean,
+  projectWgs?: (lat: number, lng: number) => XY | null,
 ): Point[] {
   const points: Point[] = [];
 
@@ -69,12 +70,34 @@ export function filterMapObjectsInsideWindow(
 
     // Cheapest checks first: skip everything else if the row is off the map.
     const mgrsStr = row["coordinates(mgrs)"]?.trim() || "";
-    if (!mgrsStr) continue;
-    const anchor = project(mgrsStr);
+    const wgsRaw = row["coordinates(wgs,yx)"]?.trim() || "";
+
+    let anchor: XY | null = null;
+    let resolvedMgrsStr = mgrsStr;
+
+    if (mgrsStr) {
+      anchor = project(mgrsStr);
+    }
+
+    // Fallback to WGS84 first point when MGRS is absent or failed
+    if (!anchor && projectWgs && wgsRaw) {
+      const firstPair = wgsRaw.split(";")[0]?.trim();
+      if (firstPair) {
+        const [latStr, lngStr] = firstPair.split(",");
+        const lat = parseFloat(latStr ?? "");
+        const lng = parseFloat(lngStr ?? "");
+        if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+          anchor = projectWgs(lat, lng);
+          // Use WGS pair as the mgrsStr label so it's not blank
+          if (anchor) resolvedMgrsStr = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+        }
+      }
+    }
+
     if (!anchor || !inWindow(anchor)) continue;
 
     points.push({
-      mgrsStr,
+      mgrsStr: resolvedMgrsStr,
       anchor,
       app6dType,
       sidc: row["app6d sidc"]?.trim() || "",
@@ -107,8 +130,9 @@ export function buildMapObjects(
   project: (mgrs: string) => XY | null,
   inWindow: (p: XY) => boolean,
   layerColors: Record<string, string> = {},
+  projectWgs?: (lat: number, lng: number) => XY | null,
 ) {
-  const points = filterMapObjectsInsideWindow(csvData, project, inWindow);
+  const points = filterMapObjectsInsideWindow(csvData, project, inWindow, projectWgs);
 
   // 1. Calculate bounding polygon / rectangles for each element
   const preparedElements: MapObjectLayout[] = points.map((pt, idx) => {

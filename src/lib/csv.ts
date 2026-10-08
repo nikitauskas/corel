@@ -7,6 +7,7 @@ export interface CsvRow {
   name?: string;
   "status of presence"?: string;
   "coordinates(mgrs)"?: string;
+  "coordinates(wgs,yx)"?: string;
   // 'observation date/time'?: string;
   // 'updating datetime'?: string;
   // 'closest settlement'?: string;
