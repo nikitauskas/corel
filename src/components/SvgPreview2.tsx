@@ -10,6 +10,7 @@ import {
 import "leaflet/dist/leaflet.css";
 
 import { computeMercatorExtent, extentToLatLng } from "../lib/overlay-bounds";
+import { ShiftedTileLayerComponent } from "./ShiftedTileLayerComponent";
 
 interface SvgMapOverlayProps {
   svgContent: string;
@@ -132,9 +133,9 @@ export function SvgMapOverlay({
     >
       <ZoomControl position="topright" />
       {useRealMap === 2 && (
-        <TileLayer
+        <ShiftedTileLayerComponent
           url={tilesUrl}
-          bounds={baseBounds} // never request tiles outside the map
+          bounds={overlayBounds} // shifted bounds, so edge tiles aren't clipped
           minNativeZoom={tileMinZoom}
           maxNativeZoom={tileMaxZoom}
           maxZoom={22}
@@ -142,16 +143,22 @@ export function SvgMapOverlay({
           noWrap
           errorTileUrl={TRANSPARENT_PX}
           attribution="Local map"
+          shiftX={shiftX}
+          shiftY={shiftY}
         />
       )}
 
       {useRealMap === 1 && (
+        // <TileLayer
+        //   url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+        //   attribution="&copy; OpenStreetMap contributors"
+        //   maxNativeZoom={19}
+        //   maxZoom={22}
+        //   minZoom={2}
+        // />
         <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-          attribution="&copy; OpenStreetMap contributors"
-          maxNativeZoom={19}
-          maxZoom={22}
-          minZoom={2}
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       )}
 
