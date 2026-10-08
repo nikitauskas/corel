@@ -30,6 +30,168 @@ const INNER_BUTTONS = [
   { dir: "W", label: "West 5m", rot: 270, dx: -5, dy: 0 },
 ] as const;
 
+import { useId } from "react";
+
+interface CornerRotButtonProps {
+  corner: "tl" | "tr" | "bl" | "br";
+  degText: string;
+  degStep: number;
+  label: string;
+  direction: "left" | "right";
+  isFine?: boolean;
+  onRotate: (deg: number) => void;
+}
+
+// Full class strings so Tailwind can detect them at build time
+const POS: Record<CornerRotButtonProps["corner"], string> = {
+  tl: "top-0 left-0",
+  tr: "top-0 right-0",
+  bl: "bottom-0 left-0",
+  br: "bottom-0 right-0",
+};
+
+const ORIGIN: Record<CornerRotButtonProps["corner"], string> = {
+  tl: "origin-top-left",
+  tr: "origin-top-right",
+  bl: "origin-bottom-left",
+  br: "origin-bottom-right",
+};
+
+const CONTENT_POS: Record<CornerRotButtonProps["corner"], string> = {
+  tl: "top-2.5 left-3 items-start",
+  tr: "top-2.5 right-3 items-end",
+  bl: "bottom-2.5 left-3 items-start",
+  br: "bottom-2.5 right-3 items-end",
+};
+
+const TRANSFORM: Record<CornerRotButtonProps["corner"], string | undefined> = {
+  tl: undefined,
+  tr: "translate(52, 0) scale(-1, 1)",
+  bl: "translate(0, 52) scale(1, -1)",
+  br: "translate(52, 52) scale(-1, -1)",
+};
+
+function CornerRotButton({
+  corner,
+  degText,
+  degStep,
+  label,
+  direction,
+  isFine,
+  onRotate,
+}: CornerRotButtonProps) {
+  // Unique gradient id per instance (useId returns ":r0:" style strings)
+  const gradId = `rot-grad-${useId().replace(/:/g, "")}`;
+
+  const svgGlow = isFine
+    ? "group-hover:drop-shadow-[0_0_10px_rgba(56,189,248,0.55)]"
+    : "group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]";
+
+  const pathHover = isFine
+    ? "group-hover:stroke-sky-400"
+    : "group-hover:stroke-gray-300";
+
+  const iconColor = isFine
+    ? "text-sky-400 group-hover:text-sky-300"
+    : "text-gray-300 group-hover:text-white";
+
+  const textColor = isFine
+    ? "text-[13px] text-sky-300 group-hover:text-sky-100"
+    : "text-[14px] text-gray-200 group-hover:text-white";
+
+  return (
+    <button
+      type="button"
+      onClick={() => onRotate(degStep)}
+      title={label}
+      aria-label={label}
+      // pointer-events-none: the square box ignores the mouse.
+      // Only the triangle <path> re-enables it, so hover/click happen on the triangle only.
+      // Clicks on the path still bubble up to this onClick, and :hover/:active still reach `group`.
+      className={`group absolute ${POS[corner]} w-[78px] h-[78px] z-10 pointer-events-none outline-none`}
+    >
+      <svg
+        viewBox="0 0 52 52"
+        className={`w-full h-full overflow-visible drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)] ${svgGlow} group-active:scale-95 group-focus-visible:drop-shadow-[0_0_8px_rgba(56,189,248,0.8)] ${ORIGIN[corner]} transition-all`}
+      >
+        <defs>
+          <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#3a4252" />
+            <stop offset="100%" stopColor="#171a21" />
+          </linearGradient>
+        </defs>
+        <g transform={TRANSFORM[corner]}>
+          <path
+            d="M 4 14 Q 4 4 14 4 L 41 4 Q 47 4 45 10 L 10 45 Q 4 47 4 41 Z"
+            fill={`url(#${gradId})`}
+            stroke="#434b59"
+            strokeWidth="1.2"
+            className={`pointer-events-auto cursor-pointer ${pathHover} group-hover:brightness-125 transition-all`}
+          />
+          {/* subtle inner highlight */}
+          <path
+            d="M 8 15 Q 8 8 15 8 L 39 8"
+            fill="none"
+            stroke="rgba(255,255,255,0.12)"
+            strokeWidth="1"
+            strokeLinecap="round"
+            className="pointer-events-none"
+          />
+        </g>
+      </svg>
+
+      <div
+        className={`absolute ${CONTENT_POS[corner]} flex ${corner === "bl" || corner === "br" ? "flex-col" : "flex-col-reverse"} gap-0.5 pointer-events-none select-none`}
+      >
+        <svg
+          className={`w-[22px] h-[22px] transition-colors ${iconColor}`}
+          viewBox="0 0 16 16"
+          fill="none"
+        >
+          {direction === "left" ? (
+            <>
+              <path
+                d="M4.5 7.5A4.5 4.5 0 1 1 8 12.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+              <path
+                d="M4.5 4.5V7.5H7.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </>
+          ) : (
+            <>
+              <path
+                d="M11.5 7.5A4.5 4.5 0 1 0 8 12.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+              <path
+                d="M11.5 4.5V7.5H8.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </>
+          )}
+        </svg>
+        <span
+          className={`font-mono font-bold leading-none transition-colors ${textColor}`}
+        >
+          {degText}
+        </span>
+      </div>
+    </button>
+  );
+}
+
 export function SvgShiftController({
   mgrsTL,
   shiftX,
@@ -141,6 +303,16 @@ export function SvgShiftController({
           >
             {rotation > 0 ? `+${rotation}` : rotation}°
           </span>
+          {rotation !== 0 && (
+            <button
+              type="button"
+              onClick={() => onRotationChange?.(0)}
+              className="text-[10px] text-gray-400 hover:text-red-400 px-1 py-0.5 rounded bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer"
+              title="Reset rotation to 0°"
+            >
+              ×
+            </button>
+          )}
         </div>
       </div>
 
@@ -155,10 +327,57 @@ export function SvgShiftController({
           <span className="w-2.5 h-2.5 rounded-sm bg-gray-700 border border-gray-500" />
           Outer: ±15m
         </span>
+        <span className="text-gray-600">·</span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 border border-sky-400/80 bg-gray-800 rotate-45 rounded-[2px]" />
+          Corners: Rot
+        </span>
       </div>
 
-      {/* ── Circular D-Pad Controller ── */}
-      <div className="relative my-2 select-none flex items-center justify-center">
+      {/* ── Circular D-Pad Controller with 4 Corner Rotation Controls ── */}
+      <div className="relative w-[268px] h-[268px] my-1 select-none flex items-center justify-center">
+        {/* Top-Left: Rotate Left -0.1° */}
+        <CornerRotButton
+          corner="tl"
+          degText="-0.1°"
+          degStep={-0.1}
+          label="Rotate Left -0.1°"
+          direction="left"
+          isFine
+          onRotate={handleRotate}
+        />
+
+        {/* Top-Right: Rotate Right +0.1° */}
+        <CornerRotButton
+          corner="tr"
+          degText="+0.1°"
+          degStep={0.1}
+          label="Rotate Right +0.1°"
+          direction="right"
+          isFine
+          onRotate={handleRotate}
+        />
+
+        {/* Bottom-Left: Rotate Left -1° */}
+        <CornerRotButton
+          corner="bl"
+          degText="-1°"
+          degStep={-1}
+          label="Rotate Left -1°"
+          direction="left"
+          onRotate={handleRotate}
+        />
+
+        {/* Bottom-Right: Rotate Right +1° */}
+        <CornerRotButton
+          corner="br"
+          degText="+1°"
+          degStep={1}
+          label="Rotate Right +1°"
+          direction="right"
+          onRotate={handleRotate}
+        />
+
         {/* Chassis Dial */}
         <div className="relative w-[240px] h-[240px] rounded-full bg-gradient-to-b from-[#2a2f3a] via-[#1f232b] to-[#15171c] border border-[#3a414f] shadow-[0_12px_30px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.12)] flex items-center justify-center overflow-hidden">
           {/* Concentric groove */}
@@ -250,8 +469,8 @@ export function SvgShiftController({
             <button
               type="button"
               onClick={onResetShift}
-              aria-label="Reset shift to 0,0"
-              title="Reset shift to (0, 0)"
+              aria-label="Reset shift and rotation to 0"
+              title="Reset shift and rotation to 0"
               className="w-[40px] h-[40px] rounded-xl bg-gradient-to-b from-[#2a2f3a] to-[#181a20] border border-[#3d4554] shadow-inner flex items-center justify-center hover:border-blue-400 hover:text-blue-400 text-gray-400 active:scale-90 transition-all cursor-pointer"
             >
               <svg
@@ -271,90 +490,6 @@ export function SvgShiftController({
               </svg>
             </button>
           </div>
-        </div>
-      </div>
-
-      {/* ── Rotation Controls (Left / Right) ── */}
-      <div className="w-full bg-gray-950/80 border border-gray-800 rounded-xl p-3 flex flex-col gap-2">
-        <div className="flex items-center justify-between text-xs">
-          <span className="font-semibold text-gray-300 flex items-center gap-1.5">
-            <svg
-              className="w-3.5 h-3.5 text-sky-400"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <path
-                d="M2.5 8a5.5 5.5 0 0 1 9.39-3.89M13.5 8a5.5 5.5 0 0 1-9.39 3.89"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-              <path
-                d="M12 2v2.5H9.5M4 14v-2.5H6.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Rotation
-          </span>
-          <div className="flex items-center gap-1.5 font-mono">
-            <span
-              className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                rotation !== 0
-                  ? "bg-sky-950 text-sky-300 border border-sky-800/60"
-                  : "bg-gray-800 text-gray-400"
-              }`}
-            >
-              {rotation > 0 ? `+${rotation}` : rotation}°
-            </span>
-            {rotation !== 0 && (
-              <button
-                type="button"
-                onClick={() => onRotationChange?.(0)}
-                className="text-[10px] text-gray-400 hover:text-red-400 px-1.5 py-0.5 rounded bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer"
-                title="Reset rotation to 0°"
-              >
-                Reset
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-4 gap-1.5">
-          <button
-            type="button"
-            onClick={() => handleRotate(-1)}
-            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-gray-200 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-1 cursor-pointer"
-            title="Rotate Left -1°"
-          >
-            ⟲ -1°
-          </button>
-          <button
-            type="button"
-            onClick={() => handleRotate(-0.1)}
-            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-sky-300 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-0.5 cursor-pointer"
-            title="Rotate Left -0.1°"
-          >
-            ⟲ -0.1°
-          </button>
-          <button
-            type="button"
-            onClick={() => handleRotate(0.1)}
-            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-sky-300 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-0.5 cursor-pointer"
-            title="Rotate Right +0.1°"
-          >
-            +0.1° ⟳
-          </button>
-          <button
-            type="button"
-            onClick={() => handleRotate(1)}
-            className="py-1.5 px-2 rounded-lg bg-gray-800 hover:bg-gray-700 active:scale-95 text-xs text-gray-200 font-mono transition-all border border-gray-700/60 flex items-center justify-center gap-1 cursor-pointer"
-            title="Rotate Right +1°"
-          >
-            +1° ⟳
-          </button>
         </div>
       </div>
 
