@@ -13,7 +13,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mapbox/vector-tile": "^2.0.5",
     "@maplibre/maplibre-gl-leaflet": "^0.1.4",
     "@tailwindcss/vite": "^4.3.3",
     "@types/proj4leaflet": "^1.0.12",
@@ -21,7 +20,6 @@
     "leaflet.vectorgrid": "^1.3.0",
     "maplibre-gl": "^6.13.0",
     "mgrs": "^2.2.0",
-    "pbf": "^4.0.2",
     "proj4": "^2.22.0",
     "proj4leaflet": "^1.0.2",
     "react": "^19.3.0",
@@ -31,6 +29,7 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
+    "@mapbox/vector-tile": "^3.0.0",
     "@types/fontkit": "^2.0.9",
     "@types/leaflet": "^1.9.22",
     "@types/node": "^24.13.3",
@@ -39,6 +38,7 @@
     "@vitejs/plugin-react": "^6.1.1",
     "fontkit": "^2.0.4",
     "fs": "^0.0.1-security",
+    "pbf": "^5.1.2",
     "sharp": "^0.35.5",
     "tsx": "^4.23.15",
     "typescript": "~6.0.2",

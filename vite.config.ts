@@ -10,6 +10,9 @@ export default defineConfig({
   build: {
     modulePreload: false,
   },
+  optimizeDeps: {
+    exclude: ["maplibre-gl", "@maplibre/maplibre-gl-leaflet"],
+  },
   plugins: [
     react(),
     tailwindcss(),
