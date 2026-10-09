@@ -13,10 +13,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/vector-tile": "^2.0.5",
     "@tailwindcss/vite": "^4.3.3",
     "@types/proj4leaflet": "^1.0.12",
     "leaflet": "^1.9.4",
     "mgrs": "^2.2.0",
+    "pbf": "^4.0.2",
     "proj4": "^2.22.0",
     "proj4leaflet": "^1.0.2",
     "react": "^19.3.0",
