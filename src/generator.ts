@@ -11,7 +11,8 @@ import { resolveOverlappingRenderPoints } from "./lib/resolve-overlaps";
 import { buildFinalSvg } from "./lib/svg";
 
 export const STARTING_MGRS_TL = "37UBP9708043769"; // '37UCP6621499963';
-
+// 37UCQ7545004369 - kramik
+// 37UBP9669644135 - myrny
 export const MAP_FORMATS: MapFormatConfig[] = [
   {
     name: "1:10000",
