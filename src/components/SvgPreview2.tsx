@@ -1,9 +1,51 @@
 import L, { type LatLngBoundsExpression } from "leaflet";
 import { useEffect, useMemo, useRef } from "react";
-import { ImageOverlay, MapContainer, useMap, ZoomControl } from "react-leaflet";
+import {
+  ImageOverlay,
+  MapContainer,
+  TileLayer,
+  useMap,
+  ZoomControl,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 import proj4 from "proj4";
+
+import "leaflet.vectorgrid";
+
+function VectorTiles({ url }: { url: string }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const layer = (L as any).vectorGrid.protobuf(url, {
+      rendererFactory: (L as any).canvas.tile,
+      maxNativeZoom: 15,
+      vectorTileLayerStyles: {
+        // keys are the *source-layer names* inside the tiles
+        water: { fill: true, fillColor: "#a0c8f0", fillOpacity: 1, weight: 0 },
+        landuse: {
+          fill: true,
+          fillColor: "#d8e8c8",
+          fillOpacity: 1,
+          weight: 0,
+        },
+        roads: { color: "#ffffff", weight: 1 },
+        buildings: {
+          fill: true,
+          fillColor: "#ccc",
+          weight: 0.5,
+          color: "#999",
+        },
+      },
+    });
+    layer.addTo(map);
+    return () => {
+      map.removeLayer(layer);
+    };
+  }, [map, url]);
+
+  return null;
+}
 
 if (typeof window !== "undefined") {
   (window as any).proj4 = proj4;
@@ -165,27 +207,42 @@ export function SvgMapOverlay({
       zoom={tileMaxZoom}
       className={className}
       zoomControl={false}
-      crs={crs}
+      //crs={crs}
     >
       <ZoomControl position="topright" />
 
-      {useRealMap === 1 && <OsmVectorLayer />}
+      {useRealMap === 1 && (
+        <VectorTiles url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{x}/{y}.pbf" />
+      )}
 
       {useRealMap === 2 && (
-        <TransformedTileLayerComponent
-          url={tilesUrl}
-          bounds={baseBounds}
-          minNativeZoom={tileMinZoom}
-          maxNativeZoom={tileMaxZoom}
-          maxZoom={22}
-          minZoom={tileMinZoom - 2}
-          noWrap
-          errorTileUrl={TRANSPARENT_PX}
-          attribution="Local map"
-          shiftX={shiftX}
-          shiftY={shiftY}
-          rotation={rotation}
-          rotationOrigin={baseBounds.getCenter()}
+        // <TransformedTileLayerComponent
+        //   url={tilesUrl}
+        //   bounds={baseBounds}
+        //   minNativeZoom={tileMinZoom}
+        //   maxNativeZoom={tileMaxZoom}
+        //   maxZoom={22}
+        //   minZoom={tileMinZoom - 2}
+        //   noWrap
+        //   errorTileUrl={TRANSPARENT_PX}
+        //   attribution="Local map"
+        //   shiftX={shiftX}
+        //   shiftY={shiftY}
+        //   rotation={rotation}
+        //   rotationOrigin={baseBounds.getCenter()}
+        // />
+
+        // <TileLayer
+        //   url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{x}/{y}.pbf"
+        //   attribution="&copy; OpenStreetMap contributors"
+        //   maxNativeZoom={19}
+        //   maxZoom={22}
+        //   minZoom={2}
+        // />
+
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       )}
 

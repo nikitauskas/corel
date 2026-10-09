@@ -32,7 +32,8 @@ const SOURCES: TileSource[] = [
   {
     // Shortbread schema
     name: "VersaTiles",
-    template: async () => "https://tiles.versatiles.org/tiles/osm/{z}/{x}/{y}",
+    template: async () =>
+      "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{x}/{y}.pbf",
     layers: [
       { layer: "buildings", tags: () => ({ building: "yes" }) },
       { layer: "water_polygons", tags: () => ({ natural: "water" }) },
