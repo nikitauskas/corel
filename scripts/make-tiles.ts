@@ -5,8 +5,8 @@ import sharp from "sharp";
 /*
 
 npx tsx scripts/make-tiles.ts \
-  --input /Users/nikitos/Projects/Delta2Corel/misc/myrne/bg.jpg \
-  --mgrs 37UBP9708043769 \
+  --input /Users/nikitos/Projects/Delta2Corel/misc/dnipro/nikitos1.jpg \
+  --mgrs 3769 \
   --scale 25000 --dpi 300 \
   --min-zoom 8 --max-zoom 16
 
