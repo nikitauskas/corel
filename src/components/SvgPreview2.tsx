@@ -212,7 +212,10 @@ export function SvgMapOverlay({
       <ZoomControl position="topright" />
 
       {useRealMap === 1 && (
-        <VectorTiles url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{x}/{y}.pbf" />
+        <VectorTiles
+          //url="https://delta.mil.gov.ua/gis-adapter/enterprise-print-gis/delta-enterprise-gis/server/rest/services/Hosted/Shtabna_v5/VectorTileServer/tile/11/707/1240.pbf"
+          url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{x}/{y}.pbf"
+        />
       )}
 
       {useRealMap === 2 && (
