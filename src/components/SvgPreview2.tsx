@@ -10,13 +10,15 @@ import {
 import "leaflet/dist/leaflet.css";
 
 import proj4 from "proj4";
+
 if (typeof window !== "undefined") {
   (window as any).proj4 = proj4;
 }
 import "proj4leaflet";
 
-import { computeUtmBoundsLatLng, utmDef } from "../lib/overlay-bounds";
 import { mgrsToUtm } from "../lib/geo";
+import { computeUtmBoundsLatLng, utmDef } from "../lib/overlay-bounds";
+import { OsmVectorLayer } from "./OsmVectorLayer";
 import { TransformedTileLayerComponent } from "./ShiftedTileLayerComponent";
 
 interface SvgMapOverlayProps {
@@ -57,7 +59,7 @@ function computeBounds(
 }
 
 const RES0 = 156543.03392804097;
-const UTM_RESOLUTIONS = Array.from({ length: 23 }, (_, i) => RES0 / Math.pow(2, i));
+const UTM_RESOLUTIONS = Array.from({ length: 23 }, (_, i) => RES0 / 2 ** i);
 
 function getUtmCrs(topLeftMgrs: string) {
   try {
@@ -65,7 +67,7 @@ function getUtmCrs(topLeftMgrs: string) {
     const def = utmDef(topLeftMgrs);
     const isSouth = def.includes("+south");
     const epsgCode = `EPSG:${(isSouth ? 32700 : 32600) + zone}`;
-    
+
     return new L.Proj.CRS(epsgCode, def, {
       resolutions: UTM_RESOLUTIONS,
       origin: [easting, northing],
@@ -120,7 +122,7 @@ export function SvgMapOverlay({
   widthMm = 1810,
   heightMm = 1810,
   scaleDenominator,
-  tilesUrl = `./tiles/{z}/{x}/{y}.png`,
+  tilesUrl = `./tiles2/{z}/{x}/{y}.png`,
   tileMinZoom = 12,
   tileMaxZoom = 15,
   className = "h-[100vh] z-0 bg-neutral-900",
@@ -157,12 +159,7 @@ export function SvgMapOverlay({
     [svgContent],
   );
 
-  const crs = useMemo(() => {
-    if (useRealMap === 2) {
-      return getUtmCrs(topLeftMgrs);
-    }
-    return L.CRS.EPSG3857;
-  }, [useRealMap, topLeftMgrs]);
+  const crs = useMemo(() => getUtmCrs(topLeftMgrs), [topLeftMgrs]);
 
   // We use crs.code as part of the key so the MapContainer fully remounts when CRS changes
   const mapKey = `${crs.code}_${useRealMap}`;
@@ -177,10 +174,13 @@ export function SvgMapOverlay({
       crs={crs}
     >
       <ZoomControl position="topright" />
+
+      {useRealMap === 1 && <OsmVectorLayer />}
+
       {useRealMap === 2 && (
         <TransformedTileLayerComponent
           url={tilesUrl}
-          bounds={baseBounds} // see note below
+          bounds={baseBounds}
           minNativeZoom={tileMinZoom}
           maxNativeZoom={tileMaxZoom}
           maxZoom={22}
@@ -191,21 +191,7 @@ export function SvgMapOverlay({
           shiftX={shiftX}
           shiftY={shiftY}
           rotation={rotation}
-          rotationOrigin={baseBounds.getCenter()} // or any [lat, lng]
-        />
-      )}
-
-      {useRealMap === 1 && (
-        // <TileLayer
-        //   url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-        //   attribution="&copy; OpenStreetMap contributors"
-        //   maxNativeZoom={19}
-        //   maxZoom={22}
-        //   minZoom={2}
-        // />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          rotationOrigin={baseBounds.getCenter()}
         />
       )}
 
@@ -215,6 +201,7 @@ export function SvgMapOverlay({
         opacity={0.8}
         className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
       />
+
       <FitOnce bounds={baseBounds} boundsKey={boundsKey} />
     </MapContainer>
   );
