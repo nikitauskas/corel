@@ -102,15 +102,18 @@ class TransformedTileLayer extends L.TileLayer {
     )._getTiledPixelBounds.call(this, center);
     if (!this.angle || !this.origin) return b;
 
+    const min = b.min!;
+    const max = b.max!;
+
     // Map the viewport back into the unrotated tile grid, so we load the right tiles
     const z = self._tileZoom;
     const pivot = self._map.project(this.origin, z);
     const s = this.shiftPx(z);
     const corners = [
-      b.min,
-      L.point(b.max.x, b.min.y),
-      b.max,
-      L.point(b.min.x, b.max.y),
+      min,
+      L.point(max.x, min.y),
+      max,
+      L.point(min.x, max.y),
     ].map((p) => this.rotatePoint(p.subtract(s), pivot, -this.angle));
 
     return L.bounds(corners);

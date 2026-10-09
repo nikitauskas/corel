@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
-import { computeMercatorExtent } from "../src/lib/overlay-bounds";
 
 /*
 
@@ -45,7 +44,7 @@ async function main() {
   // pixels -> paper meters -> ground meters
   const widthM = (srcW / dpi) * 0.0254 * scale;
   const heightM = (srcH / dpi) * 0.0254 * scale;
-  
+
   const extW = widthM;
   const extH = heightM;
 
@@ -71,7 +70,7 @@ async function main() {
   const sy = srcH / extH;
 
   for (let z = minZoom; z <= maxZoom; z++) {
-    const res = RES0 / Math.pow(2, z);
+    const res = RES0 / 2 ** z;
     const size = TILE * res;
 
     const x0 = 0;
