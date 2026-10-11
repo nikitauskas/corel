@@ -26,8 +26,20 @@ import { useMap } from "react-leaflet";
 
 interface OsmWay {
   id: number;
+  poly?: number;
   tags?: Record<string, string>;
   geometry?: Array<{ lat: number; lon: number }>;
+}
+
+interface ProjWay {
+  kind: Kind;
+  poly: number;
+  highway?: string;
+  xy: Float64Array;
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
 }
 
 type Props = Record<string, any>;
@@ -147,6 +159,7 @@ async function fetchTileFromSource(
 
   const out: OsmWay[] = [];
   const counts: Record<string, number> = {};
+  let polyId = 0;
 
   for (const [layerName, l] of Object.entries(tile.layers)) {
     const def = source.layers.find((d) => d.match(layerName));
@@ -167,11 +180,12 @@ async function fetchTileFromSource(
               : g.type === "MultiLineString"
                 ? g.coordinates
                 : [];
-
+      const pid = polyId++;
       const t = def.tags(f.properties as Props);
       for (const c of parts) {
         out.push({
           id: out.length,
+          poly: pid,
           tags: t,
           geometry: c.map(([lon, lat]) => ({ lat, lon })),
         });
@@ -299,7 +313,16 @@ export function OsmVectorLayer() {
           if (p.y > maxY) maxY = p.y;
         }
 
-        out.push({ kind, highway: t.highway, xy, minX, minY, maxX, maxY });
+        out.push({
+          kind,
+          poly: w.poly ?? -1,
+          highway: t.highway,
+          xy,
+          minX,
+          minY,
+          maxX,
+          maxY,
+        });
       }
       return out;
     }
@@ -339,15 +362,29 @@ export function OsmVectorLayer() {
       const bx = p0.x - po.x - origin.x;
       const by = p0.y - po.y - origin.y;
 
+      const trace = (w: ProjWay, close: boolean) => {
+        const xy = w.xy;
+        ctx!.moveTo(ax * xy[0] + bx, ay * xy[1] + by);
+        for (let i = 2; i < xy.length; i += 2) {
+          ctx!.lineTo(ax * xy[i] + bx, ay * xy[i + 1] + by);
+        }
+        if (close) ctx!.closePath();
+      };
+
       const pad = 50;
-      const visible: Record<Kind, ProjWay[]> = {
-        water: [],
-        building: [],
+
+      // Lines are batched per layer; polygons are grouped per tile + feature
+      // so duplicates from neighbouring tiles can't cancel each other out.
+      const lines: Record<"waterway" | "road", ProjWay[]> = {
         waterway: [],
         road: [],
       };
+      const groups: Record<"water" | "building", Map<string, ProjWay[]>> = {
+        water: new Map(),
+        building: new Map(),
+      };
 
-      for (const tile of projTiles.values()) {
+      for (const [tkey, tile] of projTiles) {
         if (tile.z !== currentZ) continue; // avoid drawing overlapping zoom levels
         for (const w of tile.ways) {
           const x1 = ax * w.minX + bx;
@@ -358,40 +395,39 @@ export function OsmVectorLayer() {
             continue;
           if (Math.max(y1, y2) < -pad || Math.min(y1, y2) > size.y + pad)
             continue;
-          visible[w.kind].push(w);
+
+          if (w.kind === "water" || w.kind === "building") {
+            const k = `${tkey}|${w.poly}`;
+            const g = groups[w.kind];
+            const arr = g.get(k);
+            if (arr) arr.push(w);
+            else g.set(k, [w]);
+          } else {
+            lines[w.kind].push(w);
+          }
         }
       }
 
-      const trace = (w: ProjWay, close: boolean) => {
-        const xy = w.xy;
-        ctx!.moveTo(ax * xy[0] + bx, ay * xy[1] + by);
-        for (let i = 2; i < xy.length; i += 2) {
-          ctx!.lineTo(ax * xy[i] + bx, ay * xy[i + 1] + by);
+      // Polygons: one evenodd fill per feature (rings within a feature are
+      // consistent, so holes work), plus a thin stroke to hide seams.
+      const fillGroups = (m: Map<string, ProjWay[]>, color: string) => {
+        ctx!.fillStyle = color;
+        ctx!.strokeStyle = color;
+        ctx!.lineWidth = 0.5;
+        for (const ws of m.values()) {
+          ctx!.beginPath();
+          for (const w of ws) trace(w, true);
+          ctx!.fill("evenodd");
+          ctx!.stroke();
         }
-        if (close) ctx!.closePath();
       };
 
-      // One path + one fill per layer (much faster than per feature).
-      // Water
-      ctx!.beginPath();
-      for (const w of visible.water) trace(w, true);
-      ctx!.fillStyle = "#b8dce8";
-      ctx!.fill("nonzero");
-      ctx!.strokeStyle = "#b8dce8"; // hides hairline seams between tiles
-      ctx!.lineWidth = 0.5;
-      ctx!.stroke();
+      fillGroups(groups.water, "#b8dce8");
+      fillGroups(groups.building, "#d8d2c8");
 
-      // Buildings
+      // Waterways
       ctx!.beginPath();
-      for (const w of visible.building) trace(w, true);
-      ctx!.fillStyle = "#d8d2c8";
-      ctx!.fill("nonzero");
-      ctx!.strokeStyle = "#d8d2c8";
-      ctx!.lineWidth = 0.5;
-      ctx!.stroke();
-
-      ctx!.beginPath();
-      for (const w of visible.waterway) trace(w, false);
+      for (const w of lines.waterway) trace(w, false);
       ctx!.strokeStyle = "#75afc5";
       ctx!.lineWidth = 1.5;
       ctx!.stroke();
@@ -425,7 +461,7 @@ export function OsmVectorLayer() {
 
       for (const style of roadStyles) {
         ctx!.beginPath();
-        for (const w of visible.road) {
+        for (const w of lines.road) {
           if (style.match(w.highway ?? "")) trace(w, false);
         }
         ctx!.strokeStyle = style.color;
