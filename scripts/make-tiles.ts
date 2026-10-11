@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
+import { RES0 } from "../src/lib/utils";
 
 /*
 
@@ -33,8 +34,6 @@ if (!input || !mgrs) {
 }
 
 sharp.cache(false);
-
-export const RES0 = 156543.03392804097;
 
 async function main() {
   const meta = await sharp(input, { limitInputPixels: false }).metadata();

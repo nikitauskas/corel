@@ -56,3 +56,6 @@ export function computeBoundingBox(rects: Rect[]): BoundingBox {
   }
   return { minX, minY, maxX, maxY };
 }
+
+// must match make-tiles.ts and LayerLocalTiles.tsx
+export const RES0 = 156543.03392804097;
