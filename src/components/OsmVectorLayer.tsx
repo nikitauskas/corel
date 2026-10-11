@@ -1,6 +1,26 @@
 import { VectorTile } from "@mapbox/vector-tile";
 import L from "leaflet";
-import * as Protobuf from "pbf";
+
+import * as PbfModule from "pbf";
+
+function resolvePbf(mod: any): new (buf: Uint8Array) => any {
+  const seen = new Set<any>();
+  const queue = [mod, mod?.default, mod?.default?.default];
+  for (const m of queue) {
+    if (!m || seen.has(m)) continue;
+    seen.add(m);
+    if (typeof m === "function" && m.prototype?.readFields) return m;
+    for (const v of Object.values(m)) {
+      if (typeof v === "function" && (v as any).prototype?.readFields) {
+        return v as any;
+      }
+    }
+  }
+  throw new Error("pbf constructor not found: " + Object.keys(mod));
+}
+
+const ProtobufConstructor = resolvePbf(PbfModule);
+
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
@@ -16,7 +36,7 @@ type TagFn = (p: Props) => Record<string, string>;
 interface TileSource {
   name: string;
   template: () => Promise<string>;
-  layers: Array<{ layer: string; tags: TagFn }>;
+  layers: Array<{ match: (layerName: string) => boolean; tags: TagFn }>;
 }
 
 /** Set to false to silence diagnostics. */
@@ -28,50 +48,67 @@ const MAX_TILES = 60; // lower the tile zoom until the viewport needs <= this ma
 
 let openFreeMapTemplate: string | undefined;
 
+function viewportLatLngBounds(map: L.Map) {
+  const pb = map.getPixelBounds();
+  const corners = [
+    pb.min,
+    L.point(pb.max.x, pb.min.y),
+    pb.max,
+    L.point(pb.min.x, pb.max.y),
+  ].map((p) => map.unproject(p));
+  return L.latLngBounds(corners);
+}
+
 const SOURCES: TileSource[] = [
   {
     // Shortbread schema
     name: "VersaTiles",
     template: async () =>
-      "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{x}/{y}.pbf",
+      "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf",
     layers: [
-      { layer: "buildings", tags: () => ({ building: "yes" }) },
-      { layer: "water_polygons", tags: () => ({ natural: "water" }) },
       {
-        layer: "water_lines",
-        tags: (p) => ({ waterway: String(p.kind ?? "stream") }),
+        match: (n) => /^building/i.test(n),
+        tags: () => ({ building: "yes" }),
       },
       {
-        layer: "streets",
-        tags: (p) => ({ highway: String(p.kind ?? "residential") }),
+        match: (n) => /^(water area|marine area)/i.test(n),
+        tags: () => ({ natural: "water" }),
+      },
+      {
+        match: (n) => /^water line/i.test(n) && !/label/i.test(n),
+        tags: () => ({ waterway: "stream" }),
+      },
+      {
+        match: (n) => /^road$/i.test(n),
+        tags: () => ({ highway: "residential" }), // refine below
       },
     ],
   },
-  {
-    // OpenMapTiles schema
-    name: "OpenFreeMap",
-    template: async () => {
-      if (!openFreeMapTemplate) {
-        const res = await fetch("https://tiles.openfreemap.org/planet");
-        if (!res.ok) throw new Error(`TileJSON HTTP ${res.status}`);
-        const tj = await res.json();
-        openFreeMapTemplate = tj.tiles[0] as string;
-      }
-      return openFreeMapTemplate;
-    },
-    layers: [
-      { layer: "building", tags: () => ({ building: "yes" }) },
-      { layer: "water", tags: () => ({ natural: "water" }) },
-      {
-        layer: "waterway",
-        tags: (p) => ({ waterway: String(p.class ?? "stream") }),
-      },
-      {
-        layer: "transportation",
-        tags: (p) => ({ highway: String(p.class ?? "residential") }),
-      },
-    ],
-  },
+  // {
+  //   // OpenMapTiles schema
+  //   name: "OpenFreeMap",
+  //   template: async () => {
+  //     if (!openFreeMapTemplate) {
+  //       const res = await fetch("https://tiles.openfreemap.org/planet");
+  //       if (!res.ok) throw new Error(`TileJSON HTTP ${res.status}`);
+  //       const tj = await res.json();
+  //       openFreeMapTemplate = tj.tiles[0] as string;
+  //     }
+  //     return openFreeMapTemplate;
+  //   },
+  //   layers: [
+  //     { layer: "building", tags: () => ({ building: "yes" }) },
+  //     { layer: "water", tags: () => ({ natural: "water" }) },
+  //     {
+  //       layer: "waterway",
+  //       tags: (p) => ({ waterway: String(p.class ?? "stream") }),
+  //     },
+  //     {
+  //       layer: "transportation",
+  //       tags: (p) => ({ highway: String(p.class ?? "residential") }),
+  //     },
+  //   ],
+  // },
 ];
 
 let preferredSource = 0;
@@ -103,14 +140,18 @@ async function fetchTileFromSource(
   if (res.status === 404 || res.status === 204) return [];
   if (!res.ok) throw new Error(`${source.name} tile HTTP ${res.status}`);
 
-  const tile = new VectorTile(new Protobuf(await res.arrayBuffer()));
+  const arrayBuffer = await res.arrayBuffer();
+  const tile = new VectorTile(
+    new ProtobufConstructor(new Uint8Array(arrayBuffer)),
+  );
+
   const out: OsmWay[] = [];
   const counts: Record<string, number> = {};
 
-  for (const { layer, tags } of source.layers) {
-    const l = tile.layers[layer];
-    counts[layer] = l ? l.length : -1; // -1 = layer not present in tile
-    if (!l) continue;
+  for (const [layerName, l] of Object.entries(tile.layers)) {
+    const def = source.layers.find((d) => d.match(layerName));
+    if (!def) continue;
+    counts[layerName] = l.length;
 
     for (let i = 0; i < l.length; i++) {
       const f = l.feature(i);
@@ -127,7 +168,7 @@ async function fetchTileFromSource(
                 ? g.coordinates
                 : [];
 
-      const t = tags(f.properties as Props);
+      const t = def.tags(f.properties as Props);
       for (const c of parts) {
         out.push({
           id: out.length,
@@ -394,7 +435,7 @@ export function OsmVectorLayer() {
     }
 
     function loadData() {
-      const b = map.getBounds();
+      const b = viewportLatLngBounds(map);
 
       // Pick the finest tile zoom whose tile count fits the viewport.
       let z = MAX_Z;

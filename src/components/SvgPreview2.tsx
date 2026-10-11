@@ -13,6 +13,30 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "@maplibre/maplibre-gl-leaflet";
 
 import { computeUtmBoundsLatLng } from "../lib/overlay-bounds";
+import "proj4leaflet";
+import { OsmVectorLayer } from "./OsmVectorLayer";
+
+// Metres per pixel for zoom 0..23 (8192 m/px down to ~1 mm/px)
+const UTM_RESOLUTIONS = Array.from({ length: 24 }, (_, i) => 2 ** (13 - i));
+
+/** "33UUP1234..." -> zone 33, north. Falls back to the bounds centre. */
+function utmZone(mgrs: string, fallback: L.LatLng) {
+  const m = /^\s*(\d{1,2})\s*([C-HJ-NP-X])/i.exec(mgrs);
+  if (m) return { zone: Number(m[1]), south: m[2].toUpperCase() < "N" };
+  return {
+    zone: Math.floor((fallback.lng + 180) / 6) + 1,
+    south: fallback.lat < 0,
+  };
+}
+
+function makeUtmCrs(zone: number, south: boolean): L.CRS {
+  const epsg = (south ? 32700 : 32600) + zone;
+  const def = `+proj=utm +zone=${zone}${south ? " +south" : ""} +datum=WGS84 +units=m +no_defs`;
+  return new (L as any).Proj.CRS(`EPSG:${epsg}`, def, {
+    resolutions: UTM_RESOLUTIONS,
+    origin: [0, 10_000_000], // top-left of the projected "world"
+  });
+}
 
 const TILE_URL =
   "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf";
@@ -26,57 +50,6 @@ const withToken = (url: string) =>
   ESRI_TOKEN && url.includes("arcgis.com") && !url.includes("token=")
     ? `${url}${url.includes("?") ? "&" : "?"}token=${ESRI_TOKEN}`
     : url;
-
-async function loadStyle(signal?: AbortSignal) {
-  const res = await fetch(withToken(STYLE_URL), { signal });
-  if (!res.ok) throw new Error(`Style request failed: ${res.status}`);
-  const style = await res.json();
-
-  const abs = (u: string) =>
-    new URL(u, STYLE_URL).href.replace(/%7B/gi, "{").replace(/%7D/gi, "}");
-
-  if (style.sprite) style.sprite = abs(style.sprite);
-  if (style.glyphs) style.glyphs = abs(style.glyphs);
-
-  for (const src of Object.values<any>(style.sources ?? {})) {
-    if (src.type === "vector") {
-      delete src.url;
-      src.tiles = [TILE_URL];
-    }
-  }
-  return style;
-}
-
-/** Vector basemap: MapLibre GL renders Esri's .pbf style inside the Leaflet map. */
-function VectorTiles() {
-  const map = useMap();
-
-  useEffect(() => {
-    const ctrl = new AbortController();
-    let layer: any;
-
-    loadStyle(ctrl.signal)
-      .then((style) => {
-        if (ctrl.signal.aborted) return;
-        layer = (L as any)
-          .maplibreGL({
-            style,
-            transformRequest: (url: string) => ({ url: withToken(url) }),
-          })
-          .addTo(map);
-      })
-      .catch((e) => {
-        if (e?.name !== "AbortError") console.error(e);
-      });
-
-    return () => {
-      ctrl.abort();
-      if (layer) map.removeLayer(layer);
-    };
-  }, [map]);
-
-  return null;
-}
 
 interface SvgMapOverlayProps {
   svgContent: string;
@@ -132,9 +105,14 @@ function FitOnce({
     const overlayPxW = Math.abs(ne.x - sw.x);
     const viewportW = map.getSize().x;
 
+    // const zoom =
+    //   overlayPxW < viewportW
+    //     ? fitZoom + Math.log2(viewportW / overlayPxW)
+    //     : fitZoom;
+
     const zoom =
       overlayPxW < viewportW
-        ? fitZoom + Math.log2(viewportW / overlayPxW)
+        ? map.getScaleZoom(viewportW / overlayPxW, fitZoom)
         : fitZoom;
 
     map.setView(lb.getCenter(), zoom);
@@ -175,18 +153,29 @@ export function SvgMapOverlay({
     [svgContent],
   );
 
+  const utm = useMemo(() => {
+    const { zone, south } = utmZone(topLeftMgrs, baseBounds.getCenter());
+    return { zone, south };
+  }, [topLeftMgrs, baseBounds]);
+
+  const crs = useMemo(
+    () => (useRealMap === 1 ? makeUtmCrs(utm.zone, utm.south) : L.CRS.EPSG3857),
+    [useRealMap, utm],
+  );
+
   return (
     <MapContainer
-      key={`map_${useRealMap ?? 0}`}
+      key={`map_${useRealMap ?? 0}_${utm.zone}${utm.south ? "S" : "N"}`} // crs is only read at init
+      crs={crs}
       center={baseBounds.getCenter()}
-      zoom={tileMaxZoom}
+      zoom={useRealMap === 1 ? 8 : tileMaxZoom}
       maxZoom={22}
       className={className}
       zoomControl={false}
     >
       <ZoomControl position="topright" />
 
-      {useRealMap === 1 && <VectorTiles />}
+      {useRealMap === 1 && <OsmVectorLayer />}
 
       {useRealMap === 2 && (
         <TileLayer
