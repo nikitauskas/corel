@@ -678,10 +678,75 @@ export function OsmVectorLayer() {
 
       const sz = currentZ + ZOOM_OFFSET;
 
+      // ---- building look: pale footprint + offset shadow ----
+      const BUILDING_FILL = "#fbfbee";
+      const BUILDING_EDGE = "rgba(130,130,110,0.45)";
+      const BUILDING_SHADOW = "#d6d6c2"; // solid, so overlapping shadows don't double-darken
+
+      const drawBuildings = (si: number) => {
+        // shadow offset in screen pixels, growing with zoom
+        const off = Math.max(
+          1,
+          Math.min(4, (currentZ + ZOOM_OFFSET - 14) * 1.2 + 1),
+        );
+
+        for (const tile of tiles) {
+          const ways = tile.byStyle.get(si);
+          if (!ways) continue;
+
+          const byPoly = new Map<number, ProjWay[]>();
+          for (const w of ways) {
+            if (!onScreen(w)) continue;
+            // skip specks smaller than ~1.5 px
+            const wpx = Math.abs(ax) * (w.maxX - w.minX);
+            const hpx = Math.abs(ay) * (w.maxY - w.minY);
+            if (wpx < 1.5 && hpx < 1.5) continue;
+            const arr = byPoly.get(w.poly);
+            if (arr) arr.push(w);
+            else byPoly.set(w.poly, [w]);
+          }
+          if (!byPoly.size) continue;
+
+          ctx!.save();
+          clipToTile(tile.quad);
+          ctx!.globalAlpha = 1;
+
+          // shadow pass
+          ctx!.save();
+          ctx!.translate(off, off);
+          ctx!.fillStyle = BUILDING_SHADOW;
+          for (const group of byPoly.values()) {
+            ctx!.beginPath();
+            for (const w of group) trace(w, true);
+            ctx!.fill("evenodd");
+          }
+          ctx!.restore();
+
+          // footprint pass
+          ctx!.fillStyle = BUILDING_FILL;
+          ctx!.strokeStyle = BUILDING_EDGE;
+          ctx!.lineWidth = 0.75;
+          for (const group of byPoly.values()) {
+            ctx!.beginPath();
+            for (const w of group) trace(w, true);
+            ctx!.fill("evenodd");
+            ctx!.stroke();
+          }
+
+          ctx!.restore();
+        }
+      };
+
       // ---------------- geometry ----------------
       for (const si of order) {
         const st = style[si];
         if (!st || st.type === "symbol") continue;
+
+        if (st.type === "fill" && /^building/i.test(st.sourceLayer)) {
+          drawBuildings(si);
+          continue;
+        }
+
         const color = resolve(st.color, sz);
         if (typeof color !== "string") continue; // expressions are not supported
         const opacity = resolve(st.opacity, sz);
