@@ -6,7 +6,7 @@ import { useMap } from "react-leaflet";
 
 const DEBUG = true;
 
-const MAX_Z = 14;
+const MAX_Z = 16; // lower to 15 if z16 tiles come back empty/404
 const MIN_Z = 8;
 const MAX_TILES = 60;
 /** Added to the tile zoom when checking style minzoom/maxzoom. Try 1 or -1 if layers appear at the wrong level. */
@@ -22,9 +22,19 @@ type Spec = any; // number | string | { stops: [zoom, value][] } | expression
 
 /* ----------------------------- style handling ----------------------------- */
 
+interface TextSpec {
+  field: Spec;
+  size: Spec;
+  font?: string[];
+  transform?: string;
+  spacing?: Spec;
+  haloColor?: Spec;
+  haloWidth?: Spec;
+}
+
 interface StyleLayer {
   id: string;
-  type: "fill" | "line";
+  type: "fill" | "line" | "symbol";
   sourceLayer: string;
   filter?: any[];
   minzoom: number;
@@ -32,6 +42,7 @@ interface StyleLayer {
   color: Spec;
   width?: Spec;
   opacity?: Spec;
+  text?: TextSpec;
 }
 
 /** Resolve a constant or {stops} value at zoom z (linear for numbers, step for colours). */
@@ -66,13 +77,13 @@ function evalFilter(f: any[] | undefined, p: Props, geom: string): boolean {
     case "none":
       return !f.slice(1).some((x) => evalFilter(x, p, geom));
     case "==":
-      return val == f[2]; // loose: tile props may be numbers or strings
+      return val === f[2];
     case "!=":
-      return val != f[2];
+      return val !== f[2];
     case "in":
-      return f.slice(2).some((v) => v == val);
+      return f.slice(2).some((v) => v === val);
     case "!in":
-      return !f.slice(2).some((v) => v == val);
+      return !f.slice(2).some((v) => v === val);
     case "has":
       return key in p;
     case "!has":
@@ -90,6 +101,19 @@ function evalFilter(f: any[] | undefined, p: Props, geom: string): boolean {
   }
 }
 
+function labelText(t: TextSpec, p: Props, z: number): string | undefined {
+  const f = resolve(t.field, z);
+  let s = "";
+  if (typeof f === "string") {
+    s = f.replace(/\{([^}]+)\}/g, (_, k) => String(p[k] ?? ""));
+  } else if (Array.isArray(f) && f[0] === "get") {
+    s = String(p[f[1]] ?? "");
+  }
+  s = s.trim();
+  if (!s) return undefined;
+  return t.transform === "uppercase" ? s.toUpperCase() : s;
+}
+
 let stylePromise: Promise<StyleLayer[]> | undefined;
 
 function loadStyle(): Promise<StyleLayer[]> {
@@ -105,6 +129,23 @@ function loadStyle(): Promise<StyleLayer[]> {
           const sourceLayer = l["source-layer"];
           if (!sourceLayer) continue;
           const paint = l.paint ?? {};
+          const layout = l.layout ?? {};
+
+          if (DEBUG && /build/i.test(sourceLayer)) {
+            console.debug(
+              "[style] building layer:",
+              l.id,
+              "type:",
+              l.type,
+              "minzoom:",
+              l.minzoom,
+              "maxzoom:",
+              l.maxzoom,
+              "paint:",
+              paint,
+            );
+          }
+
           const base = {
             id: l.id as string,
             sourceLayer: sourceLayer as string,
@@ -112,12 +153,24 @@ function loadStyle(): Promise<StyleLayer[]> {
             minzoom: (l.minzoom ?? 0) as number,
             maxzoom: (l.maxzoom ?? 25) as number,
           };
+
           if (l.type === "fill" && paint["fill-color"] !== undefined) {
             out.push({
               ...base,
               type: "fill",
               color: paint["fill-color"],
               opacity: paint["fill-opacity"],
+            });
+          } else if (
+            l.type === "fill-extrusion" &&
+            paint["fill-extrusion-color"] !== undefined
+          ) {
+            // drawn flat
+            out.push({
+              ...base,
+              type: "fill",
+              color: paint["fill-extrusion-color"],
+              opacity: paint["fill-extrusion-opacity"],
             });
           } else if (l.type === "line" && paint["line-color"] !== undefined) {
             out.push({
@@ -127,13 +180,32 @@ function loadStyle(): Promise<StyleLayer[]> {
               width: paint["line-width"],
               opacity: paint["line-opacity"],
             });
+          } else if (
+            l.type === "symbol" &&
+            layout["text-field"] !== undefined
+          ) {
+            out.push({
+              ...base,
+              type: "symbol",
+              color: paint["text-color"] ?? "#333333",
+              opacity: paint["text-opacity"],
+              text: {
+                field: layout["text-field"],
+                size: layout["text-size"],
+                font: layout["text-font"],
+                transform: layout["text-transform"],
+                spacing: layout["text-letter-spacing"],
+                haloColor: paint["text-halo-color"],
+                haloWidth: paint["text-halo-width"],
+              },
+            });
           }
-          // symbol, background, raster, fill-pattern layers are skipped
+          // icon-only symbols, background, raster and fill-pattern layers are skipped
         }
         return out;
       })
       .catch((e) => {
-        stylePromise = undefined; // allow retry
+        stylePromise = undefined;
         throw e;
       });
   }
@@ -148,8 +220,19 @@ interface RawWay {
   coords: number[][]; // [lon, lat][]
 }
 
-const rawTileCache = new Map<string, RawWay[]>();
-const inFlight = new Map<string, Promise<RawWay[]>>();
+interface RawLabel {
+  style: number;
+  text: string;
+  coords: number[][]; // 1 point, or a line
+}
+
+interface RawTile {
+  ways: RawWay[];
+  labels: RawLabel[];
+}
+
+const rawTileCache = new Map<string, RawTile>();
+const inFlight = new Map<string, Promise<RawTile>>();
 
 const lon2x = (lon: number, z: number) =>
   Math.floor(((lon + 180) / 360) * 2 ** z);
@@ -171,22 +254,87 @@ function viewportLatLngBounds(map: L.Map) {
   return L.latLngBounds(corners);
 }
 
-async function fetchTile(z: number, x: number, y: number): Promise<RawWay[]> {
+function wayParts(g: any): number[][][] {
+  switch (g.type) {
+    case "Polygon":
+      return g.coordinates;
+    case "MultiPolygon":
+      return g.coordinates.flat();
+    case "LineString":
+      return [g.coordinates];
+    case "MultiLineString":
+      return g.coordinates;
+    default:
+      return [];
+  }
+}
+
+function bboxCenter(ring: number[][]): number[] {
+  let x0 = Infinity,
+    y0 = Infinity,
+    x1 = -Infinity,
+    y1 = -Infinity;
+  for (const [x, y] of ring) {
+    if (x < x0) x0 = x;
+    if (x > x1) x1 = x;
+    if (y < y0) y0 = y;
+    if (y > y1) y1 = y;
+  }
+  return [(x0 + x1) / 2, (y0 + y1) / 2];
+}
+
+/** Each part is either a single point or a line. */
+function labelParts(g: any): number[][][] {
+  switch (g.type) {
+    case "Point":
+      return [[g.coordinates]];
+    case "MultiPoint":
+      return g.coordinates.map((p: number[]) => [p]);
+    case "LineString":
+      return [g.coordinates];
+    case "MultiLineString":
+      return g.coordinates;
+    case "Polygon":
+      return g.coordinates[0] ? [[bboxCenter(g.coordinates[0])]] : [];
+    case "MultiPolygon":
+      return g.coordinates
+        .filter((p: number[][][]) => p[0])
+        .map((p: number[][][]) => [bboxCenter(p[0])]);
+    default:
+      return [];
+  }
+}
+
+async function fetchTile(z: number, x: number, y: number): Promise<RawTile> {
   const style = await loadStyle();
   const url = TILE_URL.replace("{z}", String(z))
     .replace("{x}", String(x))
     .replace("{y}", String(y));
 
   const res = await fetch(url);
-  if (res.status === 404 || res.status === 204) return [];
+  if (res.status === 404 || res.status === 204) {
+    if (DEBUG)
+      console.debug(
+        `[OsmVectorLayer] no tile ${z}/${x}/${y} (HTTP ${res.status})`,
+      );
+    return { ways: [], labels: [] };
+  }
   if (!res.ok) throw new Error(`tile HTTP ${res.status}`);
 
   const tile = new VectorTile(
     new PbfReader(new Uint8Array(await res.arrayBuffer())),
   );
   const sz = z + ZOOM_OFFSET;
-  const out: RawWay[] = [];
+  const ways: RawWay[] = [];
+  const labels: RawLabel[] = [];
   let poly = 0;
+
+  if (DEBUG) {
+    console.debug(
+      `[OsmVectorLayer] ${z}/${x}/${y} layers:`,
+      Object.keys(tile.layers),
+    );
+  }
 
   for (const [name, layer] of Object.entries(tile.layers)) {
     const rules: number[] = [];
@@ -198,47 +346,44 @@ async function fetchTile(z: number, x: number, y: number): Promise<RawWay[]> {
     }
     if (!rules.length) continue;
 
-    if (DEBUG && /water/i.test(name)) {
-      const symbols = new Set<any>();
-      for (let i = 0; i < layer.length; i++) {
-        symbols.add(layer.feature(i).properties._symbol);
-      }
-      console.debug(`[${name}] ${z}/${x}/${y} _symbol values:`, [...symbols]);
+    if (DEBUG && /label/i.test(name) && layer.length) {
+      console.debug(`[${name}] sample props:`, layer.feature(0).properties);
     }
 
     for (let i = 0; i < layer.length; i++) {
       const f = layer.feature(i);
       const props = f.properties as Props;
       const g: any = f.toGeoJSON(x, y, z).geometry;
+      const gname = String(g.type).replace("Multi", "");
+      const isPoly = gname === "Polygon";
 
-      const isPoly = g.type === "Polygon" || g.type === "MultiPolygon";
-      const parts: number[][][] =
-        g.type === "Polygon"
-          ? g.coordinates
-          : g.type === "MultiPolygon"
-            ? g.coordinates.flat()
-            : g.type === "LineString"
-              ? [g.coordinates]
-              : g.type === "MultiLineString"
-                ? g.coordinates
-                : [];
-      if (!parts.length) continue;
-
+      let parts: number[][][] | undefined;
       let pid = -1;
+
       for (const si of rules) {
         const s = style[si];
-        if (s.type === "fill" && !isPoly) continue;
-        if (!evalFilter(s.filter, props, isPoly ? "Polygon" : "LineString"))
+        if (!evalFilter(s.filter, props, gname)) continue;
+
+        if (s.type === "symbol") {
+          const text = labelText(s.text!, props, sz);
+          if (!text) continue;
+          for (const c of labelParts(g))
+            labels.push({ style: si, text, coords: c });
           continue;
+        }
+
+        if (s.type === "fill" && !isPoly) continue;
+        parts ??= wayParts(g);
+        if (!parts.length) continue;
         if (pid < 0) pid = poly++;
-        for (const c of parts) out.push({ style: si, poly: pid, coords: c });
+        for (const c of parts) ways.push({ style: si, poly: pid, coords: c });
       }
     }
   }
-  return out;
+  return { ways, labels };
 }
 
-function loadTile(z: number, x: number, y: number): Promise<RawWay[]> {
+function loadTile(z: number, x: number, y: number): Promise<RawTile> {
   const key = `${z}/${x}/${y}`;
   const cached = rawTileCache.get(key);
   if (cached) return Promise.resolve(cached);
@@ -246,9 +391,9 @@ function loadTile(z: number, x: number, y: number): Promise<RawWay[]> {
   if (pending) return pending;
 
   const job = fetchTile(z, x, y)
-    .then((ways) => {
-      rawTileCache.set(key, ways);
-      return ways;
+    .then((t) => {
+      rawTileCache.set(key, t);
+      return t;
     })
     .finally(() => inFlight.delete(key));
   inFlight.set(key, job);
@@ -266,10 +411,22 @@ interface ProjWay {
   maxY: number;
 }
 
+interface ProjLabel {
+  style: number;
+  text: string;
+  x: number; // anchor, CRS units
+  y: number;
+  dx: number; // direction of the line at the anchor, CRS units
+  dy: number;
+  len: number; // line length in CRS units (0 for points)
+  line: boolean;
+}
+
 interface ProjTile {
   z: number;
   quad: Float64Array;
   byStyle: Map<number, ProjWay[]>;
+  labels: ProjLabel[];
 }
 
 export function OsmVectorLayer() {
@@ -307,6 +464,9 @@ export function OsmVectorLayer() {
     let rafId: number | undefined;
     let debounceTimer: number | undefined;
 
+    const project = (lon: number, lat: number) =>
+      crs.projection.project(L.latLng(lat, lon));
+
     function projectWays(ways: RawWay[]): Map<number, ProjWay[]> {
       const out = new Map<number, ProjWay[]>();
       for (const w of ways) {
@@ -320,7 +480,7 @@ export function OsmVectorLayer() {
           maxY = -Infinity;
 
         for (let i = 0; i < g.length; i++) {
-          const p = crs.projection.project(L.latLng(g[i][1], g[i][0]));
+          const p = project(g[i][0], g[i][1]);
           xy[i * 2] = p.x;
           xy[i * 2 + 1] = p.y;
           if (p.x < minX) minX = p.x;
@@ -337,6 +497,56 @@ export function OsmVectorLayer() {
       return out;
     }
 
+    function projectLabels(labels: RawLabel[]): ProjLabel[] {
+      const out: ProjLabel[] = [];
+      for (const l of labels) {
+        const c = l.coords;
+        if (c.length === 1) {
+          const p = project(c[0][0], c[0][1]);
+          out.push({
+            style: l.style,
+            text: l.text,
+            x: p.x,
+            y: p.y,
+            dx: 1,
+            dy: 0,
+            len: 0,
+            line: false,
+          });
+          continue;
+        }
+        const pts = c.map(([lon, lat]) => project(lon, lat));
+        let total = 0;
+        for (let i = 1; i < pts.length; i++) {
+          total += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+        }
+        if (total === 0) continue;
+        let walk = total / 2;
+        for (let i = 1; i < pts.length; i++) {
+          const seg = Math.hypot(
+            pts[i].x - pts[i - 1].x,
+            pts[i].y - pts[i - 1].y,
+          );
+          if (walk <= seg && seg > 0) {
+            const t = walk / seg;
+            out.push({
+              style: l.style,
+              text: l.text,
+              x: pts[i - 1].x + (pts[i].x - pts[i - 1].x) * t,
+              y: pts[i - 1].y + (pts[i].y - pts[i - 1].y) * t,
+              dx: pts[i].x - pts[i - 1].x,
+              dy: pts[i].y - pts[i - 1].y,
+              len: total,
+              line: true,
+            });
+            break;
+          }
+          walk -= seg;
+        }
+      }
+      return out;
+    }
+
     /** Tile outline in CRS units, edges subdivided so UTM curvature is respected. */
     function tileQuad(z: number, x: number, y: number): Float64Array {
       const n = 2 ** z;
@@ -347,7 +557,7 @@ export function OsmVectorLayer() {
       const N = 8;
       const pts: number[] = [];
       const push = (xx: number, yy: number) => {
-        const p = crs.projection.project(L.latLng(latOf(yy), lonOf(xx)));
+        const p = project(lonOf(xx), latOf(yy));
         pts.push(p.x, p.y);
       };
       for (let i = 0; i < N; i++) push(x + i / N, y);
@@ -468,13 +678,14 @@ export function OsmVectorLayer() {
 
       const sz = currentZ + ZOOM_OFFSET;
 
+      // ---------------- geometry ----------------
       for (const si of order) {
         const st = style[si];
-        if (!st) continue;
+        if (!st || st.type === "symbol") continue;
         const color = resolve(st.color, sz);
         if (typeof color !== "string") continue; // expressions are not supported
         const opacity = resolve(st.opacity, sz);
-        const alpha = typeof opacity === "number" ? opacity : 1;
+        ctx!.globalAlpha = typeof opacity === "number" ? opacity : 1;
 
         if (st.type === "fill") {
           ctx!.fillStyle = color;
@@ -483,7 +694,6 @@ export function OsmVectorLayer() {
           ctx!.strokeStyle = color;
           ctx!.lineWidth = typeof width === "number" ? width : 1;
         }
-        ctx!.globalAlpha = alpha;
 
         for (const tile of tiles) {
           const ways = tile.byStyle.get(si);
@@ -495,7 +705,6 @@ export function OsmVectorLayer() {
           clipToTile(tile.quad);
 
           if (st.type === "fill") {
-            // one evenodd fill per feature so holes work and tile duplicates can't cancel
             const byPoly = new Map<number, ProjWay[]>();
             for (const w of vis) {
               const arr = byPoly.get(w.poly);
@@ -517,6 +726,104 @@ export function OsmVectorLayer() {
         }
       }
       ctx!.globalAlpha = 1;
+
+      // ---------------- labels ----------------
+      const cands: ProjLabel[] = [];
+      for (const t of tiles) for (const l of t.labels) cands.push(l);
+      // later style layers first: they are usually the more important labels
+      cands.sort((a, b) => b.style - a.style);
+
+      const placed: Array<[number, number, number, number]> = [];
+      const gap = 2;
+      ctx!.textAlign = "center";
+      ctx!.textBaseline = "middle";
+
+      for (const l of cands) {
+        const px = ax * l.x + bx;
+        const py = ay * l.y + by;
+        if (px < -pad || px > size.x + pad || py < -pad || py > size.y + pad)
+          continue;
+
+        const st = style[l.style];
+        const ts = st?.text;
+        if (!st || !ts) continue;
+
+        const color = resolve(st.color, sz);
+        const sizeRaw = resolve(ts.size, sz);
+        const fontSize = typeof sizeRaw === "number" ? sizeRaw : 11;
+        const fontName = ts.font?.[0] ?? "";
+        const font = `${/italic/i.test(fontName) ? "italic " : ""}${
+          /bold/i.test(fontName) ? "bold " : ""
+        }${fontSize}px sans-serif`;
+        const spacingRaw = resolve(ts.spacing, sz);
+
+        ctx!.font = font;
+        (ctx as any).letterSpacing =
+          typeof spacingRaw === "number" ? `${spacingRaw * fontSize}px` : "0px";
+        const w = ctx!.measureText(l.text).width;
+        const h = fontSize * 1.2;
+
+        let angle = 0;
+        if (l.line) {
+          // skip if the text does not fit along the line
+          if (w > Math.abs(ax) * l.len * 0.95) continue;
+          angle = Math.atan2(ay * l.dy, ax * l.dx);
+          if (angle > Math.PI / 2) angle -= Math.PI;
+          else if (angle < -Math.PI / 2) angle += Math.PI;
+        }
+
+        // axis-aligned box of the rotated label, for collision checks
+        const c = Math.abs(Math.cos(angle));
+        const sn = Math.abs(Math.sin(angle));
+        const hw = (w / 2) * c + (h / 2) * sn + gap;
+        const hh = (w / 2) * sn + (h / 2) * c + gap;
+        const box: [number, number, number, number] = [
+          px - hw,
+          py - hh,
+          px + hw,
+          py + hh,
+        ];
+
+        let hit = false;
+        for (const b of placed) {
+          if (
+            box[0] < b[2] &&
+            box[2] > b[0] &&
+            box[1] < b[3] &&
+            box[3] > b[1]
+          ) {
+            hit = true;
+            break;
+          }
+        }
+        if (hit) continue;
+        placed.push(box);
+
+        const opacity = resolve(st.opacity, sz);
+        ctx!.globalAlpha = typeof opacity === "number" ? opacity : 1;
+
+        ctx!.save();
+        ctx!.translate(px, py);
+        if (angle) ctx!.rotate(angle);
+
+        const haloW = resolve(ts.haloWidth, sz);
+        const haloC = resolve(ts.haloColor, sz);
+        if (
+          typeof haloW === "number" &&
+          haloW > 0 &&
+          typeof haloC === "string"
+        ) {
+          ctx!.lineWidth = haloW * 2;
+          ctx!.strokeStyle = haloC;
+          ctx!.lineJoin = "round";
+          ctx!.strokeText(l.text, 0, 0);
+        }
+        ctx!.fillStyle = typeof color === "string" ? color : "#333333";
+        ctx!.fillText(l.text, 0, 0);
+        ctx!.restore();
+      }
+      ctx!.globalAlpha = 1;
+      (ctx as any).letterSpacing = "0px";
     }
 
     function scheduleDraw() {
@@ -560,12 +867,13 @@ export function OsmVectorLayer() {
           if (projTiles.has(key)) continue;
 
           loadTile(z, x, y)
-            .then((ways) => {
+            .then((raw) => {
               if (disposed || projTiles.has(key)) return;
               projTiles.set(key, {
                 z,
                 quad: tileQuad(z, x, y),
-                byStyle: projectWays(ways),
+                byStyle: projectWays(raw.ways),
+                labels: projectLabels(raw.labels),
               });
               scheduleDraw();
             })
