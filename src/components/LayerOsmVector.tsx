@@ -429,7 +429,7 @@ interface ProjTile {
   labels: ProjLabel[];
 }
 
-export function OsmVectorLayer() {
+export function LayerOsmVector() {
   const map = useMap();
 
   useEffect(() => {
