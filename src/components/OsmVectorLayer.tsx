@@ -1,64 +1,164 @@
 import { VectorTile } from "@mapbox/vector-tile";
 import L from "leaflet";
-
-import * as PbfModule from "pbf";
-
-function resolvePbf(mod: any): new (buf: Uint8Array) => any {
-  const seen = new Set<any>();
-  const queue = [mod, mod?.default, mod?.default?.default];
-  for (const m of queue) {
-    if (!m || seen.has(m)) continue;
-    seen.add(m);
-    if (typeof m === "function" && m.prototype?.readFields) return m;
-    for (const v of Object.values(m)) {
-      if (typeof v === "function" && (v as any).prototype?.readFields) {
-        return v as any;
-      }
-    }
-  }
-  throw new Error("pbf constructor not found: " + Object.keys(mod));
-}
-
-const ProtobufConstructor = resolvePbf(PbfModule);
-
+import { PbfReader } from "pbf";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
-interface OsmWay {
-  id: number;
-  poly?: number;
-  tags?: Record<string, string>;
-  geometry?: Array<{ lat: number; lon: number }>;
-}
+const DEBUG = true;
 
-interface ProjWay {
-  kind: Kind;
-  poly: number;
-  highway?: string;
-  xy: Float64Array;
-  minX: number;
-  minY: number;
-  maxX: number;
-  maxY: number;
-}
+const MAX_Z = 14;
+const MIN_Z = 8;
+const MAX_TILES = 60;
+/** Added to the tile zoom when checking style minzoom/maxzoom. Try 1 or -1 if layers appear at the wrong level. */
+const ZOOM_OFFSET = 0;
+
+const TILE_URL =
+  "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf";
+const STYLE_URL =
+  "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/resources/styles/root.json";
 
 type Props = Record<string, any>;
-type TagFn = (p: Props) => Record<string, string>;
+type Spec = any; // number | string | { stops: [zoom, value][] } | expression
 
-interface TileSource {
-  name: string;
-  template: () => Promise<string>;
-  layers: Array<{ match: (layerName: string) => boolean; tags: TagFn }>;
+/* ----------------------------- style handling ----------------------------- */
+
+interface StyleLayer {
+  id: string;
+  type: "fill" | "line";
+  sourceLayer: string;
+  filter?: any[];
+  minzoom: number;
+  maxzoom: number;
+  color: Spec;
+  width?: Spec;
+  opacity?: Spec;
 }
 
-/** Set to false to silence diagnostics. */
-const DEBUG = false;
+/** Resolve a constant or {stops} value at zoom z (linear for numbers, step for colours). */
+function resolve(spec: Spec, z: number): any {
+  if (spec === undefined || spec === null || typeof spec !== "object")
+    return spec;
+  const st: Array<[number, any]> | undefined = spec.stops;
+  if (!st?.length) return undefined;
+  if (z <= st[0][0]) return st[0][1];
+  for (let i = 1; i < st.length; i++) {
+    const [z1, v1] = st[i];
+    const [z0, v0] = st[i - 1];
+    if (z <= z1) {
+      if (typeof v0 !== "number" || typeof v1 !== "number") return v0;
+      return v0 + ((v1 - v0) * (z - z0)) / (z1 - z0);
+    }
+  }
+  return st[st.length - 1][1];
+}
 
-const MAX_Z = 14; // max zoom of both tilesets
-const MIN_Z = 8; // never go coarser than this
-const MAX_TILES = 60; // lower the tile zoom until the viewport needs <= this many tiles
+/** Legacy Mapbox filter syntax (what Esri's root.json uses). Unknown ops pass. */
+function evalFilter(f: any[] | undefined, p: Props, geom: string): boolean {
+  if (!f) return true;
+  const op = f[0];
+  const key = f[1];
+  const val = key === "$type" ? geom : p[key];
+  switch (op) {
+    case "all":
+      return f.slice(1).every((x) => evalFilter(x, p, geom));
+    case "any":
+      return f.slice(1).some((x) => evalFilter(x, p, geom));
+    case "none":
+      return !f.slice(1).some((x) => evalFilter(x, p, geom));
+    case "==":
+      return val == f[2]; // loose: tile props may be numbers or strings
+    case "!=":
+      return val != f[2];
+    case "in":
+      return f.slice(2).some((v) => v == val);
+    case "!in":
+      return !f.slice(2).some((v) => v == val);
+    case "has":
+      return key in p;
+    case "!has":
+      return !(key in p);
+    case "<":
+      return val < f[2];
+    case "<=":
+      return val <= f[2];
+    case ">":
+      return val > f[2];
+    case ">=":
+      return val >= f[2];
+    default:
+      return true;
+  }
+}
 
-let openFreeMapTemplate: string | undefined;
+let stylePromise: Promise<StyleLayer[]> | undefined;
+
+function loadStyle(): Promise<StyleLayer[]> {
+  if (!stylePromise) {
+    stylePromise = fetch(STYLE_URL)
+      .then((r) => {
+        if (!r.ok) throw new Error(`style HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((json) => {
+        const out: StyleLayer[] = [];
+        for (const l of json.layers ?? []) {
+          const sourceLayer = l["source-layer"];
+          if (!sourceLayer) continue;
+          const paint = l.paint ?? {};
+          const base = {
+            id: l.id as string,
+            sourceLayer: sourceLayer as string,
+            filter: l.filter as any[] | undefined,
+            minzoom: (l.minzoom ?? 0) as number,
+            maxzoom: (l.maxzoom ?? 25) as number,
+          };
+          if (l.type === "fill" && paint["fill-color"] !== undefined) {
+            out.push({
+              ...base,
+              type: "fill",
+              color: paint["fill-color"],
+              opacity: paint["fill-opacity"],
+            });
+          } else if (l.type === "line" && paint["line-color"] !== undefined) {
+            out.push({
+              ...base,
+              type: "line",
+              color: paint["line-color"],
+              width: paint["line-width"],
+              opacity: paint["line-opacity"],
+            });
+          }
+          // symbol, background, raster, fill-pattern layers are skipped
+        }
+        return out;
+      })
+      .catch((e) => {
+        stylePromise = undefined; // allow retry
+        throw e;
+      });
+  }
+  return stylePromise;
+}
+
+/* ------------------------------- tile loading ------------------------------ */
+
+interface RawWay {
+  style: number; // index into the style layer list (= paint order)
+  poly: number; // same for all rings of one feature
+  coords: number[][]; // [lon, lat][]
+}
+
+const rawTileCache = new Map<string, RawWay[]>();
+const inFlight = new Map<string, Promise<RawWay[]>>();
+
+const lon2x = (lon: number, z: number) =>
+  Math.floor(((lon + 180) / 360) * 2 ** z);
+const lat2y = (lat: number, z: number) => {
+  const r = (lat * Math.PI) / 180;
+  return Math.floor(
+    ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * 2 ** z,
+  );
+};
 
 function viewportLatLngBounds(map: L.Map) {
   const pb = map.getPixelBounds();
@@ -71,105 +171,47 @@ function viewportLatLngBounds(map: L.Map) {
   return L.latLngBounds(corners);
 }
 
-const SOURCES: TileSource[] = [
-  {
-    // Shortbread schema
-    name: "VersaTiles",
-    template: async () =>
-      "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf",
-    layers: [
-      {
-        match: (n) => /^building/i.test(n),
-        tags: () => ({ building: "yes" }),
-      },
-      {
-        match: (n) => /^(water area|marine area)/i.test(n),
-        tags: () => ({ natural: "water" }),
-      },
-      {
-        match: (n) => /^water line/i.test(n) && !/label/i.test(n),
-        tags: () => ({ waterway: "stream" }),
-      },
-      {
-        match: (n) => /^road$/i.test(n),
-        tags: () => ({ highway: "residential" }), // refine below
-      },
-    ],
-  },
-  // {
-  //   // OpenMapTiles schema
-  //   name: "OpenFreeMap",
-  //   template: async () => {
-  //     if (!openFreeMapTemplate) {
-  //       const res = await fetch("https://tiles.openfreemap.org/planet");
-  //       if (!res.ok) throw new Error(`TileJSON HTTP ${res.status}`);
-  //       const tj = await res.json();
-  //       openFreeMapTemplate = tj.tiles[0] as string;
-  //     }
-  //     return openFreeMapTemplate;
-  //   },
-  //   layers: [
-  //     { layer: "building", tags: () => ({ building: "yes" }) },
-  //     { layer: "water", tags: () => ({ natural: "water" }) },
-  //     {
-  //       layer: "waterway",
-  //       tags: (p) => ({ waterway: String(p.class ?? "stream") }),
-  //     },
-  //     {
-  //       layer: "transportation",
-  //       tags: (p) => ({ highway: String(p.class ?? "residential") }),
-  //     },
-  //   ],
-  // },
-];
-
-let preferredSource = 0;
-const rawTileCache = new Map<string, OsmWay[]>(); // lat/lon, CRS independent
-const inFlight = new Map<string, Promise<OsmWay[]>>();
-
-const lon2x = (lon: number, z: number) =>
-  Math.floor(((lon + 180) / 360) * 2 ** z);
-const lat2y = (lat: number, z: number) => {
-  const r = (lat * Math.PI) / 180;
-  return Math.floor(
-    ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * 2 ** z,
-  );
-};
-
-async function fetchTileFromSource(
-  source: TileSource,
-  z: number,
-  x: number,
-  y: number,
-): Promise<OsmWay[]> {
-  const template = await source.template();
-  const url = template
-    .replace("{z}", String(z))
+async function fetchTile(z: number, x: number, y: number): Promise<RawWay[]> {
+  const style = await loadStyle();
+  const url = TILE_URL.replace("{z}", String(z))
     .replace("{x}", String(x))
     .replace("{y}", String(y));
 
   const res = await fetch(url);
   if (res.status === 404 || res.status === 204) return [];
-  if (!res.ok) throw new Error(`${source.name} tile HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`tile HTTP ${res.status}`);
 
-  const arrayBuffer = await res.arrayBuffer();
   const tile = new VectorTile(
-    new ProtobufConstructor(new Uint8Array(arrayBuffer)),
+    new PbfReader(new Uint8Array(await res.arrayBuffer())),
   );
+  const sz = z + ZOOM_OFFSET;
+  const out: RawWay[] = [];
+  let poly = 0;
 
-  const out: OsmWay[] = [];
-  const counts: Record<string, number> = {};
-  let polyId = 0;
+  for (const [name, layer] of Object.entries(tile.layers)) {
+    const rules: number[] = [];
+    for (let i = 0; i < style.length; i++) {
+      const s = style[i];
+      if (s.sourceLayer === name && sz >= s.minzoom && sz < s.maxzoom) {
+        rules.push(i);
+      }
+    }
+    if (!rules.length) continue;
 
-  for (const [layerName, l] of Object.entries(tile.layers)) {
-    const def = source.layers.find((d) => d.match(layerName));
-    if (!def) continue;
-    counts[layerName] = l.length;
+    if (DEBUG && /water/i.test(name)) {
+      const symbols = new Set<any>();
+      for (let i = 0; i < layer.length; i++) {
+        symbols.add(layer.feature(i).properties._symbol);
+      }
+      console.debug(`[${name}] ${z}/${x}/${y} _symbol values:`, [...symbols]);
+    }
 
-    for (let i = 0; i < l.length; i++) {
-      const f = l.feature(i);
+    for (let i = 0; i < layer.length; i++) {
+      const f = layer.feature(i);
+      const props = f.properties as Props;
       const g: any = f.toGeoJSON(x, y, z).geometry;
 
+      const isPoly = g.type === "Polygon" || g.type === "MultiPolygon";
       const parts: number[][][] =
         g.type === "Polygon"
           ? g.coordinates
@@ -180,77 +222,60 @@ async function fetchTileFromSource(
               : g.type === "MultiLineString"
                 ? g.coordinates
                 : [];
-      const pid = polyId++;
-      const t = def.tags(f.properties as Props);
-      for (const c of parts) {
-        out.push({
-          id: out.length,
-          poly: pid,
-          tags: t,
-          geometry: c.map(([lon, lat]) => ({ lat, lon })),
-        });
+      if (!parts.length) continue;
+
+      let pid = -1;
+      for (const si of rules) {
+        const s = style[si];
+        if (s.type === "fill" && !isPoly) continue;
+        if (!evalFilter(s.filter, props, isPoly ? "Polygon" : "LineString"))
+          continue;
+        if (pid < 0) pid = poly++;
+        for (const c of parts) out.push({ style: si, poly: pid, coords: c });
       }
     }
-  }
-
-  if (DEBUG) {
-    console.debug(
-      `[OsmVectorLayer] ${source.name} ${z}/${x}/${y}`,
-      counts,
-      "available layers:",
-      Object.keys(tile.layers),
-    );
   }
   return out;
 }
 
-function loadTile(z: number, x: number, y: number): Promise<OsmWay[]> {
+function loadTile(z: number, x: number, y: number): Promise<RawWay[]> {
   const key = `${z}/${x}/${y}`;
   const cached = rawTileCache.get(key);
   if (cached) return Promise.resolve(cached);
-
   const pending = inFlight.get(key);
   if (pending) return pending;
 
-  const job = (async () => {
-    let lastError: unknown;
-    for (let i = 0; i < SOURCES.length; i++) {
-      const idx = (preferredSource + i) % SOURCES.length;
-      try {
-        const ways = await fetchTileFromSource(SOURCES[idx], z, x, y);
-        preferredSource = idx;
-        rawTileCache.set(key, ways);
-        return ways;
-      } catch (e) {
-        lastError = e;
-        console.warn(`Tile source failed: ${SOURCES[idx].name}`, e);
-      }
-    }
-    throw lastError ?? new Error("All tile sources failed");
-  })().finally(() => inFlight.delete(key));
-
+  const job = fetchTile(z, x, y)
+    .then((ways) => {
+      rawTileCache.set(key, ways);
+      return ways;
+    })
+    .finally(() => inFlight.delete(key));
   inFlight.set(key, job);
   return job;
 }
 
-type Kind = "water" | "building" | "waterway" | "road";
+/* ---------------------------------- layer ---------------------------------- */
 
-/** A way projected once into CRS units (metres for UTM), ready for fast drawing. */
 interface ProjWay {
-  kind: Kind;
-  highway?: string;
-  xy: Float64Array; // x0,y0,x1,y1,...
+  poly: number;
+  xy: Float64Array;
   minX: number;
   minY: number;
   maxX: number;
   maxY: number;
 }
 
+interface ProjTile {
+  z: number;
+  quad: Float64Array;
+  byStyle: Map<number, ProjWay[]>;
+}
+
 export function OsmVectorLayer() {
   const map = useMap();
 
   useEffect(() => {
-    // Leaflet's typings omit these fields, but every CRS has them at runtime.
     const crs = map.options.crs as unknown as L.CRS & {
       projection: L.Projection;
       transformation: L.Transformation;
@@ -275,27 +300,18 @@ export function OsmVectorLayer() {
       return;
     }
 
-    // Projected tiles for THIS map/CRS. Projection (proj4) runs once per tile,
-    // not on every redraw.
-    const projTiles = new Map<string, { z: number; ways: ProjWay[] }>();
-    let currentZ = MAX_Z; // tile zoom currently shown
+    const projTiles = new Map<string, ProjTile>();
+    let style: StyleLayer[] = [];
+    let currentZ = MAX_Z;
     let disposed = false;
     let rafId: number | undefined;
     let debounceTimer: number | undefined;
 
-    function projectWays(ways: OsmWay[]): ProjWay[] {
-      const out: ProjWay[] = [];
+    function projectWays(ways: RawWay[]): Map<number, ProjWay[]> {
+      const out = new Map<number, ProjWay[]>();
       for (const w of ways) {
-        const g = w.geometry;
-        const t = w.tags ?? {};
-        if (!g || g.length < 2) continue;
-
-        let kind: Kind;
-        if (t.building) kind = "building";
-        else if (t.natural === "water") kind = "water";
-        else if (t.waterway) kind = "waterway";
-        else if (t.highway) kind = "road";
-        else continue;
+        const g = w.coords;
+        if (g.length < 2) continue;
 
         const xy = new Float64Array(g.length * 2);
         let minX = Infinity,
@@ -304,7 +320,7 @@ export function OsmVectorLayer() {
           maxY = -Infinity;
 
         for (let i = 0; i < g.length; i++) {
-          const p = crs.projection.project(L.latLng(g[i].lat, g[i].lon));
+          const p = crs.projection.project(L.latLng(g[i][1], g[i][0]));
           xy[i * 2] = p.x;
           xy[i * 2 + 1] = p.y;
           if (p.x < minX) minX = p.x;
@@ -313,18 +329,46 @@ export function OsmVectorLayer() {
           if (p.y > maxY) maxY = p.y;
         }
 
-        out.push({
-          kind,
-          poly: w.poly ?? -1,
-          highway: t.highway,
-          xy,
-          minX,
-          minY,
-          maxX,
-          maxY,
-        });
+        const pw: ProjWay = { poly: w.poly, xy, minX, minY, maxX, maxY };
+        const arr = out.get(w.style);
+        if (arr) arr.push(pw);
+        else out.set(w.style, [pw]);
       }
       return out;
+    }
+
+    /** Tile outline in CRS units, edges subdivided so UTM curvature is respected. */
+    function tileQuad(z: number, x: number, y: number): Float64Array {
+      const n = 2 ** z;
+      const lonOf = (xx: number) => (xx / n) * 360 - 180;
+      const latOf = (yy: number) =>
+        (Math.atan(Math.sinh(Math.PI * (1 - (2 * yy) / n))) * 180) / Math.PI;
+
+      const N = 8;
+      const pts: number[] = [];
+      const push = (xx: number, yy: number) => {
+        const p = crs.projection.project(L.latLng(latOf(yy), lonOf(xx)));
+        pts.push(p.x, p.y);
+      };
+      for (let i = 0; i < N; i++) push(x + i / N, y);
+      for (let i = 0; i < N; i++) push(x + 1, y + i / N);
+      for (let i = 0; i < N; i++) push(x + 1 - i / N, y + 1);
+      for (let i = 0; i < N; i++) push(x, y + 1 - i / N);
+
+      let cx = 0,
+        cy = 0;
+      for (let i = 0; i < pts.length; i += 2) {
+        cx += pts[i];
+        cy += pts[i + 1];
+      }
+      cx /= pts.length / 2;
+      cy /= pts.length / 2;
+      const k = 1.002; // slight overlap so neighbouring clips leave no gap
+      for (let i = 0; i < pts.length; i += 2) {
+        pts[i] = cx + (pts[i] - cx) * k;
+        pts[i + 1] = cy + (pts[i + 1] - cy) * k;
+      }
+      return new Float64Array(pts);
     }
 
     function draw() {
@@ -350,7 +394,6 @@ export function OsmVectorLayer() {
       ctx!.lineJoin = "round";
       ctx!.lineCap = "round";
 
-      // CRS units -> canvas pixels is an affine map: px = ax*X + bx, py = ay*Y + by
       const s = crs.scale(map.getZoom());
       const tr = crs.transformation;
       const p0 = tr.transform(L.point(0, 0), s);
@@ -362,6 +405,8 @@ export function OsmVectorLayer() {
       const bx = p0.x - po.x - origin.x;
       const by = p0.y - po.y - origin.y;
 
+      const pad = 50;
+
       const trace = (w: ProjWay, close: boolean) => {
         const xy = w.xy;
         ctx!.moveTo(ax * xy[0] + bx, ay * xy[1] + by);
@@ -371,103 +416,107 @@ export function OsmVectorLayer() {
         if (close) ctx!.closePath();
       };
 
-      const pad = 50;
-
-      // Lines are batched per layer; polygons are grouped per tile + feature
-      // so duplicates from neighbouring tiles can't cancel each other out.
-      const lines: Record<"waterway" | "road", ProjWay[]> = {
-        waterway: [],
-        road: [],
-      };
-      const groups: Record<"water" | "building", Map<string, ProjWay[]>> = {
-        water: new Map(),
-        building: new Map(),
-      };
-
-      for (const [tkey, tile] of projTiles) {
-        if (tile.z !== currentZ) continue; // avoid drawing overlapping zoom levels
-        for (const w of tile.ways) {
-          const x1 = ax * w.minX + bx;
-          const x2 = ax * w.maxX + bx;
-          const y1 = ay * w.minY + by;
-          const y2 = ay * w.maxY + by;
-          if (Math.max(x1, x2) < -pad || Math.min(x1, x2) > size.x + pad)
-            continue;
-          if (Math.max(y1, y2) < -pad || Math.min(y1, y2) > size.y + pad)
-            continue;
-
-          if (w.kind === "water" || w.kind === "building") {
-            const k = `${tkey}|${w.poly}`;
-            const g = groups[w.kind];
-            const arr = g.get(k);
-            if (arr) arr.push(w);
-            else g.set(k, [w]);
-          } else {
-            lines[w.kind].push(w);
-          }
-        }
-      }
-
-      // Polygons: one evenodd fill per feature (rings within a feature are
-      // consistent, so holes work), plus a thin stroke to hide seams.
-      const fillGroups = (m: Map<string, ProjWay[]>, color: string) => {
-        ctx!.fillStyle = color;
-        ctx!.strokeStyle = color;
-        ctx!.lineWidth = 0.5;
-        for (const ws of m.values()) {
-          ctx!.beginPath();
-          for (const w of ws) trace(w, true);
-          ctx!.fill("evenodd");
-          ctx!.stroke();
-        }
-      };
-
-      fillGroups(groups.water, "#b8dce8");
-      fillGroups(groups.building, "#d8d2c8");
-
-      // Waterways
-      ctx!.beginPath();
-      for (const w of lines.waterway) trace(w, false);
-      ctx!.strokeStyle = "#75afc5";
-      ctx!.lineWidth = 1.5;
-      ctx!.stroke();
-
-      // Roads: minor first, major on top.
-      const roadStyles: Array<{
-        match: (h: string) => boolean;
-        color: string;
-        width: number;
-      }> = [
-        {
-          match: (h) =>
-            h !== "motorway" &&
-            h !== "trunk" &&
-            h !== "primary" &&
-            h !== "secondary",
-          color: "#f5f0e6",
-          width: 1,
-        },
-        {
-          match: (h) => h === "primary" || h === "secondary",
-          color: "#f5f0e6",
-          width: 2,
-        },
-        {
-          match: (h) => h === "motorway" || h === "trunk",
-          color: "#e8b9a0",
-          width: 3,
-        },
-      ];
-
-      for (const style of roadStyles) {
+      const clipToTile = (q: Float64Array) => {
         ctx!.beginPath();
-        for (const w of lines.road) {
-          if (style.match(w.highway ?? "")) trace(w, false);
+        ctx!.moveTo(ax * q[0] + bx, ay * q[1] + by);
+        for (let i = 2; i < q.length; i += 2) {
+          ctx!.lineTo(ax * q[i] + bx, ay * q[i + 1] + by);
         }
-        ctx!.strokeStyle = style.color;
-        ctx!.lineWidth = style.width;
-        ctx!.stroke();
+        ctx!.closePath();
+        ctx!.clip();
+      };
+
+      const onScreen = (w: ProjWay) => {
+        const x1 = ax * w.minX + bx;
+        const x2 = ax * w.maxX + bx;
+        const y1 = ay * w.minY + by;
+        const y2 = ay * w.maxY + by;
+        return !(
+          Math.max(x1, x2) < -pad ||
+          Math.min(x1, x2) > size.x + pad ||
+          Math.max(y1, y2) < -pad ||
+          Math.min(y1, y2) > size.y + pad
+        );
+      };
+
+      // Tiles currently on screen
+      const tiles: ProjTile[] = [];
+      for (const tile of projTiles.values()) {
+        if (tile.z !== currentZ) continue;
+        const q = tile.quad;
+        let qx0 = Infinity,
+          qy0 = Infinity,
+          qx1 = -Infinity,
+          qy1 = -Infinity;
+        for (let i = 0; i < q.length; i += 2) {
+          const px = ax * q[i] + bx;
+          const py = ay * q[i + 1] + by;
+          if (px < qx0) qx0 = px;
+          if (px > qx1) qx1 = px;
+          if (py < qy0) qy0 = py;
+          if (py > qy1) qy1 = py;
+        }
+        if (qx1 < -pad || qx0 > size.x + pad) continue;
+        if (qy1 < -pad || qy0 > size.y + pad) continue;
+        tiles.push(tile);
       }
+
+      // Style layers that have data, in Esri's paint order
+      const present = new Set<number>();
+      for (const t of tiles) for (const k of t.byStyle.keys()) present.add(k);
+      const order = [...present].sort((a, b) => a - b);
+
+      const sz = currentZ + ZOOM_OFFSET;
+
+      for (const si of order) {
+        const st = style[si];
+        if (!st) continue;
+        const color = resolve(st.color, sz);
+        if (typeof color !== "string") continue; // expressions are not supported
+        const opacity = resolve(st.opacity, sz);
+        const alpha = typeof opacity === "number" ? opacity : 1;
+
+        if (st.type === "fill") {
+          ctx!.fillStyle = color;
+        } else {
+          const width = resolve(st.width, sz);
+          ctx!.strokeStyle = color;
+          ctx!.lineWidth = typeof width === "number" ? width : 1;
+        }
+        ctx!.globalAlpha = alpha;
+
+        for (const tile of tiles) {
+          const ways = tile.byStyle.get(si);
+          if (!ways) continue;
+          const vis = ways.filter(onScreen);
+          if (!vis.length) continue;
+
+          ctx!.save();
+          clipToTile(tile.quad);
+
+          if (st.type === "fill") {
+            // one evenodd fill per feature so holes work and tile duplicates can't cancel
+            const byPoly = new Map<number, ProjWay[]>();
+            for (const w of vis) {
+              const arr = byPoly.get(w.poly);
+              if (arr) arr.push(w);
+              else byPoly.set(w.poly, [w]);
+            }
+            for (const group of byPoly.values()) {
+              ctx!.beginPath();
+              for (const w of group) trace(w, true);
+              ctx!.fill("evenodd");
+            }
+          } else {
+            ctx!.beginPath();
+            for (const w of vis) trace(w, false);
+            ctx!.stroke();
+          }
+
+          ctx!.restore();
+        }
+      }
+      ctx!.globalAlpha = 1;
     }
 
     function scheduleDraw() {
@@ -481,7 +530,6 @@ export function OsmVectorLayer() {
     function loadData() {
       const b = viewportLatLngBounds(map);
 
-      // Pick the finest tile zoom whose tile count fits the viewport.
       let z = MAX_Z;
       let x0 = 0,
         x1 = 0,
@@ -503,7 +551,6 @@ export function OsmVectorLayer() {
 
       if (z !== currentZ) {
         currentZ = z;
-        if (DEBUG) console.debug(`[OsmVectorLayer] tile zoom -> ${z}`);
         scheduleDraw();
       }
 
@@ -514,8 +561,12 @@ export function OsmVectorLayer() {
 
           loadTile(z, x, y)
             .then((ways) => {
-              if (disposed) return;
-              projTiles.set(key, { z, ways: projectWays(ways) });
+              if (disposed || projTiles.has(key)) return;
+              projTiles.set(key, {
+                z,
+                quad: tileQuad(z, x, y),
+                byStyle: projectWays(ways),
+              });
               scheduleDraw();
             })
             .catch((e) => console.error(`Tile ${key} failed:`, e));
@@ -534,20 +585,24 @@ export function OsmVectorLayer() {
     map.on("zoomend", scheduleDraw);
     map.on("moveend", debouncedLoad);
 
-    loadData();
-    scheduleDraw();
+    loadStyle()
+      .then((s) => {
+        if (disposed) return;
+        style = s;
+        loadData();
+        scheduleDraw();
+      })
+      .catch((e) => console.error("Style load failed:", e));
 
     return () => {
       disposed = true;
       window.clearTimeout(debounceTimer);
       if (rafId !== undefined) cancelAnimationFrame(rafId);
-
       map.off("move", scheduleDraw);
       map.off("zoom", scheduleDraw);
       map.off("viewreset", scheduleDraw);
       map.off("zoomend", scheduleDraw);
       map.off("moveend", debouncedLoad);
-
       canvas.remove();
     };
   }, [map]);
