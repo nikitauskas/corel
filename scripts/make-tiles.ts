@@ -34,7 +34,7 @@ if (!input || !mgrs) {
 
 sharp.cache(false);
 
-const RES0 = 156543.03392804097;
+export const RES0 = 156543.03392804097;
 
 async function main() {
   const meta = await sharp(input, { limitInputPixels: false }).metadata();
