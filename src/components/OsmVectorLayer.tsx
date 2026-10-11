@@ -40,7 +40,7 @@ interface TileSource {
 }
 
 /** Set to false to silence diagnostics. */
-const DEBUG = true;
+const DEBUG = false;
 
 const MAX_Z = 14; // max zoom of both tilesets
 const MIN_Z = 8; // never go coarser than this
@@ -372,15 +372,23 @@ export function OsmVectorLayer() {
       };
 
       // One path + one fill per layer (much faster than per feature).
+      // Water
       ctx!.beginPath();
       for (const w of visible.water) trace(w, true);
       ctx!.fillStyle = "#b8dce8";
-      ctx!.fill("evenodd");
+      ctx!.fill("nonzero");
+      ctx!.strokeStyle = "#b8dce8"; // hides hairline seams between tiles
+      ctx!.lineWidth = 0.5;
+      ctx!.stroke();
 
+      // Buildings
       ctx!.beginPath();
       for (const w of visible.building) trace(w, true);
       ctx!.fillStyle = "#d8d2c8";
-      ctx!.fill("evenodd");
+      ctx!.fill("nonzero");
+      ctx!.strokeStyle = "#d8d2c8";
+      ctx!.lineWidth = 0.5;
+      ctx!.stroke();
 
       ctx!.beginPath();
       for (const w of visible.waterway) trace(w, false);
