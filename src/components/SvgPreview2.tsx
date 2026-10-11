@@ -12,12 +12,18 @@ import "leaflet/dist/leaflet.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@maplibre/maplibre-gl-leaflet";
 
-import { computeUtmBoundsLatLng } from "../lib/overlay-bounds";
+import { computeUtmBoundsLatLng, utmDef } from "../lib/overlay-bounds";
 import "proj4leaflet";
-import { OsmVectorLayer } from "./OsmVectorLayer";
+import { mgrsToUtm } from "../lib/geo";
+import { createLocalTilesCrs, LayerLocalTile } from "./LayerLocalTile";
+import { LayerOsmVector } from "./LayerOsmVector";
+import { TransformedTileLayerComponent } from "./ShiftedTileLayerComponent";
 
-// Metres per pixel for zoom 0..23 (8192 m/px down to ~1 mm/px)
-const UTM_RESOLUTIONS = Array.from({ length: 24 }, (_, i) => 2 ** (13 - i));
+const TRANSPARENT_PX =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+// // Metres per pixel for zoom 0..23 (8192 m/px down to ~1 mm/px)
+// const UTM_RESOLUTIONS = Array.from({ length: 24 }, (_, i) => 2 ** (13 - i));
 
 /** "33UUP1234..." -> zone 33, north. Falls back to the bounds centre. */
 function utmZone(mgrs: string, fallback: L.LatLng) {
@@ -38,19 +44,6 @@ function makeUtmCrs(zone: number, south: boolean): L.CRS {
   });
 }
 
-const TILE_URL =
-  "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf";
-const STYLE_URL =
-  "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/resources/styles/root.json";
-
-// Optional. Leave empty if the service works without a token for you.
-const ESRI_TOKEN: string | undefined = import.meta.env.VITE_ESRI_TOKEN;
-
-const withToken = (url: string) =>
-  ESRI_TOKEN && url.includes("arcgis.com") && !url.includes("token=")
-    ? `${url}${url.includes("?") ? "&" : "?"}token=${ESRI_TOKEN}`
-    : url;
-
 interface SvgMapOverlayProps {
   svgContent: string;
   topLeftMgrs: string;
@@ -63,6 +56,7 @@ interface SvgMapOverlayProps {
   useRealMap?: number;
   shiftX?: number;
   shiftY?: number;
+  tileMinZoom?: number;
 }
 
 function computeBounds(
@@ -121,12 +115,16 @@ function FitOnce({
   return null;
 }
 
+const RES0 = 156543.03392804097;
+const UTM_RESOLUTIONS = Array.from({ length: 23 }, (_, i) => RES0 / 2 ** i);
+
 export function SvgMapOverlay({
   svgContent,
   topLeftMgrs,
   widthMm = 1810,
   heightMm = 1810,
   scaleDenominator,
+  tileMinZoom = 12,
   tileMaxZoom = 15,
   className = "h-[100vh] z-0 bg-neutral-900",
   useRealMap,
@@ -139,6 +137,16 @@ export function SvgMapOverlay({
   const baseBounds = useMemo(
     () => computeBounds(topLeftMgrs, widthM, heightM),
     [topLeftMgrs, widthM, heightM],
+  );
+
+  const baseBounds2 = useMemo(
+    () =>
+      computeBounds(
+        topLeftMgrs,
+        (widthMm * scaleDenominator) / 1000,
+        (heightMm * scaleDenominator) / 1000,
+      ),
+    [topLeftMgrs, widthMm, heightMm, scaleDenominator],
   );
 
   const overlayBounds = useMemo(
@@ -158,10 +166,29 @@ export function SvgMapOverlay({
     return { zone, south };
   }, [topLeftMgrs, baseBounds]);
 
+  // const crs = useMemo(
+  //   () => (useRealMap === 1 ? makeUtmCrs(utm.zone, utm.south) : L.CRS.EPSG3857),
+  //   [useRealMap, utm],
+  // );
+
+  // const crs = useMemo(() => getUtmCrs(topLeftMgrs), [topLeftMgrs]);
+
   const crs = useMemo(
-    () => (useRealMap === 1 ? makeUtmCrs(utm.zone, utm.south) : L.CRS.EPSG3857),
-    [useRealMap, utm],
+    () =>
+      useRealMap === 3
+        ? createLocalTilesCrs(topLeftMgrs)
+        : useRealMap === 1
+          ? makeUtmCrs(utm.zone, utm.south)
+          : L.CRS.EPSG3857,
+    [useRealMap, utm, topLeftMgrs],
   );
+
+  let tilesUrl = ``;
+  if (topLeftMgrs === "37UBP9669644135") {
+    tilesUrl = `./tiles1/{z}/{x}/{y}.png`;
+  } else {
+    tilesUrl = `./tiles2/{z}/{x}/{y}.png`;
+  }
 
   return (
     <MapContainer
@@ -175,7 +202,7 @@ export function SvgMapOverlay({
     >
       <ZoomControl position="topright" />
 
-      {useRealMap === 1 && <OsmVectorLayer />}
+      {useRealMap === 1 && <LayerOsmVector />}
 
       {useRealMap === 2 && (
         <TileLayer
@@ -183,6 +210,15 @@ export function SvgMapOverlay({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           maxNativeZoom={19}
           maxZoom={22}
+        />
+      )}
+
+      {useRealMap === 3 && (
+        <LayerLocalTile
+          url={tilesUrl}
+          bounds={baseBounds}
+          minZoom={tileMinZoom}
+          maxZoom={tileMaxZoom}
         />
       )}
 
