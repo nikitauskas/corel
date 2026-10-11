@@ -1,6 +1,6 @@
 import { VectorTile } from "@mapbox/vector-tile";
 import L from "leaflet";
-import Protobuf from "pbf";
+import * as Protobuf from "pbf";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
