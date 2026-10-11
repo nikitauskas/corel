@@ -207,17 +207,6 @@ export function MapSidebar({
           >
             <button
               type="button"
-              onClick={() => onUseRealMapChange(0)}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                !useRealMap
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-400 hover:text-gray-200"
-              }`}
-            >
-              Lab
-            </button>
-            <button
-              type="button"
               onClick={() => onUseRealMapChange(1)}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
                 useRealMap === 1
@@ -225,7 +214,7 @@ export function MapSidebar({
                   : "text-gray-400 hover:text-gray-200"
               }`}
             >
-              Map
+              Map1
             </button>
             <button
               type="button"
@@ -236,7 +225,18 @@ export function MapSidebar({
                   : "text-gray-400 hover:text-gray-200"
               }`}
             >
-              Map
+              Map2
+            </button>
+            <button
+              type="button"
+              onClick={() => onUseRealMapChange(3)}
+              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+                useRealMap === 3
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              Lab3
             </button>
           </div>
 
