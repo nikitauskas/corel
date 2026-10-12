@@ -1,7 +1,6 @@
 import L, { type LatLngBoundsExpression } from "leaflet";
 import { useEffect, useMemo, useRef } from "react";
 import {
-  ImageOverlay,
   MapContainer,
   TileLayer,
   useMap,
@@ -15,17 +14,11 @@ import "@maplibre/maplibre-gl-leaflet";
 import {
   computeUtmBoundsLatLng,
   computeUtmCornersLatLng,
-  utmDef,
 } from "../lib/overlay-bounds";
 import "proj4leaflet";
-import { mgrsToUtm } from "../lib/geo";
 import { createLocalTilesCrs, LayerLocalTile } from "./LayerLocalTile";
 import { LayerOsmVector } from "./LayerOsmVector";
 import { RotatedImageOverlay } from "./RotatedImageOverlay";
-import { TransformedTileLayerComponent } from "./ShiftedTileLayerComponent";
-
-const TRANSPARENT_PX =
-  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 // // Metres per pixel for zoom 0..23 (8192 m/px down to ~1 mm/px)
 // const UTM_RESOLUTIONS = Array.from({ length: 24 }, (_, i) => 2 ** (13 - i));
@@ -61,6 +54,7 @@ interface SvgMapOverlayProps {
   useRealMap?: number;
   shiftX?: number;
   shiftY?: number;
+  rotation?: number;
   tileMinZoom?: number;
 }
 
@@ -160,6 +154,7 @@ export function SvgMapOverlay({
   useRealMap,
   shiftX = 0,
   shiftY = 0,
+  rotation = 0,
 }: SvgMapOverlayProps) {
   const widthM = (widthMm * scaleDenominator) / 1000;
   const heightM = (heightMm * scaleDenominator) / 1000;
@@ -167,21 +162,6 @@ export function SvgMapOverlay({
   const baseBounds = useMemo(
     () => computeBounds(topLeftMgrs, widthM, heightM),
     [topLeftMgrs, widthM, heightM],
-  );
-
-  const baseBounds2 = useMemo(
-    () =>
-      computeBounds(
-        topLeftMgrs,
-        (widthMm * scaleDenominator) / 1000,
-        (heightMm * scaleDenominator) / 1000,
-      ),
-    [topLeftMgrs, widthMm, heightMm, scaleDenominator],
-  );
-
-  const overlayBounds = useMemo(
-    () => computeBounds(topLeftMgrs, widthM, heightM, shiftX, shiftY),
-    [topLeftMgrs, widthM, heightM, shiftX, shiftY],
   );
 
   const boundsKey = `${topLeftMgrs}_${widthMm}_${heightMm}_${scaleDenominator}`;
@@ -192,8 +172,16 @@ export function SvgMapOverlay({
   );
 
   const corners = useMemo(
-    () => computeUtmCornersLatLng(topLeftMgrs, widthM, heightM, shiftX, shiftY),
-    [topLeftMgrs, widthM, heightM, shiftX, shiftY],
+    () =>
+      computeUtmCornersLatLng(
+        topLeftMgrs,
+        widthM,
+        heightM,
+        shiftX,
+        shiftY,
+        rotation,
+      ),
+    [topLeftMgrs, widthM, heightM, shiftX, shiftY, rotation],
   );
 
   const utm = useMemo(() => {

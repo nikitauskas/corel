@@ -120,14 +120,40 @@ export function computeUtmCornersLatLng(
   heightM: number,
   shiftX = 0,
   shiftY = 0,
+  rotation = 0,
 ) {
   const def = utmDef(topLeftMgrs);
   const { easting: e0, northing: n0 } = mgrsToUtm(topLeftMgrs);
 
-  const eW = e0 + shiftX;
-  const eE = eW + widthM;
-  const nN = n0 + shiftY;
-  const nS = nN - heightM;
+  let eW = e0 + shiftX;
+  let eE = eW + widthM;
+  let nN = n0 + shiftY;
+  let nS = nN - heightM;
+
+  if (rotation !== 0) {
+    const cE = (eW + eE) / 2;
+    const cN = (nN + nS) / 2;
+    const rad = (-rotation * Math.PI) / 180; // Clockwise in screen/map
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
+
+    const rot = (e: number, n: number) => {
+      const de = e - cE;
+      const dn = n - cN;
+      return [cE + de * cos - dn * sin, cN + de * sin + dn * cos] as const;
+    };
+
+    const [tlE, tlN] = rot(eW, nN);
+    const [trE, trN] = rot(eE, nN);
+    const [blE, blN] = rot(eW, nS);
+
+    const ll = (e: number, n: number): [number, number] => {
+      const [lng, lat] = proj4(def, "EPSG:4326", [e, n]);
+      return [lat, lng];
+    };
+
+    return { tl: ll(tlE, tlN), tr: ll(trE, trN), bl: ll(blE, blN) };
+  }
 
   const ll = (e: number, n: number): [number, number] => {
     const [lng, lat] = proj4(def, "EPSG:4326", [e, n]);

@@ -245,6 +245,9 @@ const lat2y = (lat: number, z: number) => {
 
 function viewportLatLngBounds(map: L.Map) {
   const pb = map.getPixelBounds();
+  if (!pb || !pb.min || !pb.max) {
+    return map.getBounds();
+  }
   const corners = [
     pb.min,
     L.point(pb.max.x, pb.min.y),
