@@ -1,15 +1,10 @@
 import L, { type LatLngBoundsExpression } from "leaflet";
 import { useEffect, useMemo, useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-  ZoomControl,
-} from "react-leaflet";
+import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-import "maplibre-gl/dist/maplibre-gl.css";
-import "@maplibre/maplibre-gl-leaflet";
+// import "maplibre-gl/dist/maplibre-gl.css";
+// import "@maplibre/maplibre-gl-leaflet";
 
 import {
   computeUtmBoundsLatLng,
@@ -232,8 +227,10 @@ export function SvgMapOverlay({
 
       {useRealMap === 2 && (
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+          attribution="&copy; OpenStreetMap contributors"
           maxNativeZoom={19}
           maxZoom={22}
         />
