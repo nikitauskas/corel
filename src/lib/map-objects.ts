@@ -7,7 +7,12 @@ import type { CsvRow } from "./csv";
 import type { Point, XY } from "./geo";
 import { mappingSVGs } from "./icons";
 import { type LabelLayout, labelBuilder } from "./label-builder";
-import { type LineType, typesOfLines } from "./lines";
+import {
+  type AreaType,
+  type LineType,
+  typesOfAreas,
+  typesOfLines,
+} from "./lines";
 import {
   CombatEffectiveness,
   IdentificationStatus,
@@ -66,7 +71,11 @@ export function filterMapObjectsInsideWindow(
 
   for (const row of csvData) {
     const app6dType = row["app6d type"]?.trim() || "";
-    if (typesOfLines[app6dType as LineType]) continue;
+    if (
+      typesOfLines[app6dType as LineType] ||
+      typesOfAreas[app6dType as AreaType]
+    )
+      continue;
 
     // Cheapest checks first: skip everything else if the row is off the map.
     const mgrsStr = row["coordinates(mgrs)"]?.trim() || "";
@@ -132,7 +141,12 @@ export function buildMapObjects(
   layerColors: Record<string, string> = {},
   projectWgs?: (lat: number, lng: number) => XY | null,
 ) {
-  const points = filterMapObjectsInsideWindow(csvData, project, inWindow, projectWgs);
+  const points = filterMapObjectsInsideWindow(
+    csvData,
+    project,
+    inWindow,
+    projectWgs,
+  );
 
   // 1. Calculate bounding polygon / rectangles for each element
   const preparedElements: MapObjectLayout[] = points.map((pt, idx) => {
