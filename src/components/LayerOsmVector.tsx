@@ -461,6 +461,8 @@ export function LayerOsmVector() {
     const projTiles = new Map<string, ProjTile>();
     let style: StyleLayer[] = [];
     let currentZ = MAX_Z;
+    let animating = false;
+    let pendingZ: number | undefined;
     let topLeft = map.getBounds().getNorthWest();
     let disposed = false;
     let rafId: number | undefined;
@@ -584,7 +586,7 @@ export function LayerOsmVector() {
     }
 
     function draw() {
-      if (disposed) return;
+      if (disposed || animating) return;
 
       const size = map.getSize();
       const dpr = window.devicePixelRatio || 1;
@@ -924,38 +926,47 @@ export function LayerOsmVector() {
         return;
       }
 
-      if (z !== currentZ) {
-        currentZ = z;
-        scheduleDraw();
-      }
+      pendingZ = z;
 
+      const jobs: Promise<unknown>[] = [];
       for (let x = x0; x <= x1; x++) {
         for (let y = y0; y <= y1; y++) {
           const key = `${z}/${x}/${y}`;
           if (projTiles.has(key)) continue;
 
-          loadTile(z, x, y)
-            .then((raw) => {
-              if (disposed || projTiles.has(key)) return;
-              projTiles.set(key, {
-                z,
-                quad: tileQuad(z, x, y),
-                byStyle: projectWays(raw.ways),
-                labels: projectLabels(raw.labels),
-              });
-              scheduleDraw();
-            })
-            .catch((e) => console.error(`Tile ${key} failed:`, e));
+          jobs.push(
+            loadTile(z, x, y)
+              .then((raw) => {
+                if (disposed || projTiles.has(key)) return;
+                projTiles.set(key, {
+                  z,
+                  quad: tileQuad(z, x, y),
+                  byStyle: projectWays(raw.ways),
+                  labels: projectLabels(raw.labels),
+                });
+              })
+              .catch((e) => console.error(`Tile ${key} failed:`, e)),
+          );
         }
       }
+
+      const commit = () => {
+        if (disposed || pendingZ !== z) return; // a newer request superseded this one
+        currentZ = z;
+        pendingZ = undefined;
+        scheduleDraw();
+      };
+      if (jobs.length) Promise.allSettled(jobs).then(commit);
+      else commit();
     }
 
     const debouncedLoad = () => {
       window.clearTimeout(debounceTimer);
-      debounceTimer = window.setTimeout(loadData, 200);
+      debounceTimer = window.setTimeout(loadData, 80);
     };
 
     const onZoomAnim = (e: L.ZoomAnimEvent) => {
+      animating = true;
       const scale = map.getZoomScale(e.zoom, map.getZoom());
       const offset = (map as any)._latLngToNewLayerPoint(
         topLeft,
@@ -964,7 +975,15 @@ export function LayerOsmVector() {
       );
       L.DomUtil.setTransform(canvas, offset, scale);
     };
+
+    const onZoomEnd = () => {
+      animating = false;
+      draw(); // draw immediately, no extra rAF frame
+      loadData(); // load new tiles right away, no debounce
+    };
+
     map.on("zoomanim", onZoomAnim);
+    map.on("zoomend", onZoomEnd);
     map.on("move", scheduleDraw);
     map.on("zoom", scheduleDraw);
     map.on("viewreset", scheduleDraw);
@@ -990,6 +1009,7 @@ export function LayerOsmVector() {
       map.off("zoomend", scheduleDraw);
       map.off("moveend", debouncedLoad);
       map.off("zoomanim", onZoomAnim);
+      map.off("zoomend", onZoomEnd);
       canvas.remove();
     };
   }, [map]);
