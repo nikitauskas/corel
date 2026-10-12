@@ -212,7 +212,7 @@ export default function App() {
   );
   const [palette, setPalette] = useState<PaletteColor[]>(loadPalette);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [useRealMap, setUseRealMap] = useState(1);
+  const [basemapId, setBasemapId] = useState(1);
 
   const handleShiftChange = (x: number, y: number, enabled = true) => {
     setShiftX(x);
@@ -620,14 +620,14 @@ export default function App() {
         {/* Map (SvgPreview takes full width/height) */}
         {(state.status === "done" || state.status === "loading") &&
           state.result &&
-          (useRealMap ? (
+          (basemapId ? (
             <SvgMapOverlay
               svgContent={state.result.svgContent}
               topLeftMgrs={mgrsTL}
               scaleDenominator={scale}
               widthMm={Number(width)}
               heightMm={Number(height)}
-              useRealMap={useRealMap}
+              basemapId={basemapId}
               shiftX={shiftEnabled ? shiftX : 0}
               shiftY={shiftEnabled ? shiftY : 0}
               rotation={shiftEnabled ? rotation : 0}
@@ -704,8 +704,8 @@ export default function App() {
             onPaletteChange={handlePaletteChange}
             onPaletteDelete={handlePaletteDelete}
             onPaletteReset={handlePaletteReset}
-            useRealMap={useRealMap}
-            onUseRealMapChange={setUseRealMap}
+            basemapId={basemapId}
+            setBasemapId={setBasemapId}
             onShiftChange={handleShiftChange}
             onResetShift={handleResetShift}
             onRotationChange={handleRotationChange}

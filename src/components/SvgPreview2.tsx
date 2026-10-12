@@ -46,7 +46,7 @@ interface SvgMapOverlayProps {
   tileMaxZoom?: number;
   className?: string;
   /** 1 = Esri vector basemap (MapLibre), 2 = OSM raster, otherwise none */
-  useRealMap?: number;
+  basemapId?: number;
   shiftX?: number;
   shiftY?: number;
   rotation?: number;
@@ -146,7 +146,7 @@ export function SvgMapOverlay({
   tileMinZoom = 12,
   tileMaxZoom = 15,
   className = "h-[100vh] z-0 bg-neutral-900",
-  useRealMap,
+  basemapId,
   shiftX = 0,
   shiftY = 0,
   rotation = 0,
@@ -193,12 +193,12 @@ export function SvgMapOverlay({
 
   const crs = useMemo(
     () =>
-      useRealMap === 3
+      basemapId === 3
         ? createLocalTilesCrs(topLeftMgrs)
-        : useRealMap === 1
+        : basemapId === 1
           ? makeUtmCrs(utm.zone, utm.south)
           : L.CRS.EPSG3857,
-    [useRealMap, utm, topLeftMgrs],
+    [basemapId, utm, topLeftMgrs],
   );
 
   let tilesUrl = ``;
@@ -212,10 +212,10 @@ export function SvgMapOverlay({
 
   return (
     <MapContainer
-      key={`map_${useRealMap ?? 0}_${utm.zone}${utm.south ? "S" : "N"}`} // crs is only read at init
+      key={`map_${basemapId ?? 0}_${utm.zone}${utm.south ? "S" : "N"}`} // crs is only read at init
       crs={crs}
       center={savedViewRef.current?.center ?? baseBounds.getCenter()}
-      zoom={savedViewRef.current?.zoom ?? (useRealMap === 1 ? 8 : tileMaxZoom)}
+      zoom={savedViewRef.current?.zoom ?? (basemapId === 1 ? 8 : tileMaxZoom)}
       maxZoom={22}
       className={className}
       zoomControl={false}
@@ -223,9 +223,9 @@ export function SvgMapOverlay({
       <ZoomControl position="topright" />
       <MapViewStateTracker viewRef={savedViewRef} />
 
-      {useRealMap === 1 && <LayerOsmVector />}
+      {basemapId === 1 && <LayerOsmVector />}
 
-      {useRealMap === 2 && (
+      {basemapId === 2 && (
         <TileLayer
           // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -236,7 +236,7 @@ export function SvgMapOverlay({
         />
       )}
 
-      {useRealMap === 3 && (
+      {basemapId === 3 && (
         <LayerLocalTile
           url={tilesUrl}
           bounds={baseBounds}

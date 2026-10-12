@@ -126,7 +126,7 @@ interface MapSidebarProps {
   layerColors: Record<string, string>;
   lineOverrides: LineOverrides;
   palette: PaletteColor[];
-  useRealMap: number;
+  basemapId: number;
   shiftX: number;
   shiftY: number;
   shiftEnabled: boolean;
@@ -147,7 +147,7 @@ interface MapSidebarProps {
   ) => void;
   onPaletteDelete: (id: string) => void;
   onPaletteReset: () => void;
-  onUseRealMapChange: (val: number) => void;
+  setBasemapId: (val: number) => void;
   onShiftChange: (x: number, y: number, enabled?: boolean) => void;
   onResetShift: () => void;
   rotation: number;
@@ -165,7 +165,7 @@ export function MapSidebar({
   layerColors,
   lineOverrides,
   palette,
-  useRealMap,
+  basemapId,
   shiftX,
   shiftY,
   shiftEnabled,
@@ -184,7 +184,7 @@ export function MapSidebar({
   onPaletteChange,
   onPaletteDelete,
   onPaletteReset,
-  onUseRealMapChange,
+  setBasemapId,
   onShiftChange,
   onResetShift,
   onRotationChange,
@@ -207,9 +207,9 @@ export function MapSidebar({
           >
             <button
               type="button"
-              onClick={() => onUseRealMapChange(1)}
+              onClick={() => setBasemapId(1)}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                useRealMap === 1
+                basemapId === 1
                   ? "bg-blue-600 text-white"
                   : "text-gray-400 hover:text-gray-200"
               }`}
@@ -218,9 +218,9 @@ export function MapSidebar({
             </button>
             <button
               type="button"
-              onClick={() => onUseRealMapChange(2)}
+              onClick={() => setBasemapId(2)}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                useRealMap === 2
+                basemapId === 2
                   ? "bg-blue-600 text-white"
                   : "text-gray-400 hover:text-gray-200"
               }`}
@@ -229,9 +229,9 @@ export function MapSidebar({
             </button>
             <button
               type="button"
-              onClick={() => onUseRealMapChange(3)}
+              onClick={() => setBasemapId(3)}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                useRealMap === 3
+                basemapId === 3
                   ? "bg-blue-600 text-white"
                   : "text-gray-400 hover:text-gray-200"
               }`}
