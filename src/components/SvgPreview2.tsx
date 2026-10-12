@@ -229,6 +229,14 @@ export function SvgMapOverlay({
         className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
       />
 
+      {/* <SVGOverlay attributes={{ stroke: 'red' }} bounds={bounds}>
+      <rect x="0" y="0" width="100%" height="100%" fill="blue" />
+      <circle r="5" cx="10" cy="10" fill="red" />
+      <text x="50%" y="50%" stroke="white">
+        text
+      </text>
+    </SVGOverlay> */}
+
       <FitOnce bounds={baseBounds} boundsKey={boundsKey} />
     </MapContainer>
   );
