@@ -81,18 +81,48 @@ function computeBounds(
   return L.latLngBounds([south, west], [north, east]);
 }
 
+function MapViewStateTracker({
+  viewRef,
+}: {
+  viewRef: React.MutableRefObject<{ center: L.LatLng; zoom: number } | null>;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    const update = () => {
+      viewRef.current = {
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+      };
+    };
+
+    map.on("moveend", update);
+    map.on("zoomend", update);
+
+    return () => {
+      map.off("moveend", update);
+      map.off("zoomend", update);
+    };
+  }, [map, viewRef]);
+
+  return null;
+}
+
 /** Fit the map so the overlay fills the viewport width. */
 function FitOnce({
   bounds,
   boundsKey,
+  hasSavedView = false,
 }: {
   bounds: LatLngBoundsExpression;
   boundsKey: string;
+  hasSavedView?: boolean;
 }) {
   const map = useMap();
   const lastKey = useRef<string | null>(null);
 
   useEffect(() => {
+    if (hasSavedView) return;
     if (lastKey.current === boundsKey) return;
     lastKey.current = boundsKey;
 
@@ -104,18 +134,13 @@ function FitOnce({
     const overlayPxW = Math.abs(ne.x - sw.x);
     const viewportW = map.getSize().x;
 
-    // const zoom =
-    //   overlayPxW < viewportW
-    //     ? fitZoom + Math.log2(viewportW / overlayPxW)
-    //     : fitZoom;
-
     const zoom =
       overlayPxW < viewportW
         ? map.getScaleZoom(viewportW / overlayPxW, fitZoom)
         : fitZoom;
 
     map.setView(lb.getCenter(), zoom);
-  }, [map, bounds, boundsKey]);
+  }, [map, bounds, boundsKey, hasSavedView]);
 
   return null;
 }
@@ -200,17 +225,20 @@ export function SvgMapOverlay({
     tilesUrl = `./tiles2/{z}/{x}/{y}.png`;
   }
 
+  const savedViewRef = useRef<{ center: L.LatLng; zoom: number } | null>(null);
+
   return (
     <MapContainer
       key={`map_${useRealMap ?? 0}_${utm.zone}${utm.south ? "S" : "N"}`} // crs is only read at init
       crs={crs}
-      center={baseBounds.getCenter()}
-      zoom={useRealMap === 1 ? 8 : tileMaxZoom}
+      center={savedViewRef.current?.center ?? baseBounds.getCenter()}
+      zoom={savedViewRef.current?.zoom ?? (useRealMap === 1 ? 8 : tileMaxZoom)}
       maxZoom={22}
       className={className}
       zoomControl={false}
     >
       <ZoomControl position="topright" />
+      <MapViewStateTracker viewRef={savedViewRef} />
 
       {useRealMap === 1 && <LayerOsmVector />}
 
@@ -236,11 +264,15 @@ export function SvgMapOverlay({
         url={url}
         corners={corners}
         size={[widthMm, heightMm]}
-        opacity={0.8}
+        opacity={1}
         className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
       />
 
-      <FitOnce bounds={baseBounds} boundsKey={boundsKey} />
+      <FitOnce
+        bounds={baseBounds}
+        boundsKey={boundsKey}
+        hasSavedView={!!savedViewRef.current}
+      />
     </MapContainer>
   );
 }
