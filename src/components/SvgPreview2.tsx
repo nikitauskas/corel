@@ -12,11 +12,16 @@ import "leaflet/dist/leaflet.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@maplibre/maplibre-gl-leaflet";
 
-import { computeUtmBoundsLatLng, utmDef } from "../lib/overlay-bounds";
+import {
+  computeUtmBoundsLatLng,
+  computeUtmCornersLatLng,
+  utmDef,
+} from "../lib/overlay-bounds";
 import "proj4leaflet";
 import { mgrsToUtm } from "../lib/geo";
 import { createLocalTilesCrs, LayerLocalTile } from "./LayerLocalTile";
 import { LayerOsmVector } from "./LayerOsmVector";
+import { RotatedImageOverlay } from "./RotatedImageOverlay";
 import { TransformedTileLayerComponent } from "./ShiftedTileLayerComponent";
 
 const TRANSPARENT_PX =
@@ -161,6 +166,11 @@ export function SvgMapOverlay({
     [svgContent],
   );
 
+  const corners = useMemo(
+    () => computeUtmCornersLatLng(topLeftMgrs, widthM, heightM, shiftX, shiftY),
+    [topLeftMgrs, widthM, heightM, shiftX, shiftY],
+  );
+
   const utm = useMemo(() => {
     const { zone, south } = utmZone(topLeftMgrs, baseBounds.getCenter());
     return { zone, south };
@@ -222,9 +232,10 @@ export function SvgMapOverlay({
         />
       )}
 
-      <ImageOverlay
+      <RotatedImageOverlay
         url={url}
-        bounds={overlayBounds}
+        corners={corners}
+        size={[widthMm, heightMm]}
         opacity={0.8}
         className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
       />

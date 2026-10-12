@@ -34,7 +34,7 @@ export function computeMercatorExtent(
   // Top-Left corner (after shift)
   const eTL = e0 + shiftX;
   const nTL = n0 + shiftY;
-  
+
   // Bottom-Right corner
   const eBR = eTL + widthM;
   const nBR = nTL - heightM;
@@ -80,7 +80,7 @@ export function computeUtmBoundsLatLng(
 
   const eTL = e0 + shiftX;
   const nTL = n0 + shiftY;
-  
+
   const eBR = eTL + widthM;
   const nBR = nTL - heightM;
 
@@ -112,4 +112,27 @@ export function computeShiftedMgrs(
     console.error("Failed to compute shifted MGRS", e);
     return baseMgrs;
   }
+}
+
+export function computeUtmCornersLatLng(
+  topLeftMgrs: string,
+  widthM: number,
+  heightM: number,
+  shiftX = 0,
+  shiftY = 0,
+) {
+  const def = utmDef(topLeftMgrs);
+  const { easting: e0, northing: n0 } = mgrsToUtm(topLeftMgrs);
+
+  const eW = e0 + shiftX;
+  const eE = eW + widthM;
+  const nN = n0 + shiftY;
+  const nS = nN - heightM;
+
+  const ll = (e: number, n: number): [number, number] => {
+    const [lng, lat] = proj4(def, "EPSG:4326", [e, n]);
+    return [lat, lng];
+  };
+
+  return { tl: ll(eW, nN), tr: ll(eE, nN), bl: ll(eW, nS) };
 }
