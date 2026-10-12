@@ -445,6 +445,7 @@ export function LayerOsmVector() {
     pane.style.pointerEvents = "none";
 
     const canvas = document.createElement("canvas");
+    canvas.className = "leaflet-zoom-animated";
     canvas.style.position = "absolute";
     canvas.style.top = "0";
     canvas.style.left = "0";
@@ -460,6 +461,7 @@ export function LayerOsmVector() {
     const projTiles = new Map<string, ProjTile>();
     let style: StyleLayer[] = [];
     let currentZ = MAX_Z;
+    let topLeft = map.getBounds().getNorthWest();
     let disposed = false;
     let rafId: number | undefined;
     let debounceTimer: number | undefined;
@@ -597,7 +599,8 @@ export function LayerOsmVector() {
       }
 
       const origin = map.containerPointToLayerPoint(L.point(0, 0));
-      L.DomUtil.setPosition(canvas, origin);
+      L.DomUtil.setPosition(canvas, origin); // also resets any leftover scale transform
+      topLeft = map.layerPointToLatLng(origin);
 
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx!.clearRect(0, 0, size.x, size.y);
@@ -952,6 +955,16 @@ export function LayerOsmVector() {
       debounceTimer = window.setTimeout(loadData, 200);
     };
 
+    const onZoomAnim = (e: L.ZoomAnimEvent) => {
+      const scale = map.getZoomScale(e.zoom, map.getZoom());
+      const offset = (map as any)._latLngToNewLayerPoint(
+        topLeft,
+        e.zoom,
+        e.center,
+      );
+      L.DomUtil.setTransform(canvas, offset, scale);
+    };
+    map.on("zoomanim", onZoomAnim);
     map.on("move", scheduleDraw);
     map.on("zoom", scheduleDraw);
     map.on("viewreset", scheduleDraw);
@@ -976,6 +989,7 @@ export function LayerOsmVector() {
       map.off("viewreset", scheduleDraw);
       map.off("zoomend", scheduleDraw);
       map.off("moveend", debouncedLoad);
+      map.off("zoomanim", onZoomAnim);
       canvas.remove();
     };
   }, [map]);
