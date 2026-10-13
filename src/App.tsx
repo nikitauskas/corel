@@ -217,6 +217,17 @@ export default function App() {
   const [bgOpacity, setBgOpacity] = useState(0);
   const [bgColor, setBgColor] = useState("#ffffff");
 
+  /** Refreshed whenever any user-facing setting changes — drives the download filename. */
+  const [downloadTimestamp, setDownloadTimestamp] = useState<string | null>(null);
+
+  const refreshTimestamp = () => {
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, "0");
+    setDownloadTimestamp(
+      `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`,
+    );
+  };
+
   const handleShiftChange = (x: number, y: number, enabled = true) => {
     setShiftX(x);
     setShiftY(y);
@@ -338,6 +349,7 @@ export default function App() {
 
   const handleScaleChange = (newScale: number) => {
     setScale(newScale);
+    refreshTimestamp();
     try {
       localStorage.setItem(STORAGE_KEYS.SCALE, String(newScale));
     } catch (e) {
@@ -358,6 +370,7 @@ export default function App() {
 
   const handleWidthChange = (newWidth: string) => {
     setWidth(newWidth);
+    refreshTimestamp();
     try {
       localStorage.setItem(STORAGE_KEYS.WIDTH, newWidth);
     } catch (e) {
@@ -378,6 +391,7 @@ export default function App() {
 
   const handleHeightChange = (newHeight: string) => {
     setHeight(newHeight);
+    refreshTimestamp();
     try {
       localStorage.setItem(STORAGE_KEYS.HEIGHT, newHeight);
     } catch (e) {
@@ -398,6 +412,7 @@ export default function App() {
 
   const handleMgrsChange = (newMgrs: string) => {
     setMgrsTL(newMgrs);
+    refreshTimestamp();
     try {
       localStorage.setItem(STORAGE_KEYS.MGRS, newMgrs);
     } catch (e) {
@@ -419,6 +434,7 @@ export default function App() {
   const handleLayerColorChange = (layerName: string, newColor: string) => {
     const updatedColors = { ...layerColors, [layerName]: newColor };
     setLayerColors(updatedColors);
+    refreshTimestamp();
     try {
       localStorage.setItem(
         STORAGE_KEYS.LAYER_COLORS,
@@ -587,30 +603,27 @@ export default function App() {
     if (state.status !== "done") return;
     let svg = state.result.svgContent;
 
-    // Inject background rect if needed
+    // Inject background rect if needed (always at full SVG opacity — bg is for the exported file)
     if (bgOpacity > 0) {
       const bgAlpha = (bgOpacity / 100).toFixed(4);
       const bgRect = `<rect x="0" y="0" width="100%" height="100%" fill="${bgColor}" opacity="${bgAlpha}" />`;
-      // Insert right after the opening <svg ...> tag
       svg = svg.replace(/(<svg[^>]*>)/, `$1${bgRect}`);
     }
 
-    // Apply SVG-level opacity
-    if (svgOpacity < 100) {
-      const alpha = (svgOpacity / 100).toFixed(4);
-      // Inject opacity attribute on root svg element
-      svg = svg.replace(/(<svg)([^>]*)(>)/, (_m, open, attrs, close) => {
-        // Remove any existing opacity attr first
-        const cleaned = attrs.replace(/\s+opacity="[^"]*"/, "");
-        return `${open}${cleaned} opacity="${alpha}"${close}`;
-      });
+    // Use fresh timestamp if the user changed settings since last generate
+    let filename = state.result.filename;
+    if (downloadTimestamp) {
+      filename = filename.replace(
+        /^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}/,
+        downloadTimestamp,
+      );
     }
 
     const blob = new Blob([svg], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = state.result.filename;
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -656,6 +669,8 @@ export default function App() {
               shiftY={shiftEnabled ? shiftY : 0}
               rotation={shiftEnabled ? rotation : 0}
               svgOpacity={svgOpacity}
+              bgOpacity={bgOpacity}
+              bgColor={bgColor}
             />
           ) : (
             <SvgPreview
@@ -735,11 +750,11 @@ export default function App() {
             onResetShift={handleResetShift}
             onRotationChange={handleRotationChange}
             svgOpacity={svgOpacity}
-            onSvgOpacityChange={setSvgOpacity}
+            onSvgOpacityChange={(v) => { setSvgOpacity(v); refreshTimestamp(); }}
             bgOpacity={bgOpacity}
-            onBgOpacityChange={setBgOpacity}
+            onBgOpacityChange={(v) => { setBgOpacity(v); refreshTimestamp(); }}
             bgColor={bgColor}
-            onBgColorChange={setBgColor}
+            onBgColorChange={(v) => { setBgColor(v); refreshTimestamp(); }}
           />
         )}
 

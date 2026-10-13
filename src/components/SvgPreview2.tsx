@@ -51,8 +51,12 @@ interface SvgMapOverlayProps {
   shiftY?: number;
   rotation?: number;
   tileMinZoom?: number;
-  /** SVG overlay opacity 0–100 (default 100) */
+  /** SVG overlay opacity 0–100 — map preview only, not exported (default 100) */
   svgOpacity?: number;
+  /** Background rect opacity 0–100 — shown live on map and exported (default 0) */
+  bgOpacity?: number;
+  /** Background rect fill color hex (default #ffffff) */
+  bgColor?: string;
 }
 
 function computeBounds(
@@ -153,6 +157,8 @@ export function SvgMapOverlay({
   shiftY = 0,
   rotation = 0,
   svgOpacity = 100,
+  bgOpacity = 0,
+  bgColor = "#ffffff",
 }: SvgMapOverlayProps) {
   const widthM = (widthMm * scaleDenominator) / 1000;
   const heightM = (heightMm * scaleDenominator) / 1000;
@@ -164,10 +170,16 @@ export function SvgMapOverlay({
 
   const boundsKey = `${topLeftMgrs}_${widthMm}_${heightMm}_${scaleDenominator}`;
 
-  const url = useMemo(
-    () => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgContent)}`,
-    [svgContent],
-  );
+  const url = useMemo(() => {
+    let s = svgContent;
+    // Inject background rect into the live SVG preview
+    if (bgOpacity > 0) {
+      const alpha = (bgOpacity / 100).toFixed(4);
+      const bgRect = `<rect x="0" y="0" width="100%" height="100%" fill="${bgColor}" opacity="${alpha}" />`;
+      s = s.replace(/(<svg[^>]*>)/, `$1${bgRect}`);
+    }
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(s)}`;
+  }, [svgContent, bgOpacity, bgColor]);
 
   const corners = useMemo(
     () =>
