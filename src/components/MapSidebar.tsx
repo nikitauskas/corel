@@ -176,29 +176,29 @@ function OpacityControl({
 }) {
   const clamp = (v: number) => Math.max(0, Math.min(100, Math.round(v)));
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center justify-between">
-        <label htmlFor={id} className="text-xs text-gray-400">
-          {label}
-        </label>
-        <input
-          id={id}
-          type="number"
-          min={0}
-          max={100}
-          value={value}
-          onChange={(e) => onChange(clamp(Number(e.target.value)))}
-          className="w-14 text-right text-xs bg-gray-800 border border-gray-600 rounded px-1.5 py-0.5 text-gray-100 focus:outline-none focus:border-blue-500"
-        />
-      </div>
+    <div className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex items-center gap-2">
+      <label htmlFor={`${id}-num`} className="text-xs text-gray-300 w-24 shrink-0">
+        {label}
+      </label>
       <input
+        id={id}
         type="range"
         min={0}
         max={100}
         value={value}
         onChange={(e) => onChange(clamp(Number(e.target.value)))}
-        className="w-full h-1.5 appearance-none rounded-full bg-gray-700 accent-blue-500 cursor-pointer"
+        className="flex-1 h-1 appearance-none rounded-full bg-gray-700 accent-blue-500 cursor-pointer min-w-0"
       />
+      <input
+        id={`${id}-num`}
+        type="number"
+        min={0}
+        max={100}
+        value={value}
+        onChange={(e) => onChange(clamp(Number(e.target.value)))}
+        className="w-11 text-right text-xs bg-gray-800 border border-gray-600 rounded px-1 py-0.5 text-gray-100 focus:outline-none focus:border-blue-500 shrink-0"
+      />
+      <span className="text-xs text-gray-500 shrink-0">%</span>
     </div>
   );
 }
@@ -365,7 +365,7 @@ export function MapSidebar({
           storageKey="svg_overlay"
           summary={`SVG: ${svgOpacity}% · BG: ${bgOpacity}% ${bgColor}`}
         >
-          <div className="space-y-4">
+          <div className="space-y-2">
             <OpacityControl
               id="svg-opacity-slider"
               label="SVG opacity"
@@ -373,36 +373,27 @@ export function MapSidebar({
               onChange={onSvgOpacityChange}
             />
 
-            <div className="border-t border-gray-700/60 pt-3 space-y-3">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
-                Background overlay
-              </p>
-              <OpacityControl
-                id="bg-opacity-slider"
-                label="Background opacity"
-                value={bgOpacity}
-                onChange={onBgOpacityChange}
+            <OpacityControl
+              id="bg-opacity-slider"
+              label="BG opacity"
+              value={bgOpacity}
+              onChange={onBgOpacityChange}
+            />
+
+            <div className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex items-center justify-between gap-2">
+              <label htmlFor="bg-color-picker" className="text-xs text-gray-300 w-24 shrink-0">
+                BG color
+              </label>
+              <input
+                id="bg-color-picker"
+                type="color"
+                value={bgColor}
+                onChange={(e) => onBgColorChange(e.target.value)}
+                className="w-7 h-7 rounded cursor-pointer border border-gray-600 bg-transparent p-0.5 shrink-0"
               />
-              <div className="flex items-center justify-between gap-3">
-                <label
-                  htmlFor="bg-color-picker"
-                  className="text-xs text-gray-400"
-                >
-                  Background color
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    id="bg-color-picker"
-                    type="color"
-                    value={bgColor}
-                    onChange={(e) => onBgColorChange(e.target.value)}
-                    className="w-8 h-8 rounded cursor-pointer border border-gray-600 bg-transparent p-0.5"
-                  />
-                  <span className="text-xs font-mono text-gray-300">
-                    {bgColor.toUpperCase()}
-                  </span>
-                </div>
-              </div>
+              <span className="text-xs font-mono text-gray-400 flex-1 text-right">
+                {bgColor.toUpperCase()}
+              </span>
             </div>
           </div>
         </CollapsibleSection>
