@@ -51,6 +51,8 @@ interface SvgMapOverlayProps {
   shiftY?: number;
   rotation?: number;
   tileMinZoom?: number;
+  /** SVG overlay opacity 0–100 (default 100) */
+  svgOpacity?: number;
 }
 
 function computeBounds(
@@ -150,6 +152,7 @@ export function SvgMapOverlay({
   shiftX = 0,
   shiftY = 0,
   rotation = 0,
+  svgOpacity = 100,
 }: SvgMapOverlayProps) {
   const widthM = (widthMm * scaleDenominator) / 1000;
   const heightM = (heightMm * scaleDenominator) / 1000;
@@ -249,7 +252,7 @@ export function SvgMapOverlay({
         url={url}
         corners={corners}
         size={[widthMm, heightMm]}
-        opacity={1}
+        opacity={svgOpacity / 100}
         className="shadow-[0_0_0_100000px_rgba(0,0,0,0.5)]"
       />
 

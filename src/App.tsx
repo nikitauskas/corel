@@ -213,6 +213,9 @@ export default function App() {
   const [palette, setPalette] = useState<PaletteColor[]>(loadPalette);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [basemapId, setBasemapId] = useState(1);
+  const [svgOpacity, setSvgOpacity] = useState(100);
+  const [bgOpacity, setBgOpacity] = useState(0);
+  const [bgColor, setBgColor] = useState("#ffffff");
 
   const handleShiftChange = (x: number, y: number, enabled = true) => {
     setShiftX(x);
@@ -582,7 +585,28 @@ export default function App() {
 
   const download = () => {
     if (state.status !== "done") return;
-    const blob = new Blob([state.result.svgContent], { type: "image/svg+xml" });
+    let svg = state.result.svgContent;
+
+    // Inject background rect if needed
+    if (bgOpacity > 0) {
+      const bgAlpha = (bgOpacity / 100).toFixed(4);
+      const bgRect = `<rect x="0" y="0" width="100%" height="100%" fill="${bgColor}" opacity="${bgAlpha}" />`;
+      // Insert right after the opening <svg ...> tag
+      svg = svg.replace(/(<svg[^>]*>)/, `$1${bgRect}`);
+    }
+
+    // Apply SVG-level opacity
+    if (svgOpacity < 100) {
+      const alpha = (svgOpacity / 100).toFixed(4);
+      // Inject opacity attribute on root svg element
+      svg = svg.replace(/(<svg)([^>]*)(>)/, (_m, open, attrs, close) => {
+        // Remove any existing opacity attr first
+        const cleaned = attrs.replace(/\s+opacity="[^"]*"/, "");
+        return `${open}${cleaned} opacity="${alpha}"${close}`;
+      });
+    }
+
+    const blob = new Blob([svg], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -631,6 +655,7 @@ export default function App() {
               shiftX={shiftEnabled ? shiftX : 0}
               shiftY={shiftEnabled ? shiftY : 0}
               rotation={shiftEnabled ? rotation : 0}
+              svgOpacity={svgOpacity}
             />
           ) : (
             <SvgPreview
@@ -709,6 +734,12 @@ export default function App() {
             onShiftChange={handleShiftChange}
             onResetShift={handleResetShift}
             onRotationChange={handleRotationChange}
+            svgOpacity={svgOpacity}
+            onSvgOpacityChange={setSvgOpacity}
+            bgOpacity={bgOpacity}
+            onBgOpacityChange={setBgOpacity}
+            bgColor={bgColor}
+            onBgColorChange={setBgColor}
           />
         )}
 

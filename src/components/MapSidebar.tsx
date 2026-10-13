@@ -152,6 +152,55 @@ interface MapSidebarProps {
   onResetShift: () => void;
   rotation: number;
   onRotationChange: (rot: number) => void;
+  /** SVG overlay opacity 0–100 */
+  svgOpacity: number;
+  onSvgOpacityChange: (val: number) => void;
+  /** Background rect opacity 0–100 */
+  bgOpacity: number;
+  onBgOpacityChange: (val: number) => void;
+  /** Background rect fill color (CSS hex) */
+  bgColor: string;
+  onBgColorChange: (val: string) => void;
+}
+
+function OpacityControl({
+  label,
+  value,
+  onChange,
+  id,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  id: string;
+}) {
+  const clamp = (v: number) => Math.max(0, Math.min(100, Math.round(v)));
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex items-center justify-between">
+        <label htmlFor={id} className="text-xs text-gray-400">
+          {label}
+        </label>
+        <input
+          id={id}
+          type="number"
+          min={0}
+          max={100}
+          value={value}
+          onChange={(e) => onChange(clamp(Number(e.target.value)))}
+          className="w-14 text-right text-xs bg-gray-800 border border-gray-600 rounded px-1.5 py-0.5 text-gray-100 focus:outline-none focus:border-blue-500"
+        />
+      </div>
+      <input
+        type="range"
+        min={0}
+        max={100}
+        value={value}
+        onChange={(e) => onChange(clamp(Number(e.target.value)))}
+        className="w-full h-1.5 appearance-none rounded-full bg-gray-700 accent-blue-500 cursor-pointer"
+      />
+    </div>
+  );
 }
 
 export function MapSidebar({
@@ -188,6 +237,12 @@ export function MapSidebar({
   onShiftChange,
   onResetShift,
   onRotationChange,
+  svgOpacity,
+  onSvgOpacityChange,
+  bgOpacity,
+  onBgOpacityChange,
+  bgColor,
+  onBgColorChange,
 }: MapSidebarProps) {
   const isReady = status === "done" || (status === "loading" && result);
 
@@ -302,6 +357,54 @@ export function MapSidebar({
             onResetShift={onResetShift}
             onRotationChange={onRotationChange}
           />
+        </CollapsibleSection>
+
+        {/* SVG Overlay Opacity + Background */}
+        <CollapsibleSection
+          title="SVG Overlay"
+          storageKey="svg_overlay"
+          summary={`SVG: ${svgOpacity}% · BG: ${bgOpacity}% ${bgColor}`}
+        >
+          <div className="space-y-4">
+            <OpacityControl
+              id="svg-opacity-slider"
+              label="SVG opacity"
+              value={svgOpacity}
+              onChange={onSvgOpacityChange}
+            />
+
+            <div className="border-t border-gray-700/60 pt-3 space-y-3">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                Background overlay
+              </p>
+              <OpacityControl
+                id="bg-opacity-slider"
+                label="Background opacity"
+                value={bgOpacity}
+                onChange={onBgOpacityChange}
+              />
+              <div className="flex items-center justify-between gap-3">
+                <label
+                  htmlFor="bg-color-picker"
+                  className="text-xs text-gray-400"
+                >
+                  Background color
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    id="bg-color-picker"
+                    type="color"
+                    value={bgColor}
+                    onChange={(e) => onBgColorChange(e.target.value)}
+                    className="w-8 h-8 rounded cursor-pointer border border-gray-600 bg-transparent p-0.5"
+                  />
+                  <span className="text-xs font-mono text-gray-300">
+                    {bgColor.toUpperCase()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </CollapsibleSection>
 
         {isReady && result && (
