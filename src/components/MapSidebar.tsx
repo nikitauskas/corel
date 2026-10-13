@@ -177,7 +177,10 @@ function OpacityControl({
   const clamp = (v: number) => Math.max(0, Math.min(100, Math.round(v)));
   return (
     <div className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex items-center gap-2">
-      <label htmlFor={`${id}-num`} className="text-xs text-gray-300 w-24 shrink-0">
+      <label
+        htmlFor={`${id}-num`}
+        className="text-xs text-gray-300 w-24 shrink-0"
+      >
         {label}
       </label>
       <input
@@ -381,19 +384,31 @@ export function MapSidebar({
             />
 
             <div className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-2 flex items-center justify-between gap-2">
-              <label htmlFor="bg-color-picker" className="text-xs text-gray-300 w-24 shrink-0">
-                BG color
+              <label
+                htmlFor="bg-color-picker"
+                className="text-xs text-gray-300 w-36 shrink-0"
+              >
+                BG color for overlay
+              </label>
+              <label
+                htmlFor="bg-color-picker"
+                className="flex items-center gap-2 bg-gray-900 border border-gray-700 hover:border-gray-500 rounded px-2 py-1 cursor-pointer transition-colors"
+              >
+                <span
+                  className="w-4 h-4 rounded border border-gray-600 shrink-0"
+                  style={{ backgroundColor: bgColor }}
+                />
+                <span className="text-xs text-gray-300 font-mono max-w-[80px] truncate">
+                  {bgColor.toUpperCase()}
+                </span>
               </label>
               <input
                 id="bg-color-picker"
                 type="color"
                 value={bgColor}
                 onChange={(e) => onBgColorChange(e.target.value)}
-                className="w-7 h-7 rounded cursor-pointer border border-gray-600 bg-transparent p-0.5 shrink-0"
+                className="sr-only"
               />
-              <span className="text-xs font-mono text-gray-400 flex-1 text-right">
-                {bgColor.toUpperCase()}
-              </span>
             </div>
           </div>
         </CollapsibleSection>
