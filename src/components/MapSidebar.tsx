@@ -822,7 +822,7 @@ export function MapSidebar({
                     <strong className="text-white">UTM</strong> projection.
                   </p>
                   <img
-                    src="/img/2.jpg"
+                    src={map1base64}
                     alt="Satellite WebMercator preview"
                     className="w-full h-48 object-cover rounded-lg border border-gray-700 shadow-md"
                   />
@@ -840,7 +840,7 @@ export function MapSidebar({
                     How to configure and run local offline tile servers:
                   </p>
                   <img
-                    src="/img/3.jpg"
+                    src={map2base64}
                     alt="Local Tiles Setup preview"
                     className="w-full h-48 object-cover rounded-lg border border-gray-700 shadow-md"
                   />
@@ -864,7 +864,7 @@ export function MapSidebar({
                     ArcGIS World Basemap vector tiles:
                   </p>
                   <img
-                    src="/img/1.jpg"
+                    src={map3base64}
                     alt="ArcGIS Basemap preview"
                     className="w-full h-48 object-cover rounded-lg border border-gray-700 shadow-md"
                   />
