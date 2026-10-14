@@ -321,11 +321,19 @@ export function MapSidebar({
             {BaseMaps.map((bm, index) => {
               const id = index + 1;
               const isSelected = basemapId === id;
+
               return (
-                <button
+                <div
                   key={bm.name}
-                  type="button"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setBasemapId(id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setBasemapId(id);
+                    }
+                  }}
                   className={`w-full flex items-center gap-3 p-2 rounded-lg border transition-all text-left cursor-pointer ${
                     isSelected
                       ? "bg-blue-600/15 border-blue-500 ring-1 ring-blue-500"
@@ -339,6 +347,7 @@ export function MapSidebar({
                       isSelected ? "border-blue-400/60" : "border-gray-700"
                     }`}
                   />
+
                   <div className="flex flex-col justify-center min-w-0">
                     <div
                       className={`text-xs font-mono font-medium truncate ${
@@ -350,16 +359,99 @@ export function MapSidebar({
                     >
                       {bm.name}
                     </div>
-                    <span className="text-[11px] text-gray-400 mt-1">
-                      Format: {bm.format}
-                    </span>
+
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <span className="text-[11px] text-gray-400">Format:</span>
+
+                      {bm.format === "UTM" && (
+                        <>
+                          <svg
+                            className="w-3.5 h-3.5 text-green-500 shrink-0"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={3}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            role="img"
+                            aria-label="UTM supported"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span className="text-[11px] text-gray-400">
+                            {bm.format}
+                          </span>
+                        </>
+                      )}
+
+                      {bm.format === "WebMercator" && (
+                        // 4px buffer zone (p-1): default cursor, no row selection.
+                        // -my-1 cancels the vertical padding so the row height doesn't change.
+                        <div
+                          className="p-1 -my-1 cursor-default"
+                          onClick={(e) => e.stopPropagation()}
+                          onKeyDown={(e) => e.stopPropagation()}
+                        >
+                          <button
+                            type="button"
+                            title="Warning"
+                            onClick={() => {
+                              // TODO: open your warning modal / docs link
+                              console.log("Warning label clicked");
+                            }}
+                            className="cursor-pointer inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-amber-500/40 bg-amber-500/15 text-[11px] text-amber-400 hover:bg-amber-500/25 hover:text-amber-300 transition-colors"
+                          >
+                            <svg
+                              className="w-3 h-3 shrink-0"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={2.5}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                            >
+                              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                              <line x1="12" y1="9" x2="12" y2="13" />
+                              <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                            {bm.format}
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  {/* "Learn How" – only for Local Tiles */}
+                  {bm.name === "Local Tiles" && (
+                    <div
+                      className="ml-auto p-1 cursor-default"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // TODO: open your help modal / docs link
+                          console.log("Learn How clicked");
+                        }}
+                        className="cursor-pointer px-2 py-1 rounded text-[11px] font-medium text-blue-400 border border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-300 transition-colors"
+                      >
+                        Learn How
+                      </button>
+                    </div>
+                  )}
+
                   {isSelected && (
-                    <div className="ml-auto shrink-0 mr-1 flex items-center justify-center">
+                    <div
+                      className={`shrink-0 mr-1 flex items-center justify-center ${
+                        bm.name === "Local Tiles" ? "" : "ml-auto"
+                      }`}
+                    >
                       <span className="w-2 h-2 rounded-full bg-blue-500" />
                     </div>
                   )}
-                </button>
+                </div>
               );
             })}
           </div>
