@@ -8,6 +8,7 @@ import {
   typesOfLines,
 } from "../lib/lines";
 import type { PaletteColor } from "../lib/palette";
+import { map1base64, map2base64, map3base64 } from "../lib/utils";
 import { CustomColorDropdown } from "./CustomColorDropdown";
 import { MapSettingsForm } from "./MapSettingsForm";
 import { PaletteManager } from "./PaletteManager";
@@ -351,7 +352,9 @@ export function MapSidebar({
                   }`}
                 >
                   <img
-                    src={`/img/${id}.jpg`}
+                    src={
+                      id === 1 ? map1base64 : id === 2 ? map2base64 : map3base64
+                    }
                     alt={bm.name}
                     className={`w-14 h-14 object-cover rounded shrink-0 border ${
                       isSelected ? "border-blue-400/60" : "border-gray-700"
