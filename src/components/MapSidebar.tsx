@@ -430,9 +430,9 @@ export function MapSidebar({
                       <button
                         type="button"
                         onClick={() => setPopupId(2)}
-                        className="cursor-pointer px-2 py-1 rounded text-[11px] font-medium text-blue-400 border border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-300 transition-colors"
+                        className="cursor-pointer px-2 py-1 rounded text-[11px] font-medium text-gray-400 border border-gray-700 hover:border-gray-500 hover:text-gray-200 hover:bg-gray-800 transition-colors"
                       >
-                        Learn How
+                        Details
                       </button>
                     </div>
                   )}
