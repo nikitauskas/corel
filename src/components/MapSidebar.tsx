@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { GenerateResult } from "../generator";
 import {
   type AreaType,
@@ -397,34 +397,25 @@ export function MapSidebar({
                       {bm.format === "WebMercator" && (
                         // 4px buffer zone (p-1): default cursor, no row selection.
                         // -my-1 cancels the vertical padding so the row height doesn't change.
-                        <div
-                          className="p-1 -my-1 cursor-default"
-                          onClick={(e) => e.stopPropagation()}
-                          onKeyDown={(e) => e.stopPropagation()}
-                        >
-                          <button
-                            type="button"
-                            title="Warning"
-                            onClick={() => setPopupId(1)}
-                            className="cursor-pointer inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-amber-500/40 bg-amber-500/15 text-[11px] text-amber-400 hover:bg-amber-500/25 hover:text-amber-300 transition-colors"
+                        <>
+                          <svg
+                            className="w-3 h-3 shrink-0 text-amber-400"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2.5}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
                           >
-                            <svg
-                              className="w-3 h-3 shrink-0"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth={2.5}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              aria-hidden="true"
-                            >
-                              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                              <line x1="12" y1="9" x2="12" y2="13" />
-                              <line x1="12" y1="17" x2="12.01" y2="17" />
-                            </svg>
+                            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                          </svg>
+                          <span className="text-[11px] text-gray-400">
                             {bm.format}
-                          </button>
-                        </div>
+                          </span>
+                        </>
                       )}
                     </div>
                   </div>
@@ -442,6 +433,22 @@ export function MapSidebar({
                         className="cursor-pointer px-2 py-1 rounded text-[11px] font-medium text-blue-400 border border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-300 transition-colors"
                       >
                         Learn How
+                      </button>
+                    </div>
+                  )}
+
+                  {bm.name === "Satellite" && (
+                    <div
+                      className="ml-auto p-1 cursor-default"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setPopupId(1)}
+                        className="cursor-pointer px-2 py-1 rounded text-[11px] font-medium text-gray-400 border border-gray-700 hover:border-gray-500 hover:text-gray-200 hover:bg-gray-800 transition-colors"
+                      >
+                        Details
                       </button>
                     </div>
                   )}
