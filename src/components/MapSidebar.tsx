@@ -24,6 +24,21 @@ export const DEFAULT_LAYER_COLORS: Record<string, string> = {
   "210": "#F5B2B6",
 };
 
+const BaseMaps = [
+  {
+    name: "ArcGIS World Basemap",
+    format: "UTM",
+  },
+  {
+    name: "Satellite",
+    format: "WebMercator",
+  },
+  {
+    name: "Local Tiles",
+    format: "UTM",
+  },
+];
+
 // ─── Collapsible section ──────────────────────────────────────────────────────
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -256,68 +271,25 @@ export function MapSidebar({
           Settings
         </h2>
 
-        <div className="flex items-center gap-3">
-          {/* Lab ↔ Real Map toggle */}
-          <div
-            role="group"
-            aria-label="Map view mode"
-            className="flex items-center bg-gray-800 border border-gray-700 rounded-md p-0.5 text-[11px] font-semibold"
+        <button
+          type="button"
+          onClick={onClose}
+          className="text-gray-400 hover:text-white p-1 cursor-pointer transition-colors"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <button
-              type="button"
-              onClick={() => setBasemapId(1)}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                basemapId === 1
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-400 hover:text-gray-200"
-              }`}
-            >
-              Map1
-            </button>
-            <button
-              type="button"
-              onClick={() => setBasemapId(2)}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                basemapId === 2
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-400 hover:text-gray-200"
-              }`}
-            >
-              Map2
-            </button>
-            <button
-              type="button"
-              onClick={() => setBasemapId(3)}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
-                basemapId === 3
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-400 hover:text-gray-200"
-              }`}
-            >
-              Lab3
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-gray-400 hover:text-white p-1 cursor-pointer transition-colors"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto p-5 space-y-6">
@@ -338,6 +310,59 @@ export function MapSidebar({
             onWidthChange={onWidthChange}
             onHeightChange={onHeightChange}
           />
+        </CollapsibleSection>
+
+        <CollapsibleSection
+          title="Basemap Layer"
+          storageKey="basemapId"
+          summary={BaseMaps[basemapId - 1]?.name ?? `Basemap ${basemapId}`}
+        >
+          <div className="space-y-2">
+            {BaseMaps.map((bm, index) => {
+              const id = index + 1;
+              const isSelected = basemapId === id;
+              return (
+                <button
+                  key={bm.name}
+                  type="button"
+                  onClick={() => setBasemapId(id)}
+                  className={`w-full flex items-center gap-3 p-2 rounded-lg border transition-all text-left cursor-pointer ${
+                    isSelected
+                      ? "bg-blue-600/15 border-blue-500 ring-1 ring-blue-500"
+                      : "bg-gray-800/50 border-gray-700/50 hover:border-gray-500 hover:bg-gray-800"
+                  }`}
+                >
+                  <img
+                    src={`/img/${id}.jpg`}
+                    alt={bm.name}
+                    className={`w-14 h-14 object-cover rounded shrink-0 border ${
+                      isSelected ? "border-blue-400/60" : "border-gray-700"
+                    }`}
+                  />
+                  <div className="flex flex-col justify-center min-w-0">
+                    <div
+                      className={`text-xs font-mono font-medium truncate ${
+                        isSelected
+                          ? "text-white font-semibold"
+                          : "text-gray-200"
+                      }`}
+                      title={bm.name}
+                    >
+                      {bm.name}
+                    </div>
+                    <span className="text-[11px] text-gray-400 mt-1">
+                      Format: {bm.format}
+                    </span>
+                  </div>
+                  {isSelected && (
+                    <div className="ml-auto shrink-0 mr-1 flex items-center justify-center">
+                      <span className="w-2 h-2 rounded-full bg-blue-500" />
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </CollapsibleSection>
 
         {/* SVG Position Shift Controller */}
