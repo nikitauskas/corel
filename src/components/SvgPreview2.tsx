@@ -1,6 +1,12 @@
 import L, { type LatLngBoundsExpression } from "leaflet";
 import { useEffect, useMemo, useRef } from "react";
-import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
+import {
+  AttributionControl,
+  MapContainer,
+  TileLayer,
+  useMap,
+  ZoomControl,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 // import "maplibre-gl/dist/maplibre-gl.css";
@@ -234,8 +240,10 @@ export function SvgMapOverlay({
       maxZoom={22}
       className={className}
       zoomControl={false}
+      attributionControl={false}
     >
       <ZoomControl position="topright" />
+      <AttributionControl position="bottomleft" />
       <MapViewStateTracker viewRef={savedViewRef} />
 
       {basemapId === 1 && <LayerOsmVector />}
