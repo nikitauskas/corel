@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { GenerateResult } from "../generator";
 import {
   type AreaType,
@@ -263,6 +263,16 @@ export function MapSidebar({
   onBgColorChange,
 }: MapSidebarProps) {
   const isReady = status === "done" || (status === "loading" && result);
+  const [popupId, setPopupId] = useState<number>(0);
+
+  useEffect(() => {
+    if (popupId === 0) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPopupId(0);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [popupId]);
 
   return (
     <div className="absolute top-0 left-0 h-full w-96 bg-gray-900 border-r border-gray-800 z-30 shadow-2xl flex flex-col">
@@ -395,10 +405,7 @@ export function MapSidebar({
                           <button
                             type="button"
                             title="Warning"
-                            onClick={() => {
-                              // TODO: open your warning modal / docs link
-                              console.log("Warning label clicked");
-                            }}
+                            onClick={() => setPopupId(1)}
                             className="cursor-pointer inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-amber-500/40 bg-amber-500/15 text-[11px] text-amber-400 hover:bg-amber-500/25 hover:text-amber-300 transition-colors"
                           >
                             <svg
@@ -422,7 +429,7 @@ export function MapSidebar({
                     </div>
                   </div>
 
-                  {/* "Learn How" – only for Local Tiles */}
+                  {/* "Learn How" – only for Local Tiles (Popup #2) */}
                   {bm.name === "Local Tiles" && (
                     <div
                       className="ml-auto p-1 cursor-default"
@@ -431,10 +438,7 @@ export function MapSidebar({
                     >
                       <button
                         type="button"
-                        onClick={() => {
-                          // TODO: open your help modal / docs link
-                          console.log("Learn How clicked");
-                        }}
+                        onClick={() => setPopupId(2)}
                         className="cursor-pointer px-2 py-1 rounded text-[11px] font-medium text-blue-400 border border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-300 transition-colors"
                       >
                         Learn How
@@ -442,10 +446,27 @@ export function MapSidebar({
                     </div>
                   )}
 
+                  {/* "Details" – for ArcGIS World Basemap (Popup #3) */}
+                  {bm.name === "ArcGIS World Basemap" && (
+                    <div
+                      className="ml-auto p-1 cursor-default"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setPopupId(3)}
+                        className="cursor-pointer px-2 py-1 rounded text-[11px] font-medium text-gray-400 border border-gray-700 hover:border-gray-500 hover:text-gray-200 hover:bg-gray-800 transition-colors"
+                      >
+                        Details
+                      </button>
+                    </div>
+                  )}
+
                   {isSelected && (
                     <div
                       className={`shrink-0 mr-1 flex items-center justify-center ${
-                        bm.name === "Local Tiles" ? "" : "ml-auto"
+                        bm.name === "Satellite" ? "ml-auto" : ""
                       }`}
                     >
                       <span className="w-2 h-2 rounded-full bg-blue-500" />
@@ -714,6 +735,150 @@ export function MapSidebar({
           </>
         )}
       </div>
+
+      {/* Overlay Popup Modal */}
+      {popupId > 0 && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
+          onClick={() => setPopupId(0)}
+        >
+          <div
+            className="bg-gray-900 border border-gray-700 rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] flex flex-col overflow-hidden text-gray-200 animate-in fade-in zoom-in-95 duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-800 shrink-0">
+              <h3 className="font-semibold text-base text-white">
+                {popupId === 1 && (
+                  <span className="text-amber-400 flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5 shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                      <line x1="12" y1="9" x2="12" y2="13" />
+                      <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    WebMercator Projection Notice
+                  </span>
+                )}
+                {popupId === 2 && (
+                  <span className="text-blue-400 flex items-center gap-2">
+                    Local Offline Tiles Guide
+                  </span>
+                )}
+                {popupId === 3 && (
+                  <span className="text-emerald-400 flex items-center gap-2">
+                    ArcGIS Basemap Information
+                  </span>
+                )}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setPopupId(0)}
+                className="text-gray-400 hover:text-white p-1 rounded hover:bg-gray-800 transition-colors cursor-pointer"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {/* Scrollable Content with formatted text & images */}
+            <div className="p-5 overflow-y-auto space-y-4 text-sm leading-relaxed text-gray-300">
+              {popupId === 1 && (
+                <>
+                  <p className="text-gray-200">
+                    Satellite imagery uses{" "}
+                    <strong className="text-amber-300">
+                      WebMercator (EPSG:3857)
+                    </strong>{" "}
+                    projection. Tactical grids and SVG military symbols use{" "}
+                    <strong className="text-white">UTM</strong> projection.
+                  </p>
+                  <img
+                    src="/img/2.jpg"
+                    alt="Satellite WebMercator preview"
+                    className="w-full h-48 object-cover rounded-lg border border-gray-700 shadow-md"
+                  />
+                  <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-800/60 text-xs text-amber-200 leading-relaxed">
+                    <strong>Warning:</strong> Slight latitude-dependent scaling
+                    and coordinate alignment differences may occur when
+                    overlaying UTM coordinates onto WebMercator tiles.
+                  </div>
+                </>
+              )}
+
+              {popupId === 2 && (
+                <>
+                  <p className="text-gray-200">
+                    How to configure and run local offline tile servers:
+                  </p>
+                  <img
+                    src="/img/3.jpg"
+                    alt="Local Tiles Setup preview"
+                    className="w-full h-48 object-cover rounded-lg border border-gray-700 shadow-md"
+                  />
+                  <div className="bg-gray-950 p-3 rounded-lg border border-gray-800 font-mono text-xs text-blue-300 overflow-x-auto">
+                    http://localhost:8080/tiles/&#123;z&#125;/&#123;x&#125;/&#123;y&#125;.png
+                  </div>
+                  <ul className="list-disc list-inside space-y-1 text-xs text-gray-400">
+                    <li>
+                      Store downloaded tile caches in the local tile server
+                      folder.
+                    </li>
+                    <li>Supports standard XYZ, TMS, or MBTiles servers.</li>
+                    <li>Ensure CORS headers allow localhost access.</li>
+                  </ul>
+                </>
+              )}
+
+              {popupId === 3 && (
+                <>
+                  <p className="text-gray-200">
+                    ArcGIS World Basemap vector tiles:
+                  </p>
+                  <img
+                    src="/img/1.jpg"
+                    alt="ArcGIS Basemap preview"
+                    className="w-full h-48 object-cover rounded-lg border border-gray-700 shadow-md"
+                  />
+                  <p className="text-xs text-gray-400">
+                    High contrast tactical vector tiles with native UTM
+                    projection matching military grid reference standards.
+                  </p>
+                </>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-3 border-t border-gray-800 flex justify-end shrink-0 bg-gray-900/50">
+              <button
+                type="button"
+                onClick={() => setPopupId(0)}
+                className="px-4 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 transition-colors cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
